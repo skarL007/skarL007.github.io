@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marcelo Machuca · Desenvolvedor de Soluções em IA</title>
+<meta name="description" content="Marcelo Machuca, Desenvolvedor de Soluções em IA. Desenho sistemas de IA e conduzo os agentes que escrevem o código. Vim da medicina e estou aberto a primeiras oportunidades.">
+<meta name="theme-color" content="#050B16">
+<link rel="canonical" href="https://skarl007.github.io/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://skarl007.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marcelo Machuca">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://skarl007.github.io/">
+<meta property="og:title" content="Marcelo Machuca · Desenvolvedor de Soluções em IA">
+<meta property="og:description" content="Desenho sistemas de IA e conduzo os agentes que escrevem o código. Meu trabalho é a arquitetura, os limites e as provas.">
+<meta property="og:image" content="https://skarl007.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Planta técnica em 3D com seis módulos de projetos e o calendário de contribuições">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Marcelo Machuca","jobTitle":"Desenvolvedor de Soluções em IA","url":"https://skarl007.github.io/","sameAs":["https://github.com/skarL007"],"address":{"@type":"PostalAddress","addressCountry":"BR"}}</script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div id="labels" aria-hidden="true"></div>
+<div class="frame" aria-hidden="true"><i class="fr-l"></i><i class="fr-r"></i></div>
+<aside class="tblock" aria-hidden="true">
+  <div class="tb-row"><span>Planta Viva</span><span>Prancha <b id="tbNum">01</b>/06</span></div>
+  <div class="tb-row tb-name"><span id="tbName">Planta geral</span></div>
+  <div class="tb-row"><span>Escala 1:1</span><span>M. Machuca</span></div>
+  <div class="tb-row"><span>Desenvolvedor de Soluções em IA</span><span>Brasil</span></div>
+  <div class="tb-row"><span>Câmera</span><span id="tbCam">x 0000 · y 0000 · z 0000</span></div>
+</aside>
+<div class="ruler" aria-hidden="true"><i class="ruler-line"></i><ol><li>A-01</li><li>A-02</li><li>A-03</li><li>A-04</li><li>A-05</li><li>A-06</li></ol><i class="ruler-mark" id="rulerMark"></i></div>
+<div id="intro" aria-hidden="true"><div class="intro-num" id="introNum">000</div><p>Prancha 01/06 · traçando a planta</p></div>
+<button class="intro-skip" id="introSkip" type="button">Pular intro</button>
+<div id="cursor" aria-hidden="true"><i class="cx-h"></i><i class="cx-v"></i><i class="cx-box"></i><span class="cx-lab" id="cursorLab">x 0000 · y 0000</span></div>
+
+<header class="hdr">
+  <a class="brand" href="#topo"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>Desenvolvedor de Soluções em IA</small></a>
+  <nav id="nav" class="nav" aria-label="Seções">
+    <a href="#metodo"><i aria-hidden="true">02</i>Método</a>
+    <a href="#projetos"><i aria-hidden="true">03</i>Projetos</a>
+    <a href="#atividade"><i aria-hidden="true">04</i>Atividade</a>
+    <a href="#trajetoria"><i aria-hidden="true">05</i>Trajetória</a>
+    <a href="#contato"><i aria-hidden="true">06</i>Contato</a>
+  </nav>
+  <div class="hdr-tools">
+    <a class="tgl lang" href="en/" hreflang="en" lang="en" aria-label="English version">EN</a>
+    <button id="mode2d" class="tgl" type="button" aria-pressed="false"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Modo 2D</span><span class="t-short">2D</span></button>
+    <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+<section id="topo" class="chap hero" data-chap aria-labelledby="h-topo">
+  <div class="stop l" data-stop>
+    <div class="hero-copy">
+      <p class="callout hv"><span class="cn">A-01</span><span class="ct">Planta geral</span></p>
+      <h1 class="name" id="h-topo"><span class="ln">Marcelo</span> <span class="ln">Machuca</span></h1>
+      <p class="role hv">Desenvolvedor de Soluções em IA</p>
+      <p class="lede hv">Desenho sistemas de IA e conduzo os agentes que escrevem o código. Meu trabalho é a arquitetura, os limites e as provas: testes, métricas e custo.</p>
+      <div class="ctas hv">
+        <a class="btn btn-solid" href="#projetos">Ver projetos</a>
+        <a class="btn" href="https://github.com/skarL007" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <p class="meta hv"><span class="dot" aria-hidden="true"></span>Brasil · aberto a primeiras oportunidades</p>
+      <ul class="legend hv" aria-label="Como ler a planta">
+        <li><i class="lg-line" aria-hidden="true"></i>Linha clara: o que eu desenho</li>
+        <li><i class="lg-agent" aria-hidden="true"></i>Laranja: os agentes que constroem</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="metodo" class="chap" data-chap aria-labelledby="h-metodo">
+  <div class="stop l" data-stop>
+    <div class="sheet ghost rv">
+      <p class="callout"><span class="cn">A-02</span><span class="ct">Método</span></p>
+      <h2 class="h-xl" id="h-metodo" tabindex="-1">Como eu construo</h2>
+      <p class="intro-p">Vibe-coding com disciplina de engenharia. Eu desenho o sistema e fixo os limites, uma frota de agentes escreve o código e nada entra sem prova.</p>
+    </div>
+  </div>
+  <ol class="steps">
+    <li class="stop l" data-stop data-method="0"><article class="sheet step rv"><span class="step-n" aria-hidden="true">01</span><h3>Desenho</h3><p>Arquitetura, contratos e specs antes do código (OpenSpec, ADRs).</p><p class="step-foot">A-02.1 · o esquadro na planta</p></article></li>
+    <li class="stop l" data-stop data-method="1"><article class="sheet step agent rv"><span class="step-n" aria-hidden="true">02</span><h3>Delego</h3><p>Uma frota de agentes escreve o código em paralelo. Tenho um orquestrador próprio que roda Claude Code, Codex, Gemini e Cursor Agent como um runtime só.</p><p class="step-foot">A-02.2 · as quatro faixas laranja</p></article></li>
+    <li class="stop l" data-stop data-method="2"><article class="sheet step rv"><span class="step-n" aria-hidden="true">03</span><h3>Verifico</h3><p>Testes, release gates, evals e revisão de diff. Nada é “pronto” sem evidência.</p><p class="step-foot">A-02.3 · o portão que todo agente atravessa</p></article></li>
+    <li class="stop l" data-stop data-method="3"><article class="sheet step rv"><span class="step-n" aria-hidden="true">04</span><h3>Meço</h3><p>Telemetria e custo por cliente em produção (é o que o LumenAI faz).</p><p class="step-foot">A-02.4 · ligado ao módulo M-01</p></article></li>
+  </ol>
+</section>
+
+<section id="projetos" class="chap" data-chap aria-labelledby="h-projetos">
+  <div class="stop r" data-stop>
+    <div class="sheet rv">
+      <p class="callout"><span class="cn">A-03</span><span class="ct">Projetos</span></p>
+      <h2 class="h-xl" id="h-projetos" tabindex="-1">Projetos</h2>
+      <p>Seis módulos na planta. Ao rolar, a frota de agentes ergue cada um; a altura do volume segue o log do número de commits.</p>
+      <ol class="idx">
+        <li><a href="#p-lumen"><span class="k">M-01</span><span class="n">LumenAI SDK</span><span class="s">público · PyPI</span></a></li>
+        <li><a href="#p-sub"><span class="k">M-02</span><span class="n">Sublinhe</span><span class="s">privado</span></a></li>
+        <li><a href="#p-syn"><span class="k">M-03</span><span class="n">SynapseEngine</span><span class="s">privado</span></a></li>
+        <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">público</span></a></li>
+        <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">privado</span></a></li>
+        <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">público</span></a></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stop l" data-stop>
+    <article class="sheet big rv" id="p-lumen" data-build="0" data-mod="0" aria-labelledby="t-lumen">
+      <header class="sh-head"><b>M-01</b><span>público</span><span>PyPI</span><span class="sh-r">50 commits</span></header>
+      <h3 class="sh-title" id="t-lumen">LumenAI SDK</h3>
+      <p class="sh-stack">Python · OpenTelemetry</p>
+      <p class="sh-lede">Transforma traces de GenAI em custo por cliente, em dólar, exportando só metadados, nunca prompts.</p>
+      <div class="chain" role="group" aria-label="Processadores encadeados"><span>tenant</span><i aria-hidden="true">→</i><span>custo</span><i aria-hidden="true">→</i><span>normalização</span></div>
+      <p>Três processadores encadeados. Um span fica cobrado no tenant em que começou.</p>
+      <figure class="shot"><a href="assets/shots/lumen-dashboard.webp" target="_blank" rel="noopener"><img src="assets/shots/lumen-dashboard.webp" width="1200" height="600" loading="lazy" decoding="async" alt="Dashboard da demo do LumenAI depois do cenário de 3 tenants: US$ 0,190000 no total, custo por tenant e as verificações de isolamento, privacidade e chamadas com falha"></a><figcaption><b>Captura do repositório</b> · dashboard da demo, custo por tenant</figcaption></figure>
+      <figure class="evt"><figcaption>Evento real da demo</figcaption><code>tenant globex-legal · claude-sonnet-4-6 · 40.000→2.000 tokens · cache 30.000 · US$ 0,159</code></figure>
+      <dl class="ev"><div><dt>testes</dt><dd>123</dd></div><div><dt>pacotes no PyPI</dt><dd>3</dd></div><div><dt>demo reproduzível</dt><dd class="sm">3 tenants · US$ 0,19 no total</dd></div></dl>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk" target="_blank" rel="noopener">Repositório ↗</a><a class="lnk" href="lumen-demo/" target="_blank" rel="noopener">Abrir a demo ↗</a></p>
+    </article>
+  </div>
+
+  <div class="stop r" data-stop>
+    <article class="sheet big rv" id="p-sub" data-build="1" data-mod="1" aria-labelledby="t-sub">
+      <header class="sh-head"><b>M-02</b><span>privado</span><span>MVP fechado em 05 out 2026</span><span class="sh-r">1.140 commits</span></header>
+      <h3 class="sh-title" id="t-sub">Sublinhe</h3>
+      <p class="sh-stack">BGE-M3 · FAISS · BM25 · FastAPI · React · iOS</p>
+      <p class="sh-lede">RAG de corpus fechado feito para estudantes da saúde, a área de onde eu venho. Transforma material de aula e provas antigas em flashcards, questões e treino oral, sempre citando a página.</p>
+      <div class="chain" role="group" aria-label="Pipeline de recuperação"><span>BGE-M3 + FAISS + BM25</span><i aria-hidden="true">→</i><span>fusão RRF</span><i aria-hidden="true">→</i><span>reranker</span><i aria-hidden="true">→</i><span>evals com juiz LLM</span></div>
+      <p>Quando o material não sustenta a resposta, ele se abstém.</p>
+      <figure class="shot"><a href="assets/shots/sublinhe-estudo.webp" target="_blank" rel="noopener"><img src="assets/shots/sublinhe-estudo.webp" width="1120" height="700" loading="lazy" decoding="async" alt="Tela de estudo do Sublinhe: um flashcard com o trecho de origem, o nome do PDF e a página citada"></a><figcaption><b>Captura do repositório</b> · tela de estudo: cada cartão traz o PDF e a página de origem</figcaption></figure>
+      <dl class="ev"><div><dt>commits</dt><dd>1.140</dd></div><div><dt>MVP fechado</dt><dd>05 out 2026</dd></div><div><dt>stack</dt><dd class="sm">FastAPI · React · iOS</dd></div></dl>
+      <p class="priv">repositório privado · case na entrevista</p>
+    </article>
+  </div>
+
+  <div class="stop l" data-stop>
+    <div class="pair">
+      <article class="sheet rv" id="p-syn" data-build="2" data-mod="2" aria-labelledby="t-syn">
+        <header class="sh-head"><b>M-03</b><span>privado</span><span>Rust</span><span class="sh-r">758 commits</span></header>
+        <h3 class="sh-title" id="t-syn">SynapseEngine</h3>
+        <p class="sh-lede">Memória para agentes via MCP: PageRank personalizado sobre um store bitemporal.</p>
+        <p>Um firewall pré-execução inspeciona cada comando de shell que um agente propõe. A telemetria mostra só números que de fato mediu.</p>
+        <p class="sh-fact">758 commits desde 13 set 2026</p>
+        <p class="priv">repositório privado · case na entrevista</p>
+      </article>
+      <article class="sheet rv" id="p-task" data-build="3" data-mod="3" aria-labelledby="t-task">
+        <header class="sh-head"><b>M-04</b><span>público</span><span class="sh-r">3 commits</span></header>
+        <h3 class="sh-title" id="t-task">Task Dashboard</h3>
+        <p class="sh-lede">Painel local, só leitura, que mostra o que um agente de código está fazendo sem gastar tokens de modelo (polling com ETag/304).</p>
+        <p>Zero dependências de runtime. Widget MCP para Claude, Codex e Antigravity.</p>
+        <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/task-dashboard" target="_blank" rel="noopener">Repositório no GitHub ↗</a></p>
+      </article>
+    </div>
+  </div>
+
+  <div class="stop r" data-stop>
+    <div class="pair">
+      <article class="sheet rv" id="p-axon" data-build="4" data-mod="4" aria-labelledby="t-axon">
+        <header class="sh-head"><b>M-05</b><span>privado</span><span>em finalização</span><span class="sh-r">257 commits</span></header>
+        <h3 class="sh-title" id="t-axon">Axon Voice</h3>
+        <p class="sh-lede">Parceiro de trabalho por voz, local, que responde com fontes e aprende com você.</p>
+        <p class="pipe">voz → Whisper → busca paralela (memória vetorial · base de conhecimento · grafo Neo4j) com fusão RRF → LLM local (Ollama) ou na nuvem → voz frase a frase</p>
+        <p>Cita a página exata ou diz que não sabe (RAG corretivo com LangGraph). Guarda o que você afirma num grafo de conhecimento com datas. Um orbe sempre visível: segure o Ctrl direito para falar de qualquer app.</p>
+        <p class="sh-fact">1.622 testes · E2E com Playwright · nenhum teste chega à nuvem</p>
+        <figure class="shot"><a href="assets/shots/axon-voice.webp" target="_blank" rel="noopener"><img src="assets/shots/axon-voice.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Axon Voice no modo cinema: a resposta aparece frase a frase no ritmo da fala, com a fonte citada ao lado"></a><figcaption><b>Do vídeo de demo do repositório</b> · modo cinema, legenda no ritmo da fala e a fonte citada</figcaption></figure>
+        <p class="priv">repositório privado · case na entrevista</p>
+      </article>
+      <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
+        <header class="sh-head"><b>M-06</b><span>público</span><span>v1.3.1</span><span class="sh-r">94 commits</span></header>
+        <h3 class="sh-title" id="t-voice">VoiceLaunch TTS</h3>
+        <p class="sh-stack">TypeScript · Electron · React · Python FastAPI</p>
+        <p class="sh-lede">Transforma digitação em um microfone de verdade para Discord e jogos.</p>
+        <p>Edge TTS online, com fallback automático para Kokoro/Piper locais quando a rede cai. O microfone virtual (VB-Cable) vem junto.</p>
+        <figure class="shot"><a href="https://skarl007.github.io/sound_voice/" target="_blank" rel="noopener"><img src="assets/shots/voicelaunch-site.webp" width="1200" height="550" loading="lazy" decoding="async" alt="Site público do VoiceLaunch TTS: a frase digitada vira um microfone virtual no Discord"></a><figcaption><b>Site público</b> · skarl007.github.io/sound_voice</figcaption></figure>
+        <p class="sh-fact">165 testes Vitest · E2E com Playwright · recursos de acessibilidade</p>
+        <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/sound_voice" target="_blank" rel="noopener">Repositório ↗</a><a class="lnk" href="https://skarl007.github.io/sound_voice/" target="_blank" rel="noopener">Site ↗</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="atividade" class="chap" data-chap aria-labelledby="h-atividade">
+  <div class="stop l" data-stop>
+    <div class="sheet big rv" data-build="cal">
+      <p class="callout"><span class="cn">A-04</span><span class="ct">Atividade</span></p>
+      <h2 class="h-xl" id="h-atividade" tabindex="-1">Atividade</h2>
+      <p class="sh-stack">GitHub · 26 out 2025 → 27 out 2026</p>
+      <dl class="stats">
+        <div><dt>contribuições</dt><dd>6.779</dd></div>
+        <div><dt>commits</dt><dd>5.690</dd></div>
+        <div><dt>pull requests</dt><dd>888</dd></div>
+        <div><dt>dias ativos</dt><dd>192</dd></div>
+        <div><dt>dias de maior sequência</dt><dd>45</dd></div>
+        <div><dt>contribuições no melhor dia</dt><dd>159</dd></div>
+      </dl>
+      <div class="kp">
+        <p class="kp-cap">Planta-chave · calendário real, 53 semanas × 7 dias</p>
+        <div class="keyplan" id="keyplan" role="img" aria-label="Calendário de contribuições de 26 out 2025 a 27 out 2026: 6.779 contribuições em 192 dias ativos; o melhor dia teve 159."></div>
+      </div>
+      <p class="note">Na planta 3D, cada dia vira uma pilha de blocos (1 bloco = até 5 contribuições) que os agentes empilham.<span class="hover-only"> Passe o cursor sobre uma pilha para ver o dia.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="trajetoria" class="chap" data-chap aria-labelledby="h-trajetoria">
+  <div class="stop r" data-stop>
+    <div class="sheet big rv" data-build="time">
+      <p class="callout"><span class="cn">A-05</span><span class="ct">Trajetória</span></p>
+      <h2 class="h-xl" id="h-trajetoria" tabindex="-1">Da medicina para a IA</h2>
+      <p class="sh-lede">Comecei na medicina. Hoje me preparo para o mercado de tecnologia construindo sistemas de IA de ponta a ponta: os agentes escrevem o código e eu respondo pela arquitetura e pelas provas. A faculdade de tecnologia vem a seguir.</p>
+      <ol class="tl">
+        <li class="origin"><span class="tm">origem</span><p><b>Medicina</b>, a área de onde eu venho.</p></li>
+        <li><time datetime="2026-05-05">05 mai 2026</time><p><b>lumen-ai-core</b> publicado no PyPI.</p></li>
+        <li><time datetime="2026-05-25">25 mai 2026</time><p><b>Axon Voice</b> fechado para uso local.</p></li>
+        <li><time datetime="2026-07-22">22 jul 2026</time><p><b>VoiceLaunch 1.3</b>, primeiro release open source.</p></li>
+        <li><time datetime="2026-09-13">13 set 2026</time><p><b>SynapseEngine</b> começa.</p></li>
+        <li><time datetime="2026-10-05">05 out 2026</time><p><b>Sublinhe</b>, MVP fechado.</p></li>
+        <li><time datetime="2026-10-27">27 out 2026</time><p><b>LumenAI SDK</b>, revisão profunda: spans OpenInference cobrados, flush real, demo reproduzível e dashboard.</p></li>
+        <li><time datetime="2026-10-27">27 out 2026</time><p><b>Axon Voice</b>, nova versão: respostas com fontes, grafo de conhecimento e orbe sempre visível.</p></li>
+        <li class="next"><span class="tm">próximo</span><p>Faculdade de tecnologia e a primeira oportunidade no mercado.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="chap" data-chap aria-labelledby="h-contato">
+  <div class="stop l" data-stop>
+    <div class="sheet big rv">
+      <p class="callout"><span class="cn">A-06</span><span class="ct">Contato</span></p>
+      <h2 class="h-xl" id="h-contato" tabindex="-1">Contato</h2>
+      <p class="sh-lede">Brasil · aberto a primeiras oportunidades.</p>
+      <ul class="contact">
+        <li><a href="https://github.com/skarL007" target="_blank" rel="noopener"><span class="c-k">GitHub</span><span class="c-v">github.com/skarL007 ↗</span></a></li>
+        <li class="is-tbd"><div class="row"><span class="c-k">LinkedIn</span><span class="c-v">em construção</span></div></li>
+      </ul>
+      <p class="stamp" aria-hidden="true">Prancha 06/06 · planta construída</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <p class="foot-id">Marcelo Machuca · Desenvolvedor de Soluções em IA · Brasil</p>
+  <p class="foot-src">Este site foi feito do mesmo jeito: eu dirigi e agentes de IA escreveram o código. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Código-fonte ↗</a> · <a href="en/" hreflang="en" lang="en">English version</a></p>
+</footer>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="module" src="assets/site.js"></script>
+</body>
+</html>
