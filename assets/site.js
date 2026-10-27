@@ -390,7 +390,7 @@ const STOPS = [
   [[0, 165, 70], [0, 0, 6], -0.2]          // A-06 contato
 ];
 const MODS = [
-  { id: 'p-lumen', code: 'M-01', name: 'LumenAI SDK', x: -27, z: -6, w: 18, d: 14, commits: 49 },
+  { id: 'p-lumen', code: 'M-01', name: 'LumenAI SDK', x: -27, z: -6, w: 18, d: 14, commits: 50 },
   { id: 'p-sub', code: 'M-02', name: 'Sublinhe', x: 3, z: -4, w: 20, d: 16, commits: 1140 },
   { id: 'p-syn', code: 'M-03', name: 'SynapseEngine', x: 29, z: -10, w: 12, d: 12, commits: 758 },
   { id: 'p-task', code: 'M-04', name: 'Task Dashboard', x: 27, z: 15, w: 12, d: 8, commits: 3 },
