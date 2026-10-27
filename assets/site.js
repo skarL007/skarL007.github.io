@@ -25,22 +25,6 @@ const TX = {
     commitsLog: ' commits · altura ∝ log',
     seeSheet: ' · ver folha ↓',
     contrib1: ' contribuição', contribN: ' contribuições',
-    voiceLang: 'pt-BR',
-    voice: [
-      'Olá. Eu sou Marcelo Machuca, desenvolvedor de soluções em inteligência artificial, no Brasil.',
-      'Comecei na medicina. Hoje desenho sistemas e conduzo uma frota de agentes que escrevem o código.',
-      'Meu trabalho é a arquitetura, os limites e as provas: testes, métricas e custo.',
-      'Esta página é a planta desse trabalho: as linhas claras são o que eu desenho, e os blocos laranja são os agentes que constroem.',
-      'Role para ver o método, os projetos, a atividade e o caminho da medicina até aqui. Estou aberto às primeiras oportunidades.'
-    ],
-    vRestart: 'Recomeçar', vAgain: 'Ouvir de novo',
-    vNone: 'Voz indisponível · ler transcrição',
-    vNoneNote: 'Este navegador não oferece síntese de voz. A transcrição está logo abaixo.',
-    vSpeaking: 'Falando… as legendas acompanham cada palavra. Esc ou “Parar” interrompe.',
-    vEstimated: 'Este navegador não informa as palavras faladas; aqui a sincronia é estimada.',
-    vDone: 'Voz sintética do navegador, em pt-BR. Nada toca sozinho.',
-    vFail: 'A voz falhou neste navegador. A transcrição está logo abaixo.',
-    vStopped: 'Interrompido. A transcrição está logo abaixo.'
   },
   en: {
     locale: 'en-US',
@@ -62,22 +46,6 @@ const TX = {
     commitsLog: ' commits · height ∝ log',
     seeSheet: ' · see sheet ↓',
     contrib1: ' contribution', contribN: ' contributions',
-    voiceLang: 'en-US',
-    voice: [
-      "Hi. I'm Marcelo Machuca, an AI solutions developer based in Brazil.",
-      'I started out in medicine. Today I design systems and direct a fleet of agents that write the code.',
-      'My job is the architecture, the limits and the proof: tests, metrics and cost.',
-      'This page is the blueprint of that work: the light lines are what I design, and the orange blocks are the agents that build it.',
-      'Scroll to see the method, the projects, the activity and the path from medicine to here. I am open to my first opportunities.'
-    ],
-    vRestart: 'Restart', vAgain: 'Listen again',
-    vNone: 'Voice unavailable · read the transcript',
-    vNoneNote: 'This browser has no speech synthesis. The transcript is right below.',
-    vSpeaking: 'Speaking… captions follow each word. Esc or “Stop” ends it.',
-    vEstimated: 'This browser does not report the spoken words, so caption timing is estimated.',
-    vDone: 'Browser speech synthesis, in English. Nothing plays on its own.',
-    vFail: 'Speech failed in this browser. The transcript is right below.',
-    vStopped: 'Stopped. The transcript is right below.'
   }
 }[LANG];
 const $ = (s, c = document) => c.querySelector(s);
@@ -187,113 +155,10 @@ function cursorFrame() {
   curLab.style.transform = 'translate3d(' + lx + 'px,' + (pmy + 16) + 'px,0)';
 }
 
-/* ---------- voice intro (from Frequência): speechSynthesis + word-by-word captions ----------
-   Each spoken word adds energy to VOICE.e; the plan's hairlines, bloom and agents read it. */
-const VOICE = { e: 0 };
-const synth = ('speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function') ? window.speechSynthesis : null;
-const btnVoice = $('#btnVoice'), btnStop = $('#btnStop'), voiceNote = $('#voiceNote'), transcript = $('#transcript'), capEl = $('#captions');
-const vLbl = $('.vlbl', btnVoice);
-let voice = null, vSession = 0, vTimers = [], gotBoundary = false, estimated = false, capWords = [], capFade = 0, speaking = false;
-function pickVoice() {
-  if (!synth) return null;
-  const vs = synth.getVoices() || [], want = TX.voiceLang.toLowerCase(), base = want.slice(0, 2);
-  const lang = v => (v.lang || '').replace('_', '-').toLowerCase();
-  // natural/local voices report word boundaries more reliably than the Google network voices
-  const score = v => (/natural/i.test(v.name) ? 4 : 0) + (v.localService ? 2 : 0) + (/google/i.test(v.name) ? 0 : 1);
-  const best = arr => arr.slice().sort((a, b) => score(b) - score(a))[0] || null;
-  return best(vs.filter(v => lang(v) === want)) || best(vs.filter(v => lang(v).indexOf(base) === 0));
-}
-function addCaption(w) {
-  capWords.push(w); if (capWords.length > 9) capWords.shift();
-  capEl.textContent = '';
-  capWords.forEach((x, i) => { const s = document.createElement('span'); s.textContent = x + ' '; if (i === capWords.length - 1) s.className = 'now'; capEl.appendChild(s); });
-  capEl.classList.add('on'); clearTimeout(capFade);
-}
-function onWord(w) {
-  const len = w.replace(/[^\p{L}\p{N}]/gu, '').length;
-  VOICE.e = Math.min(1.5, VOICE.e + 0.42 + Math.min(len, 10) * 0.045);
-  addCaption(w);
-}
-function wordsOf(text) { const out = []; text.replace(/\S+/g, (m, i) => { out.push({ w: m, i }); return m; }); return out; }
-function estimate(words, session, startedAt) {
-  let t = startedAt;
-  words.forEach(x => {
-    vTimers.push(setTimeout(() => { if (session === vSession) onWord(x.w); }, Math.max(0, t - performance.now())));
-    t += 120 + x.w.length * 62 + (/[.:]$/.test(x.w) ? 380 : /,$/.test(x.w) ? 220 : 0);
-  });
-}
-function clearVoiceTimers() { vTimers.forEach(clearTimeout); vTimers = []; }
-function finishVoice() {
-  clearVoiceTimers(); speaking = false; root.classList.remove('speaking');
-  btnStop.hidden = true; vLbl.textContent = TX.vAgain;
-  capFade = setTimeout(() => { capEl.classList.remove('on'); capWords = []; }, 2600);
-}
-function stopVoice() { vSession++; if (synth) synth.cancel(); finishVoice(); }
-function speakIntro() {
-  if (!synth) { voiceNote.textContent = TX.vNoneNote; transcript.open = true; return; }
-  const session = ++vSession;
-  clearVoiceTimers(); clearTimeout(capFade); gotBoundary = false; estimated = false; capWords = []; capEl.textContent = '';
-  speaking = true; root.classList.add('speaking'); btnStop.hidden = false;
-  vLbl.textContent = TX.vRestart; voiceNote.textContent = TX.vSpeaking;
-  voice = voice || pickVoice();
-  const go = () => {
-    if (session !== vSession) return;
-    TX.voice.forEach((sent, si) => {
-      const u = new window.SpeechSynthesisUtterance(sent), words = wordsOf(sent);
-      let lastI = -1;
-      u.lang = TX.voiceLang; if (voice) u.voice = voice; u.rate = 1; u.pitch = 1;
-      u.onstart = () => {
-        if (session !== vSession) return;
-        const started = performance.now();
-        if (estimated) { estimate(words, session, started); return; }
-        if (!gotBoundary) vTimers.push(setTimeout(() => {
-          if (session !== vSession || gotBoundary) return;
-          estimated = true; estimate(words, session, started);
-          voiceNote.textContent = TX.vEstimated;
-        }, 700));
-      };
-      u.onboundary = e => {
-        if (session !== vSession || estimated) return;
-        if (e.name && e.name !== 'word') return;
-        gotBoundary = true;
-        let w = null;
-        for (let k = 0; k < words.length; k++) { if (words[k].i <= e.charIndex) w = words[k]; else break; }
-        if (w && w.i !== lastI) { lastI = w.i; onWord(w.w); }
-      };
-      u.onend = () => { if (session === vSession && si === TX.voice.length - 1) { voiceNote.textContent = TX.vDone; finishVoice(); } };
-      u.onerror = e => {
-        if (session !== vSession || e.error === 'interrupted' || e.error === 'canceled') return;
-        vSession++; synth.cancel();
-        voiceNote.textContent = TX.vFail; transcript.open = true; finishVoice();
-      };
-      synth.speak(u);
-    });
-  };
-  if (synth.speaking || synth.pending) { synth.cancel(); setTimeout(go, 90); } else go();
-}
-if (!synth) { vLbl.textContent = TX.vNone; voiceNote.textContent = TX.vNoneNote; }
-else { voice = pickVoice(); if (synth.addEventListener) synth.addEventListener('voiceschanged', () => { voice = pickVoice(); }); }
-btnVoice.addEventListener('click', speakIntro);
-btnStop.addEventListener('click', () => { stopVoice(); voiceNote.textContent = TX.vStopped; btnVoice.focus(); });
-window.addEventListener('pagehide', () => { if (synth) synth.cancel(); });
-/* the name letters ride the voice too */
-let nameChars = null, wob = false;
-function wobbleName() {
-  if (!MOTION) return;
-  if (!nameChars) nameChars = $$('.name .ch');
-  if (VOICE.e > 0.03) {
-    wob = true;
-    const t = performance.now() / 1000;
-    nameChars.forEach((c, i) => { c.style.transform = 'translateY(' + (Math.sin(t * 13 + i * 0.8) * VOICE.e * 0.05).toFixed(3) + 'em)'; });
-  } else if (wob) { wob = false; nameChars.forEach(c => { c.style.transform = ''; }); }
-}
-
 /* ---------- one loop: gsap.ticker drives Lenis, WebGL and the cursor ---------- */
 function tick(time, deltaMs) {
   if (lenis) lenis.raf(time * 1000);
-  VOICE.e *= Math.exp(-((deltaMs || 16.7) / 1000) * 2.6);
   if (GL) GL.frame((deltaMs || 16.7) / 1000);
-  wobbleName();
   cursorFrame();
 }
 if (HAS_GSAP) { gsap.ticker.add(tick); gsap.ticker.lagSmoothing(0); }
@@ -303,7 +168,7 @@ else { let last = performance.now(); const loop = now => { tick(now / 1000, now 
 const menuBtn = $('#menuBtn');
 function closeMenu() { root.classList.remove('nav-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
 menuBtn.addEventListener('click', () => { const o = !root.classList.contains('nav-open'); root.classList.toggle('nav-open', o); menuBtn.setAttribute('aria-expanded', String(o)); });
-window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); if (speaking) stopVoice(); } });
+window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 function goTo(t) {
   const isSec = t.tagName === 'SECTION';
   const off = isSec ? 0 : -Math.max(84, (window.innerHeight - t.offsetHeight) / 2);
@@ -879,7 +744,6 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     out[0] = -w / 2; out[1] = d / 2 - s;
   }
   function updateAgents(dt) {
-    const VE = VOICE.e;
     ringS += ((chapterNow === 5 ? 0.82 : 1) - ringS) * Math.min(1, dt * 0.8);
     const wave = FX0 + clamp((T - calT0 - 0.2) / 1.8, 0, 1) * 52 * P, rep = ringOK && !overUI;
     for (let i = 0; i < N; i++) {
@@ -919,12 +783,11 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
       AP[o] = px; AP[o + 1] = py; AP[o + 2] = pz;
       const ex = px - camera.position.x, ey = py - camera.position.y, ez = pz - camera.position.z;
       sc *= clamp((Math.sqrt(ex * ex + ey * ey + ez * ez) - 6) / 24, 0, 1); // no giant cubes in front of the lens
-      if (r < 0 && VE > 0.01) sc *= 1 + VE * 0.6; // free agents swell and hop while the voice speaks
       const ang = T * (0.7 + ph * 1.8) + ph * 10, ca = Math.cos(ang) * sc, sa = Math.sin(ang) * sc, q = i * 16;
       m4[q] = ca; m4[q + 1] = 0; m4[q + 2] = -sa; m4[q + 3] = 0;
       m4[q + 4] = sa * TS; m4[q + 5] = TC * sc; m4[q + 6] = ca * TS; m4[q + 7] = 0;
       m4[q + 8] = sa * TC; m4[q + 9] = -TS * sc; m4[q + 10] = ca * TC; m4[q + 11] = 0;
-      m4[q + 12] = px; m4[q + 13] = r < 0 ? py + VE * (0.6 + 2 * rr) * Math.max(0, Math.sin(T * 9 + ph * 37)) : py; m4[q + 14] = pz; m4[q + 15] = 1;
+      m4[q + 12] = px; m4[q + 13] = py; m4[q + 14] = pz; m4[q + 15] = 1;
     }
     agents.instanceMatrix.needsUpdate = true;
   }
@@ -1035,8 +898,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const composer = new EffectComposer(renderer, rt);
   composer.setPixelRatio(DPR); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
-  const BLOOM0 = LOW ? 0.38 : 0.46, bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM0, 0.32, 0.3);
-  composer.addPass(bloom);
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), LOW ? 0.38 : 0.46, 0.32, 0.3));
   const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
   composer.addPass(new OutputPass());
 
@@ -1050,7 +912,6 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     updateCamera(dt);
     if (frameN % 2 === 0) pick();
     updateAgents(dt); updateBricks(); updateMods(dt);
-    bloom.strength = BLOOM0 * (1 + VOICE.e * 0.9); matPlan.uniforms.uOpacity.value = 0.78 * (1 + VOICE.e * 0.4);
     gridMat.uniforms.uCam.value.copy(camera.position);
     matFlow.uniforms.uTime.value = T; grainPass.uniforms.uTime.value = T;
     updateLabels();

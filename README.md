@@ -15,10 +15,6 @@ coding agents that build it. As you scroll, the camera flies over the plan:
 - **Activity:** my real GitHub contribution calendar, stacked block by block.
 - **Path:** the timeline from medicine to AI.
 
-A voice intro ("Ouvir apresentação" / "Listen to the intro") reads a short presentation with the
-browser's speech synthesis, with word-by-word captions. The plan reacts to each spoken word. Nothing
-plays on its own, and a full transcript sits right under the button.
-
 ## How it was built
 
 I built this site the same way I build everything else: I designed it and set the limits, and AI
