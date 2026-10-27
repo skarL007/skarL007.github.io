@@ -125,10 +125,10 @@
       <p class="sh-lede">Turns GenAI traces into cost per customer, in US dollars, exporting only metadata, never prompts.</p>
       <div class="chain" role="group" aria-label="Chained processors"><span>tenant</span><i aria-hidden="true">→</i><span>cost</span><i aria-hidden="true">→</i><span>normalization</span></div>
       <p>Three chained processors. A span stays billed to the tenant it started in.</p>
-      <figure class="shot"><a href="../assets/shots/lumen-dashboard.webp" target="_blank" rel="noopener"><img src="../assets/shots/lumen-dashboard.webp" width="1200" height="600" loading="lazy" decoding="async" alt="LumenAI local demo dashboard with total cost, events, tokens and the latest normalized events for one tenant"></a><figcaption><b>From the repository</b> · local SDK demo, cost per tenant</figcaption></figure>
+      <figure class="shot"><a href="../assets/shots/lumen-dashboard.webp" target="_blank" rel="noopener"><img src="../assets/shots/lumen-dashboard.webp" width="1200" height="600" loading="lazy" decoding="async" alt="LumenAI demo dashboard after the 3-tenant scenario: US$ 0.190000 in total, cost per tenant, and the isolation, privacy and failed-call checks"></a><figcaption><b>From the repository</b> · demo dashboard, cost per tenant</figcaption></figure>
       <figure class="evt"><figcaption>Real event from the demo</figcaption><code>tenant globex-legal · claude-sonnet-4-6 · 40,000→2,000 tokens · cache 30,000 · US$ 0.159</code></figure>
-      <dl class="ev"><div><dt>tests</dt><dd>113</dd></div><div><dt>packages on PyPI</dt><dd>3</dd></div><div><dt>reproducible demo</dt><dd class="sm">3 tenants · US$ 0.19 total</dd></div></dl>
-      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk" target="_blank" rel="noopener">Repository on GitHub ↗</a></p>
+      <dl class="ev"><div><dt>tests</dt><dd>123</dd></div><div><dt>packages on PyPI</dt><dd>3</dd></div><div><dt>reproducible demo</dt><dd class="sm">3 tenants · US$ 0.19 total</dd></div></dl>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="../lumen-demo/" target="_blank" rel="noopener">Open the demo ↗</a></p>
     </article>
   </div>
 
@@ -169,12 +169,13 @@
   <div class="stop r" data-stop>
     <div class="pair">
       <article class="sheet rv" id="p-axon" data-build="4" data-mod="4" aria-labelledby="t-axon">
-        <header class="sh-head"><b>M-05</b><span>private</span><span>being finished</span><span class="sh-r">236 commits</span></header>
+        <header class="sh-head"><b>M-05</b><span>private</span><span>being finished</span><span class="sh-r">257 commits</span></header>
         <h3 class="sh-title" id="t-axon">Axon Voice</h3>
-        <p class="sh-lede">A local voice assistant for Windows, in Brazilian Portuguese.</p>
-        <p class="pipe">microphone → faster-whisper (CPU, int8) → LLM via OpenRouter (Claude Haiku 4.5) → Edge TTS pt-BR-AntonioNeural</p>
-        <p>Vector, graph, tree and lexical memory.</p>
-        <figure class="shot"><a href="../assets/shots/axon-voice.webp" target="_blank" rel="noopener"><img src="../assets/shots/axon-voice.webp" width="1200" height="750" loading="lazy" decoding="async" alt="Axon Voice interface showing the listen, think and speak states, the transcript, the conversation, memory health and per-turn telemetry"></a><figcaption><b>From the repository</b> · listening, transcript, memory and per-turn telemetry (running a local model here)</figcaption></figure>
+        <p class="sh-lede">A local-first voice work partner that answers from evidence and learns from you.</p>
+        <p class="pipe">voice → Whisper → parallel retrieval (vector memory · knowledge base · Neo4j graph) with RRF fusion → local LLM (Ollama) or cloud → speech, sentence by sentence</p>
+        <p>It cites the exact page or says it does not know (corrective RAG with LangGraph). What you state goes into a time-aware knowledge graph. An always-on-top orb: hold Right Ctrl to talk from any app.</p>
+        <p class="sh-fact">1,622 tests · Playwright E2E · no test reaches a cloud service</p>
+        <figure class="shot"><a href="../assets/shots/axon-voice.webp" target="_blank" rel="noopener"><img src="../assets/shots/axon-voice.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Axon Voice in cinema mode: the answer appears sentence by sentence in time with the voice, with the cited source beside it"></a><figcaption><b>From the repository demo video</b> · cinema mode, captions in time with the voice and the cited source</figcaption></figure>
         <p class="priv">private repository · case study in the interview</p>
       </article>
       <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
@@ -227,7 +228,8 @@
         <li><time datetime="2026-07-22">22 Jul 2026</time><p><b>VoiceLaunch 1.3</b>, first open-source release.</p></li>
         <li><time datetime="2026-09-13">13 Sep 2026</time><p><b>SynapseEngine</b> starts.</p></li>
         <li><time datetime="2026-10-05">05 Oct 2026</time><p><b>Sublinhe</b>, MVP closed.</p></li>
-        <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>LumenAI SDK</b>, deep review: billed OpenInference spans, a proper flush, a reproducible demo.</p></li>
+        <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>LumenAI SDK</b>, deep review: billed OpenInference spans, a proper flush, a reproducible demo and a dashboard.</p></li>
+        <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>Axon Voice</b>, new version: answers with sources, a knowledge graph and an always-on-top orb.</p></li>
         <li class="next"><span class="tm">next</span><p>A degree in technology and my first opportunity in the industry.</p></li>
       </ol>
     </div>

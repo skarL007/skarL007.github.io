@@ -394,7 +394,7 @@ const MODS = [
   { id: 'p-sub', code: 'M-02', name: 'Sublinhe', x: 3, z: -4, w: 20, d: 16, commits: 1140 },
   { id: 'p-syn', code: 'M-03', name: 'SynapseEngine', x: 29, z: -10, w: 12, d: 12, commits: 758 },
   { id: 'p-task', code: 'M-04', name: 'Task Dashboard', x: 27, z: 15, w: 12, d: 8, commits: 3 },
-  { id: 'p-axon', code: 'M-05', name: 'Axon Voice', x: -31, z: 18, w: 12, d: 12, commits: 236 },
+  { id: 'p-axon', code: 'M-05', name: 'Axon Voice', x: -31, z: 18, w: 12, d: 12, commits: 257 },
   { id: 'p-voice', code: 'M-06', name: 'VoiceLaunch TTS', x: -9, z: 20, w: 12, d: 10, commits: 94 }
 ];
 

@@ -39,7 +39,13 @@ assets/site.js      shared script; every string it writes is in the TX table at 
 assets/shots/       project screenshots (replace a file to update it; keep the name)
 assets/og.png       social preview image
 404.html            not-found page
+lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-sdk)
 ```
+
+`lumen-demo/` is `examples/local-observability-demo/static/` from
+[lumen-ai-sdk](https://github.com/skarL007/lumen-ai-sdk), with `static/index.html` moved up to
+`index.html`. With no backend, the page replays `static/recorded-events.json`, a real run of the
+SDK. To update it, copy those files again.
 
 ## Run it locally
 
