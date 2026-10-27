@@ -45,7 +45,8 @@ lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-
 `lumen-demo/` is `examples/local-observability-demo/static/` from
 [lumen-ai-sdk](https://github.com/skarL007/lumen-ai-sdk), with `static/index.html` moved up to
 `index.html`. With no backend, the page replays `static/recorded-events.json`, a real run of the
-SDK. To update it, copy those files again.
+SDK. To update it, copy those files again. The LumenAI card links to the live demo on Vercel
+(<https://lumen-ai-sdk-demo.vercel.app>); this copy is the recorded fallback.
 
 ## Run it locally
 
