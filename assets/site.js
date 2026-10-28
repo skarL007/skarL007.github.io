@@ -16,7 +16,7 @@ const TX = {
     lMethod: 'Método · 4 etapas',
     lWeeks: '53 semanas · 26 out 2025 → 27 out 2026',
     lDays: '7 dias',
-    lMods: '6 módulos · altura ∝ log(commits)',
+    lMods: '7 módulos · altura ∝ log(commits)',
     lZoneAct: 'A-04 · Atividade',
     lZoneTraj: 'A-05 · Da medicina para a IA',
     miles: [[4, 5, '05 mai', 'lumen-ai-core no PyPI'], [4, 25, '25 mai', 'Axon Voice local'], [6, 22, '22 jul', 'VoiceLaunch 1.3'], [8, 13, '13 set', 'SynapseEngine começa'], [9, 5, '05 out', 'Sublinhe MVP'], [9, 27, '27 out', 'LumenAI revisão']],
@@ -37,7 +37,7 @@ const TX = {
     lMethod: 'Method · 4 steps',
     lWeeks: '53 weeks · 26 Oct 2025 → 27 Oct 2026',
     lDays: '7 days',
-    lMods: '6 modules · height ∝ log(commits)',
+    lMods: '7 modules · height ∝ log(commits)',
     lZoneAct: 'A-04 · Activity',
     lZoneTraj: 'A-05 · From medicine to AI',
     miles: [[4, 5, '05 May', 'lumen-ai-core on PyPI'], [4, 25, '25 May', 'Axon Voice, local'], [6, 22, '22 Jul', 'VoiceLaunch 1.3'], [8, 13, '13 Sep', 'SynapseEngine starts'], [9, 5, '05 Oct', 'Sublinhe MVP'], [9, 27, '27 Oct', 'LumenAI review']],
@@ -385,6 +385,7 @@ const STOPS = [
   [[26, 20, 24], [2, 5.5, -4], 0.24],      // M-02 sublinhe
   [[62, 22, 14], [27, 3.5, 2], -0.19],     // M-03 + M-04
   [[-18, 22, 58], [-19, 3, 19], 0.19],     // M-05 + M-06
+  [[34, 17, 44], [9, 3.5, 15], -0.22],     // M-07 nexo
   [[-36, 22, 72], [3, 1.5, 40], -0.24],    // A-04 atividade
   [[0, 30, 140], [0, 3.5, 54], 0.24],      // A-05 trajetória
   [[0, 165, 70], [0, 0, 6], -0.2]          // A-06 contato
@@ -395,7 +396,8 @@ const MODS = [
   { id: 'p-syn', code: 'M-03', name: 'SynapseEngine', x: 29, z: -10, w: 12, d: 12, commits: 758 },
   { id: 'p-task', code: 'M-04', name: 'Task Dashboard', x: 27, z: 15, w: 12, d: 8, commits: 3 },
   { id: 'p-axon', code: 'M-05', name: 'Axon Voice', x: -31, z: 18, w: 12, d: 12, commits: 257 },
-  { id: 'p-voice', code: 'M-06', name: 'VoiceLaunch TTS', x: -9, z: 20, w: 12, d: 10, commits: 94 }
+  { id: 'p-voice', code: 'M-06', name: 'VoiceLaunch TTS', x: -9, z: 20, w: 12, d: 10, commits: 94 },
+  { id: 'p-nexo', code: 'M-07', name: 'Nexo Assist', x: 10, z: 17, w: 12, d: 10, commits: 105 }
 ];
 
 function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { ShaderPass }, { OutputPass }]) {
