@@ -66,7 +66,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
-    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">105</span> commits</dd></div>
+    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">112</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
   </dl>
@@ -223,8 +223,8 @@
       <p class="dec-n">D-04 · medição</p>
       <h3 class="cs-h3">Evals honestos</h3>
       <p>Os evals conferem o estado do banco, não só o texto da resposta. Cada ataque roda 3 vezes, e passar 1 vez em 3 conta como falha. Quando o Gemini devolvia 503 dentro do stream, um ataque podia “passar” sem o modelo ter respondido; isso agora conta como falha do provedor, à parte.</p>
-      <p>O funcionário simulado (pass^k, como no τ-bench) é publicado com o resultado que deu, mesmo quando é baixo, junto com as falhas que ele achou no agente.</p>
-      <p class="sh-fact">banco conferido · ataques × 3 · falha do provedor separada · pass^k publicado como saiu</p>
+      <p>O funcionário simulado (pass^k, como no τ-bench) é publicado com o resultado que deu, mesmo quando é baixo. Na primeira rodada ele achou quatro defeitos de verdade, como abrir chamado a partir de uma resposta rápida que não era um “sim”. Cada um virou regra em código com teste, não um ajuste no prompt, e a rodada seguinte foi medida do mesmo jeito.</p>
+      <p class="sh-fact">banco conferido · ataques × 3 · falha do provedor separada · pass^1 0,72 → 0,93 e pass^3 0,50 → 0,80 depois das correções</p>
       <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao ↗</a></p>
     </article>
   </div>
@@ -238,11 +238,11 @@
   </header>
   <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">28 out 2026</span>, no main do repositório</p>
   <dl class="proof">
-    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">323</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">379</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">26/26</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">31/31</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques e 5 cenários tirados das falhas do funcionário simulado.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
-    <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,72</span> <small>pass^1</small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. <span data-n="simRuns">13/18</span> conversas certas; pass^3 <span data-n="simPass3">0,50</span> (<span data-n="simPersonas">3/6</span> personas certas nas 3 execuções).</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
+    <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,93</span> <small>pass^1 · antes <span data-n="simPass1Before">0,72</span></small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. Com 10 personas × 3, <span data-n="simRuns">28/30</span> conversas certas; pass^3 <span data-n="simPass3Before">0,50</span> → <span data-n="simPass3">0,80</span> (<span data-n="simPersonas">8/10</span> personas certas nas 3 execuções). A primeira rodada achou defeitos reais no agente, corrigidos com regras em código e testes, não com ajustes no prompt.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>busca na central</dt><dd class="n">84% → 94%</dd><dd class="d">Acerto geral em 50 perguntas, palavras-chave contra híbrida, com um conjunto separado escrito depois da escolha.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
     <div><dt>SSE contra polling</dt><dd class="n">263–580 <small>ms</small></dd><dd class="d">Mediana com o stream, contra 1.505–1.684 ms no polling antigo. O teste E2E falha se o p95 passar de 2 s.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/TEMPO-REAL.md" target="_blank" rel="noopener">docs/validacao/TEMPO-REAL.md</a></dd></div>
     <div><dt>sugestão de resposta</dt><dd class="n">9/9</dd><dd class="d">3 conversas × 3, sem número nem ação inventados no rascunho para o analista.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
@@ -281,8 +281,9 @@
   </header>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
-    <li><b>Três ajustes no agente</b><p>O funcionário simulado achou três comportamentos para corrigir: abrir o chamado a partir de uma resposta rápida que não era um “sim”, anexar um problema novo ao chamado errado e oferecer um analista depois de o chamado já atender o pedido.</p></li>
-    <li><b>CI e CD sem rodar</b><p>O CircleCI e o Komodo estão configurados e documentados, mas dependem de o dono conectar as contas. Até lá, a prova da imagem é a rodada local.</p></li>
+    <li><b>Uma falha que sobrou</b><p>Os quatro defeitos que o funcionário simulado achou estão corrigidos em código, com testes: confirmação só explícita, problema diferente vira chamado novo, Outlook entra como E-mail e o analista só é oferecido quando o prazo não atende o que a pessoa precisa. Na rodada seguinte sobrou uma falha real: no <code>outlook-direto</code>, o chamado saiu com prioridade baixa em vez de média. O agente seguiu a matriz com o que ouviu, mas não perguntou se havia alternativa.</p></li>
+    <li><b>CI e CD sem rodar</b><p>O CircleCI, o Docker Hub e o Komodo estão configurados e documentados, mas ainda não rodaram: dependem de o dono conectar as contas. Até lá, a prova da imagem é a rodada local.</p></li>
+    <li><b>Amostra pequena</b><p>10 personas × 3 execuções é pouco para cravar uma taxa. Os números mostram a direção, não uma garantia.</p></li>
     <li><b>Troca de modelo</b><p>O benchmark recomenda o GPT-6 Luna depois de uma rodada de confirmação contra o Flash Lite. A troca não foi feita.</p></li>
     <li><b>Chamadas repetidas</b><p>A telemetria mostrou o modelo chamando a tool de entendimento várias vezes em paralelo no primeiro passo. Só a primeira vale, mas as outras gastam tokens.</p></li>
     <li><b>Evals fora do CI</b><p>Rodam à mão porque chamam o modelo real. O próximo passo é rodá-los no CI com um limiar mínimo.</p></li>

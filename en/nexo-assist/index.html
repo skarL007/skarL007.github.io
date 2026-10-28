@@ -66,7 +66,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>My role</dt><dd>Architecture, rules, acceptance criteria and evidence. Coding agents wrote the code, in small verified increments.</dd></div>
-    <div><dt>Delivered</dt><dd>28 Oct 2026 · <span data-n="commits">105</span> commits</dd></div>
+    <div><dt>Delivered</dt><dd>28 Oct 2026 · <span data-n="commits">112</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">Strict TypeScript · Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Code</dt><dd>Public on GitHub, with specs, validation reports and the demo video. The docs are in Portuguese.</dd></div>
   </dl>
@@ -223,8 +223,8 @@
       <p class="dec-n">D-04 · measurement</p>
       <h3 class="cs-h3">Honest evals</h3>
       <p>The evals check the database state, not only the text of the answer. Each attack runs 3 times, and passing 1 out of 3 counts as a failure. When Gemini returned a 503 inside the stream, an attack could “pass” without the model having answered; that now counts as a provider failure, reported separately.</p>
-      <p>The simulated employee (pass^k, as in τ-bench) is published with the result it gave, even when it is low, together with the agent failures it found.</p>
-      <p class="sh-fact">database checked · attacks × 3 · provider failures kept apart · pass^k published as it came out</p>
+      <p>The simulated employee (pass^k, as in τ-bench) is published with the result it gave, even when it is low. In the first round it found four real bugs, such as opening a ticket from a quick reply that was not a “yes”. Each one became a rule in code with a test, not a prompt tweak, and the next round was measured the same way.</p>
+      <p class="sh-fact">database checked · attacks × 3 · provider failures kept apart · pass^1 0.72 → 0.93 and pass^3 0.50 → 0.80 after the fixes</p>
       <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao ↗</a></p>
     </article>
   </div>
@@ -238,11 +238,11 @@
   </header>
   <p class="asof"><i aria-hidden="true"></i>Round of <span data-n="asOf">28 Oct 2026</span>, on the repository's main</p>
   <dl class="proof">
-    <div class="live"><dt>unit tests</dt><dd class="n"><span data-n="unitTests">323</span></dd><dd class="d">Vitest, no LLM: deadlines, priority, conversation states, privacy, duplicates, CSRF, OIDC against forged tokens, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+    <div class="live"><dt>unit tests</dt><dd class="n"><span data-n="unitTests">379</span></dd><dd class="d">Vitest, no LLM: deadlines, priority, conversation states, privacy, duplicates, CSRF, OIDC against forged tokens, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>E2E tests</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright against the production build, no LLM: login and SSO, handoff, report, indicators, real time, errors.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals with the real model</dt><dd class="n"><span data-n="evals">26/26</span></dd><dd class="d">Intent, expected and forbidden tools, handoff, critical case and data leaks. Among them, <span data-n="attacks">8/8</span> attacks.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>evals with the real model</dt><dd class="n"><span data-n="evals">31/31</span></dd><dd class="d">Intent, expected and forbidden tools, handoff, critical case and data leaks. Among them, <span data-n="attacks">8/8</span> attacks and 5 scenarios taken from the simulated employee’s findings.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapped to OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 attacks × 3: injection, data leaks, acting without confirmation, system prompt, goal hijack. Indirect injection through a help-center article: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
-    <div class="live"><dt>simulated employee</dt><dd class="n"><span data-n="simPass1">0.72</span> <small>pass^1</small></dd><dd class="d">A model plays the employee, with facts it only shares when asked. <span data-n="simRuns">13/18</span> conversations right; pass^3 <span data-n="simPass3">0.50</span> (<span data-n="simPersonas">3/6</span> personas right in all 3 runs).</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
+    <div class="live"><dt>simulated employee</dt><dd class="n"><span data-n="simPass1">0.93</span> <small>pass^1 · before <span data-n="simPass1Before">0.72</span></small></dd><dd class="d">A model plays the employee, with facts it only shares when asked. With 10 personas × 3, <span data-n="simRuns">28/30</span> conversations right; pass^3 <span data-n="simPass3Before">0.50</span> → <span data-n="simPass3">0.80</span> (<span data-n="simPersonas">8/10</span> personas right in all 3 runs). The first round found real agent bugs, fixed with rules in code and tests, not prompt tweaks.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>help-center search</dt><dd class="n">84% → 94%</dd><dd class="d">Overall score on 50 questions, keywords against hybrid, with a held-out set written after the choice.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
     <div><dt>SSE against polling</dt><dd class="n">263–580 <small>ms</small></dd><dd class="d">Median with the stream, against 1,505–1,684 ms with the old polling. The E2E test fails if p95 goes over 2 s.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/TEMPO-REAL.md" target="_blank" rel="noopener">docs/validacao/TEMPO-REAL.md</a></dd></div>
     <div><dt>suggested reply</dt><dd class="n">9/9</dd><dd class="d">3 conversations × 3, with no invented number or action in the analyst's draft.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
@@ -281,8 +281,9 @@
   </header>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
-    <li><b>Three agent fixes</b><p>The simulated employee found three behaviours to fix: opening the ticket from a quick reply that was not a “yes”, attaching a new problem to the wrong ticket, and offering an analyst after the ticket already covered the request.</p></li>
-    <li><b>CI and CD not run</b><p>CircleCI and Komodo are configured and documented, but they need the owner to connect the accounts. Until then, the evidence for the image is the local run.</p></li>
+    <li><b>One failure left</b><p>The four bugs the simulated employee found are fixed in code, with tests: confirmation must be explicit, a different problem gets a new ticket, Outlook is filed under E-mail, and an analyst is offered only when the deadline misses what the person needs. The next round left one real failure: in <code>outlook-direto</code>, the ticket came out with low priority instead of medium. The agent followed the matrix with what it heard, but did not ask whether there was a workaround.</p></li>
+    <li><b>CI and CD not run</b><p>CircleCI, Docker Hub and Komodo are configured and documented, but they have not run yet: they need the owner to connect the accounts. Until then, the evidence for the image is the local run.</p></li>
+    <li><b>Small sample</b><p>10 personas × 3 runs is too few to pin down a rate. The numbers show the direction, not a guarantee.</p></li>
     <li><b>Model switch</b><p>The benchmark recommends GPT-6 Luna after a confirmation round against Flash Lite. The switch has not been made.</p></li>
     <li><b>Repeated calls</b><p>Tracing showed the model calling the understanding tool several times in parallel on the first step. Only the first one counts, but the others spend tokens.</p></li>
     <li><b>Evals outside CI</b><p>They run by hand because they call the real model. The next step is running them in CI with a minimum threshold.</p></li>

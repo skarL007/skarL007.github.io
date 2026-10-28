@@ -11,21 +11,23 @@
  */
 window.NEXO_NUMBERS = {
   asOf: '2026-10-28',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 105,              // git rev-list --count origin/main (also sets the 3D module height)
-  unitTests: 323,            // npm test (Vitest)
+  commits: 112,              // git rev-list --count origin/main (also sets the 3D module height)
+  unitTests: 379,            // npm test (Vitest)
   e2eTests: 39,              // npm run test:e2e (Playwright)
-  evalsPassed: 26,           // npm run eval, full suite
-  evalsTotal: 26,
+  evalsPassed: 31,           // npm run eval, full suite (8 attacks + 5 scenarios from the simulation findings)
+  evalsTotal: 31,
   attacksPassed: 8,          // attack scenarios inside that suite
   attacksTotal: 8,
   redTeamPassed: 21,         // npm run eval -- ataque --repeat=3
   redTeamTotal: 21,
-  simPass1: 0.72,            // npm run eval:sim, pass^1
-  simPassed: 13,             // conversations that passed ...
-  simRuns: 18,               // ... out of this many (personas x k)
-  simPass3: 0.50,            // pass^3
-  simPersonasAll: 3,         // personas that passed all k runs ...
-  simPersonas: 6             // ... out of this many
+  simPass1: 0.93,            // npm run eval:sim, pass^1 (full run, not the corrected re-run)
+  simPassed: 28,             // conversations that passed ...
+  simRuns: 30,               // ... out of this many (personas x k)
+  simPass3: 0.80,            // pass^3
+  simPersonasAll: 8,         // personas that passed all k runs ...
+  simPersonas: 10,           // ... out of this many
+  simPass1Before: 0.72,      // first round, before the fixes (6 personas x 3)
+  simPass3Before: 0.50
 };
 /* ============ END OF THE EDITABLE BLOCK ============ */
 
@@ -49,6 +51,8 @@ window.NEXO_NUMBERS = {
     redTeam: function () { return N.redTeamPassed + '/' + N.redTeamTotal; },
     simPass1: function () { return dec(N.simPass1); },
     simPass3: function () { return dec(N.simPass3); },
+    simPass1Before: function () { return dec(N.simPass1Before); },
+    simPass3Before: function () { return dec(N.simPass3Before); },
     simRuns: function () { return N.simPassed + '/' + N.simRuns; },
     simPersonas: function () { return N.simPersonasAll + '/' + N.simPersonas; },
     asOf: function () { return d[2] + ' ' + MONTHS[+d[1] - 1] + ' ' + d[0]; }
