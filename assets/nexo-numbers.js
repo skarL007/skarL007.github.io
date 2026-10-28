@@ -11,19 +11,19 @@
  */
 window.NEXO_NUMBERS = {
   asOf: '2026-10-28',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 112,              // git rev-list --count origin/main (also sets the 3D module height)
-  unitTests: 379,            // npm test (Vitest)
+  commits: 121,              // git rev-list --count origin/main (also sets the 3D module height)
+  unitTests: 393,            // npm test (Vitest)
   e2eTests: 39,              // npm run test:e2e (Playwright)
-  evalsPassed: 31,           // npm run eval, full suite (8 attacks + 5 scenarios from the simulation findings)
-  evalsTotal: 31,
+  evalsPassed: 31,           // npm run eval, full suite (8 attacks + 6 scenarios from the simulation findings);
+  evalsTotal: 32,            // the failure is "Reabrir chamado resolvido", intermittent (2/3 when repeated)
   attacksPassed: 8,          // attack scenarios inside that suite
   attacksTotal: 8,
   redTeamPassed: 21,         // npm run eval -- ataque --repeat=3
   redTeamTotal: 21,
-  simPass1: 0.93,            // npm run eval:sim, pass^1 (full run, not the corrected re-run)
+  simPass1: 0.93,            // npm run eval:sim, pass^1, round 3 with the one persona re-run after its fix (round 2 also 0.93)
   simPassed: 28,             // conversations that passed ...
   simRuns: 30,               // ... out of this many (personas x k)
-  simPass3: 0.80,            // pass^3
+  simPass3: 0.80,            // pass^3, same round (round 2 also 0.80)
   simPersonasAll: 8,         // personas that passed all k runs ...
   simPersonas: 10,           // ... out of this many
   simPass1Before: 0.72,      // first round, before the fixes (6 personas x 3)
