@@ -105,7 +105,7 @@
     <div class="sheet rv">
       <p class="callout"><span class="cn">A-03</span><span class="ct">Projects</span></p>
       <h2 class="h-xl" id="h-projetos" tabindex="-1">Projects</h2>
-      <p>Six modules on the plan. As you scroll, the agent fleet raises each one; the height of each volume follows the log of its commit count.</p>
+      <p>Seven modules on the plan. As you scroll, the agent fleet raises each one; the height of each volume follows the log of its commit count.</p>
       <ol class="idx">
         <li><a href="#p-lumen"><span class="k">M-01</span><span class="n">LumenAI SDK</span><span class="s">public · PyPI</span></a></li>
         <li><a href="#p-sub"><span class="k">M-02</span><span class="n">Sublinhe</span><span class="s">private</span></a></li>
@@ -113,6 +113,7 @@
         <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">public</span></a></li>
         <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">private</span></a></li>
         <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">public</span></a></li>
+        <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Nexo Assist</span><span class="s">public</span></a></li>
       </ol>
     </div>
   </div>
@@ -191,6 +192,21 @@
       </article>
     </div>
   </div>
+  <div class="stop l" data-stop>
+    <article class="sheet big rv" id="p-nexo" data-build="6" data-mod="6" aria-labelledby="t-nexo">
+      <header class="sh-head"><b>M-07</b><span>public</span><span>technical challenge</span><span class="sh-r">105 commits</span></header>
+      <h3 class="sh-title" id="t-nexo">Nexo Assist</h3>
+      <p class="sh-stack">Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + Turso · React 19 · Redux Toolkit</p>
+      <p class="sh-lede">An IT service-desk agent, built for the technical challenge of a hiring process. Every answer shows what it understood, what it did and why.</p>
+      <div class="chain" role="group" aria-label="The two sides of the service desk"><span>employee chat</span><i aria-hidden="true">→</i><span>Mastra agent · 10 tools</span><i aria-hidden="true">→</i><span>analyst console</span></div>
+      <p>The employee talks to the agent, which tries to solve the issue through the help center with hybrid search and asks “Did this solve it?”. When it doesn't, it drafts the ticket for the person to confirm, warns when the deadline is at risk and notices when several people report the same problem.</p>
+      <p>On the other side, the analyst follows conversations in real time (SSE), with a conversation report, a suggested reply and the indicators. If Gemini 3.5 Flash fails, the step falls back to Flash Lite and the trace says which model answered.</p>
+      <figure class="shot"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener"><img src="../assets/shots/nexo-assist.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Nexo Assist chat, in Portuguese: the agent recognises a problem other people already reported, drafts the ticket with High priority and raises the impact to the team"></a><figcaption><b>From the repository's demo video</b> · 3:53, no audio · deadline at risk and mass incident</figcaption></figure>
+      <dl class="ev"><div><dt>unit tests</dt><dd>323</dd></div><div><dt>E2E tests</dt><dd>39</dd></div><div><dt>evals</dt><dd class="sm">26/26 · red team 21/21</dd></div></dl>
+      <p class="sh-fact">hybrid search 84% → 94% · simulated employee pass^1 0.72 · 486 MB Docker image, 25/25 on the smoke test · CI on CircleCI and CD with Komodo pulling from Docker Hub, configured but not run yet</p>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">Watch the demo video ↗</a></p>
+    </article>
+  </div>
 </section>
 
 <section id="atividade" class="chap" data-chap aria-labelledby="h-atividade">
@@ -231,6 +247,7 @@
         <li><time datetime="2026-10-05">05 Oct 2026</time><p><b>Sublinhe</b>, MVP closed.</p></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>LumenAI SDK</b>, deep review: billed OpenInference spans, a proper flush, a reproducible demo and a dashboard.</p></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>Axon Voice</b>, new version: answers with sources, a knowledge graph and an always-on-top orb.</p></li>
+        <li><time datetime="2026-10-28">28 Oct 2026</time><p><b>Nexo Assist</b>, an IT service-desk agent, delivered as a technical challenge.</p></li>
         <li class="next"><span class="tm">next</span><p>A degree in technology and my first opportunity in the industry.</p></li>
       </ol>
     </div>
