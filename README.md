@@ -10,7 +10,7 @@ The page is a technical drawing in 3D. The light hairlines are what I design. Th
 coding agents that build it. As you scroll, the camera flies over the plan:
 
 - **Method:** the four steps I follow (design, delegate, verify, measure).
-- **Projects:** six modules. The agents raise each one, and its height follows the log of the
+- **Projects:** seven modules. The agents raise each one, and its height follows the log of the
   repository's commit count.
 - **Activity:** my real GitHub contribution calendar, stacked block by block.
 - **Path:** the timeline from medicine to AI.
