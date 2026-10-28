@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexo Assist · estudo de caso · Marcelo Machuca</title>
+<meta name="description" content="Estudo de caso do Nexo Assist, um agente de service desk de TI feito para um desafio técnico: arquitetura, decisões, testes, evals e entrega, com os números e as fontes.">
+<meta name="theme-color" content="#050B16">
+<link rel="canonical" href="https://skarl007.github.io/nexo-assist/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/nexo-assist/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/nexo-assist/">
+<link rel="alternate" hreflang="x-default" href="https://skarl007.github.io/nexo-assist/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Marcelo Machuca">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://skarl007.github.io/nexo-assist/">
+<meta property="og:title" content="Nexo Assist · estudo de caso">
+<meta property="og:description" content="Um agente de service desk de TI em que cada resposta mostra o que ele entendeu, o que fez e por quê. Arquitetura, decisões e provas.">
+<meta property="og:image" content="https://skarl007.github.io/assets/shots/nexo-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Console do analista do Nexo Assist ao lado do chat da funcionária, com a mensagem chegando pelo stream SSE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/case.css">
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}})();</script>
+</head>
+<body class="case">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="hdr">
+  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>Desenvolvedor de Soluções em IA</small></a>
+  <nav id="nav" class="nav" aria-label="Seções do estudo de caso">
+    <a href="#desafio"><i aria-hidden="true">01</i>Desafio</a>
+    <a href="#arquitetura"><i aria-hidden="true">02</i>Arquitetura</a>
+    <a href="#produto"><i aria-hidden="true">03</i>Produto</a>
+    <a href="#decisoes"><i aria-hidden="true">05</i>Decisões</a>
+    <a href="#provas"><i aria-hidden="true">06</i>Provas</a>
+    <a href="#entrega"><i aria-hidden="true">07</i>Entrega</a>
+  </nav>
+  <div class="hdr-tools">
+    <a class="tgl lang" href="../en/nexo-assist/" hreflang="en" lang="en" aria-label="English version">EN</a>
+    <button id="mode2d" class="tgl" type="button" aria-pressed="false"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Modo 2D</span><span class="t-short">2D</span></button>
+    <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main id="conteudo" class="cs" tabindex="-1">
+<section class="cs-hero" aria-labelledby="h-nexo">
+  <div>
+    <p class="cs-back"><a href="../#p-nexo">← Portfólio · M-07</a></p>
+    <p class="callout"><span class="cn">M-07</span><span class="ct">Estudo de caso</span></p>
+    <h1 class="cs-title" id="h-nexo">Nexo Assist</h1>
+    <p class="cs-role">Um agente de service desk de TI, feito como desafio técnico de um processo seletivo.</p>
+    <p class="lede">O funcionário descreve o problema com as próprias palavras. O agente consulta os chamados dele, busca na central de ajuda, abre ou complementa um chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele entendeu, o que fez e por quê.</p>
+    <div class="ctas">
+      <a class="btn btn-solid" href="#arquitetura">Ver a arquitetura</a>
+      <a class="btn" href="#video">Vídeo de demo</a>
+      <a class="btn" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repositório ↗</a>
+    </div>
+  </div>
+  <dl class="cs-meta">
+    <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
+    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">105</span> commits</dd></div>
+    <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
+    <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
+  </dl>
+</section>
+
+<section id="desafio" class="cs-sec" aria-labelledby="h-desafio">
+  <header>
+    <p class="callout"><span class="cn">N-01</span><span class="ct">O desafio</span></p>
+    <h2 class="cs-h2" id="h-desafio" tabindex="-1">O que foi pedido</h2>
+  </header>
+  <div class="cs-two">
+    <div class="sheet">
+      <p class="sh-lede">Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados, com prioridade errada, e dúvidas simples esperando na fila.</p>
+      <p>O processo seletivo pediu o Nexo Assist, um agente num chat que tira dúvidas pela central de ajuda, consulta e abre chamados, e passa a conversa para um analista quando precisa. Do outro lado, um console para o analista assumir a conversa com o agente pausado, devolver ou encerrar.</p>
+      <p>A parte que o próprio enunciado chama de mais importante: dar para entender, em cada resposta, o que o agente fez e por quê.</p>
+    </div>
+    <div class="sheet">
+      <h3 class="cs-h3">Requisitos</h3>
+      <ul class="cs-list">
+        <li>TypeScript com tipagem estrita; Mastra como framework do agente; qualquer LLM, com a escolha explicada.</li>
+        <li>Regras do service desk: prioridade por impacto e urgência, prazos em horas úteis, sem duplicidade, reabertura em até 7 dias.</li>
+        <li>Um serviço de chamados simulado, separado do agente, imitando um legado que às vezes cai.</li>
+        <li>Conversas, chamados e o estado de cada conversa sobrevivendo a um restart.</li>
+        <li>Segurança e privacidade (chamado de uma pessoa nunca aparece para outra) e custo por conversa sob controle.</li>
+        <li>Rodar localmente com poucos comandos, seguindo o protótipo de telas.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="arquitetura" class="cs-sec" aria-labelledby="h-arq">
+  <header>
+    <p class="callout"><span class="cn">N-02</span><span class="ct">Arquitetura</span></p>
+    <h2 class="cs-h2" id="h-arq" tabindex="-1">A planta do sistema</h2>
+    <p class="cs-intro">A mesma estrutura do <code>src/</code> do repositório. Escolha uma etapa para a câmera ir até ela; no celular, as etapas avançam conforme você rola.</p>
+  </header>
+  <div class="arch" id="arch">
+    <div class="arch-view" id="archView">
+      <canvas id="archGl" aria-hidden="true"></canvas>
+      <div id="archLabels" aria-hidden="true"></div>
+      <div class="arch-plan" id="archPlan"></div>
+      <p class="arch-hud" id="archHud" aria-hidden="true"></p>
+    </div>
+    <p class="arch-swipe" aria-hidden="true">Deslize a planta para o lado para ver tudo →</p>
+    <ol class="arch-steps" id="archSteps">
+      <li><button type="button" aria-pressed="true" aria-controls="archView"><span>00</span>Visão geral</button><p>À esquerda, o navegador. No centro, o app em camadas. Em volta, o modelo, o banco e as peças opcionais. Embaixo, a entrega. Linha tracejada é peça opcional ou fluxo configurado que ainda não rodou.</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>01</span>Camadas</button><p>DDD enxuto. As dependências só apontam para dentro: <code>app/</code>, <code>agent/</code> e <code>infrastructure/</code> dependem de <code>application/</code>, que depende de <code>domain/</code>. O domínio não conhece Next, Mastra nem banco, então prioridade, prazo e reabertura são testados sem mock. A infraestrutura implementa as portas da aplicação, e um único arquivo liga as peças (<code>container.ts</code>).</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>02</span>Agente e modelo</button><p>Um agente Mastra com 10 tools: <code>recordUnderstanding</code>, <code>searchHelpCenter</code>, <code>listMyTickets</code>, <code>getTicket</code>, <code>draftNewTicket</code>, <code>draftTicketUpdate</code>, <code>confirmDraft</code>, <code>cancelDraft</code>, <code>offerQuickReplies</code> e <code>transferToAnalyst</code>. O primeiro passo é forçado a registrar o entendimento (intenção, confiança e motivo), e o código decide quais tools existem em cada passo. O modelo é o Gemini 3.5 Flash; se ele falha, o passo vai para o Flash Lite e o trace diz quem respondeu.</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>03</span>Dados</button><p>Drizzle sobre libSQL: SQLite no desenvolvimento, Turso no deploy. Conversas, mensagens com o trace, rascunhos e chamados sobrevivem a um restart. O sistema de chamados legado é simulado por um decorator que falha em 15% das chamadas; o serviço tenta de novo sem duplicar. Os embeddings da busca ficam em cache no banco.</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>04</span>Tempo real</button><p>O chat recebe cada turno em NDJSON: passos, cards e texto. O console do analista, e o chat enquanto um analista atende, abrem um stream SSE. O servidor confere uma assinatura barata do banco a cada 1 s e avisa quando algo muda. Se o stream cai, a tela volta ao polling sozinha.</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>05</span>Entrega</button><p>A produção roda na Vercel com o banco no Turso, publicada a partir de um <code>git archive</code> do último commit. Em paralelo, uma imagem Docker com prova de fumaça e o caminho CircleCI → Docker Hub → Komodo. Esse caminho está configurado, mas ainda não rodou: o CircleCI começa quando o projeto for conectado.</p></li>
+      <li><button type="button" aria-pressed="false" aria-controls="archView"><span>06</span>Opcionais</button><p>Telemetria OpenTelemetry com as convenções GenAI, pronta para o Langfuse, e SSO OpenID Connect (PKCE, state, nonce, JWKS). Os dois vêm desligados e foram testados contra servidores locais que seguem os protocolos, não contra Langfuse, Entra ID ou Okta de verdade.</p></li>
+    </ol>
+  </div>
+  <ul class="arch-key" aria-label="Como ler a planta">
+    <li><i class="k-dep" aria-hidden="true"></i>Dependência, sempre para dentro</li>
+    <li><i class="k-ai" aria-hidden="true"></i>Laranja: agente e modelos</li>
+    <li><i class="k-dash" aria-hidden="true"></i>Opcional ou ainda não executado</li>
+    <li class="k-flow-li"><i class="k-flow" aria-hidden="true"></i>Dados em movimento</li>
+  </ul>
+  <p class="cs-note">Fonte: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/specs/04-arquitetura.md" target="_blank" rel="noopener">docs/specs/04-arquitetura.md</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/src/agent/tools/index.ts" target="_blank" rel="noopener">src/agent/tools/index.ts</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a></p>
+</section>
+
+<section id="produto" class="cs-sec" aria-labelledby="h-produto">
+  <header>
+    <p class="callout"><span class="cn">N-03</span><span class="ct">O que foi construído</span></p>
+    <h2 class="cs-h2" id="h-produto" tabindex="-1">Dois lados do atendimento</h2>
+  </header>
+  <div class="cs-two">
+    <article class="sheet cs-side" aria-labelledby="h-func">
+      <h3 class="cs-h3" id="h-func"><small>Para o funcionário</small>Resolver sem fila</h3>
+      <ul class="cs-list">
+        <li>Escreve do jeito dele. O agente busca na central de ajuda e pergunta <b>“Isso resolveu?”</b>; a resposta entra no indicador de resolução.</li>
+        <li>Acha o chamado sem o número e avisa quando o <b>prazo está em risco</b> (75% do prazo útil), com a conta explicada.</li>
+        <li>Monta um <b>rascunho</b> com prioridade e prazo calculados em código. Nada é criado antes de a pessoa confirmar; “Alterar detalhes” recalcula no servidor.</li>
+        <li>Quando três ou mais pessoas relatam o mesmo problema em 4 horas úteis, sobe o impacto para “equipe” sem revelar quem relatou.</li>
+        <li>Frustração alta faz aparecer o botão “Falar com um analista”. Pedido explícito, caso crítico, prazo vencido ou dúvida que persiste transferem a conversa.</li>
+        <li>O painel <b>“por quê?”</b> em cada resposta: intenção, confiança, motivo, tools com entrada e saída, regras que agiram, modelo, tokens e tempo.</li>
+      </ul>
+      <figure class="shot"><a href="../assets/shots/nexo-why-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/nexo-why-960.webp" srcset="../assets/shots/nexo-why-960.webp 960w, ../assets/shots/nexo-why-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="Painel por quê? aberto no chat: o que o agente entendeu, a intenção, a confiança de 100%, o motivo e os artigos que a busca achou, com a similaridade de cada um"></a><figcaption><b>Do vídeo de demo</b> · o painel “por quê?” de uma resposta</figcaption></figure>
+    </article>
+    <article class="sheet cs-side" aria-labelledby="h-anal">
+      <h3 class="cs-h3" id="h-anal"><small>Para o analista</small>Chegar com contexto</h3>
+      <ul class="cs-list">
+        <li>Uma <b>fila</b> com sinais: frustração alta, possível incidente em massa, motivo da transferência.</li>
+        <li>O <b>relatório da conversa</b>: o que a pessoa precisa, o que o agente já fez e o que está pendente. É montado do histórico e dos traces, sem chamar o modelo.</li>
+        <li>Assume a conversa com o agente pausado, devolve ou encerra. O banco só aceita a mudança se o estado ainda for o esperado, então analista e agente não se atropelam.</li>
+        <li><b>“Sugerir resposta”</b>: o modelo escreve, o analista revisa antes de enviar.</li>
+        <li>Tudo em <b>tempo real</b> pelo stream SSE, com o polling como reserva.</li>
+        <li><b>Indicadores</b> honestos: resolução confirmada separada da presumida, sem contar chamado aberto nem quem voltou com o mesmo problema, e as lacunas da central com dados pessoais mascarados.</li>
+      </ul>
+      <figure class="shot"><a href="../assets/shots/nexo-report-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/nexo-report-960.webp" srcset="../assets/shots/nexo-report-960.webp 960w, ../assets/shots/nexo-report-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="Console do analista com o relatório da conversa aberto: o que a funcionária precisa, o chamado citado com prioridade Alta, a pendência e o sinal de frustração alta"></a><figcaption><b>Do vídeo de demo</b> · relatório da conversa no console</figcaption></figure>
+      <figure class="shot"><a href="../assets/shots/nexo-insights-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/nexo-insights-960.webp" srcset="../assets/shots/nexo-insights-960.webp 960w, ../assets/shots/nexo-insights-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="Tela de indicadores: resolução pelo agente, tempo de resposta, custo estimado e a resolução honesta separada em confirmadas, presumidas e abandonadas"></a><figcaption><b>Do vídeo de demo</b> · indicadores calculados do banco</figcaption></figure>
+    </article>
+  </div>
+</section>
+
+<section id="video" class="cs-sec" aria-labelledby="h-video">
+  <header>
+    <p class="callout"><span class="cn">N-04</span><span class="ct">Vídeo de demo</span></p>
+    <h2 class="cs-h2" id="h-video" tabindex="-1">3:53, sem áudio</h2>
+    <p class="cs-intro">As partes do app são gravações reais com o Gemini; as esperas pelo modelo aparecem aceleradas e sinalizadas. Diagramas e números são animações, e cada número mostra a fonte no repositório.</p>
+  </header>
+  <figure class="vid">
+    <video id="demo" controls muted playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp" aria-label="Vídeo de demonstração do Nexo Assist, 3 minutos e 53 segundos, sem áudio">
+      <source src="../assets/video/nexo-assist-demo.mp4" type="video/mp4">
+    </video>
+    <figcaption>H.264 · 1920×1080 · 27 MB · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
+  </figure>
+  <ol class="chap-list" aria-label="Capítulos do vídeo">
+    <li><button type="button" data-t="0"><time>0:00</time>Abertura: o problema e a solução</button></li>
+    <li><button type="button" data-t="14"><time>0:14</time>O funcionário resolve sozinho</button></li>
+    <li><button type="button" data-t="42"><time>0:42</time>Prazo em risco e incidente em massa</button></li>
+    <li><button type="button" data-t="83"><time>1:23</time>Console do analista</button></li>
+    <li><button type="button" data-t="128"><time>2:08</time>Busca híbrida na central</button></li>
+    <li><button type="button" data-t="149"><time>2:29</time>Qualidade: testes e evals</button></li>
+    <li><button type="button" data-t="176"><time>2:56</time>Arquitetura</button></li>
+    <li><button type="button" data-t="197"><time>3:17</time>Entrega: imagem, CI e deploy</button></li>
+    <li><button type="button" data-t="220"><time>3:40</time>Os números</button></li>
+  </ol>
+</section>
+
+<section id="decisoes" class="cs-sec" aria-labelledby="h-dec">
+  <header>
+    <p class="callout"><span class="cn">N-05</span><span class="ct">Decisões</span></p>
+    <h2 class="cs-h2" id="h-dec" tabindex="-1">O que escolhi, e por quê</h2>
+  </header>
+  <div class="dec">
+    <article class="sheet">
+      <p class="dec-n">D-01 · modelo</p>
+      <h3 class="cs-h3">Gemini 3.5 Flash, conferido por um benchmark</h3>
+      <p>Escolhi o Gemini pelo tool calling confiável (inclusive a tool forçada no primeiro passo, base do painel “por quê?”), pela latência baixa com o raciocínio no mínimo e por custar perto de 1 centavo de dólar por resposta.</p>
+      <p>Depois troquei a escolha qualitativa por dados: rodei o agente de produção com 7 modelos, medindo efetividade, qualidade (G-Eval com 2 juízes), latência e custo real, com um teto de US$ 1,80. O GPT-6 Luna empatou com o Gemini dentro dos intervalos de confiança e custou 26 vezes menos. Mantive o Gemini porque a vantagem era de custo, não de qualidade, e trocar perto da entrega pedia outra chave. A troca é uma variável de ambiente.</p>
+      <p class="sh-fact">7 modelos · 24 conversas por modelo · Luna 26× mais barato, mesma qualidade · Flash Lite como reserva</p>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/benchmark/RELATORIO.md" target="_blank" rel="noopener">Relatório do benchmark ↗</a></p>
+    </article>
+    <article class="sheet">
+      <p class="dec-n">D-02 · busca</p>
+      <h3 class="cs-h3">Busca híbrida que sabe se abster</h3>
+      <p>A central de ajuda é buscada por sentido (embeddings) e por palavras-chave. Quando o primeiro resultado não se destaca do segundo, a busca não devolve nada: um artigo parecido leva o agente a responder errado, e é melhor perguntar.</p>
+      <p>Medi em 50 perguntas escritas como um funcionário escreveria, incluindo perguntas sem artigo certo. Um conjunto de 17 foi escrito só depois da escolha, para conferir que ela não foi decorada. Nele o acerto geral empatou, e o relatório diz isso.</p>
+      <p class="sh-fact">acerto geral 84% → 94% · conjunto separado: hit@1 92% → 100% · sem a chave, volta às palavras-chave</p>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">BUSCA.md ↗</a></p>
+    </article>
+    <article class="sheet">
+      <p class="dec-n">D-03 · garantias</p>
+      <h3 class="cs-h3">Regras em código, não no prompt</h3>
+      <p>O modelo decide o que fazer. O que precisa ser garantido fica em código testado: prioridade pela matriz impacto × urgência, prazo em horas úteis, confirmação obrigatória e atômica, reabertura só até 7 dias, identidade vinda do cookie assinado e nunca de um argumento do modelo.</p>
+      <p>Quais tools existem em cada passo também é decidido em código, no padrão action-selector. Um texto malicioso pode mudar o que o modelo quer fazer, mas não o que ele consegue fazer. O prompt cuida só do jeito de conversar.</p>
+      <p class="sh-fact">step-policy.ts · domain/priority.ts · domain/business-time.ts · draft-service.ts</p>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist#o-que-é-garantido-em-código-não-depende-do-prompt" target="_blank" rel="noopener">Tabela de garantias no README ↗</a></p>
+    </article>
+    <article class="sheet">
+      <p class="dec-n">D-04 · medição</p>
+      <h3 class="cs-h3">Evals honestos</h3>
+      <p>Os evals conferem o estado do banco, não só o texto da resposta. Cada ataque roda 3 vezes, e passar 1 vez em 3 conta como falha. Quando o Gemini devolvia 503 dentro do stream, um ataque podia “passar” sem o modelo ter respondido; isso agora conta como falha do provedor, à parte.</p>
+      <p>O funcionário simulado (pass^k, como no τ-bench) é publicado com o resultado que deu, mesmo quando é baixo, junto com as falhas que ele achou no agente.</p>
+      <p class="sh-fact">banco conferido · ataques × 3 · falha do provedor separada · pass^k publicado como saiu</p>
+      <p class="sh-links"><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao ↗</a></p>
+    </article>
+  </div>
+</section>
+
+<section id="provas" class="cs-sec" aria-labelledby="h-provas">
+  <header>
+    <p class="callout"><span class="cn">N-06</span><span class="ct">Qualidade e provas</span></p>
+    <h2 class="cs-h2" id="h-provas" tabindex="-1">Os números, com a fonte</h2>
+    <p class="cs-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o Gemini de verdade e tem um relatório com pergunta, método, números e limites.</p>
+  </header>
+  <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">28 out 2026</span>, no main do repositório</p>
+  <dl class="proof">
+    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">323</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+    <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
+    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">26/26</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
+    <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,72</span> <small>pass^1</small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. <span data-n="simRuns">13/18</span> conversas certas; pass^3 <span data-n="simPass3">0,50</span> (<span data-n="simPersonas">3/6</span> personas certas nas 3 execuções).</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
+    <div><dt>busca na central</dt><dd class="n">84% → 94%</dd><dd class="d">Acerto geral em 50 perguntas, palavras-chave contra híbrida, com um conjunto separado escrito depois da escolha.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
+    <div><dt>SSE contra polling</dt><dd class="n">263–580 <small>ms</small></dd><dd class="d">Mediana com o stream, contra 1.505–1.684 ms no polling antigo. O teste E2E falha se o p95 passar de 2 s.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/TEMPO-REAL.md" target="_blank" rel="noopener">docs/validacao/TEMPO-REAL.md</a></dd></div>
+    <div><dt>sugestão de resposta</dt><dd class="n">9/9</dd><dd class="d">3 conversas × 3, sem número nem ação inventados no rascunho para o analista.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div><dt>revisões de segurança</dt><dd class="n">4</dd><dd class="d">Antes e depois do deploy, 42 verificações de fora contra a produção e uma rodada com skills de auditoria de terceiros. <code>npm audit</code> sem vulnerabilidades.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/DEPLOY.md</a></dd></div>
+  </dl>
+</section>
+
+<section id="entrega" class="cs-sec" aria-labelledby="h-entrega">
+  <header>
+    <p class="callout"><span class="cn">N-07</span><span class="ct">Entrega</span></p>
+    <h2 class="cs-h2" id="h-entrega" tabindex="-1">Do commit ao ar</h2>
+  </header>
+  <div class="cs-two">
+    <article class="sheet">
+      <h3 class="cs-h3">Vercel, em produção</h3>
+      <p>O app está no ar na Vercel, com o banco no Turso, atrás de um link de acesso temporário que vai junto com o repositório para quem avalia. Sem o link, nenhuma página ou API responde.</p>
+      <p>A publicação sai de um <code>git archive</code> do último commit, então nada fora do git sobe. Há tetos de uso por pessoa, por dia e no total, reservados no banco antes de chamar o modelo.</p>
+      <div class="pipe-row" role="group" aria-label="Caminho da produção"><span>git · main</span><i aria-hidden="true">→</i><span>deploy-prod.ps1</span><i aria-hidden="true">→</i><span>Vercel + Turso</span></div>
+      <p class="badge ok">no ar</p>
+    </article>
+    <article class="sheet">
+      <h3 class="cs-h3">Docker, CircleCI e Komodo</h3>
+      <p>A imagem Docker (Node 24, sem root, banco num volume) tem 486 MB e passou nas 25 checagens da prova de fumaça: migra, cria os dados de exemplo, faz login real, confere permissões e reinicia sem perder dados.</p>
+      <p>O CircleCI roda tipos, lint, testes, E2E e a mesma prova de fumaça, e publica a imagem no Docker Hub. O Komodo confere o digest da <code>latest</code> a cada 10 minutos e faz o redeploy. O CI nunca publica na Vercel.</p>
+      <div class="pipe-row" role="group" aria-label="Caminho da imagem"><span>git · main</span><i aria-hidden="true">→</i><span class="dash">CircleCI</span><i aria-hidden="true">→</i><span class="dash">Docker Hub</span><i aria-hidden="true">→</i><span class="dash">Komodo</span></div>
+      <p class="badge dash">configurado · ainda não executado</p>
+      <p class="cs-note">A prova de fumaça rodou localmente em 28 out 2026. O CircleCI ainda não rodou nenhum job: ele começa quando o projeto for conectado. <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#docker-circleci-e-komodo" target="_blank" rel="noopener">docs/DEPLOY.md</a></p>
+    </article>
+  </div>
+</section>
+
+<section id="aberto" class="cs-sec" aria-labelledby="h-aberto">
+  <header>
+    <p class="callout"><span class="cn">N-08</span><span class="ct">Em aberto</span></p>
+    <h2 class="cs-h2" id="h-aberto" tabindex="-1">O que ainda falta</h2>
+  </header>
+  <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
+  <ul class="open">
+    <li><b>Três ajustes no agente</b><p>O funcionário simulado achou três comportamentos para corrigir: abrir o chamado a partir de uma resposta rápida que não era um “sim”, anexar um problema novo ao chamado errado e oferecer um analista depois de o chamado já atender o pedido.</p></li>
+    <li><b>CI e CD sem rodar</b><p>O CircleCI e o Komodo estão configurados e documentados, mas dependem de o dono conectar as contas. Até lá, a prova da imagem é a rodada local.</p></li>
+    <li><b>Troca de modelo</b><p>O benchmark recomenda o GPT-6 Luna depois de uma rodada de confirmação contra o Flash Lite. A troca não foi feita.</p></li>
+    <li><b>Chamadas repetidas</b><p>A telemetria mostrou o modelo chamando a tool de entendimento várias vezes em paralelo no primeiro passo. Só a primeira vale, mas as outras gastam tokens.</p></li>
+    <li><b>Evals fora do CI</b><p>Rodam à mão porque chamam o modelo real. O próximo passo é rodá-los no CI com um limiar mínimo.</p></li>
+    <li><b>Serviços de verdade</b><p>O SSO só foi testado contra um provedor falso, e a telemetria contra um coletor local. Sair não revoga o JWT no servidor, e o console precisa de tela larga.</p></li>
+  </ul>
+  <!-- /nexo:open-items -->
+</section>
+
+<div class="cs-end">
+  <a class="btn btn-solid" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Ver o repositório ↗</a>
+  <a class="btn" href="../#p-nexo">← Voltar ao portfólio</a>
+</div>
+</main>
+
+<footer class="foot">
+  <p class="foot-id">Marcelo Machuca · Desenvolvedor de Soluções em IA · Brasil</p>
+  <p class="foot-src">Este site foi feito do mesmo jeito: eu dirigi e agentes de IA escreveram o código. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Código-fonte ↗</a> · <a href="../en/nexo-assist/" hreflang="en" lang="en">English version</a></p>
+</footer>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+<script src="../assets/nexo-numbers.js" defer></script>
+<script type="module" src="../assets/case.js"></script>
+</body>
+</html>
