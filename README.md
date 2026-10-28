@@ -42,7 +42,7 @@ nexo-assist/        Nexo Assist case study, Portuguese (en/nexo-assist/ is the E
 assets/case.css     case-study styles, on top of site.css
 assets/case.js      case-study script: the 3D architecture and its 2D plan; strings in the TX table at the top
 assets/nexo-numbers.js  the Nexo Assist numbers that still change (tests, evals, simulation, commits)
-assets/video/       the Nexo Assist demo video (a copy of docs/demo/nexo-assist-demo.mp4 in that repo)
+assets/video/       the Nexo Assist demo video (a lighter encode of docs/demo/nexo-assist-demo.mp4 in that repo)
 404.html            not-found page
 lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-sdk)
 ```
