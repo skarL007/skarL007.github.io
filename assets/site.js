@@ -397,7 +397,7 @@ const MODS = [
   { id: 'p-task', code: 'M-04', name: 'Task Dashboard', x: 27, z: 15, w: 12, d: 8, commits: 3 },
   { id: 'p-axon', code: 'M-05', name: 'Axon Voice', x: -31, z: 18, w: 12, d: 12, commits: 257 },
   { id: 'p-voice', code: 'M-06', name: 'VoiceLaunch TTS', x: -9, z: 20, w: 12, d: 10, commits: 94 },
-  { id: 'p-nexo', code: 'M-07', name: 'Nexo Assist', x: 10, z: 17, w: 12, d: 10, commits: 105 }
+  { id: 'p-nexo', code: 'M-07', name: 'Nexo Assist', x: 10, z: 17, w: 12, d: 10, commits: (window.NEXO_NUMBERS && window.NEXO_NUMBERS.commits) || 112 } // the count lives in assets/nexo-numbers.js
 ];
 
 function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { ShaderPass }, { OutputPass }]) {
