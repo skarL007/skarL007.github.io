@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
-<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}var t=null,q=/[?&]tema=(matrix|padrao)\b/.exec(location.search);if(q){t=q[1];try{localStorage.setItem('planta-viva:tema',t);}catch(e){}}else{try{t=localStorage.getItem('planta-viva:tema');}catch(e){}}if(t==='matrix')d.setAttribute('data-tema','matrix');})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Marcelo Machuca","jobTitle":"AI Solutions Developer","url":"https://skarl007.github.io/en/","sameAs":["https://github.com/skarL007"],"address":{"@type":"PostalAddress","addressCountry":"BR"}}</script>
 </head>
 <body>
@@ -60,6 +60,7 @@
   <div class="hdr-tools">
     <a class="tgl lang" href="../" hreflang="pt-BR" lang="pt-BR" aria-label="Versão em português">PT</a>
     <button id="mode2d" class="tgl" type="button" aria-pressed="false"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">2D mode</span><span class="t-short">2D</span></button>
+    <button id="temaBtn" class="tgl tgl-tema" type="button" aria-pressed="false" aria-label="Green Matrix theme" title="Green Matrix theme"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Matrix</span><span class="t-short">MX</span></button>
     <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
   </div>
 </header>
@@ -79,7 +80,7 @@
       <p class="meta hv"><span class="dot" aria-hidden="true"></span>Brazil · open to first opportunities</p>
       <ul class="legend hv" aria-label="How to read the plan">
         <li><i class="lg-line" aria-hidden="true"></i>Light line: what I design</li>
-        <li><i class="lg-agent" aria-hidden="true"></i>Orange: the agents that build</li>
+        <li><i class="lg-agent" aria-hidden="true"></i><span><span class="tm-def">Orange</span><span class="tm-mx">Phosphor green</span>: the agents that build</span></li>
       </ul>
     </div>
   </div>
@@ -95,7 +96,7 @@
   </div>
   <ol class="steps">
     <li class="stop l" data-stop data-method="0"><article class="sheet step rv"><span class="step-n" aria-hidden="true">01</span><h3>Design</h3><p>Architecture, contracts and specs before any code (OpenSpec, ADRs).</p><p class="step-foot">A-02.1 · the set square on the plan</p></article></li>
-    <li class="stop l" data-stop data-method="1"><article class="sheet step agent rv"><span class="step-n" aria-hidden="true">02</span><h3>Delegate</h3><p>A fleet of agents writes the code in parallel. I built my own orchestrator that runs Claude Code, Codex, Gemini and Cursor Agent as a single runtime.</p><p class="step-foot">A-02.2 · the four orange lanes</p></article></li>
+    <li class="stop l" data-stop data-method="1"><article class="sheet step agent rv"><span class="step-n" aria-hidden="true">02</span><h3>Delegate</h3><p>A fleet of agents writes the code in parallel. I built my own orchestrator that runs Claude Code, Codex, Gemini and Cursor Agent as a single runtime.</p><p class="step-foot">A-02.2 · the four <span class="tm-def">orange</span><span class="tm-mx">green</span> lanes</p></article></li>
     <li class="stop l" data-stop data-method="2"><article class="sheet step rv"><span class="step-n" aria-hidden="true">03</span><h3>Verify</h3><p>Tests, release gates, evals and diff review. Nothing is “done” without evidence.</p><p class="step-foot">A-02.3 · the gate every agent passes through</p></article></li>
     <li class="stop l" data-stop data-method="3"><article class="sheet step rv"><span class="step-n" aria-hidden="true">04</span><h3>Measure</h3><p>Telemetry and cost per customer in production (that is what LumenAI does).</p><p class="step-foot">A-02.4 · linked to module M-01</p></article></li>
   </ol>
@@ -196,7 +197,7 @@
   </div>
   <div class="stop l" data-stop>
     <article class="sheet big rv" id="p-nexo" data-build="6" data-mod="6" aria-labelledby="t-nexo">
-      <header class="sh-head"><b>M-07</b><span>public</span><span>technical challenge</span><span class="sh-r"><span data-n="commits">128</span> commits</span></header>
+      <header class="sh-head"><b>M-07</b><span>public</span><span>technical challenge</span><span class="sh-r"><span data-n="commits">144</span> commits</span></header>
       <h3 class="sh-title" id="t-nexo">Nexo Assist</h3>
       <p class="sh-stack">Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + Turso · React 19 · Redux Toolkit</p>
       <p class="sh-lede">An IT service-desk agent, built for the technical challenge of a hiring process. Every answer shows what it understood, what it did and why.</p>
@@ -205,7 +206,7 @@
       <p>On the other side, the analyst follows conversations in real time (SSE), with a conversation report, a suggested reply and the indicators. If Gemini 3.5 Flash fails, the step falls back to Flash Lite and the trace says which model answered.</p>
       <p>The service-desk rules (priority, deadlines, confirmation, privacy) live in tested code, and code decides which tools the model may use at each step. The chosen model was later checked in a benchmark of 7 models, with real cost measured.</p>
       <figure class="shot"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener"><img src="../assets/shots/nexo-assist.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Nexo Assist chat, in Portuguese: the agent recognises a problem other people already reported, drafts the ticket with High priority and raises the impact to the team"></a><figcaption><b>From the repository's demo video</b> · 5:28, original background music and sound effects · deadline at risk and mass incident · sound effects: Pixabay</figcaption></figure>
-      <dl class="ev"><div><dt>unit tests</dt><dd data-n="unitTests">404</dd></div><div><dt>E2E tests</dt><dd data-n="e2eTests">39</dd></div><div><dt>evals</dt><dd class="sm"><span data-n="evals">31/32</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
+      <dl class="ev"><div><dt>unit tests</dt><dd data-n="unitTests">443</dd></div><div><dt>E2E tests</dt><dd data-n="e2eTests">39</dd></div><div><dt>evals</dt><dd class="sm"><span data-n="evals">31/32</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
       <p class="sh-fact">hybrid search 84% → 94% · simulated employee pass^1 <span data-n="simPass1Before">0.72</span> → <span data-n="simPass1">0.93</span> · 486 MB Docker image, 25/25 on the smoke test · CI on CircleCI and CD with Komodo pulling from Docker Hub, running</p>
       <p class="sh-links"><a class="lnk" href="nexo-assist/">Read the case study →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">Watch the demo video ↗</a></p>
     </article>
@@ -283,6 +284,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="../assets/nexo-numbers.js" defer></script>
+<script src="../assets/theme.js"></script>
 <script type="module" src="../assets/site.js"></script>
 </body>
 </html>

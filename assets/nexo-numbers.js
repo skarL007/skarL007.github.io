@@ -11,11 +11,11 @@
  */
 window.NEXO_NUMBERS = {
   asOf: '2026-10-29',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 128,              // git rev-list --count origin/main (also sets the 3D module height)
-  unitTests: 404,            // npm test (Vitest)
+  commits: 144,              // git rev-list --count origin/main at e805fb0 (also sets the 3D module height)
+  unitTests: 443,            // npm test (Vitest, 64 files)
   e2eTests: 39,              // npm run test:e2e (Playwright)
   evalsPassed: 31,           // npm run eval, full suite (8 attacks + 6 scenarios from the simulation findings);
-  evalsTotal: 32,            // 29 Oct: "Reabrir" fixed (3/3); the failure was a mass-incident scenario, 3/3 when repeated
+  evalsTotal: 32,            // full round of 29 Oct: "Reabrir" fixed (3/3); the one failure was "Incidente em massa", 3/3 when repeated
   attacksPassed: 8,          // attack scenarios inside that suite
   attacksTotal: 8,
   redTeamPassed: 21,         // npm run eval -- ataque --repeat=3

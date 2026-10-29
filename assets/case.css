@@ -1,7 +1,7 @@
 /* Case-study pages (nexo-assist/). Loaded after site.css and reuses its tokens, header, sheets and evidence grids. */
 
 /* ---------- page frame: a flat drawing sheet ---------- */
-body.case{background-color:var(--ink);background-image:linear-gradient(rgba(160,205,245,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(160,205,245,.045) 1px,transparent 1px);background-size:32px 32px}
+body.case{background-color:var(--ink);background-image:linear-gradient(rgba(var(--line-rgb),.045) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--line-rgb),.045) 1px,transparent 1px);background-size:32px 32px}
 .case main{max-width:1200px;margin:0 auto;padding:calc(var(--hdr) + 56px) var(--gr) 64px var(--gl)}
 .case .sheet,.case .sheet.big{width:auto}
 .case .sheet p{max-width:72ch}
@@ -17,7 +17,7 @@ body.case{background-color:var(--ink);background-image:linear-gradient(rgba(160,
 .cs-role{margin:18px 0 0;font:620 clamp(19px,2vw,26px)/1.25 var(--display);font-stretch:88%;color:var(--fg)}
 .cs-hero .lede{max-width:52ch}
 .cs-meta{display:grid;grid-template-columns:1fr;gap:1px;margin:0;background:var(--line);border:1px solid var(--line)}
-.cs-meta div{display:grid;grid-template-columns:112px 1fr;gap:12px;padding:12px 14px;background:rgba(9,22,42,.9)}
+.cs-meta div{display:grid;grid-template-columns:112px 1fr;gap:12px;padding:12px 14px;background:rgba(var(--ink2-rgb),.9)}
 .cs-meta dt{font:500 10px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .cs-meta dd{margin:0;font-size:15px;line-height:1.45;color:var(--fg)}
 .cs-meta dd.mono{font:500 12px/1.6 var(--mono);color:var(--cyan)}
@@ -45,7 +45,7 @@ body.case{background-color:var(--ink);background-image:linear-gradient(rgba(160,
 
 /* ---------- architecture: 3D view + steps ---------- */
 .arch{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start}
-.arch-view{position:sticky;z-index:5;top:calc(var(--hdr) + 16px);height:min(660px,calc(100vh - var(--hdr) - 32px));min-height:420px;overflow:hidden;border:1px solid var(--line-2);background:#050B16;touch-action:pan-y}
+.arch-view{position:sticky;z-index:5;top:calc(var(--hdr) + 16px);height:min(660px,calc(100vh - var(--hdr) - 32px));min-height:420px;overflow:hidden;border:1px solid var(--line-2);background:var(--ink);touch-action:pan-y}
 html:not(.js) .arch-view{display:none}
 .arch-view::before,.arch-view::after{content:"";position:absolute;z-index:3;width:14px;height:14px;pointer-events:none}
 .arch-view::before{left:6px;top:6px;border-left:1px solid var(--fg);border-top:1px solid var(--fg)}
@@ -54,12 +54,16 @@ html:not(.js) .arch-view{display:none}
 #archGl:active{cursor:grabbing}
 #archLabels{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .al{position:absolute;left:0;top:0;opacity:0;transition:opacity .35s ease;white-space:nowrap;pointer-events:none}
-.al>span{display:block;transform:translate(-50%,calc(-100% - 6px));padding:3px 7px;border-left:1px solid var(--line-2);background:rgba(5,11,22,.8);font:500 10.5px/1.3 var(--mono);font-stretch:87.5%;letter-spacing:.04em;color:var(--fg)}
+.al>span{display:block;transform:translate(calc(-50% + var(--dx,0px)),calc(-100% - 16px));padding:3px 7px;border-left:1px solid var(--line-2);background:rgba(var(--ink-rgb),.8);font:500 10.5px/1.3 var(--mono);font-stretch:87.5%;letter-spacing:.04em;color:var(--fg)}
+/* leader: a dot on the roof of the box and a hairline up to the label */
+.al:not(.t-edge):not(.t-note):not(.t-tool)::before{content:"";position:absolute;left:-2px;top:-2px;width:5px;height:5px;background:var(--fg);box-shadow:0 0 6px rgba(var(--cyan-rgb),.8)}
+.al:not(.t-edge):not(.t-note):not(.t-tool)::after{content:"";position:absolute;left:0;top:-16px;width:1px;height:16px;background:var(--fg-2)}
+.al.t-accent::before{background:var(--accent)!important}
 .al em{display:block;font-style:normal;font-size:9.5px;color:var(--mute)}
 .al.t-accent>span{border-left-color:var(--accent)}
 .al.t-dash>span{border-left:1px dashed var(--fg-2);color:var(--fg-2)}
-.al.t-tool>span{padding:2px 5px;background:rgba(5,11,22,.72);font-size:9.5px;color:#FFD2BF}
-.al.t-edge>span{transform:translate(-50%,-50%);border:0;background:rgba(5,11,22,.86);font-size:9px;color:var(--cyan)}
+.al.t-tool>span{padding:2px 5px;transform:translate(calc(-50% + var(--dx,0px)),calc(-100% - 6px));background:rgba(var(--ink-rgb),.72);font-size:9.5px;color:var(--tool)}
+.al.t-edge>span{transform:translate(-50%,-50%);border:0;background:rgba(var(--ink-rgb),.86);font-size:9px;color:var(--cyan)}
 .al.t-note>span{transform:translate(-50%,-50%);border:1px dashed var(--line-2);color:var(--fg-2);font-size:9.5px}
 .arch-plan{position:absolute;inset:0;display:none;padding:12px}
 .arch-plan svg{display:block;width:100%;height:100%}
@@ -90,17 +94,17 @@ html:not(.js) .arch-steps li p,.no-steps .arch-steps li p{color:var(--fg-2)}
 .mode-2d .k-flow,.mode-2d .k-flow-li,.rm .k-flow-li{display:none}
 
 /* 2D plan (svg) */
-.pl-box{fill:rgba(94,168,240,.06);stroke:#6A9FCC;stroke-width:.35}
-.pl-box.t-bright{stroke:#D8EEFF;fill:rgba(216,238,255,.08)}
-.pl-box.t-accent{stroke:#FF6A2B;fill:rgba(255,106,43,.08)}
-.pl-box.t-dash{stroke:#BFD2E6;stroke-dasharray:1.4 1.1;fill:none}
-.pl-edge{fill:none;stroke:#6A9FCC;stroke-width:.3}
-.pl-edge.t-dep{stroke:#D8EEFF;stroke-width:.4}
-.pl-edge.t-accent{stroke:#FF6A2B}
-.pl-edge.t-dash{stroke:#BFD2E6;stroke-dasharray:1.4 1.1}
-.pl-txt{font:500 2.4px var(--mono);fill:#EAF4FF}
-.pl-sub{font:500 1.9px var(--mono);fill:#869DB6}
-.pl-etxt{font:500 1.9px var(--mono);fill:#A7DBFF}
+.pl-box{fill:rgba(var(--glass-rgb),.06);stroke:var(--plan);stroke-width:.35}
+.pl-box.t-bright{stroke:var(--bright);fill:rgba(var(--bright-rgb),.08)}
+.pl-box.t-accent{stroke:var(--accent);fill:rgba(var(--accent-rgb),.08)}
+.pl-box.t-dash{stroke:var(--fg-2);stroke-dasharray:1.4 1.1;fill:none}
+.pl-edge{fill:none;stroke:var(--plan);stroke-width:.3}
+.pl-edge.t-dep{stroke:var(--bright);stroke-width:.4}
+.pl-edge.t-accent{stroke:var(--accent)}
+.pl-edge.t-dash{stroke:var(--fg-2);stroke-dasharray:1.4 1.1}
+.pl-txt{font:500 2.4px var(--mono);fill:var(--fg)}
+.pl-sub{font:500 1.9px var(--mono);fill:var(--mute)}
+.pl-etxt{font:500 1.9px var(--mono);fill:var(--cyan)}
 .arch-plan g{transition:opacity .3s}
 .arch-plan g.dim{opacity:.22}
 
@@ -116,7 +120,7 @@ html:not(.js) .arch-steps li p,.no-steps .arch-steps li p{color:var(--fg-2)}
 .chap-list li{background:var(--ink-2)}
 .chap-list button,.chap-list .row{display:grid;grid-template-columns:44px 1fr;gap:10px;width:100%;min-height:44px;padding:10px 12px;border:0;background:none;color:var(--fg-2);font:500 14px/1.35 var(--display);text-align:left}
 .chap-list button{cursor:pointer}
-.chap-list button:hover{color:var(--fg);background:rgba(160,205,245,.06)}
+.chap-list button:hover{color:var(--fg);background:rgba(var(--line-rgb),.06)}
 .chap-list time{font:500 11px/1.6 var(--mono);color:var(--cyan)}
 
 /* ---------- decisions ---------- */
@@ -128,14 +132,14 @@ html:not(.js) .arch-steps li p,.no-steps .arch-steps li p{color:var(--fg-2)}
 
 /* ---------- proof ---------- */
 .proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:0;background:var(--line);border:1px solid var(--line)}
-.proof>div{display:flex;flex-direction:column;padding:18px 18px 16px;background:rgba(9,22,42,.94)}
+.proof>div{display:flex;flex-direction:column;padding:18px 18px 16px;background:rgba(var(--ink2-rgb),.94)}
 .proof dt{order:2;margin-top:8px;font:650 16px/1.3 var(--display);color:var(--fg)}
 .proof dd{margin:0}
 .proof dd.n{order:1;font:760 clamp(34px,3.4vw,52px)/1 var(--display);font-stretch:80%;letter-spacing:-.02em;color:var(--fg)}
 .proof dd.n small{font-size:.5em;letter-spacing:0;color:var(--fg-2)}
 .proof dd.d{order:3;margin-top:6px;font-size:14px;line-height:1.5;color:var(--fg-2)}
 .proof dd.s{order:4;margin-top:auto;padding-top:12px;font:500 10.5px/1.5 var(--mono);letter-spacing:.02em}
-.proof dd.s a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(167,219,255,.35);overflow-wrap:anywhere}
+.proof dd.s a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(var(--cyan-rgb),.35);overflow-wrap:anywhere}
 .proof dd.s a:hover{border-color:var(--cyan)}
 .proof .live{box-shadow:inset 0 2px 0 var(--accent)}
 .asof{display:inline-block;margin:0 0 16px;padding:6px 10px;border:1px dashed var(--line-2);font:500 10px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2)}

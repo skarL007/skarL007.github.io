@@ -110,6 +110,7 @@ function setMode(two, persist) {
   if (two) { stopLenis(); if (GL) GL.stop(); }
   else { startLenis(); if (GL) GL.start(); else initGL(); }
   if (HAS_GSAP) window.requestAnimationFrame(() => ScrollTrigger.refresh());
+  kickRain(); tbQueue();
 }
 btn2d.addEventListener('click', () => { if (!glFailed) setMode(!is2D(), true); });
 
@@ -212,6 +213,65 @@ function setChapter(i) {
   if (GL) GL.setChapter(i);
 }
 setChapter(0);
+
+/* ---------- title block: folds to one line, then steps aside, when a content panel reaches it ---------- */
+const tblock = $('.tblock');
+const tbPanels = $$('.sheet:not(.ghost), .hero-copy, .foot');
+let tbRaf = 0, tbFull = 0, tbMini = 0;
+function tbCheck() {
+  tbRaf = 0;
+  if (!tblock || is2D() || window.innerWidth < 1024) return;
+  if (!tbFull) { tbFull = tblock.offsetHeight; tbMini = tblock.firstElementChild.offsetHeight + 2; }
+  const W = window.innerWidth, H = window.innerHeight, left = W - 24 - tblock.offsetWidth - 16, bottom = H - 8;
+  const hit = h => tbPanels.some(el => { const r = el.getBoundingClientRect(); return r.right > left && r.left < W && r.bottom > H - 24 - h - 16 && r.top < bottom; });
+  const off = hit(tbMini), mini = !off && hit(tbFull);
+  root.classList.toggle('tb-off', off); root.classList.toggle('tb-mini', mini);
+}
+function tbQueue() { if (!tbRaf) tbRaf = window.requestAnimationFrame(tbCheck); }
+window.addEventListener('scroll', tbQueue, { passive: true });
+window.addEventListener('resize', () => { tbFull = 0; tbQueue(); });
+tbQueue();
+
+/* ---------- tema matrix: a faint code rain behind the hero (never with reduced motion or in 2D) ---------- */
+const rainHero = $('.hero');
+let rainCv = null, rainCx = null, rainCols = [], rainW = 0, rainH = 0, rainSeen = true, rainRaf = 0, rainLast = 0;
+const RAIN_G = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ0123456789:=<>*';
+function rainOn() { return !RM && rainSeen && root.getAttribute('data-tema') === 'matrix' && !is2D(); }
+function rainSize() {
+  rainW = rainCv.width = Math.round(rainHero.offsetWidth); rainH = rainCv.height = Math.round(rainHero.offsetHeight);
+  rainCols = Array.from({ length: Math.ceil(rainW / 16) }, () => (Math.random() < 0.45 ? Math.random() * -rainH / 16 : -1e9));
+}
+function rainStep(now) {
+  rainRaf = 0;
+  if (!rainOn()) { rainCv.classList.remove('on'); return; }
+  if (!rainCv.classList.contains('on')) { rainCv.classList.add('on'); rainSize(); }
+  if (now - rainLast > 70) {
+    rainLast = now;
+    rainCx.globalCompositeOperation = 'destination-out'; rainCx.fillStyle = 'rgba(0,0,0,.14)'; rainCx.fillRect(0, 0, rainW, rainH);
+    rainCx.globalCompositeOperation = 'source-over'; rainCx.font = '14px ' + 'ui-monospace,monospace'; rainCx.fillStyle = 'rgba(0,255,65,.7)';
+    for (let i = 0; i < rainCols.length; i++) {
+      const y = rainCols[i];
+      if (y > -1e8) {
+        if (y >= 0) rainCx.fillText(RAIN_G[(Math.random() * RAIN_G.length) | 0], i * 16, y * 16);
+        rainCols[i] = y * 16 > rainH && Math.random() > 0.96 ? Math.random() * -20 : y + 1;
+      } else if (Math.random() > 0.998) rainCols[i] = Math.random() * -20;
+    }
+  }
+  rainRaf = window.requestAnimationFrame(rainStep);
+}
+function kickRain() { if (rainCv && !rainRaf) rainRaf = window.requestAnimationFrame(rainStep); }
+if (rainHero && !RM) {
+  rainCv = document.createElement('canvas'); rainCv.id = 'rain'; rainCv.setAttribute('aria-hidden', 'true');
+  rainHero.prepend(rainCv); rainCx = rainCv.getContext('2d');
+  if (!rainCx) rainCv = null;
+  else {
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { rainSeen = es[0].isIntersecting; kickRain(); }).observe(rainHero);
+    window.addEventListener('resize', () => { if (rainCv.classList.contains('on')) rainSize(); });
+    if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(kickRain);
+    kickRain();
+  }
+}
+
 function requestBuild(k) { if (GL) GL.build(k); else pendingBuilds.add(k); }
 
 const GLY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·-';
@@ -406,26 +466,29 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   let W = window.innerWidth, H = window.innerHeight;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
   renderer.setPixelRatio(DPR); renderer.setSize(W, H, false);
-  renderer.setClearColor(0x050B16, 1);
+  const PAL = () => (window.PLANTA_TEMA ? window.PLANTA_TEMA.pal() : { ink: '#050B16', plan: '#6A9FCC', dim: '#41709A', bright: '#D8EEFF', glass: '#5EA8F0', accent: '#FF6A2B', grid: '#4F7FAD', bloom: 1 });
+  /* every colour in the scene is registered here, so a theme change repaints it in place */
+  const tints = [];
+  const tint = (key, mul = 1, c = new THREE.Color()) => { tints.push([c, key, mul]); return c.set(PAL()[key]).multiplyScalar(mul); };
+  renderer.setClearColor(PAL().ink, 1);
   renderer.toneMapping = THREE.NoToneMapping;
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); failGL(); }, false);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050B16); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
+  scene.background = new THREE.Color(PAL().ink); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
   const camera = new THREE.PerspectiveCamera(40, W / H, 0.5, 1400);
   const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
-  const COL = { plan: new THREE.Color('#6A9FCC'), dim: new THREE.Color('#41709A'), bright: new THREE.Color('#D8EEFF'), glass: new THREE.Color('#5EA8F0'), accent: new THREE.Color('#FF6A2B'), grid: new THREE.Color('#4F7FAD') };
   scene.add(new THREE.AmbientLight(0xffffff, 1.3));
   const sun = new THREE.DirectionalLight(0xffffff, 3.2); sun.position.set(-0.6, 1, 0.45); scene.add(sun);
 
   /* infinite drafting floor */
-  const gridMat = new THREE.ShaderMaterial({ vertexShader: GRID_VS, fragmentShader: GRID_FS, transparent: true, depthWrite: false, uniforms: { uColor: { value: COL.grid }, uCam: { value: V3(0, 0, 0) } } });
+  const gridMat = new THREE.ShaderMaterial({ vertexShader: GRID_VS, fragmentShader: GRID_FS, transparent: true, depthWrite: false, uniforms: { uColor: { value: tint('grid') }, uCam: { value: V3(0, 0, 0) } } });
   const grid = new THREE.Mesh(new THREE.PlaneGeometry(1400, 1400), gridMat);
   grid.rotation.x = -Math.PI / 2; grid.renderOrder = -2; grid.frustumCulled = false; scene.add(grid);
 
   /* self-drawing hairlines: every vertex carries its draw time (aProg) */
-  const lineMat = (color, opacity, dash = 0, flow = 0) => new THREE.ShaderMaterial({
+  const lineMat = (key, opacity, dash = 0, flow = 0) => new THREE.ShaderMaterial({
     vertexShader: LINE_VS, fragmentShader: LINE_FS, transparent: true, depthWrite: false,
-    uniforms: { uColor: { value: color.clone() }, uDraw: { value: 0 }, uOpacity: { value: opacity }, uDash: { value: dash }, uFlow: { value: flow }, uTime: { value: 0 }, uBoost: { value: new THREE.Vector4() } }
+    uniforms: { uColor: { value: tint(key) }, uDraw: { value: 0 }, uOpacity: { value: opacity }, uDash: { value: dash }, uFlow: { value: flow }, uTime: { value: 0 }, uBoost: { value: new THREE.Vector4() } }
   });
   const lb = () => ({ p: [], a: [], d: [], g: [] });
   function seg(L, x1, y1, z1, x2, y2, z2, t0, t1, g = 0, d0 = 0) {
@@ -550,8 +613,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   for (let k = 0; k < 6; k++) seg(timeL, 25.5, k * 0.75, TZ, 25.5, k * 0.75 + 0.4, TZ, 0.86 + k * 0.02, 0.88 + k * 0.02);
   seg(timeL, 24.6, 4.4, TZ, 26.4, 4.4, TZ, 0.97, 1);
 
-  const matPlan = lineMat(COL.plan, 0.78), matDim = lineMat(COL.dim, 0.7), matDash = lineMat(COL.dim, 0.55, 1.4, 0);
-  const matFlow = lineMat(COL.plan, 0.85, 1.1, 2.4), matGly = lineMat(COL.bright, 0.62), matTime = lineMat(COL.bright, 0.85);
+  const matPlan = lineMat('plan', 0.78), matDim = lineMat('dim', 0.7), matDash = lineMat('dim', 0.55, 1.4, 0);
+  const matFlow = lineMat('plan', 0.85, 1.1, 2.4), matGly = lineMat('bright', 0.62), matTime = lineMat('bright', 0.85);
   const drawMats = [matPlan, matDim, matDash, matFlow, matGly];
   addLines(planL, matPlan); addLines(dimL, matDim); addLines(dashL, matDash); addLines(flowL, matFlow); addLines(glyL, matGly); addLines(timeL, matTime);
 
@@ -565,11 +628,11 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd);
     const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
     const em = new THREE.ShaderMaterial({ vertexShader: EDGE_VS, fragmentShader: EDGE_FS, transparent: true, depthWrite: false,
-      uniforms: { uColor: { value: COL.bright.clone() }, uHot: { value: COL.accent.clone() }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 } } });
+      uniforms: { uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 } } });
     const edges = new THREE.LineSegments(eg, em); edges.frustumCulled = false; g.add(edges);
     const gg = new THREE.BoxGeometry(w, h, d); gg.translate(0, h / 2, 0);
     const gm = new THREE.ShaderMaterial({ vertexShader: GLASS_VS, fragmentShader: GLASS_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
-      uniforms: { uColor: { value: COL.glass.clone() }, uH: { value: -1 }, uOpacity: { value: 0.42 }, uGlow: { value: 0 } } });
+      uniforms: { uColor: { value: tint('glass') }, uH: { value: -1 }, uOpacity: { value: 0.42 }, uGlow: { value: 0 } } });
     g.add(new THREE.Mesh(gg, gm));
     return { g, em, gm, x, z, w, d, h, b: 0, hot: 0, glow: 0, state: 0, squad: [] };
   }
@@ -577,7 +640,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     const V = volume(m.x, m.z, m.w, m.d, Math.max(1.6, 4 * Math.log10(m.commits)));
     V.i = i;
     const wg = new THREE.BufferGeometry().setFromPoints([V3(-m.w / 2, 0, -m.d / 2), V3(m.w / 2, 0, -m.d / 2), V3(m.w / 2, 0, m.d / 2), V3(-m.w / 2, 0, m.d / 2)]);
-    V.weld = new THREE.LineLoop(wg, new THREE.LineBasicMaterial({ color: COL.accent.clone().multiplyScalar(1.6), transparent: true, opacity: 0, depthWrite: false }));
+    V.weld = new THREE.LineLoop(wg, new THREE.LineBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+    tint('accent', 1.6, V.weld.material.color);
     V.weld.visible = false; V.g.add(V.weld);
     V.proxy = new THREE.Mesh(new THREE.BoxGeometry(m.w, 1, m.d).translate(0, 0.5, 0), new THREE.MeshBasicMaterial());
     V.proxy.visible = false; V.proxy.scale.y = 0.01; V.proxy.userData.mod = i; V.g.add(V.proxy);
@@ -588,7 +652,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   /* ---- agents: one InstancedMesh of orange cubes, spring-driven ---- */
   const N = LOW ? 240 : 520, NF = LOW ? 36 : 72;
   const cube = new THREE.BoxGeometry(1, 1, 1);
-  const agents = new THREE.InstancedMesh(cube, new THREE.MeshLambertMaterial({ color: COL.accent, emissive: COL.accent, emissiveIntensity: 0.6 }), N);
+  const agents = new THREE.InstancedMesh(cube, new THREE.MeshLambertMaterial({ emissiveIntensity: 0.6 }), N);
+  tint('accent', 1, agents.material.color); tint('accent', 1, agents.material.emissive);
   agents.frustumCulled = false; agents.instanceMatrix.setUsage(THREE.DynamicDrawUsage); scene.add(agents);
   const AP = new Float32Array(N * 3), AV = new Float32Array(N * 3), PH = new Float32Array(N), RR = new Float32Array(N), ROLE = new Int16Array(N);
   for (let i = 0; i < N; i++) {
@@ -603,21 +668,23 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const BH = 0.28, UNIT = 5, bl = [];
   CONTRIB.forEach((wk, w) => wk.forEach((c, d) => { for (let l = 0; l < Math.ceil(c / UNIT); l++) bl.push([w, d, l]); }));
   const NB = bl.length;
-  const bricks = new THREE.InstancedMesh(new THREE.BoxGeometry(0.86, BH * 0.86, 0.86), new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: COL.accent, emissiveIntensity: 0.22 }), NB);
+  const bricks = new THREE.InstancedMesh(new THREE.BoxGeometry(0.86, BH * 0.86, 0.86), new THREE.MeshLambertMaterial({ color: 0xffffff, emissiveIntensity: 0.22 }), NB);
+  tint('accent', 1, bricks.material.emissive);
   bricks.count = 0; bricks.frustumCulled = false; bricks.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   const BF = new Float32Array(NB * 3), BS = new Float32Array(NB * 3), BT = new Float32Array(NB), BD = new Float32Array(NB), tc = new THREE.Color();
   bl.forEach(([w, d, l], k) => {
     BF[k * 3] = FX0 + w * P; BF[k * 3 + 1] = BH * (l + 0.5); BF[k * 3 + 2] = FZ0 + d * P;
     const a = Math.random() * Math.PI * 2; BS[k * 3] = Math.cos(a) * 74; BS[k * 3 + 1] = 27 + Math.random() * 6; BS[k * 3 + 2] = 4 + Math.sin(a) * 60;
     BT[k] = 0.2 + (w / 52) * 1.8 + l * 0.028 + Math.random() * 0.25; BD[k] = 0.8 + Math.random() * 0.35;
-    bricks.setColorAt(k, tc.copy(COL.accent).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)));
   });
-  bricks.instanceColor.needsUpdate = true; scene.add(bricks);
+  function paintBricks() { const a = new THREE.Color(PAL().accent); bl.forEach(([, , l], k) => bricks.setColorAt(k, tc.copy(a).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)))); bricks.instanceColor.needsUpdate = true; }
+  paintBricks(); scene.add(bricks);
   const ND = CONTRIB.reduce((s, wk) => s + wk.length, 0), dayIdx = [], dm = new THREE.Matrix4();
   const calProxy = new THREE.InstancedMesh(new THREE.BoxGeometry(P, 1, P).translate(0, 0.5, 0), new THREE.MeshBasicMaterial(), ND);
   CONTRIB.forEach((wk, w) => wk.forEach((c, d) => { dm.makeScale(1, Math.max(0.25, Math.ceil(c / UNIT) * BH), 1).setPosition(FX0 + w * P, 0, FZ0 + d * P); calProxy.setMatrixAt(dayIdx.length, dm); dayIdx.push([w, d, c]); }));
   calProxy.visible = false; calProxy.computeBoundingSphere(); scene.add(calProxy); calProxy.updateMatrixWorld(true);
-  const hoverMark = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([V3(-0.62, 0, -0.62), V3(0.62, 0, -0.62), V3(0.62, 0, 0.62), V3(-0.62, 0, 0.62)]), new THREE.LineBasicMaterial({ color: COL.bright.clone().multiplyScalar(1.4) }));
+  const hoverMark = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([V3(-0.62, 0, -0.62), V3(0.62, 0, -0.62), V3(0.62, 0, 0.62), V3(-0.62, 0, 0.62)]), new THREE.LineBasicMaterial());
+  tint('bright', 1.4, hoverMark.material.color);
   hoverMark.visible = false; scene.add(hoverMark);
 
   /* ---- HTML labels projected from 3D anchors ---- */
@@ -650,8 +717,12 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   label(TX.lNext, 'lbl-t', 25.5, 4.4, TZ, { gate: () => clamp((timeT - 0.9) * 10, 0, 1), max: 240, ch: C_TRJ });
   const modLabels = mods.map((V, i) => label('<b>' + MODS[i].code + '</b>' + MODS[i].name + '<em>' + MODS[i].commits.toLocaleString(TX.locale) + TX.commitsLog + '</em>', 'lbl-mod', V.x - V.w / 2, 0.05, V.z + V.d / 2, { gate: gDraw, ch: C_HERO | C_PRJ | C_CTT }));
   const pv = V3(0, 0, 0);
+  /* text that sits on the drawing without a panel: labels fade instead of running across it */
+  const shieldEls = $$('.hero-copy, .sheet.ghost');
+  let shields = [];
   function updateLabels(still) {
     const bit = 1 << clamp(chapterNow, 0, 5);
+    shields = shieldEls.map(e => e.getBoundingClientRect()).filter(r => r.bottom > 0 && r.top < H);
     for (let i = 0; i < LBL.length; i++) {
       const L = LBL[i];
       const want = (L.ch & bit) ? (L.gate ? L.gate() : 1) : 0;
@@ -669,7 +740,9 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
           if (L.w === undefined) { L.w = L.el.firstChild.offsetWidth; L.left = /\blbl-(mod|m|z)\b/.test(L.el.className); }
           const x0 = L.left ? sx : sx - L.w / 2, x1 = L.left ? sx + 8 + L.w : sx + L.w / 2;
           a *= clamp((W - (W >= 1024 ? 80 : 12) - x1) / 32, 0, 1) * clamp((x0 - 12) / 32, 0, 1);
-          L.el.style.transform = 'translate3d(' + sx + 'px,' + Math.round((-pv.y * 0.5 + 0.5) * H) + 'px,0)';
+          const sy = Math.round((-pv.y * 0.5 + 0.5) * H);
+          for (let k = 0; k < shields.length; k++) { const r = shields[k]; if (x1 > r.left - 16 && x0 < r.right + 16 && sy > r.top - 20 && sy - 32 < r.bottom + 8) { a = 0; break; } }
+          L.el.style.transform = 'translate3d(' + sx + 'px,' + sy + 'px,0)';
         }
       } else a = 0;
       if (Math.abs(a - L.a) > 0.015 || (a === 0 && L.a !== 0)) { L.el.style.opacity = a.toFixed(3); L.a = a; }
@@ -900,7 +973,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const composer = new EffectComposer(renderer, rt);
   composer.setPixelRatio(DPR); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), LOW ? 0.38 : 0.46, 0.32, 0.3));
+  const BLOOM = LOW ? 0.38 : 0.46;
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM * PAL().bloom, 0.32, 0.3); composer.addPass(bloom);
   const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
   composer.addPass(new OutputPass());
 
@@ -954,6 +1028,14 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     if (HAS_GSAP) ScrollTrigger.refresh();
   }
   function stop() { running = false; root.classList.remove('gl-on'); }
+  function retheme() {
+    const P = PAL();
+    tints.forEach(([c, key, mul]) => c.set(P[key]).multiplyScalar(mul));
+    renderer.setClearColor(P.ink, 1); scene.background.set(P.ink);
+    paintBricks(); bloom.strength = BLOOM * P.bloom;
+    if (!running && root.classList.contains('gl-on') && !is2D()) renderStill();
+  }
+  if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(retheme);
   return {
     frame, start, stop, build, setDraw, cursorText,
     setChapter(i) { chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },

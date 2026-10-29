@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <link rel="stylesheet" href="../assets/case.css">
-<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}var t=null,q=/[?&]tema=(matrix|padrao)\b/.exec(location.search);if(q){t=q[1];try{localStorage.setItem('planta-viva:tema',t);}catch(e){}}else{try{t=localStorage.getItem('planta-viva:tema');}catch(e){}}if(t==='matrix')d.setAttribute('data-tema','matrix');})();</script>
 </head>
 <body class="case">
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
@@ -47,6 +47,7 @@
   <div class="hdr-tools">
     <a class="tgl lang" href="../en/nexo-assist/" hreflang="en" lang="en" aria-label="English version">EN</a>
     <button id="mode2d" class="tgl" type="button" aria-pressed="false"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Modo 2D</span><span class="t-short">2D</span></button>
+    <button id="temaBtn" class="tgl tgl-tema" type="button" aria-pressed="false" aria-label="Tema verde Matrix" title="Tema verde Matrix"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Matrix</span><span class="t-short">MX</span></button>
     <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
   </div>
 </header>
@@ -69,7 +70,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
-    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">128</span> commits</dd></div>
+    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">144</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · Gemini 3.5 Flash · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
   </dl>
@@ -126,7 +127,7 @@
   </div>
   <ul class="arch-key" aria-label="Como ler a planta">
     <li><i class="k-dep" aria-hidden="true"></i>Dependência, sempre para dentro</li>
-    <li><i class="k-ai" aria-hidden="true"></i>Laranja: agente e modelos</li>
+    <li><i class="k-ai" aria-hidden="true"></i><span><span class="tm-def">Laranja</span><span class="tm-mx">Verde-fósforo</span>: agente e modelos</span></li>
     <li><i class="k-dash" aria-hidden="true"></i>Opcional</li>
     <li class="k-flow-li"><i class="k-flow" aria-hidden="true"></i>Dados em movimento</li>
   </ul>
@@ -239,11 +240,11 @@
     <h2 class="cs-h2" id="h-provas" tabindex="-1">Os números, com a fonte</h2>
     <p class="cs-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o Gemini de verdade e tem um relatório com pergunta, método, números e limites.</p>
   </header>
-  <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">28 out 2026</span>, no main do repositório</p>
+  <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">29 out 2026</span>, no main do repositório</p>
   <dl class="proof">
-    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">404</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">443</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">31/32</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques e 6 cenários tirados das falhas do funcionário simulado. A falha, “Reabrir chamado resolvido”, é intermitente: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">repetida, deu 2/3</a>.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">31/32</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques e 6 cenários tirados das falhas do funcionário simulado. A falha restante foi um cenário de incidente em massa, que <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">repetido, passou 3/3</a> (variação do modelo). O “Reabrir chamado resolvido”, que falhava antes, foi corrigido em código e passou 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
     <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,93</span> <small>pass^1 · antes <span data-n="simPass1Before">0,72</span></small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. Três rodadas no mesmo dia: 0,72 / 0,50 → 0,93 / 0,80 → 0,93 / 0,80, a terceira com uma persona repetida depois de corrigida. Com 10 personas × 3, <span data-n="simRuns">28/30</span> conversas certas; pass^3 <span data-n="simPass3Before">0,50</span> → <span data-n="simPass3">0,80</span> (<span data-n="simPersonas">8/10</span> personas certas nas 3 execuções). A primeira rodada achou defeitos reais no agente, corrigidos com regras em código e testes, não com ajustes no prompt.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>busca na central</dt><dd class="n">84% → 94%</dd><dd class="d">Acerto geral em 50 perguntas, palavras-chave contra híbrida, com um conjunto separado escrito depois da escolha.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
@@ -309,6 +310,7 @@
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
 <script src="../assets/nexo-numbers.js" defer></script>
+<script src="../assets/theme.js"></script>
 <script type="module" src="../assets/case.js"></script>
 </body>
 </html>
