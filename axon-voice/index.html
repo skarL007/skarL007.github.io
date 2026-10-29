@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Axon Voice · estudo de caso · Marcelo Machuca</title>
+<meta name="description" content="Axon Voice: um assistente pessoal por voz com respostas apoiadas em documentos, memória vetorial e grafo de conhecimento. Veja a interface, o vídeo, a arquitetura e os limites do protótipo.">
+<meta name="theme-color" content="#050B16">
+<link rel="canonical" href="https://skarl007.github.io/axon-voice/">
+<meta property="og:type" content="article"><meta property="og:title" content="Axon Voice · voz, memória e respostas com fontes">
+<meta property="og:description" content="Um estudo de caso com imagens do aplicativo, vídeo, decisões de arquitetura e limites. Por Marcelo Machuca.">
+<meta property="og:url" content="https://skarl007.github.io/axon-voice/">
+<meta property="og:image" content="https://skarl007.github.io/assets/axon/frame-15.webp">
+<meta property="og:image:width" content="720"><meta property="og:image:height" content="405">
+<meta property="og:image:alt" content="Interface do Axon Voice no modo cinema, com legenda sincronizada e referência à fonte">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../assets/site.css"><link rel="stylesheet" href="../assets/case.css"><link rel="stylesheet" href="../assets/axon.css">
+</head>
+<body class="case axon-case">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="hdr">
+  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>Desenvolvedor de Soluções em IA</small></a>
+  <nav class="nav" id="nav" aria-label="Seções do estudo de caso"><a href="#produto">Produto</a><a href="#video">Vídeo</a><a href="#arquitetura">Arquitetura</a><a href="#decisoes">Decisões</a><a href="#limites">Limites</a></nav>
+  <button id="menuBtn" class="menu-btn" type="button" aria-controls="nav" aria-expanded="false">Menu</button>
+</header>
+<main class="cs" id="conteudo" tabindex="-1">
+<section class="cs-hero" aria-labelledby="titulo">
+  <div><p class="cs-back"><a href="../#p-axon">← Portfólio · M-05</a></p>
+    <p class="callout"><span class="cn">M-05</span><span class="ct">Estudo de caso · projeto independente</span></p>
+    <h1 class="cs-title" id="titulo">Axon Voice</h1>
+    <p class="cs-role">Conversar com os seus documentos.<br>Conferir a origem de cada resposta.</p>
+    <p class="lede">Um assistente pessoal que recebe voz ou texto, consulta documentos e memórias e responde com referências. A fala chega por frases; o contexto pode vir de uma busca vetorial ou de fatos conectados em um grafo.</p>
+    <div class="ctas"><a class="btn btn-solid" href="#video">Assistir à demonstração</a><a class="btn" href="#arquitetura">Entender a arquitetura</a></div>
+    <p class="cs-note">Protótipo individual · execução local ou com modelos na nuvem · repositório privado</p>
+  </div>
+  <dl class="cs-meta">
+    <div><dt>Meu papel</dt><dd>Definição do produto, arquitetura e critérios de validação. Implementação conduzida com agentes de código, revisão e testes.</dd></div>
+    <div><dt>Stack</dt><dd class="mono">Python · LangGraph · Whisper · FAISS · SQLite · Neo4j · Graphiti · JavaScript</dd></div>
+    <div><dt>Contexto</dt><dd>Projeto próprio para explorar assistência por voz, recuperação de informação e memória persistente. Sem adoção comercial apresentada.</dd></div>
+    <div><dt>O que você pode ver</dt><dd>Interface, vídeo e decisões técnicas nesta página. Código e funcionamento podem ser apresentados na entrevista.</dd></div>
+  </dl>
+</section>
+
+<figure class="axon-cover"><img src="../assets/axon/frame-15.webp" width="720" height="405" fetchpriority="high" alt="Axon Voice no modo cinema: resposta exibida por frases e painel de fontes ao lado"><figcaption>Interface capturada na demonstração do repositório · modo cinema</figcaption></figure>
+
+<section class="cs-sec" id="produto" aria-labelledby="h-produto">
+  <header><p class="callout"><span class="cn">A-01</span><span class="ct">O produto</span></p><h2 class="cs-h2" id="h-produto">Voz na entrada.<br>Evidência na resposta.</h2><p class="cs-intro">O objetivo é manter o fluxo de uma conversa sem perder a possibilidade de conferir de onde veio cada informação.</p></header>
+  <div class="cs-two">
+    <div class="cs-side"><h3 class="cs-h3">Falar, ler e continuar</h3><ul class="cs-list"><li>Entrada por voz com push-to-talk ou por texto.</li><li>Resposta em streaming, com síntese de voz por frase e legendas sincronizadas.</li><li>Modos cinema, orbe, terminal, trabalho e zen. A resposta completa continua disponível em um painel.</li><li>Modelos locais ou na nuvem, conforme a configuração e o equipamento.</li></ul><figure class="shot"><a href="../assets/axon/frame-65.webp" target="_blank" rel="noopener"><img src="../assets/axon/frame-65.webp" width="720" height="405" loading="lazy" alt="Painel da resposta completa com tópicos, tabela e link para a fonte"></a><figcaption>A voz resume; o painel mantém a resposta completa e as referências.</figcaption></figure></div>
+    <div class="cs-side"><h3 class="cs-h3">Memória com relações</h3><ul class="cs-list"><li>Documentos e notas entram na base de conhecimento.</li><li>A recuperação combina fontes vetoriais, lexicais e relações do grafo.</li><li>O mapa permite explorar documentos, trechos, entidades e fatos com datas.</li><li>Respostas apoiadas em documentos mostram referências que abrem o trecho usado.</li></ul><figure class="shot"><a href="../assets/axon/frame-90.webp" target="_blank" rel="noopener"><img src="../assets/axon/frame-90.webp" width="720" height="405" loading="lazy" alt="Mapa de memória com documentos, entidades e relação entre fornecedor de sensores e turbina de um projeto fictício"></a><figcaption>Mapa de memória · documentos e fatos do projeto fictício Orion.</figcaption></figure></div>
+  </div>
+  <figure class="axon-wide"><a href="../assets/axon/frame-115.webp" target="_blank" rel="noopener"><img src="../assets/axon/frame-115.webp" width="720" height="405" loading="lazy" alt="Pergunta sobre troca de fornecedor, resposta com citação S1 e identificação do documento e página de origem"></a><figcaption>Uma pergunta encontra fatos e documentos; a resposta permite conferir a origem. Dados fictícios da gravação.</figcaption></figure>
+</section>
+
+<section class="cs-sec" id="video" aria-labelledby="h-video">
+  <header><p class="callout"><span class="cn">A-02</span><span class="ct">Veja o aplicativo</span></p><h2 class="cs-h2" id="h-video">Uma visita pelo Axon.</h2><p class="cs-intro">3:31 de interface, voz, documentos, memória e fontes, com narração. Os dois trechos com eco são a própria voz do Axon respondendo. O vídeo só começa quando você der play.</p></header>
+  <div class="axon-video"><video id="demo" controls playsinline preload="none" poster="../assets/axon/frame-15.webp" aria-label="Demonstração do Axon Voice, 3 minutos e 31 segundos"><source src="../assets/axon/demo.mp4" type="video/mp4"><p>Seu navegador não reproduz este vídeo. <a href="../assets/axon/demo.mp4">Abrir o arquivo MP4</a>.</p></video></div>
+  <p class="axon-disclosure"><strong>Como a gravação foi feita:</strong> o roteiro do repositório usa provedores simulados, chaves fictícias e uma base Neo4j temporária com dados de exemplo. Demonstra os fluxos da interface; não mede qualidade, latência ou custo de modelos reais.</p>
+  <nav class="axon-chapters" aria-label="Capítulos do vídeo"><button type="button" data-time="24">0:24 · Voz e legendas</button><button type="button" data-time="105">1:45 · Banco de memórias</button><button type="button" data-time="138">2:18 · Grafo de conhecimento</button><button type="button" data-time="153">2:33 · Respostas com fontes</button><button type="button" data-time="177">2:57 · Orbe e leitura de tela</button></nav>
+  <p class="cs-note">Prefere ler? As seções desta página descrevem o fluxo e as decisões sem depender do áudio. A narração foi gerada com a voz Jarvis do Fish Audio, a mesma que o Axon usa para falar. <a href="../assets/axon/demo.mp4">Abrir o vídeo diretamente ↗</a></p>
+</section>
+
+<section class="cs-sec" id="arquitetura" aria-labelledby="h-arquitetura">
+  <header><p class="callout"><span class="cn">A-03</span><span class="ct">Arquitetura</span></p><h2 class="cs-h2" id="h-arquitetura">Do pedido ao contexto.<br>Do contexto à fala.</h2></header>
+  <ol class="axon-flow">
+    <li><span>01</span><div><h3>Entrada e fronteira de acesso</h3><p>Navegador, orbe ou interface móvel enviam voz ou texto ao servidor Python. A fronteira HTTP verifica origem, formato, token e limites de requisição.</p></div></li>
+    <li><span>02</span><div><h3>Recuperação em paralelo</h3><p>Memória vetorial em FAISS, busca lexical, base de documentos e grafo em Neo4j fornecem contexto. A fusão RRF combina posições dos resultados, em vez de comparar diretamente pontuações de fontes diferentes.</p></div></li>
+    <li><span>03</span><div><h3>Resposta apoiada em evidências</h3><p>O fluxo corretivo em LangGraph recupera, avalia e usa o contexto para responder com citações. Quando o material é insuficiente, o caminho previsto é se abster, em vez de completar a lacuna como se fosse fato.</p></div></li>
+    <li><span>04</span><div><h3>Texto e voz em streaming</h3><p>A tela recebe a resposta progressivamente. Frases seguem para a síntese de voz e entram em uma fila de reprodução. A legenda usa uma versão legível do texto, separada da normalização própria da fala.</p></div></li>
+    <li><span>05</span><div><h3>Aprendizado depois da resposta</h3><p>Uma fila trata memória e fatos elegíveis. A memória vetorial e o grafo têm papéis diferentes; o grafo registra afirmações do usuário com contexto temporal. Respostas do próprio Axon não entram como fatos do usuário.</p></div></li>
+  </ol>
+  <p class="cs-note">Descrição baseada no README e nos módulos do projeto atual. A arquitetura não representa uma garantia de acerto em toda conversa.</p>
+</section>
+
+<section class="cs-sec" id="decisoes" aria-labelledby="h-decisoes">
+  <header><p class="callout"><span class="cn">A-04</span><span class="ct">Decisões técnicas</span></p><h2 class="cs-h2" id="h-decisoes">O que exigiu cuidado.</h2></header>
+  <div class="dec">
+    <article><p class="mono">D-01 · FONTES</p><h3 class="cs-h3">Uma resposta precisa ser conferível.</h3><p>A interface expõe as referências e permite abrir o trecho. Isso dá ao usuário uma forma de avaliar a resposta, além da fluência do texto.</p></article>
+    <article><p class="mono">D-02 · MEMÓRIA</p><h3 class="cs-h3">Aprender sem confirmar os próprios ecos.</h3><p>O grafo distingue afirmações do usuário de perguntas e respostas geradas. As relações incluem datas, porque um fato pode deixar de valer. Filtros ajudam, mas não substituem avaliações de precisão da memória.</p></article>
+    <article><p class="mono">D-03 · VOZ</p><h3 class="cs-h3">Falar antes do texto terminar.</h3><p>Enviar frases para a voz durante o streaming reduz a espera percebida. O desafio é preservar ordem, cancelamento e coerência entre o que se ouve e o que se lê.</p></article>
+    <article><p class="mono">D-04 · EXECUÇÃO</p><h3 class="cs-h3">Local quando possível; nuvem por escolha.</h3><p>O projeto suporta fornecedores locais e remotos. Usar uma opção na nuvem exige considerar o que é enviado a ela: “local-first” não significa que toda configuração mantenha todos os dados no dispositivo.</p></article>
+  </div>
+</section>
+
+<section class="cs-sec" id="limites" aria-labelledby="h-limites">
+  <header><p class="callout"><span class="cn">A-05</span><span class="ct">Estado e limites</span></p><h2 class="cs-h2" id="h-limites">O que esta página prova.<br>E o que continua aberto.</h2></header>
+  <ul class="open">
+    <li><b>Projeto individual</b><p>O Axon é um protótipo para uso pessoal. Não apresento usuários de produção, clientes ou disponibilidade comercial como resultado deste projeto.</p></li>
+    <li><b>Demo gravada</b><p>O vídeo documenta interface e integração de fluxos com serviços simulados. Não é uma demonstração pública conectada a modelos reais, nem um benchmark de recuperação ou fala.</p></li>
+    <li><b>Memória e recuperação</b><p>Precisão do contexto recuperado, seleção do que aprender e redução de ruído seguem como áreas de avaliação e melhoria. Ter um grafo e citações não elimina respostas incorretas.</p></li>
+    <li><b>Ambiente e privacidade</b><p>Windows é a plataforma mais exercitada segundo a documentação. Modelos, voz e hardware mudam a experiência. Serviços externos recebem os dados necessários às funções habilitadas.</p></li>
+    <li><b>Evidência técnica</b><p>O repositório inclui testes e um roteiro reproduzível de demonstração. Esta página não publica uma contagem de testes como se fosse uma nova execução verificada ou uma taxa de sucesso em produção.</p></li>
+    <li><b>Código privado</b><p>O repositório não está aberto ao público. Posso apresentar trechos, decisões e uma demonstração em entrevista, respeitando os dados e credenciais do ambiente.</p></li>
+  </ul>
+</section>
+<div class="cs-end"><a class="btn btn-solid" href="#video">Voltar à demonstração</a><a class="btn" href="../#p-axon">Voltar ao portfólio</a><a class="btn" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Contato pelo LinkedIn ↗</a></div>
+</main>
+<footer class="foot"><p class="foot-id">Marcelo Machuca · Desenvolvedor de Soluções em IA · Brasil</p><p class="foot-src">Produto e arquitetura conduzidos por mim; implementação com apoio de agentes de IA. Informações e mídia conferidas no projeto em 29 out 2026.</p></footer>
+<script src="../assets/axon.js" defer></script>
+</body></html>
