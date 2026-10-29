@@ -334,22 +334,21 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(W, H, false);
-  const PAL = () => (window.PLANTA_TEMA ? window.PLANTA_TEMA.pal() : { ink: '#050B16', plan: '#6A9FCC', bright: '#D8EEFF', accent: '#FF6A2B', dash: '#BFD2E6', grid: '#4F7FAD', flow: '#A7DBFF' });
-  /* every colour is registered so a theme change repaints the scene in place */
-  const tints = [];
-  const tint = (key, c) => { tints.push([c, key]); c.set(PAL()[key]); };
-  renderer.setClearColor(PAL().ink, 1);
+  /* the plan's colours (the CSS side holds the same values as custom properties in site.css) */
+  const PAL = { ink: '#050B16', plan: '#6A9FCC', bright: '#D8EEFF', accent: '#FF6A2B', dash: '#BFD2E6', grid: '#4F7FAD', flow: '#A7DBFF' };
+  const tint = (key, c) => c.set(PAL[key]);
+  renderer.setClearColor(PAL.ink, 1);
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); stop(); failGL(); }, false);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(PAL().ink, 260, 520); // far enough that the plan keeps its full contrast
-  scene.background = new THREE.Color(PAL().ink); // the composer's render target needs the clear colour as a scene background, or it comes out washed
+  scene.fog = new THREE.Fog(PAL.ink, 260, 520); // far enough that the plan keeps its full contrast
+  scene.background = new THREE.Color(PAL.ink); // the composer's render target needs the clear colour as a scene background, or it comes out washed
   const camera = new THREE.PerspectiveCamera(36, W / H, 0.5, 900);
   /* post: a soft bloom on the lit hairlines, then grain and vignette */
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
   const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
   composer.setPixelRatio(DPR); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.32 * (PAL().bloom || 1), 0.25, 0.62); composer.addPass(bloom);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.32, 0.25, 0.62); composer.addPass(bloom);
   const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
   composer.addPass(new OutputPass());
 
@@ -629,10 +628,6 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(view); else window.addEventListener('resize', resize);
   camera.aspect = W / H; camera.updateProjectionMatrix(); frame(step); Object.assign(cam, goal);
   function start() { running = true; requestDraw(); }
-  if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(P => {
-    tints.forEach(([c, key]) => c.set(P[key]));
-    renderer.setClearColor(P.ink, 1); scene.fog.color.set(P.ink); scene.background.set(P.ink); bloom.strength = 0.32 * (P.bloom || 1); requestDraw();
-  });
   function stop() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
   return { start, stop };
 }

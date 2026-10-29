@@ -3,7 +3,7 @@
   --fg:#EAF4FF; --fg-2:#BFD2E6; --mute:#869DB6;
   --line:rgba(160,205,245,.2); --line-2:rgba(160,205,245,.45); --cyan:#A7DBFF;
   --accent:#FF6A2B;
-  /* the same colours as rgb triplets (for rgba) and the plan tones the case-study svg uses; the three.js side reads assets/theme.js */
+  /* the same colours as rgb triplets (for rgba) and the plan tones the case-study svg uses; the three.js scenes keep the same values (PAL in site.js and case.js) */
   --ink-rgb:5,11,22; --ink2-rgb:9,22,42; --line-rgb:160,205,245; --cyan-rgb:167,219,255; --accent-rgb:255,106,43;
   --glass-rgb:94,168,240; --bright-rgb:216,238,255; --plan:#6A9FCC; --bright:#D8EEFF; --tool:#FFD2BF;
   color-scheme:dark;
@@ -12,17 +12,6 @@
   --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
   --hdr:60px;
 }
-/* tema "matrix": phosphor green on a green-black sheet (?tema=matrix or the MX button) */
-:root[data-tema="matrix"]{
-  --ink:#010A04; --ink-2:#03160A; --sheet:rgba(1,12,5,.9);
-  --fg:#D9FFE2; --fg-2:#A3EDB4; --mute:#6CC484;
-  --line:rgba(0,170,30,.3); --line-2:rgba(0,200,45,.55); --cyan:#00FF41; --accent:#00FF41;
-  --ink-rgb:1,10,4; --ink2-rgb:3,22,10; --line-rgb:0,170,30; --cyan-rgb:0,255,65; --accent-rgb:0,255,65;
-  --glass-rgb:0,200,50; --bright-rgb:194,255,207; --plan:#00A814; --bright:#C2FFCF; --tool:#B8FFC8;
-}
-.tm-mx{display:none}
-[data-tema="matrix"] .tm-mx{display:inline}
-[data-tema="matrix"] .tm-def{display:none}
 @media (min-width:900px){:root{--gl:max(64px, env(safe-area-inset-left, 0px));--gr:max(64px, env(safe-area-inset-right, 0px))}}
 *,*::before,*::after{box-sizing:border-box}
 html{background:var(--ink);-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--hdr) + 16px);overflow-x:hidden;overflow-x:clip}
@@ -304,11 +293,6 @@ main{position:relative;z-index:2}
 .shot figcaption{padding:8px 10px;border-top:1px solid var(--line);font:500 10px/1.5 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
 .shot figcaption b{font-weight:600;color:var(--fg-2)}
 
-/* ---------- theme button ---------- */
-.tgl-tema .tgl-box{border-color:var(--accent)}
-:root:not([data-tema="matrix"]) .tgl-tema .tgl-box{border-color:#00C832}
-.tgl-tema[aria-pressed="true"] .tgl-box{background:var(--accent)}
-
 /* ---------- title block steps aside when a content panel reaches it ---------- */
 .tblock{transition:opacity .35s ease,transform .35s ease}
 .tblock .tb-row:not(:first-child){max-height:60px;overflow:hidden;transition:max-height .35s ease,padding .35s ease,border-color .35s ease}
@@ -321,9 +305,9 @@ main{position:relative;z-index:2}
 .hero-copy::before{content:"";position:absolute;z-index:-1;inset:-48px -72px -40px calc(-1 * var(--gl));pointer-events:none;background:radial-gradient(120% 90% at 0% 60%,rgba(var(--ink-rgb),.82) 0%,rgba(var(--ink-rgb),.55) 45%,rgba(var(--ink-rgb),0) 78%)}
 .mode-2d .hero-copy::before{display:none}
 
-/* code rain (tema matrix only, behind the hero) */
-#rain{position:absolute;inset:0;z-index:-2;width:100%;height:100%;display:none;pointer-events:none;opacity:.5;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
-[data-tema="matrix"]:not(.mode-2d) #rain.on{display:block}
+/* hero field: faint pulses along drafting lines behind the hero (never in 2D or with reduced motion) */
+#heroField{position:absolute;inset:0;z-index:-2;width:100%;height:100%;display:none;pointer-events:none;opacity:.85;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%)}
+:root:not(.mode-2d) #heroField.on{display:block}
 
 /* ---------- touch targets: at least 44px on touch screens ---------- */
 @media (pointer:coarse),(max-width:900px){
@@ -345,7 +329,6 @@ main{position:relative;z-index:2}
       linear-gradient(rgba(var(--line-rgb),.07) 1px,transparent 1px) 0 0/24px 24px,
       linear-gradient(90deg,rgba(var(--line-rgb),.07) 1px,transparent 1px) 0 0/24px 24px}
   .gl-on .hero::before,.mode-2d .hero::before{opacity:0}
-  [data-tema="matrix"] .hero::before{filter:hue-rotate(-95deg) saturate(1.6)}
 }
 @media (pointer:coarse),(max-width:900px){
   .brand{min-height:44px;align-items:center}
@@ -359,15 +342,12 @@ main{position:relative;z-index:2}
 @media (max-width:1240px){.brand small{display:none}}
 @media (min-width:901px) and (max-width:1100px){.hdr{gap:16px}.nav{gap:0}.nav a{padding:8px 7px}.hdr-tools .t-long{display:none}.hdr-tools .t-short{display:inline}}
 @media (max-width:360px){.hdr{gap:8px}.hdr-tools{gap:4px}.tgl,.menu-btn{padding:0 8px}.brand{font-size:14px;gap:8px}}
-/* header with four toggles (EN · tema · som · 2D) + Menu: on phones every toggle is a compact 40px key */
+/* header with three toggles (EN · som · 2D) + Menu: on phones every toggle is a compact 40px key */
 .hdr-tools .sfx-btn{width:40px}
 @media (max-width:480px){
   .hdr-tools .tgl,.hdr-tools .menu-btn{min-width:40px;padding:0 6px;justify-content:center}
   .hdr-tools .tgl-box{display:none}
   .hdr-tools .tgl[aria-pressed="true"]:not(.sfx-btn){background:var(--fg);border-color:var(--fg);color:var(--ink)}
-  .hdr-tools .tgl-tema[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
-  .hdr-tools .tgl-tema .t-short{color:#00C832}
-  .hdr-tools .tgl-tema[aria-pressed="true"] .t-short{color:var(--ink)}
   .hdr{gap:8px}.hdr-tools{gap:4px}
 }
 @media (max-width:360px){.brand{font-size:0;gap:0}.brand-mark{width:14px;height:14px}}
@@ -383,6 +363,3 @@ main{position:relative;z-index:2}
 .ins-foot{margin:0;padding:12px 16px;border-top:1px solid var(--line)}
 .ins-on .tblock{opacity:0}
 
-/* ---------- hero field: blueprint pulses (padrão) or code rain (matrix); never in 2D or with reduced motion ---------- */
-:root:not(.mode-2d) #rain.on{display:block}
-:root:not([data-tema="matrix"]) #rain{opacity:.85}

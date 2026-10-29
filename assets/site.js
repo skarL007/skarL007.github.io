@@ -112,7 +112,7 @@ function setMode(two, persist) {
   if (two) { stopLenis(); if (GL) GL.stop(); }
   else { startLenis(); if (GL) GL.start(); else initGL(); }
   if (HAS_GSAP) window.requestAnimationFrame(() => ScrollTrigger.refresh());
-  kickRain(); tbQueue();
+  kickField(); tbQueue();
 }
 btn2d.addEventListener('click', () => { if (!glFailed) setMode(!is2D(), true); });
 
@@ -266,74 +266,56 @@ window.addEventListener('scroll', tbQueue, { passive: true });
 window.addEventListener('resize', () => { tbFull = 0; tbQueue(); });
 tbQueue();
 
-/* ---------- the hero field: faint pulses running along drafting lines (padrão) or a code rain (matrix);
-   never with reduced motion or in 2D, and paused while the hero is off screen ---------- */
-const rainHero = $('.hero');
-let rainCv = null, rainCx = null, rainCols = [], rainW = 0, rainH = 0, rainSeen = true, rainRaf = 0, rainLast = 0;
-const RAIN_G = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ0123456789:=<>*';
-function rainOn() { return !RM && rainSeen && !is2D(); }
-const rainMx = () => root.getAttribute('data-tema') === 'matrix';
-let pulses = [], dust = [], rainMode = '';
+/* ---------- the hero field: faint pulses running along drafting lines, with specks of "drafting dust" where they
+   cross; never with reduced motion or in 2D, and paused while the hero is off screen ---------- */
+const fieldHero = $('.hero');
+let fieldCv = null, fieldCx = null, fieldW = 0, fieldH = 0, fieldSeen = true, fieldRaf = 0, fieldLast = 0;
+let pulses = [], dust = [];
 const GRIDP = 48;
+function fieldOn() { return !RM && fieldSeen && !is2D(); }
 function newPulse() {
-  const h = Math.random() < 0.62, span = h ? rainW : rainH, lines = Math.max(1, Math.floor((h ? rainH : rainW) / GRIDP));
+  const h = Math.random() < 0.62, span = h ? fieldW : fieldH, lines = Math.max(1, Math.floor((h ? fieldH : fieldW) / GRIDP));
   const dir = Math.random() < 0.5 ? 1 : -1;
   return { h, at: (1 + Math.floor(Math.random() * (lines - 1))) * GRIDP + 0.5, s: dir > 0 ? -Math.random() * span * 0.8 : span + Math.random() * span * 0.8, v: dir * (70 + Math.random() * 120), span };
 }
-function rainSize() {
-  rainW = rainCv.width = Math.round(rainHero.offsetWidth); rainH = rainCv.height = Math.round(rainHero.offsetHeight);
-  rainCols = Array.from({ length: Math.ceil(rainW / 16) }, () => (Math.random() < 0.45 ? Math.random() * -rainH / 16 : -1e9));
-  pulses = Array.from({ length: Math.round(clamp(rainW * rainH / 90000, 5, 12)) }, newPulse); dust = [];
-  rainCx.clearRect(0, 0, rainW, rainH);
+function fieldSize() {
+  fieldW = fieldCv.width = Math.round(fieldHero.offsetWidth); fieldH = fieldCv.height = Math.round(fieldHero.offsetHeight);
+  pulses = Array.from({ length: Math.round(clamp(fieldW * fieldH / 90000, 5, 12)) }, newPulse); dust = [];
+  fieldCx.clearRect(0, 0, fieldW, fieldH);
 }
 function pulseStep(dt) {
-  rainCx.globalCompositeOperation = 'destination-out'; rainCx.fillStyle = 'rgba(0,0,0,.12)'; rainCx.fillRect(0, 0, rainW, rainH);
-  rainCx.globalCompositeOperation = 'source-over';
-  rainCx.lineWidth = 1.5; rainCx.strokeStyle = 'rgba(255,106,43,.85)'; rainCx.fillStyle = 'rgba(255,170,120,.95)';
-  rainCx.beginPath();
+  const cx = fieldCx;
+  cx.globalCompositeOperation = 'destination-out'; cx.fillStyle = 'rgba(0,0,0,.12)'; cx.fillRect(0, 0, fieldW, fieldH);
+  cx.globalCompositeOperation = 'source-over';
+  cx.lineWidth = 1.5; cx.strokeStyle = 'rgba(255,106,43,.85)'; cx.fillStyle = 'rgba(255,170,120,.95)';
+  cx.beginPath();
   for (let i = 0; i < pulses.length; i++) {
     const p = pulses[i], s0 = p.s; p.s += p.v * dt;
-    if (p.h) { rainCx.moveTo(s0, p.at); rainCx.lineTo(p.s, p.at); } else { rainCx.moveTo(p.at, s0); rainCx.lineTo(p.at, p.s); }
+    if (p.h) { cx.moveTo(s0, p.at); cx.lineTo(p.s, p.at); } else { cx.moveTo(p.at, s0); cx.lineTo(p.at, p.s); }
     if ((p.v > 0 && p.s > p.span + 40) || (p.v < 0 && p.s < -40)) pulses[i] = newPulse();
   }
-  rainCx.stroke();
-  pulses.forEach(p => { if (p.h) rainCx.fillRect(p.s - 1.5, p.at - 1.5, 3, 3); else rainCx.fillRect(p.at - 1.5, p.s - 1.5, 3, 3); });
-  // drafting dust: a few specks that blink where two lines cross
-  if (Math.random() < 0.25) dust.push({ x: (1 + Math.floor(Math.random() * (rainW / GRIDP - 1))) * GRIDP, y: (1 + Math.floor(Math.random() * (rainH / GRIDP - 1))) * GRIDP, a: 0.6 });
-  rainCx.fillStyle = 'rgba(167,219,255,.5)';
-  dust = dust.filter(d => { d.a -= dt * 0.8; if (d.a > 0 && d.a > 0.3) rainCx.fillRect(d.x - 1, d.y - 1, 2, 2); return d.a > 0; });
+  cx.stroke();
+  pulses.forEach(p => { if (p.h) cx.fillRect(p.s - 1.5, p.at - 1.5, 3, 3); else cx.fillRect(p.at - 1.5, p.s - 1.5, 3, 3); });
+  if (Math.random() < 0.25) dust.push({ x: (1 + Math.floor(Math.random() * (fieldW / GRIDP - 1))) * GRIDP, y: (1 + Math.floor(Math.random() * (fieldH / GRIDP - 1))) * GRIDP, a: 0.6 });
+  cx.fillStyle = 'rgba(167,219,255,.5)';
+  dust = dust.filter(d => { d.a -= dt * 0.8; if (d.a > 0.3) cx.fillRect(d.x - 1, d.y - 1, 2, 2); return d.a > 0; });
 }
-function rainStep(now) {
-  rainRaf = 0;
-  if (!rainOn()) { rainCv.classList.remove('on'); return; }
-  const mode = rainMx() ? 'mx' : 'pv';
-  if (!rainCv.classList.contains('on') || mode !== rainMode) { rainCv.classList.add('on'); rainMode = mode; rainSize(); rainLast = now; }
-  if (mode === 'pv') {
-    if (now - rainLast > 30) { pulseStep(Math.min(0.08, (now - rainLast) / 1000)); rainLast = now; }
-  } else if (now - rainLast > 70) {
-    rainLast = now;
-    rainCx.globalCompositeOperation = 'destination-out'; rainCx.fillStyle = 'rgba(0,0,0,.14)'; rainCx.fillRect(0, 0, rainW, rainH);
-    rainCx.globalCompositeOperation = 'source-over'; rainCx.font = '14px ' + 'ui-monospace,monospace'; rainCx.fillStyle = 'rgba(0,255,65,.7)';
-    for (let i = 0; i < rainCols.length; i++) {
-      const y = rainCols[i];
-      if (y > -1e8) {
-        if (y >= 0) rainCx.fillText(RAIN_G[(Math.random() * RAIN_G.length) | 0], i * 16, y * 16);
-        rainCols[i] = y * 16 > rainH && Math.random() > 0.96 ? Math.random() * -20 : y + 1;
-      } else if (Math.random() > 0.998) rainCols[i] = Math.random() * -20;
-    }
-  }
-  rainRaf = window.requestAnimationFrame(rainStep);
+function fieldStep(now) {
+  fieldRaf = 0;
+  if (!fieldOn()) { fieldCv.classList.remove('on'); return; }
+  if (!fieldCv.classList.contains('on')) { fieldCv.classList.add('on'); fieldSize(); fieldLast = now; }
+  if (now - fieldLast > 30) { pulseStep(Math.min(0.08, (now - fieldLast) / 1000)); fieldLast = now; }
+  fieldRaf = window.requestAnimationFrame(fieldStep);
 }
-function kickRain() { if (rainCv && !rainRaf) rainRaf = window.requestAnimationFrame(rainStep); }
-if (rainHero && !RM) {
-  rainCv = document.createElement('canvas'); rainCv.id = 'rain'; rainCv.setAttribute('aria-hidden', 'true');
-  rainHero.prepend(rainCv); rainCx = rainCv.getContext('2d');
-  if (!rainCx) rainCv = null;
+function kickField() { if (fieldCv && !fieldRaf) fieldRaf = window.requestAnimationFrame(fieldStep); }
+if (fieldHero && !RM) {
+  fieldCv = document.createElement('canvas'); fieldCv.id = 'heroField'; fieldCv.setAttribute('aria-hidden', 'true');
+  fieldHero.prepend(fieldCv); fieldCx = fieldCv.getContext('2d');
+  if (!fieldCx) fieldCv = null;
   else {
-    if ('IntersectionObserver' in window) new IntersectionObserver(es => { rainSeen = es[0].isIntersecting; kickRain(); }).observe(rainHero);
-    window.addEventListener('resize', () => { if (rainCv.classList.contains('on')) rainSize(); });
-    if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(kickRain);
-    kickRain();
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { fieldSeen = es[0].isIntersecting; kickField(); }).observe(fieldHero);
+    window.addEventListener('resize', () => { if (fieldCv.classList.contains('on')) fieldSize(); });
+    kickField();
   }
 }
 
@@ -553,15 +535,14 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   let W = window.innerWidth, H = window.innerHeight;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
   renderer.setPixelRatio(DPR); renderer.setSize(W, H, false);
-  const PAL = () => (window.PLANTA_TEMA ? window.PLANTA_TEMA.pal() : { ink: '#050B16', plan: '#6A9FCC', dim: '#41709A', bright: '#D8EEFF', glass: '#5EA8F0', accent: '#FF6A2B', grid: '#4F7FAD', bloom: 1 });
-  /* every colour in the scene is registered here, so a theme change repaints it in place */
-  const tints = [];
-  const tint = (key, mul = 1, c = new THREE.Color()) => { tints.push([c, key, mul]); return c.set(PAL()[key]).multiplyScalar(mul); };
-  renderer.setClearColor(PAL().ink, 1);
+  /* the plan's colours (the CSS side holds the same values as custom properties in site.css) */
+  const PAL = { ink: '#050B16', plan: '#6A9FCC', dim: '#41709A', bright: '#D8EEFF', glass: '#5EA8F0', accent: '#FF6A2B', grid: '#4F7FAD' };
+  const tint = (key, mul = 1, c = new THREE.Color()) => c.set(PAL[key]).multiplyScalar(mul);
+  renderer.setClearColor(PAL.ink, 1);
   renderer.toneMapping = THREE.NoToneMapping;
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); failGL(); }, false);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(PAL().ink); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
+  scene.background = new THREE.Color(PAL.ink); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
   const camera = new THREE.PerspectiveCamera(40, W / H, 0.5, 1400);
   const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
   scene.add(new THREE.AmbientLight(0xffffff, 1.3));
@@ -789,7 +770,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     BS[k * 3] = BF[k * 3]; BS[k * 3 + 1] = BF[k * 3 + 1] + 9 + Math.random() * 3; BS[k * 3 + 2] = BF[k * 3 + 2];
     BT[k] = 0.15 + (w / 52) * 1.7 + d * 0.012 + l * 0.015; BD[k] = 0.5;
   });
-  function paintBricks() { const a = new THREE.Color(PAL().accent); bl.forEach(([, , l], k) => bricks.setColorAt(k, tc.copy(a).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)))); bricks.instanceColor.needsUpdate = true; }
+  function paintBricks() { const a = new THREE.Color(PAL.accent); bl.forEach(([, , l], k) => bricks.setColorAt(k, tc.copy(a).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)))); bricks.instanceColor.needsUpdate = true; }
   paintBricks(); scene.add(bricks);
   const ND = CONTRIB.reduce((s, wk) => s + wk.length, 0), dayIdx = [], dm = new THREE.Matrix4();
   const calProxy = new THREE.InstancedMesh(new THREE.BoxGeometry(P, 1, P).translate(0, 0.5, 0), new THREE.MeshBasicMaterial(), ND);
@@ -1109,7 +1090,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   composer.setPixelRatio(DPR); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
   const BLOOM = LOW ? 0.38 : 0.46;
-  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM * PAL().bloom, 0.32, 0.3); composer.addPass(bloom);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM, 0.32, 0.3); composer.addPass(bloom);
   const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
   composer.addPass(new OutputPass());
 
@@ -1163,14 +1144,6 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     if (HAS_GSAP) ScrollTrigger.refresh();
   }
   function stop() { running = false; root.classList.remove('gl-on'); }
-  function retheme() {
-    const P = PAL();
-    tints.forEach(([c, key, mul]) => c.set(P[key]).multiplyScalar(mul));
-    renderer.setClearColor(P.ink, 1); scene.background.set(P.ink);
-    paintBricks(); bloom.strength = BLOOM * P.bloom;
-    if (!running && root.classList.contains('gl-on') && !is2D()) renderStill();
-  }
-  if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(retheme);
   return {
     frame, start, stop, build, setDraw, cursorText,
     setChapter(i) { if ((i === 2 || i === 3) && i > chapterNow && running) cutTo(); chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },

@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
-<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}var t=null,q=/[?&]tema=(matrix|padrao)\b/.exec(location.search);if(q){t=q[1];try{localStorage.setItem('planta-viva:tema',t);}catch(e){}}else{try{t=localStorage.getItem('planta-viva:tema');}catch(e){}}if(t==='matrix')d.setAttribute('data-tema','matrix');})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('planta-viva:modo')==='2d')d.classList.add('mode-2d');}catch(e){}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Marcelo Machuca","jobTitle":"AI Solutions Developer","url":"https://skarl007.github.io/en/","sameAs":["https://github.com/skarL007"],"address":{"@type":"PostalAddress","addressCountry":"BR"}}</script>
 </head>
 <body>
@@ -59,7 +59,6 @@
   </nav>
   <div class="hdr-tools">
     <a class="tgl lang" href="../" hreflang="pt-BR" lang="pt-BR" aria-label="Versão em português">PT</a>
-    <button id="temaBtn" class="tgl tgl-tema" type="button" aria-pressed="false" aria-label="Green Matrix theme" title="Green Matrix theme"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">Matrix</span><span class="t-short">MX</span></button>
     <button id="mode2d" class="tgl" type="button" aria-pressed="false"><span class="tgl-box" aria-hidden="true"></span><span class="t-long">2D mode</span><span class="t-short">2D</span></button>
     <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
   </div>
@@ -80,7 +79,7 @@
       <p class="meta hv"><span class="dot" aria-hidden="true"></span>Brazil · open to first opportunities</p>
       <ul class="legend hv" aria-label="How to read the plan">
         <li><i class="lg-line" aria-hidden="true"></i>Light line: what I design</li>
-        <li><i class="lg-agent" aria-hidden="true"></i><span><span class="tm-def">Orange</span><span class="tm-mx">Phosphor green</span>: the agents that build</span></li>
+        <li><i class="lg-agent" aria-hidden="true"></i>Orange: the agents that build</li>
       </ul>
     </div>
   </div>
@@ -96,7 +95,7 @@
   </div>
   <ol class="steps">
     <li class="stop l" data-stop data-method="0"><article class="sheet step rv"><span class="step-n" aria-hidden="true">01</span><h3>Design</h3><p>Architecture, contracts and specs before any code (OpenSpec, ADRs).</p><p class="step-foot">A-02.1 · the set square on the plan</p></article></li>
-    <li class="stop l" data-stop data-method="1"><article class="sheet step agent rv"><span class="step-n" aria-hidden="true">02</span><h3>Delegate</h3><p>A fleet of agents writes the code in parallel. I built my own orchestrator that runs Claude Code, Codex, Gemini and Cursor Agent as a single runtime.</p><p class="step-foot">A-02.2 · the four <span class="tm-def">orange</span><span class="tm-mx">green</span> lanes</p></article></li>
+    <li class="stop l" data-stop data-method="1"><article class="sheet step agent rv"><span class="step-n" aria-hidden="true">02</span><h3>Delegate</h3><p>A fleet of agents writes the code in parallel. I built my own orchestrator that runs Claude Code, Codex, Gemini and Cursor Agent as a single runtime.</p><p class="step-foot">A-02.2 · the four orange lanes</p></article></li>
     <li class="stop l" data-stop data-method="2"><article class="sheet step rv"><span class="step-n" aria-hidden="true">03</span><h3>Verify</h3><p>Tests, release gates, evals and diff review. Nothing is “done” without evidence.</p><p class="step-foot">A-02.3 · the gate every agent passes through</p></article></li>
     <li class="stop l" data-stop data-method="3"><article class="sheet step rv"><span class="step-n" aria-hidden="true">04</span><h3>Measure</h3><p>Telemetry and cost per customer in production (that is what LumenAI does).</p><p class="step-foot">A-02.4 · linked to module M-01</p></article></li>
   </ol>
@@ -284,7 +283,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="../assets/nexo-numbers.js" defer></script>
-<script src="../assets/theme.js"></script>
 <script src="../assets/motion.js" defer></script>
 <script type="module" src="../assets/site.js"></script>
 <script src="../assets/sfx.js" defer></script>
