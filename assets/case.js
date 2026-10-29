@@ -7,6 +7,7 @@ const LANG = /^en/i.test(root.lang || '') ? 'en' : 'pt';
 const TX = {
   pt: {
     no3d: '3D indisponível neste navegador',
+    zoomClose: 'Fechar a imagem ampliada', zoomOpen: 'Ampliar a imagem',
     hud: 'Planta N-02 · ',
     hudDrag: ' · arraste para girar',
     planAria: 'Planta 2D da arquitetura do Nexo Assist',
@@ -45,6 +46,7 @@ const TX = {
   },
   en: {
     no3d: '3D is not available in this browser',
+    zoomClose: 'Close the enlarged image', zoomOpen: 'Enlarge the image',
     hud: 'Sheet N-02 · ',
     hudDrag: ' · drag to rotate',
     planAria: '2D plan of the Nexo Assist architecture',
@@ -198,6 +200,34 @@ $$('[data-t]').forEach(b => b.addEventListener('click', () => {
   if (video.readyState >= 1) go(); else { video.addEventListener('loadedmetadata', go, { once: true }); video.load(); }
   video.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
 }));
+
+/* ---------- screenshots: a click opens the 1600 px version in a dialog (Esc, the button or a click outside closes) ---------- */
+(function zoom() {
+  const links = $$('.shot a[href$=".webp"], .shot a[href$=".png"], .shot a[href$=".jpg"]');
+  if (!links.length || typeof HTMLDialogElement === 'undefined') return; // without <dialog> the link still opens the image
+  const dlg = document.createElement('dialog');
+  dlg.className = 'zoom';
+  dlg.innerHTML = '<button type="button" class="tgl zoom-x"><span aria-hidden="true">×</span></button><figure><div class="zoom-pan"><img alt=""></div><figcaption></figcaption></figure>';
+  const x = $('.zoom-x', dlg), im = $('img', dlg), cap = $('figcaption', dlg);
+  x.setAttribute('aria-label', TX.zoomClose);
+  document.body.appendChild(dlg);
+  let back = null;
+  x.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }); // the backdrop
+  dlg.addEventListener('close', () => { root.classList.remove('zoom-on'); im.removeAttribute('src'); if (back) back.focus({ preventScroll: true }); });
+  links.forEach(a => {
+    const img = $('img', a); if (!img) return;
+    a.setAttribute('aria-label', TX.zoomOpen + (img.alt ? ': ' + img.alt : ''));
+    a.addEventListener('click', e => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return; // a new tab still works
+      e.preventDefault(); back = a;
+      im.src = a.getAttribute('href'); im.alt = img.alt;
+      const fc = a.closest('figure').querySelector('figcaption'); cap.textContent = fc ? fc.textContent : '';
+      cap.hidden = !fc;
+      root.classList.add('zoom-on'); dlg.showModal(); x.focus();
+    });
+  });
+})();
 
 /* ---------- 2D plan (SVG): the same nodes and steps, laid out flat so every name stays readable ---------- */
 /* [cx, cy, w, h] on a 160 × 122 sheet; db is a circle [cx, cy, r] */

@@ -200,3 +200,15 @@ html:not(.js) .arch-steps li p,.no-steps .arch-steps li p{color:var(--fg-2)}
   .al>span{font-size:9.5px;padding:2px 5px}
   .al em{display:none}
 }
+
+/* ---------- screenshot zoom (a native <dialog>: Esc closes, focus stays inside) ---------- */
+.shot a[href$=".webp"]{cursor:zoom-in}
+dialog.zoom{width:min(1600px,96vw);max-width:none;max-height:94vh;margin:auto;padding:0;border:1px solid var(--line-2);background:var(--ink);color:var(--fg);overflow:visible}
+dialog.zoom::backdrop{background:rgba(var(--ink-rgb),.88);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+dialog.zoom figure{margin:0}
+dialog.zoom img{display:block;width:100%;height:auto;max-height:calc(94vh - 48px);object-fit:contain;background:var(--ink-2)}
+dialog.zoom figcaption{padding:10px 14px;font:500 12px/1.5 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--fg-2)}
+.zoom-x{position:absolute;right:-1px;top:-46px;width:44px;height:44px;padding:0;justify-content:center;font:400 24px/1 var(--display);text-transform:none}
+@media (prefers-reduced-motion:no-preference){dialog.zoom[open]{animation:zoomIn .28s cubic-bezier(.2,.8,.2,1)}@keyframes zoomIn{from{opacity:0;transform:scale(.97)}}}
+/* phones: the image keeps a readable size and pans sideways inside the dialog */
+@media (max-width:760px){dialog.zoom{width:100vw;max-height:100vh}.zoom-x{top:auto;bottom:calc(100% + 6px)}dialog.zoom .zoom-pan{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}dialog.zoom img{width:auto;max-width:none;height:min(62vh,560px);max-height:none}}
