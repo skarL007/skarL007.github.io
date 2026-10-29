@@ -289,7 +289,7 @@ main{position:relative;z-index:2}
 /* ---------- real screenshots on the project sheets ---------- */
 .shot{margin:20px 0 0;border:1px solid var(--line-2);background:var(--ink-2)}
 .shot a{display:block;line-height:0}
-.shot img{display:block;width:100%;height:auto}
+.shot img,.shot video{display:block;width:100%;height:auto}
 .shot figcaption{padding:8px 10px;border-top:1px solid var(--line);font:500 10px/1.5 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
 .shot figcaption b{font-weight:600;color:var(--fg-2)}
 

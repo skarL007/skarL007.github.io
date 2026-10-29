@@ -1,7 +1,8 @@
 /* Small motion layer shared by the home and the case-study pages:
-   numbers count up from 0 the first time they enter the screen, and the main buttons lean
-   a little towards a mouse pointer. Nothing runs with reduced motion or in the 2D mode,
-   and the magnetic pull only exists for a fine pointer (never on touch). */
+   numbers count up from 0 the first time they enter the screen, looping clips play only while
+   they are on screen, and the main buttons lean a little towards a mouse pointer. Nothing runs
+   with reduced motion (the clips then keep their poster), counters and buttons stay still in the
+   2D mode, and the magnetic pull only exists for a fine pointer (never on touch). */
 (function () {
   var root = document.documentElement;
   var mq = function (q) { return window.matchMedia ? window.matchMedia(q).matches : false; };
@@ -68,6 +69,23 @@
   // after nexo-numbers.js has written the current values
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(startCounters, 0); });
   else setTimeout(startCounters, 0);
+
+  /* ---------- looping clips (the M-01 card): play while 30% of the clip is on screen and the tab is visible ---------- */
+  function startClips() {
+    var figs = Array.prototype.filter.call(document.querySelectorAll('.shot'), function (f) { return f.querySelector('video.shot-video'); });
+    if (!('IntersectionObserver' in window) || !figs.length) return;
+    function sync(f) {
+      var v = f.querySelector('video');
+      if (f.dataset.seen && !document.hidden) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else v.pause();
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.dataset.seen = e.isIntersecting && e.intersectionRatio >= 0.3 ? '1' : ''; sync(e.target); });
+    }, { threshold: [0, 0.3] });
+    figs.forEach(function (f) { io.observe(f); });
+    document.addEventListener('visibilitychange', function () { figs.forEach(sync); });
+  }
+  startClips();
 
   /* ---------- magnetic buttons (mouse only) ---------- */
   if (!mq('(hover: hover) and (pointer: fine)')) return;
