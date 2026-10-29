@@ -229,6 +229,17 @@ $$('[data-t]').forEach(b => b.addEventListener('click', () => {
   });
 })();
 
+/* phones: the evidence and the open items start folded behind their summary row; wider screens keep them open.
+   Without JavaScript both stay open. */
+(function folds() {
+  const folds = $$('details.fold');
+  if (!folds.length) return;
+  const mq = window.matchMedia('(max-width:760px)');
+  const set = () => folds.forEach(d => { d.open = !mq.matches; });
+  set();
+  mq.addEventListener('change', set);
+})();
+
 /* ---------- 2D plan (SVG): the same nodes and steps, laid out flat so every name stays readable ---------- */
 /* [cx, cy, w, h] on a 160 × 122 sheet; db is a circle [cx, cy, r] */
 const P2 = {

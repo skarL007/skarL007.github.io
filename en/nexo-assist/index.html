@@ -77,6 +77,16 @@
   </dl>
 </section>
 
+<section id="em-60s" class="cs-60" aria-labelledby="h-60">
+  <h2 class="s60-h" id="h-60"><i aria-hidden="true"></i>Nexo Assist in 60 seconds</h2>
+  <dl class="s60">
+    <div><dt>The problem</dt><dd>A fictional company of about 2,000 employees has an IT team buried in triage: tickets without context, duplicates and wrong priorities.</dd></div>
+    <div><dt>What the agent does</dt><dd>It talks to the employee, searches the help center, opens or updates a ticket once they confirm, and calls an analyst when it needs to. Every answer shows what it did and why.</dd></div>
+    <div><dt>The proof</dt><dd><span data-n="evals">31/32</span> evals with the real model, <span data-n="redTeam">21/21</span> in the red team and <span data-n="unitTests">443</span> tests without an LLM, each number with its source in the repository.</dd></div>
+    <div><dt>See it work</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Public demo ↗</a> in Portuguese, one click as Ana or Rafael, or the <a href="#video">5:28 video</a>.</dd></div>
+  </dl>
+</section>
+
 <section id="desafio" class="cs-sec" aria-labelledby="h-desafio">
   <header>
     <p class="callout"><span class="cn">N-01</span><span class="ct">The challenge</span></p>
@@ -243,6 +253,8 @@
     <p class="cs-intro">Unit and E2E tests run without an LLM. Anything that depends on the model runs against the real Gemini and has a report with the question, method, numbers and limits.</p>
   </header>
   <p class="asof"><i aria-hidden="true"></i>Round of <span data-n="asOf">29 Oct 2026</span>, on the repository's main</p>
+  <details class="fold" open>
+  <summary>Show the numbers and their sources</summary>
   <dl class="proof">
     <div class="live"><dt>unit tests</dt><dd class="n"><span data-n="unitTests">443</span></dd><dd class="d">Vitest, no LLM: deadlines, priority, conversation states, privacy, duplicates, CSRF, OIDC against forged tokens, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>E2E tests</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright against the production build, no LLM: login and SSO, handoff, report, indicators, real time, errors.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
@@ -254,6 +266,7 @@
     <div><dt>suggested reply</dt><dd class="n">9/9</dd><dd class="d">3 conversations × 3, with no invented number or action in the analyst's draft.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div><dt>security reviews</dt><dd class="n">4</dd><dd class="d">Before and after deploying, 42 black-box checks against production, and a round with third-party audit skills. <code>npm audit</code> with no vulnerabilities.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/DEPLOY.md</a></dd></div>
   </dl>
+  </details>
 </section>
 
 <section id="entrega" class="cs-sec" aria-labelledby="h-entrega">
@@ -285,6 +298,8 @@
     <p class="callout"><span class="cn">N-08</span><span class="ct">Still open</span></p>
     <h2 class="cs-h2" id="h-aberto" tabindex="-1">What is left</h2>
   </header>
+  <details class="fold" open>
+  <summary>Show what is still open</summary>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
     <li><b>What the simulated employee caught</b><p>Every bug from the three rounds became a rule in code, with tests: confirmation must be explicit (and a “Sim, é esse mesmo”, “yes, that’s the one”, that only identifies the ticket reopens nothing), a different problem gets a new ticket, Outlook is filed under E-mail, an analyst is offered only with a reason (a deadline that misses the need, an overdue ticket or frustration) and the workaround question comes before the priority. Re-run after the 29 Oct fixes, <code>senha-sap</code> and <code>vpn-reuniao</code> passed 3 out of 3, and so did the reopen eval. What remains is the model’s own variance: in the full suite on 29 Oct, one mass-incident scenario failed once and passed 3 out of 3 when repeated.</p></li>
@@ -296,6 +311,7 @@
     <li><b>Real services</b><p>SSO was only tested against a fake provider, and tracing against a local collector. Logging out does not revoke the JWT on the server, and the console needs a wide screen.</p></li>
   </ul>
   <!-- /nexo:open-items -->
+  </details>
 </section>
 
 <div class="cs-end">

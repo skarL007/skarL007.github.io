@@ -77,6 +77,16 @@
   </dl>
 </section>
 
+<section id="em-60s" class="cs-60" aria-labelledby="h-60">
+  <h2 class="s60-h" id="h-60"><i aria-hidden="true"></i>Nexo Assist em 60 segundos</h2>
+  <dl class="s60">
+    <div><dt>O problema</dt><dd>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados e com prioridade errada.</dd></div>
+    <div><dt>O que o agente faz</dt><dd>Conversa com o funcionário, busca na central de ajuda, abre ou complementa o chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele fez e por quê.</dd></div>
+    <div><dt>A prova</dt><dd><span data-n="evals">31/32</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">443</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
+    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 5:28</a>.</dd></div>
+  </dl>
+</section>
+
 <section id="desafio" class="cs-sec" aria-labelledby="h-desafio">
   <header>
     <p class="callout"><span class="cn">N-01</span><span class="ct">O desafio</span></p>
@@ -243,6 +253,8 @@
     <p class="cs-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o Gemini de verdade e tem um relatório com pergunta, método, números e limites.</p>
   </header>
   <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">29 out 2026</span>, no main do repositório</p>
+  <details class="fold" open>
+  <summary>Ver os números e as fontes</summary>
   <dl class="proof">
     <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">443</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
@@ -254,6 +266,7 @@
     <div><dt>sugestão de resposta</dt><dd class="n">9/9</dd><dd class="d">3 conversas × 3, sem número nem ação inventados no rascunho para o analista.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div><dt>revisões de segurança</dt><dd class="n">4</dd><dd class="d">Antes e depois do deploy, 42 verificações de fora contra a produção e uma rodada com skills de auditoria de terceiros. <code>npm audit</code> sem vulnerabilidades.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/DEPLOY.md</a></dd></div>
   </dl>
+  </details>
 </section>
 
 <section id="entrega" class="cs-sec" aria-labelledby="h-entrega">
@@ -285,6 +298,8 @@
     <p class="callout"><span class="cn">N-08</span><span class="ct">Em aberto</span></p>
     <h2 class="cs-h2" id="h-aberto" tabindex="-1">O que ainda falta</h2>
   </header>
+  <details class="fold" open>
+  <summary>Ver o que ainda falta</summary>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
     <li><b>O que o funcionário simulado pegou</b><p>Todos os defeitos das três rodadas viraram regra em código, com testes: confirmação só explícita (e um “Sim, é esse mesmo” que só identifica o chamado não reabre nada), problema diferente vira chamado novo, Outlook entra como E-mail, analista só com motivo (prazo que não atende, chamado vencido ou frustração) e a pergunta sobre alternativa antes da prioridade. Repetidos depois das correções de 29 out, <code>senha-sap</code> e <code>vpn-reuniao</code> passaram 3 de 3, e a reabertura nos evals também. O que fica é a variação do próprio modelo: na suíte completa de 29 out, um cenário de incidente em massa falhou uma vez e passou 3 de 3 repetido.</p></li>
@@ -296,6 +311,7 @@
     <li><b>Serviços de verdade</b><p>O SSO só foi testado contra um provedor falso, e a telemetria contra um coletor local. Sair não revoga o JWT no servidor, e o console precisa de tela larga.</p></li>
   </ul>
   <!-- /nexo:open-items -->
+  </details>
 </section>
 
 <div class="cs-end">
