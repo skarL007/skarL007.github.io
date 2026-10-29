@@ -38,6 +38,10 @@ body.case{background-color:var(--ink);background-image:linear-gradient(rgba(160,
 .cs-note{margin-top:16px!important;font:500 11px/1.6 var(--mono);letter-spacing:.03em;color:var(--mute)!important}
 .cs-note a{color:var(--fg-2)}
 .case .shot img{aspect-ratio:16/9}
+/* As imagens descem para o pé de cada coluna: os dois lados terminam alinhados. */
+.cs-side{display:flex;flex-direction:column}
+.cs-side .cs-list{margin-bottom:20px}
+.cs-side .cs-list + .shot{margin-top:auto}
 
 /* ---------- architecture: 3D view + steps ---------- */
 .arch{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start}

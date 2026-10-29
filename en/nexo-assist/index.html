@@ -60,10 +60,12 @@
     <p class="cs-role">An IT service-desk agent, built as the technical challenge of a hiring process.</p>
     <p class="lede">The employee describes the problem in their own words. The agent checks their tickets, searches the help center, opens or updates a ticket once they confirm, and calls an analyst when it needs to. Every answer shows what it understood, what it did and why.</p>
     <div class="ctas">
-      <a class="btn btn-solid" href="#arquitetura">See the architecture</a>
+      <a class="btn btn-solid" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a>
+      <a class="btn" href="#arquitetura">See the architecture</a>
       <a class="btn" href="#video">Demo video</a>
       <a class="btn" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a>
     </div>
+    <p class="cs-note">Public demo, in Portuguese: sign in with one click as <b>Ana</b> (employee) or <b>Rafael</b> (analyst), with made-up data. Up to 100 messages a day across all visitors.</p>
   </div>
   <dl class="cs-meta">
     <div><dt>My role</dt><dd>Architecture, rules, acceptance criteria and evidence. Coding agents wrote the code, in small verified increments.</dd></div>
@@ -147,7 +149,7 @@
         <li>High frustration brings up a “Talk to an analyst” button. An explicit request, a critical case, an overdue ticket or doubt that persists hands the conversation over.</li>
         <li>The <b>“why?”</b> panel on every answer: intent, confidence, reason, tools with input and output, rules that fired, model, tokens and time.</li>
       </ul>
-      <figure class="shot"><a href="../../assets/shots/nexo-why-1600.webp" target="_blank" rel="noopener"><img src="../../assets/shots/nexo-why-960.webp" srcset="../../assets/shots/nexo-why-960.webp 960w, ../../assets/shots/nexo-why-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="The why? panel open in the chat, in Portuguese: what the agent understood, the intent, 100% confidence, the reason and the articles the search found, with each one's similarity"></a><figcaption><b>From the demo video</b> · the “why?” panel of one answer (the app is in Portuguese)</figcaption></figure>
+      <figure class="shot"><a href="../../assets/shots/nexo-draft-1600.webp" target="_blank" rel="noopener"><img src="../../assets/shots/nexo-draft-960.webp" srcset="../../assets/shots/nexo-draft-960.webp 960w, ../../assets/shots/nexo-draft-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="Ticket draft in the chat: notebook monitor will not turn on, hardware incident, High priority with a response by 12:00, only the employee affected, and the Confirm, Change details and Cancel buttons"></a><figcaption><b>From the app</b> · draft with priority and deadline from code</figcaption></figure><figure class="shot"><a href="../../assets/shots/nexo-why-1600.webp" target="_blank" rel="noopener"><img src="../../assets/shots/nexo-why-960.webp" srcset="../../assets/shots/nexo-why-960.webp 960w, ../../assets/shots/nexo-why-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="The why? panel open in the chat, in Portuguese: what the agent understood, the intent, 100% confidence, the reason and the articles the search found, with each one's similarity"></a><figcaption><b>From the demo video</b> · the “why?” panel of one answer (the app is in Portuguese)</figcaption></figure>
     </article>
     <article class="sheet cs-side" aria-labelledby="h-anal">
       <h3 class="cs-h3" id="h-anal"><small>For the analyst</small>Arriving with context</h3>
@@ -259,7 +261,7 @@
   <div class="cs-two">
     <article class="sheet">
       <h3 class="cs-h3">Vercel, in production</h3>
-      <p>The app is live on Vercel, with the database on Turso, behind a temporary access link that goes with the repository to the reviewers. Without the link, no page or API answers.</p>
+      <p>The app is live on Vercel, with the database on Turso, as a public demo since 29 Oct 2026. Cost is capped in code: up to 100 messages a day across all visitors, per-person limits and a total ceiling, all reserved in the database before the model is called. The link-based access gate stays in the code: without the <code>PUBLIC_DEMO</code> switch, Vercel requires the link again.</p>
       <p>Each release comes from a <code>git archive</code> of the latest commit, so nothing outside git is uploaded. Usage caps per person, per day and in total are reserved in the database before the model is called.</p>
       <div class="pipe-row" role="group" aria-label="Production path"><span>git · main</span><i aria-hidden="true">→</i><span>deploy-prod.ps1</span><i aria-hidden="true">→</i><span>Vercel + Turso</span></div>
       <p class="badge ok">live</p>
@@ -294,7 +296,8 @@
 </section>
 
 <div class="cs-end">
-  <a class="btn btn-solid" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">See the repository ↗</a>
+  <a class="btn btn-solid" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a>
+  <a class="btn" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">See the repository ↗</a>
   <a class="btn" href="../#p-nexo">← Back to the portfolio</a>
 </div>
 </main>
