@@ -449,18 +449,40 @@ void main(){
   vec3 col = uColor * (1.0 + b * 1.5 + head * 2.5);
   gl_FragColor = vec4(col, min(1.0, uOpacity * (1.0 + b * 0.6 + head)) * fog);
 }`;
-const EDGE_VS = `attribute float aProg; varying float vY; varying float vDepth; varying float vProg;
-void main(){ vY = position.y; vProg = aProg; vec4 mv = modelViewMatrix * vec4(position, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv; }`;
-const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uH; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity; uniform float uTrace;
-varying float vY; varying float vDepth; varying float vProg;
+/* volumes are built in stages, all driven by uniforms: the floor outline is traced (uTrace), the corner posts
+   rise as scaffolding (uPost), then each floor ring drops into place with a small settle (uFloors: floors placed,
+   the fractional part is the one landing). aKind: 0 floor outline, 1 post, 2 floor ring; aLevel: 1..n */
+const BUILD_GLSL = `uniform float uPost; uniform float uFloors; uniform float uDrop;
+float settle(float t){ float c1 = 1.70158; float x = t - 1.0; return 1.0 + (c1 + 1.0) * x * x * x + c1 * x * x; }`;
+const EDGE_VS = BUILD_GLSL + `
+attribute float aProg; attribute float aKind; attribute float aLevel;
+varying float vDepth; varying float vProg; varying float vShow; varying float vNew;
 void main(){
-  if (vY > uH + 0.002 || vProg > uTrace) discard;
-  float front = 1.0 - smoothstep(0.0, 1.6, uH - vY);
+  vec3 p = position; vProg = aKind < 0.5 ? aProg : 0.0; vShow = 1.0; vNew = 0.0;
+  if (aKind > 0.5 && aKind < 1.5) { p.y *= uPost; vNew = 1.0 - uPost; }
+  else if (aKind > 1.5) { float t = clamp(uFloors - aLevel + 1.0, 0.0, 1.0); vShow = step(0.001, t); p.y += (1.0 - settle(t)) * uDrop; vNew = 1.0 - t; }
+  vec4 mv = modelViewMatrix * vec4(p, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv;
+}`;
+const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity; uniform float uTrace;
+varying float vDepth; varying float vProg; varying float vShow; varying float vNew;
+void main(){
+  if (vShow < 0.5 || vProg > uTrace) discard;
   vec3 c = uColor * (0.8 + uGlow);
-  c = mix(c, uHot * 1.5, front * uHotAmt);
+  c = mix(c, uHot * 1.5, clamp(vNew * 1.6, 0.0, 1.0) * uHotAmt);
   float fog = 1.0 - smoothstep(240.0, 560.0, vDepth);
   gl_FragColor = vec4(c, uOpacity * fog);
 }`;
+/* the slab of each floor: a faint plate that lands with its ring */
+const SLAB_VS = BUILD_GLSL + `
+attribute float aLevel; varying float vShow; varying float vNew;
+void main(){
+  vec3 p = position; float t = clamp(uFloors - aLevel + 1.0, 0.0, 1.0);
+  vShow = step(0.001, t); p.y += (1.0 - settle(t)) * uDrop; vNew = 1.0 - t;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+}`;
+const SLAB_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uOpacity;
+varying float vShow; varying float vNew;
+void main(){ if (vShow < 0.5) discard; gl_FragColor = vec4(mix(uColor, uHot, vNew), uOpacity * (1.0 + vNew * 3.0)); }`;
 const GLASS_VS = `varying float vY; varying vec3 vN; varying vec3 vV;
 void main(){ vY = position.y; vec4 mv = modelViewMatrix * vec4(position, 1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`;
 const GLASS_FS = `uniform vec3 uColor; uniform float uH; uniform float uOpacity; uniform float uGlow;
@@ -686,21 +708,44 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   /* ---- volumes: wire edges + glass, clipped at the current build height ---- */
   function volume(x, z, w, d, h) {
     const g = new THREE.Group(); g.position.set(x, 0, z); scene.add(g);
-    const pos = [], prog = [], hw = w / 2, hd = d / 2;
-    // aProg: each ring is traced around its perimeter, the posts from the floor up (uTrace 0 → 1)
-    const ringAt = y => { pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd); prog.push(0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1); };
-    ringAt(0.02); ringAt(h);
-    for (let y = 1.6; y < h - 0.4; y += 1.6) ringAt(y);
-    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd); prog.push(0, 1); }
-    const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); eg.setAttribute('aProg', new THREE.Float32BufferAttribute(prog, 1));
+    const pos = [], prog = [], kind = [], lev = [], hw = w / 2, hd = d / 2, levels = [];
+    const ringAt = (y, k, l) => { pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd); prog.push(0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1); for (let q = 0; q < 8; q++) { kind.push(k); lev.push(l); } };
+    ringAt(0.02, 0, 0);
+    for (let y = 1.6; y < h - 0.4; y += 1.6) levels.push(y);
+    levels.push(h);
+    levels.forEach((y, l) => ringAt(y, 2, l + 1));
+    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd); prog.push(0, 1); kind.push(1, 1); lev.push(0, 0); }
+    const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    eg.setAttribute('aProg', new THREE.Float32BufferAttribute(prog, 1)); eg.setAttribute('aKind', new THREE.Float32BufferAttribute(kind, 1)); eg.setAttribute('aLevel', new THREE.Float32BufferAttribute(lev, 1));
+    const bu = { uPost: { value: 0 }, uFloors: { value: 0 }, uDrop: { value: Math.min(2.6, 1.2 + h * 0.12) } }; // shared by the edges and the slabs
     const em = new THREE.ShaderMaterial({ vertexShader: EDGE_VS, fragmentShader: EDGE_FS, transparent: true, depthWrite: false,
-      uniforms: { uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 }, uTrace: { value: MOTION ? 0 : 1 } } });
+      uniforms: Object.assign({ uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 }, uTrace: { value: 0 } }, bu) });
     const edges = new THREE.LineSegments(eg, em); edges.frustumCulled = false; g.add(edges);
+    const sp = [], sl = [], si = [];
+    levels.forEach((y, l) => { const b0 = sp.length / 3, e = 0.15; sp.push(-hw + e, y, -hd + e, hw - e, y, -hd + e, hw - e, y, hd - e, -hw + e, y, hd - e); sl.push(l + 1, l + 1, l + 1, l + 1); si.push(b0, b0 + 1, b0 + 2, b0, b0 + 2, b0 + 3); });
+    const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3)); sg.setAttribute('aLevel', new THREE.Float32BufferAttribute(sl, 1)); sg.setIndex(si);
+    const sm = new THREE.ShaderMaterial({ vertexShader: SLAB_VS, fragmentShader: SLAB_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+      uniforms: Object.assign({ uColor: { value: tint('glass') }, uHot: { value: tint('accent') }, uOpacity: { value: 0.05 } }, bu) });
+    const slabs = new THREE.Mesh(sg, sm); slabs.frustumCulled = false; g.add(slabs);
     const gg = new THREE.BoxGeometry(w, h, d); gg.translate(0, h / 2, 0);
     const gm = new THREE.ShaderMaterial({ vertexShader: GLASS_VS, fragmentShader: GLASS_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
       uniforms: { uColor: { value: tint('glass') }, uH: { value: -1 }, uOpacity: { value: 0.42 }, uGlow: { value: 0 } } });
     g.add(new THREE.Mesh(gg, gm));
-    return { g, em, gm, x, z, w, d, h, b: 0, hot: 0, glow: 0, state: 0, squad: [] };
+    return { g, em, gm, x, z, w, d, h, levels, b: 0, hot: 0, glow: 0, state: 0, squad: [], yNow: 0.02, tNow: 1 };
+  }
+  /* the stages of a build from one progress value b (0 → 1); returns the height built so far (-1: nothing yet) */
+  const settleJS = t => { const c1 = 1.70158, x = t - 1; return 1 + (c1 + 1) * x * x * x + c1 * x * x; };
+  function stage(V, b) {
+    const u = V.em.uniforms, n = V.levels.length;
+    if (b <= 0.0001) { u.uTrace.value = 0; u.uPost.value = 0; u.uFloors.value = 0; V.gm.uniforms.uH.value = -1; V.yNow = 0.02; V.tNow = 1; return -1; }
+    u.uTrace.value = clamp(b / 0.12, 0, 1);
+    const pe = clamp((b - 0.1) / 0.16, 0, 1); u.uPost.value = 1 - Math.pow(1 - pe, 3);
+    const fl = clamp((b - 0.26) / 0.6, 0, 1) * n; u.uFloors.value = fl;
+    const cur = Math.min(n - 1, Math.floor(fl));
+    V.tNow = fl >= n ? 1 : fl - cur;
+    V.yNow = fl <= 0 ? 0.02 : V.levels[cur] + (1 - settleJS(V.tNow)) * u.uDrop.value;
+    const fill = clamp((b - 0.84) / 0.16, 0, 1); V.gm.uniforms.uH.value = fill <= 0 ? -1 : fill * V.h;
+    return fl < 1 ? 0.02 : V.levels[Math.min(n, Math.floor(fl)) - 1];
   }
   const mods = MODS.map((m, i) => {
     const V = volume(m.x, m.z, m.w, m.d, Math.max(1.6, 4 * Math.log10(m.commits)));
@@ -740,8 +785,9 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const BF = new Float32Array(NB * 3), BS = new Float32Array(NB * 3), BT = new Float32Array(NB), BD = new Float32Array(NB), tc = new THREE.Color();
   bl.forEach(([w, d, l], k) => {
     BF[k * 3] = FX0 + w * P; BF[k * 3 + 1] = BH * (l + 0.5); BF[k * 3 + 2] = FZ0 + d * P;
-    const a = Math.random() * Math.PI * 2; BS[k * 3] = Math.cos(a) * 74; BS[k * 3 + 1] = 27 + Math.random() * 6; BS[k * 3 + 2] = 4 + Math.sin(a) * 60;
-    BT[k] = 0.2 + (w / 52) * 1.8 + l * 0.028 + Math.random() * 0.25; BD[k] = 0.8 + Math.random() * 0.35;
+    // each brick drops straight onto its column: oldest week first, a column fills bottom-up (about 3 s in all)
+    BS[k * 3] = BF[k * 3]; BS[k * 3 + 1] = BF[k * 3 + 1] + 9 + Math.random() * 3; BS[k * 3 + 2] = BF[k * 3 + 2];
+    BT[k] = 0.15 + (w / 52) * 1.7 + d * 0.012 + l * 0.015; BD[k] = 0.5;
   });
   function paintBricks() { const a = new THREE.Color(PAL().accent); bl.forEach(([, , l], k) => bricks.setColorAt(k, tc.copy(a).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)))); bricks.instanceColor.needsUpdate = true; }
   paintBricks(); scene.add(bricks);
@@ -927,10 +973,11 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
         tx = wave + (rr - 0.5) * 16; ty = 8 + rr * 4 + Math.sin(T * 3 + ph * 20) * 1.2; tz = FZ0 + 3 * P + (ph - 0.5) * 12;
         k = 4; sc = 0.5;
       } else {
-        const V = mods[r], y = Math.max(0, V.b * V.h);
-        if (rr < 0.7) { perim(V, ph + T * 0.06, pp); tx = V.x + pp[0]; tz = V.z + pp[1]; ty = y + 0.3 + Math.sin(T * 7 + ph * 50) * 0.1; }
-        else { const a = ph * 6.2832 + T * 0.9; tx = V.x + Math.cos(a) * V.w * 0.3; tz = V.z + Math.sin(a) * V.d * 0.3; ty = y + 2 + Math.sin(T * 2 + ph * 9) * 0.7; }
-        k = 6; sc = 0.46;
+        // the squad walks the outline while it is traced, then rides each floor down as it is set in place
+        const V = mods[r], y = V.yNow;
+        if (rr < 0.7) { perim(V, ph + (V.b < 0.12 ? T * 0.25 : T * 0.06), pp); tx = V.x + pp[0]; tz = V.z + pp[1]; ty = y + 0.3 + Math.sin(T * 7 + ph * 50) * 0.1; }
+        else { const a = ph * 6.2832 + T * 0.9; tx = V.x + Math.cos(a) * V.w * 0.3; tz = V.z + Math.sin(a) * V.d * 0.3; ty = y + (V.tNow < 1 ? 1.2 : 2.2) + Math.sin(T * 2 + ph * 9) * 0.5; }
+        k = 9; sc = 0.46;
       }
       let px = AP[o], py = AP[o + 1], pz = AP[o + 2];
       if (snap) { px = tx; py = ty; pz = tz; AV[o] = AV[o + 1] = AV[o + 2] = 0; }
@@ -959,21 +1006,23 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   }
   function updateBricks() {
     if (calState !== 1) return;
-    const t = T - calT0, m = bricks.instanceMatrix.array, s0 = 0.55 / 0.86, s1 = 0.55 / (BH * 0.86);
+    const t = T - calT0, m = bricks.instanceMatrix.array;
     let done = true;
     for (let k = 0; k < NB; k++) {
       let u = (t - BT[k]) / BD[k]; const o = k * 16;
       if (u < 1) done = false;
       if (u <= 0) { for (let q = 0; q < 16; q++) m[o + q] = 0; continue; }
       if (u > 1) u = 1;
-      const e = 1 - Math.pow(1 - u, 3), a = 1 - e, k3 = k * 3;
-      const sx = BS[k3], sy = BS[k3 + 1], sz = BS[k3 + 2], fx = BF[k3], fy = BF[k3 + 1], fz = BF[k3 + 2];
-      const cx = (sx + fx) * 0.5, cy = Math.max(sy, fy) + 9, cz = (sz + fz) * 0.5;
-      const r = a * 7, c = Math.cos(r), s = Math.sin(r), sxz = s0 * a + e, syy = s1 * a + e;
-      m[o] = c * sxz; m[o + 1] = 0; m[o + 2] = -s * sxz; m[o + 3] = 0;
+      const k3 = k * 3, fy = BF[k3 + 1];
+      // fall (accelerating) for the first 75%, then a small squash-and-settle on landing
+      let y = fy, sq = 0;
+      if (u < 0.75) { const f = u / 0.75; y = fy + (BS[k3 + 1] - fy) * (1 - f * f); }
+      else sq = Math.sin((u - 0.75) / 0.25 * Math.PI) * (1 - u) * 2.4;
+      const sxz = 1 + sq * 0.25, syy = 1 - sq * 0.35;
+      m[o] = sxz; m[o + 1] = 0; m[o + 2] = 0; m[o + 3] = 0;
       m[o + 4] = 0; m[o + 5] = syy; m[o + 6] = 0; m[o + 7] = 0;
-      m[o + 8] = s * sxz; m[o + 9] = 0; m[o + 10] = c * sxz; m[o + 11] = 0;
-      m[o + 12] = a * a * sx + 2 * a * e * cx + e * e * fx; m[o + 13] = a * a * sy + 2 * a * e * cy + e * e * fy; m[o + 14] = a * a * sz + 2 * a * e * cz + e * e * fz; m[o + 15] = 1;
+      m[o + 8] = 0; m[o + 9] = 0; m[o + 10] = sxz; m[o + 11] = 0;
+      m[o + 12] = BF[k3]; m[o + 13] = y - BH * 0.43 * (1 - syy); m[o + 14] = BF[k3 + 2]; m[o + 15] = 1;
     }
     bricks.instanceMatrix.needsUpdate = true;
     if (done) { calState = 2; fieldSquad.forEach(j => { if (ROLE[j] === -3) ROLE[j] = -1; }); fieldSquad = []; refreshPick(); }
@@ -981,18 +1030,17 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   function updateMods(dt) {
     const k = Math.min(1, dt * 5);
     mods.forEach((V, i) => {
-      const uH = V.b <= 0.0001 ? -1 : V.b * V.h;
-      V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH; V.em.uniforms.uHotAmt.value = V.hot;
+      const uH = stage(V, V.b); V.em.uniforms.uHotAmt.value = V.hot;
       V.glow += ((hoverMod === i || sheetMod === i ? 1 : chapterNow === 5 ? 0.45 : 0) - V.glow) * k;
       V.em.uniforms.uGlow.value = V.glow * 1.2; V.gm.uniforms.uGlow.value = V.glow;
       const wa = V.state === 1 ? 1 : V.hot;
-      V.weld.material.opacity = wa; V.weld.visible = wa > 0.01 && uH > 0; V.weld.position.y = Math.max(0.05, uH);
+      V.weld.material.opacity = wa; V.weld.visible = wa > 0.01 && uH > 0; V.weld.position.y = Math.max(0.05, V.state === 1 ? V.yNow : uH); // marks the floor being placed
       V.proxy.scale.y = Math.max(0.01, uH);
       modLabels[i].p.y = Math.max(0.05, uH) + 0.1;
     });
     const md = clamp((drawT - 0.2) / 0.35, 0, 1);
     mvols.forEach((V, j) => {
-      const uH = md <= 0 ? -1 : md * V.h; V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH; V.em.uniforms.uTrace.value = Math.max(V.em.uniforms.uTrace.value, md);
+      stage(V, md);
       V.glow += ((methodOn === j ? 1 : 0) - V.glow) * k; V.em.uniforms.uGlow.value = V.glow * 1.5; V.gm.uniforms.uGlow.value = V.glow * 1.5;
     });
     matGly.uniforms.uBoost.value.set(mvols[0].glow, mvols[1].glow, mvols[2].glow, mvols[3].glow);
@@ -1016,12 +1064,12 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
       return;
     }
     const V = mods[+key]; if (!V || V.state) return;
-    const trace = delay => { if (MOTION) gsap.fromTo(V.em.uniforms.uTrace, { value: 0 }, { value: 1, duration: 0.7, delay, ease: 'power2.inOut' }); else V.em.uniforms.uTrace.value = 1; };
-    if (instant) { V.b = 1; V.state = 2; refreshPick(); trace(0); return; }
-    V.state = 1; V.hot = 1; trace(0.6);
+    if (instant) { V.b = 1; V.state = 2; refreshPick(); return; }
+    V.state = 1; V.hot = 1;
     V.squad = takeAgents(Math.round((V.w * V.d > 200 ? 64 : 42) * (LOW ? 0.55 : 1)));
     V.squad.forEach(j => { ROLE[j] = V.i; });
-    gsap.to(V, { b: 1, duration: 3, delay: 0.6, ease: 'power1.inOut', onComplete() {
+    // linear on purpose: each stage (outline, scaffolding, floors, glass) carries its own easing inside stage()
+    gsap.to(V, { b: 1, duration: 2.6 + V.levels.length * 0.3, delay: 0.4, ease: 'none', onComplete() {
       V.state = 2; refreshPick();
       gsap.to(V, { hot: 0, duration: 1.4, delay: 0.3 });
       gsap.delayedCall(0.9, () => { V.squad.forEach(j => { if (ROLE[j] === V.i) ROLE[j] = -1; }); V.squad = []; });

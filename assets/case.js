@@ -342,6 +342,7 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); stop(); failGL(); }, false);
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(PAL().ink, 260, 520); // far enough that the plan keeps its full contrast
+  scene.background = new THREE.Color(PAL().ink); // the composer's render target needs the clear colour as a scene background, or it comes out washed
   const camera = new THREE.PerspectiveCamera(36, W / H, 0.5, 900);
   /* post: a soft bloom on the lit hairlines, then grain and vignette */
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -355,10 +356,10 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
   /* drafting floor (one material colour instead of GridHelper's vertex colours, so it can be repainted) */
   const g1 = new THREE.GridHelper(240, 48);
   g1.material.vertexColors = false; tint('grid', g1.material.color);
-  g1.material.transparent = true; g1.material.opacity = 0.2; g1.position.y = -0.02; scene.add(g1);
+  g1.material.transparent = true; g1.material.opacity = 0.16; g1.position.y = -0.02; scene.add(g1);
   const g2 = new THREE.GridHelper(240, 240);
   g2.material.vertexColors = false; tint('grid', g2.material.color);
-  g2.material.transparent = true; g2.material.opacity = 0.06; g2.position.y = -0.03; scene.add(g2);
+  g2.material.transparent = true; g2.material.opacity = 0.05; g2.position.y = -0.03; scene.add(g2);
 
   const parts = []; // { obj, mats: [mat, baseOpacity], g, node }
   function track(obj, mats, g, extra) { const p = Object.assign({ obj, mats, g, k: 1 }, extra || {}); parts.push(p); return p; }
@@ -368,24 +369,50 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
     tint(key, m.color); return m;
   }
 
-  /* nodes: hairline edges + a faint glass fill, rising from the floor */
+  /* nodes: hairline edges + a faint glass fill. A box is assembled like the home's blocks: the floor outline
+     is traced, the corner posts rise, the roof drops into place with a small settle, then the glass fades in */
+  const rectPts = (hw, hd, y) => [-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd];
+  const segGeo = pts => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3)); return g; };
   NODES.forEach((n, i) => {
     const col = n.tone;
     const geo = n.cyl ? new THREE.CylinderGeometry(n.r, n.r, n.h, 40, 1, true) : new THREE.BoxGeometry(n.w, n.h, n.d);
     const grp = new THREE.Group();
-    const eg = n.cyl ? cylEdges(n.r, n.h) : new THREE.EdgesGeometry(geo);
     const em = lineMat(col, n.tone === 'dash' ? 0.9 : 1, n.tone === 'dash');
-    const lines = new THREE.LineSegments(eg, em);
-    if (n.tone === 'dash') lines.computeLineDistances();
     const fm = new THREE.MeshBasicMaterial({ transparent: true, opacity: n.tone === 'dash' ? 0.04 : n.tool ? 0.2 : 0.11, depthWrite: false, side: THREE.DoubleSide });
     tint(col, fm.color);
     const fill = new THREE.Mesh(geo, fm);
-    grp.add(fill, lines);
+    const dist = Math.hypot(n.x, n.z), extra = { node: n, fill, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 };
+    if (n.cyl) {
+      const lines = new THREE.LineSegments(cylEdges(n.r, n.h), em);
+      grp.add(fill, lines); extra.lines = lines;
+    } else {
+      const hw = n.w / 2, hd = n.d / 2, hh = n.h / 2;
+      const floor = new THREE.LineSegments(segGeo(rectPts(hw, hd, -hh)), em);
+      const posts = new THREE.LineSegments(segGeo([-hw, 0, -hd, -hw, n.h, -hd, hw, 0, -hd, hw, n.h, -hd, hw, 0, hd, hw, n.h, hd, -hw, 0, hd, -hw, n.h, hd]), em);
+      const roof = new THREE.LineSegments(segGeo(rectPts(hw, hd, 0)), em);
+      posts.position.y = -hh; roof.position.y = hh;
+      [floor, posts, roof].forEach(l => { if (n.tone === 'dash') l.computeLineDistances(); grp.add(l); });
+      grp.add(fill);
+      Object.assign(extra, { floor, posts, roof });
+    }
     grp.position.set(n.x, n.y + n.h / 2, n.z);
     scene.add(grp);
-    const dist = Math.hypot(n.x, n.z);
-    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, { node: n, lines, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 });
+    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, extra);
   });
+  const settle = t => { const c1 = 1.70158, x = t - 1; return 1 + (c1 + 1) * x * x * x + c1 * x * x; };
+  /* one box at build progress u (0 → 1 over about 1.2 s) */
+  function assemble(p, u) {
+    const n = p.node;
+    if (!p.floor) { const g = ease(u / 0.8); p.obj.scale.y = Math.max(0.001, g); p.obj.position.y = n.y + n.h * g / 2; return clamp((u - 0.6) / 0.4, 0, 1); }
+    const tr = clamp(u / 0.28, 0, 1);
+    p.floor.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(4 * tr) * 2);
+    p.floor.visible = tr > 0;
+    const pu = ease(clamp((u - 0.22) / 0.3, 0, 1));
+    p.posts.scale.y = Math.max(0.001, pu); p.posts.visible = pu > 0;
+    const ru = clamp((u - 0.5) / 0.3, 0, 1);
+    p.roof.visible = ru > 0; p.roof.position.y = n.h / 2 + (1 - settle(ru)) * Math.min(4, 1.2 + n.h * 0.4);
+    return clamp((u - 0.72) / 0.28, 0, 1);
+  }
   function cylEdges(r, h) {
     const pts = [], N = 40;
     for (const y of [-h / 2, h / 2, h / 2 - 0.9]) for (let i = 0; i < N; i++) {
@@ -533,16 +560,16 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
     parts.forEach(p => {
       const target = inStep(p.g, step) ? 1 : 0.2;
       p.k += RM ? target - p.k : (target - p.k) * Math.min(1, dt * 5);
-      const grow = RM ? 1 : ease((born - p.delay) / 0.9);
-      if (p.node) { p.obj.scale.y = Math.max(0.001, grow); p.obj.position.y = p.node.y + p.node.h * grow / 2; }
+      const fillK = p.node ? (RM ? 1 : assemble(p, clamp((born - p.delay) / 1.2, 0, 1))) : 1;
       const vis = p.node ? 1 : (RM ? 1 : ease((born - p.delay) / 0.7));
       p.mats.forEach(([m, base]) => { m.opacity = base * p.k * vis; });
-      // the hairlines are traced segment by segment as the box rises / the edge appears (about 0.7 s)
-      const tr = RM ? 1 : ease((born - p.delay) / 0.75);
-      if (p.lines && p.tr !== tr) { p.tr = tr; const n = p.lines.geometry.attributes.position.count; p.lines.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(n * tr / 2) * 2); }
+      if (p.fill) p.fill.material.opacity *= fillK;
+      // the connections are traced segment by segment (about 0.7 s)
+      const tr = p.node ? 1 : RM ? 1 : ease((born - p.delay) / 0.75);
+      if (p.lines && !p.node && p.tr !== tr) { p.tr = tr; const n = p.lines.geometry.attributes.position.count; p.lines.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(n * tr / 2) * 2); }
       if (Math.abs(target - p.k) > 0.01) moving = true;
     });
-    if (!RM && born < 2.4) moving = true;
+    if (!RM && born < 3.2) moving = true;
     if (pulses.length) {
       pulses.forEach((pl, i) => {
         const on = inStep(pl.g, step) && born > 1.2;
@@ -604,7 +631,7 @@ function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPas
   function start() { running = true; requestDraw(); }
   if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(P => {
     tints.forEach(([c, key]) => c.set(P[key]));
-    renderer.setClearColor(P.ink, 1); scene.fog.color.set(P.ink); bloom.strength = 0.32 * (P.bloom || 1); requestDraw();
+    renderer.setClearColor(P.ink, 1); scene.fog.color.set(P.ink); scene.background.set(P.ink); bloom.strength = 0.32 * (P.bloom || 1); requestDraw();
   });
   function stop() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
   return { start, stop };
