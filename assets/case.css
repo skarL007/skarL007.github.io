@@ -5,8 +5,16 @@ body.case{background-color:var(--ink);background-image:linear-gradient(rgba(var(
 .case main{max-width:1200px;margin:0 auto;padding:calc(var(--hdr) + 56px) var(--gr) 64px var(--gl)}
 .case .sheet,.case .sheet.big{width:auto}
 .case .sheet p{max-width:72ch}
-.case .nav a{font-size:13.5px;padding:8px 8px}
-@media (min-width:901px) and (max-width:1280px){.case .brand small{display:none}}
+.case .nav a{font-size:13.5px;padding:8px 8px;white-space:nowrap}
+/* eight sections: below 1200px the case-study menu folds into the Menu button, as the home does below 900px */
+@media (min-width:901px) and (max-width:1199px){
+  .case .nav{position:fixed;top:var(--hdr);left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px var(--gr) 16px var(--gl);background:var(--ink);border-bottom:1px solid var(--line);display:none}
+  .nav-open .case .nav{display:flex}
+  .case .nav a{padding:16px 0;font-size:20px;border-top:1px solid var(--line)}
+  .case .hdr-tools{margin-left:auto}
+  .case .menu-btn{display:inline-flex}
+}
+@media (min-width:901px) and (max-width:1480px){.case .brand small{display:none}}
 
 /* ---------- hero ---------- */
 .cs-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:end;padding-bottom:16px;border-bottom:1px solid var(--line)}
