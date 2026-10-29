@@ -214,7 +214,8 @@ $$('[data-t]').forEach(b => b.addEventListener('click', () => {
   let back = null;
   x.addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }); // the backdrop
-  dlg.addEventListener('close', () => { root.classList.remove('zoom-on'); im.removeAttribute('src'); if (back) back.focus({ preventScroll: true }); });
+  // 'close' arrives as a task; if the dialog was reopened before it ran, keep the new image
+  dlg.addEventListener('close', () => { if (dlg.open) return; root.classList.remove('zoom-on'); im.removeAttribute('src'); if (back) back.focus({ preventScroll: true }); });
   links.forEach(a => {
     const img = $('img', a); if (!img) return;
     a.setAttribute('aria-label', TX.zoomOpen + (img.alt ? ': ' + img.alt : ''));
