@@ -9,7 +9,7 @@ body.case{background-color:var(--ink);background-image:linear-gradient(rgba(var(
 @media (min-width:901px) and (max-width:1280px){.case .brand small{display:none}}
 /* Nexo Assist (the Axon page shares this sheet and keeps the two rules above): eight sections; below 1200px the
    case-study menu folds into the Menu button, as the home does below 900px */
-.case:not(.axon-case) .nav a{font-size:13.5px;padding:8px 8px;white-space:nowrap}
+.case:not(.axon-case) .nav a{font-size:14px;padding:8px 7px;white-space:nowrap}
 @media (min-width:901px) and (max-width:1199px){
   .case:not(.axon-case) .nav{position:fixed;top:var(--hdr);left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px var(--gr) 16px var(--gl);background:var(--ink);border-bottom:1px solid var(--line);display:none}
   .nav-open .case:not(.axon-case) .nav{display:flex}
@@ -216,3 +216,11 @@ dialog.zoom figcaption{padding:10px 14px;font:500 12px/1.5 var(--mono);letter-sp
 /* phones: the image keeps a readable size and pans sideways inside the dialog */
 @media (max-width:760px){dialog.zoom{width:100vw;max-height:100vh}.zoom-x{top:auto;bottom:calc(100% + 6px)}dialog.zoom .zoom-pan{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}dialog.zoom img{width:auto;max-width:none;height:min(62vh,560px);max-height:none}}
 
+/* ---------- legibility: support text at 12px or more, links at 14px or more (Nexo Assist only; the Axon page shares this sheet) ---------- */
+.case:not(.axon-case) :is(.callout,.cs-meta dt,.arch-steps button span,.arch-key,.arch-hud,.cs-side .cs-h3 small,.shot figcaption,.vid figcaption,
+  .chap-list time,.dec .dec-n,.sheet .sh-fact,.asof,.badge,.foot,.tgl,.menu-btn){font-size:12px}
+.case:not(.axon-case) .cs-note{font-size:13px}
+.case:not(.axon-case) .cs-note code{font-size:1em}
+.case:not(.axon-case) :is(.cs-back,.cs-note a,.proof dd.s,.vid figcaption a,.foot a,.skip){font-size:14px}
+.case:not(.axon-case) .cs-back{letter-spacing:.04em}
+.case:not(.axon-case) .proof dd.s a{overflow-wrap:anywhere}
