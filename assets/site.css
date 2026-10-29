@@ -359,3 +359,30 @@ main{position:relative;z-index:2}
 @media (max-width:1240px){.brand small{display:none}}
 @media (min-width:901px) and (max-width:1100px){.hdr{gap:16px}.nav{gap:0}.nav a{padding:8px 7px}.hdr-tools .t-long{display:none}.hdr-tools .t-short{display:inline}}
 @media (max-width:360px){.hdr{gap:8px}.hdr-tools{gap:4px}.tgl,.menu-btn{padding:0 8px}.brand{font-size:14px;gap:8px}}
+/* header with four toggles (EN · tema · som · 2D) + Menu: on phones every toggle is a compact 40px key */
+.hdr-tools .sfx-btn{width:40px}
+@media (max-width:480px){
+  .hdr-tools .tgl,.hdr-tools .menu-btn{min-width:40px;padding:0 6px;justify-content:center}
+  .hdr-tools .tgl-box{display:none}
+  .hdr-tools .tgl[aria-pressed="true"]:not(.sfx-btn){background:var(--fg);border-color:var(--fg);color:var(--ink)}
+  .hdr-tools .tgl-tema[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+  .hdr-tools .tgl-tema .t-short{color:#00C832}
+  .hdr-tools .tgl-tema[aria-pressed="true"] .t-short{color:var(--ink)}
+  .hdr{gap:8px}.hdr-tools{gap:4px}
+}
+@media (max-width:360px){.brand{font-size:0;gap:0}.brand-mark{width:14px;height:14px}}
+
+/* ---------- inspection panel (click on a 3D module, desktop) ---------- */
+#inspect{position:fixed;z-index:45;top:calc(var(--hdr) + 20px);right:calc(var(--gr) + 40px);bottom:20px;width:min(520px,42vw);display:flex;flex-direction:column;border:1px solid var(--line-2);background:rgba(var(--ink-rgb),.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transform:translateX(24px);transition:opacity .35s ease,transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s linear .5s}
+.ins-on #inspect{opacity:1;visibility:visible;transform:none;transition:opacity .35s ease .15s,transform .6s cubic-bezier(.2,.8,.2,1) .1s,visibility 0s}
+.ins-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--line);font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
+.ins-body{flex:1;overflow:auto;overscroll-behavior:contain;padding:20px}
+.ins-body .sheet{width:auto;background:transparent;border:0;padding:0}
+.ins-body .sheet::before,.ins-body .sheet::after{display:none}
+.ins-body .sheet.big .sh-head{margin:0 0 20px;padding:0 0 10px}
+.ins-foot{margin:0;padding:12px 16px;border-top:1px solid var(--line)}
+.ins-on .tblock{opacity:0}
+
+/* ---------- hero field: blueprint pulses (padrão) or code rain (matrix); never in 2D or with reduced motion ---------- */
+:root:not(.mode-2d) #rain.on{display:block}
+:root:not([data-tema="matrix"]) #rain{opacity:.85}

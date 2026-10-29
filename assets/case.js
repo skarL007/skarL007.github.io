@@ -296,14 +296,39 @@ async function initGL() {
   if (GL || glLoading || glFailed || !archEl) return;
   if (!hasWebGL2()) { failGL(); return; }
   glLoading = true;
-  let THREE;
-  try { THREE = await import('three'); } catch (e) { failGL(); return; }
-  try { GL = createView(THREE); } catch (e) { console.warn(e); failGL(); return; }
+  let mods;
+  try {
+    mods = await Promise.all([
+      import('three'),
+      import('three/addons/postprocessing/EffectComposer.js'),
+      import('three/addons/postprocessing/RenderPass.js'),
+      import('three/addons/postprocessing/UnrealBloomPass.js'),
+      import('three/addons/postprocessing/ShaderPass.js'),
+      import('three/addons/postprocessing/OutputPass.js')
+    ]);
+  } catch (e) { failGL(); return; }
+  try { GL = createView(mods); } catch (e) { console.warn(e); failGL(); return; }
   glLoading = false;
   if (is2D()) GL.stop(); else GL.start();
 }
 
-function createView(THREE) {
+/* film grain + vignette, the same pass the home page uses */
+const GRAIN = {
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uGrain: { value: 1 }, uVig: { value: 0.32 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime; uniform float uGrain; uniform float uVig; varying vec2 vUv;
+float hash(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+void main(){
+  vec4 c = texture2D(tDiffuse, vUv);
+  float v = 1.0 - smoothstep(0.3, 0.85, length((vUv - 0.5) * vec2(1.1, 1.0)));
+  c.rgb *= mix(1.0 - uVig, 1.0, v);
+  float n = hash(gl_FragCoord.xy + floor(uTime * 24.0) * 17.0) - 0.5;
+  c.rgb = max(c.rgb + n * uGrain * (0.003 + c.rgb * 0.06), vec3(0.0));
+  gl_FragColor = c;
+}`
+};
+
+function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { ShaderPass }, { OutputPass }]) {
   const view = $('#archView'), canvas = $('#archGl'), labelsEl = $('#archLabels'), hud = $('#archHud');
   let W = view.clientWidth, H = view.clientHeight;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
@@ -318,6 +343,14 @@ function createView(THREE) {
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(PAL().ink, 260, 520); // far enough that the plan keeps its full contrast
   const camera = new THREE.PerspectiveCamera(36, W / H, 0.5, 900);
+  /* post: a soft bloom on the lit hairlines, then grain and vignette */
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
+  composer.setPixelRatio(DPR); composer.setSize(W, H);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.32 * (PAL().bloom || 1), 0.25, 0.62); composer.addPass(bloom);
+  const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
+  composer.addPass(new OutputPass());
 
   /* drafting floor (one material colour instead of GridHelper's vertex colours, so it can be repainted) */
   const g1 = new THREE.GridHelper(240, 48);
@@ -351,7 +384,7 @@ function createView(THREE) {
     grp.position.set(n.x, n.y + n.h / 2, n.z);
     scene.add(grp);
     const dist = Math.hypot(n.x, n.z);
-    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, { node: n, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 });
+    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, { node: n, lines, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 });
   });
   function cylEdges(r, h) {
     const pts = [], N = 40;
@@ -383,7 +416,7 @@ function createView(THREE) {
     const ls = new THREE.LineSegments(geo, m);
     if (e.kind === 'dash') ls.computeLineDistances();
     scene.add(ls);
-    track(ls, [[m, m.opacity]], e.g, { delay: 0.6 });
+    track(ls, [[m, m.opacity]], e.g, { lines: ls, delay: 0.6 });
     if (e.kind === 'flow' && !RM) {
       let len = 0; const segs = [];
       for (let i = 1; i < P.length; i++) { const l = P[i].distanceTo(P[i - 1]); segs.push([P[i - 1], P[i], len, l]); len += l; }
@@ -504,6 +537,9 @@ function createView(THREE) {
       if (p.node) { p.obj.scale.y = Math.max(0.001, grow); p.obj.position.y = p.node.y + p.node.h * grow / 2; }
       const vis = p.node ? 1 : (RM ? 1 : ease((born - p.delay) / 0.7));
       p.mats.forEach(([m, base]) => { m.opacity = base * p.k * vis; });
+      // the hairlines are traced segment by segment as the box rises / the edge appears (about 0.7 s)
+      const tr = RM ? 1 : ease((born - p.delay) / 0.75);
+      if (p.lines && p.tr !== tr) { p.tr = tr; const n = p.lines.geometry.attributes.position.count; p.lines.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(n * tr / 2) * 2); }
       if (Math.abs(target - p.k) > 0.01) moving = true;
     });
     if (!RM && born < 2.4) moving = true;
@@ -519,7 +555,8 @@ function createView(THREE) {
       pulseGeo.attributes.position.needsUpdate = true;
       moving = true;
     }
-    renderer.render(scene, camera);
+    grainPass.uniforms.uTime.value = t;
+    composer.render(dt);
     drawLabels(born);
     dirty = false;
     if (running && visible && (moving || !RM || drag)) { raf = requestAnimationFrame(tick); }
@@ -558,7 +595,7 @@ function createView(THREE) {
   function resize() {
     const w = view.clientWidth, h = view.clientHeight;
     if (!w || !h || (w === W && h === H)) return;
-    W = w; H = h; renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+    W = w; H = h; renderer.setSize(W, H, false); composer.setSize(W, H); camera.aspect = W / H; camera.updateProjectionMatrix();
     labels.forEach(L => { L.w = 0; });
     frame(step); Object.assign(cam, goal); requestDraw();
   }
@@ -567,7 +604,7 @@ function createView(THREE) {
   function start() { running = true; requestDraw(); }
   if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(P => {
     tints.forEach(([c, key]) => c.set(P[key]));
-    renderer.setClearColor(P.ink, 1); scene.fog.color.set(P.ink); requestDraw();
+    renderer.setClearColor(P.ink, 1); scene.fog.color.set(P.ink); bloom.strength = 0.32 * (P.bloom || 1); requestDraw();
   });
   function stop() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
   return { start, stop };

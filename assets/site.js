@@ -23,7 +23,8 @@ const TX = {
     lOrigin: '<b>origem</b><i>medicina · fora de escala</i>',
     lNext: '<b>próximo</b><i>faculdade + 1ª oportunidade</i>',
     commitsLog: ' commits · altura ∝ log',
-    seeSheet: ' · ver folha ↓',
+    seeSheet: ' · clique para inspecionar',
+    insLabel: 'Inspeção · ', insClose: 'Fechar · Esc', insGo: 'Ir para a folha na página ↓',
     contrib1: ' contribuição', contribN: ' contribuições',
   },
   en: {
@@ -44,7 +45,8 @@ const TX = {
     lOrigin: '<b>origin</b><i>medicine · not to scale</i>',
     lNext: '<b>next</b><i>degree + first opportunity</i>',
     commitsLog: ' commits · height ∝ log',
-    seeSheet: ' · see sheet ↓',
+    seeSheet: ' · click to inspect',
+    insLabel: 'Inspection · ', insClose: 'Close · Esc', insGo: 'Go to the sheet on the page ↓',
     contrib1: ' contribution', contribN: ' contributions',
   }
 }[LANG];
@@ -128,7 +130,7 @@ if (CURSOR) root.classList.add('has-cursor');
 let snapEl = null, bx = -40, by = -40, boxW = 18, boxH = 18, lastLab = '', labW = 120;
 window.addEventListener('pointermove', e => {
   pmx = e.clientX; pmy = e.clientY; pIn = true;
-  overUI = !!(e.target && e.target.closest && e.target.closest('.sheet,a,button,.hdr,.hero-copy'));
+  overUI = !!(e.target && e.target.closest && e.target.closest('.sheet,a,button,.hdr,.hero-copy,#inspect'));
 }, { passive: true });
 document.addEventListener('mouseover', e => { snapEl = e.target && e.target.closest ? e.target.closest('a,button') : null; });
 root.addEventListener('mouseleave', () => { pIn = false; snapEl = null; });
@@ -169,7 +171,7 @@ else { let last = performance.now(); const loop = now => { tick(now / 1000, now 
 const menuBtn = $('#menuBtn');
 function closeMenu() { root.classList.remove('nav-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
 menuBtn.addEventListener('click', () => { const o = !root.classList.contains('nav-open'); root.classList.toggle('nav-open', o); menuBtn.setAttribute('aria-expanded', String(o)); });
-window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); closeInspect(); } });
 function goTo(t) {
   const isSec = t.tagName === 'SECTION';
   const off = isSec ? 0 : -Math.max(84, (window.innerHeight - t.offsetHeight) / 2);
@@ -187,11 +189,43 @@ document.addEventListener('click', e => {
   if (!f.hasAttribute('tabindex')) f.setAttribute('tabindex', '-1');
   f.focus({ preventScroll: true });
 });
-/* click on a 3D module jumps to its sheet */
+/* click on a 3D module: with a mouse and motion, the camera flies to it and its sheet opens beside it
+   (Esc or a click outside closes); otherwise the page scrolls to the sheet */
+let insOpen = -1, insEl = null;
+function openInspect(i) {
+  const src = document.getElementById(MODS[i].id); if (!src || !GL) return;
+  if (!insEl) {
+    insEl = document.createElement('aside'); insEl.id = 'inspect'; insEl.setAttribute('role', 'dialog');
+    insEl.innerHTML = '<div class="ins-bar"><span class="ins-k"></span><button type="button" class="tgl ins-x"></button></div><div class="ins-body"></div><p class="ins-foot"><button type="button" class="btn ins-go"></button></p>';
+    $('.ins-x', insEl).textContent = TX.insClose; $('.ins-go', insEl).textContent = TX.insGo;
+    $('.ins-x', insEl).addEventListener('click', closeInspect);
+    $('.ins-go', insEl).addEventListener('click', () => { const k = insOpen; closeInspect(); if (k >= 0) goTo(document.getElementById(MODS[k].id)); });
+    document.body.appendChild(insEl);
+  }
+  const c = src.cloneNode(true);
+  [c].concat(Array.from(c.querySelectorAll('[id],[style],[aria-labelledby],[data-build],[data-mod]'))).forEach(n => { ['id', 'style', 'aria-labelledby', 'data-build', 'data-mod'].forEach(a => n.removeAttribute(a)); });
+  c.classList.remove('rv'); c.classList.add('is-in');
+  const body = $('.ins-body', insEl); body.textContent = ''; body.appendChild(c); body.scrollTop = 0;
+  $('.ins-k', insEl).textContent = TX.insLabel + MODS[i].code + ' · ' + MODS[i].name;
+  insEl.setAttribute('aria-label', TX.insLabel + MODS[i].name);
+  insOpen = i; root.classList.add('ins-on'); GL.inspect(i);
+  if (lenis) lenis.stop();
+  $('.ins-x', insEl).focus({ preventScroll: true });
+}
+function closeInspect() {
+  if (insOpen < 0) return;
+  insOpen = -1; root.classList.remove('ins-on'); if (GL) GL.inspect(-1);
+  if (lenis) lenis.start();
+}
 window.addEventListener('click', e => {
-  if (!GL || !GL.running || (e.target.closest && e.target.closest('a,button,.sheet,.hero-copy,.hdr'))) return;
-  const id = GL.hoverTarget(); const t = id && document.getElementById(id);
-  if (t) goTo(t);
+  const inPanel = !!(e.target.closest && e.target.closest('#inspect'));
+  if (inPanel) return;
+  const onUI = !!(e.target.closest && e.target.closest('a,button,.sheet,.hero-copy,.hdr'));
+  const id = GL && GL.running && !onUI ? GL.hoverTarget() : null;
+  if (insOpen >= 0 && (!id || onUI)) { closeInspect(); if (!id) return; }
+  if (!id) return;
+  if (MOTION && FINE) openInspect(MODS.findIndex(m => m.id === id));
+  else { const t = document.getElementById(id); if (t) goTo(t); }
 });
 $$('[data-mod]').forEach(el => {
   el.addEventListener('pointerenter', () => { if (GL) GL.highlight(+el.dataset.mod); });
@@ -232,20 +266,51 @@ window.addEventListener('scroll', tbQueue, { passive: true });
 window.addEventListener('resize', () => { tbFull = 0; tbQueue(); });
 tbQueue();
 
-/* ---------- tema matrix: a faint code rain behind the hero (never with reduced motion or in 2D) ---------- */
+/* ---------- the hero field: faint pulses running along drafting lines (padrão) or a code rain (matrix);
+   never with reduced motion or in 2D, and paused while the hero is off screen ---------- */
 const rainHero = $('.hero');
 let rainCv = null, rainCx = null, rainCols = [], rainW = 0, rainH = 0, rainSeen = true, rainRaf = 0, rainLast = 0;
 const RAIN_G = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ0123456789:=<>*';
-function rainOn() { return !RM && rainSeen && root.getAttribute('data-tema') === 'matrix' && !is2D(); }
+function rainOn() { return !RM && rainSeen && !is2D(); }
+const rainMx = () => root.getAttribute('data-tema') === 'matrix';
+let pulses = [], dust = [], rainMode = '';
+const GRIDP = 48;
+function newPulse() {
+  const h = Math.random() < 0.62, span = h ? rainW : rainH, lines = Math.max(1, Math.floor((h ? rainH : rainW) / GRIDP));
+  const dir = Math.random() < 0.5 ? 1 : -1;
+  return { h, at: (1 + Math.floor(Math.random() * (lines - 1))) * GRIDP + 0.5, s: dir > 0 ? -Math.random() * span * 0.8 : span + Math.random() * span * 0.8, v: dir * (70 + Math.random() * 120), span };
+}
 function rainSize() {
   rainW = rainCv.width = Math.round(rainHero.offsetWidth); rainH = rainCv.height = Math.round(rainHero.offsetHeight);
   rainCols = Array.from({ length: Math.ceil(rainW / 16) }, () => (Math.random() < 0.45 ? Math.random() * -rainH / 16 : -1e9));
+  pulses = Array.from({ length: Math.round(clamp(rainW * rainH / 90000, 5, 12)) }, newPulse); dust = [];
+  rainCx.clearRect(0, 0, rainW, rainH);
+}
+function pulseStep(dt) {
+  rainCx.globalCompositeOperation = 'destination-out'; rainCx.fillStyle = 'rgba(0,0,0,.12)'; rainCx.fillRect(0, 0, rainW, rainH);
+  rainCx.globalCompositeOperation = 'source-over';
+  rainCx.lineWidth = 1.5; rainCx.strokeStyle = 'rgba(255,106,43,.85)'; rainCx.fillStyle = 'rgba(255,170,120,.95)';
+  rainCx.beginPath();
+  for (let i = 0; i < pulses.length; i++) {
+    const p = pulses[i], s0 = p.s; p.s += p.v * dt;
+    if (p.h) { rainCx.moveTo(s0, p.at); rainCx.lineTo(p.s, p.at); } else { rainCx.moveTo(p.at, s0); rainCx.lineTo(p.at, p.s); }
+    if ((p.v > 0 && p.s > p.span + 40) || (p.v < 0 && p.s < -40)) pulses[i] = newPulse();
+  }
+  rainCx.stroke();
+  pulses.forEach(p => { if (p.h) rainCx.fillRect(p.s - 1.5, p.at - 1.5, 3, 3); else rainCx.fillRect(p.at - 1.5, p.s - 1.5, 3, 3); });
+  // drafting dust: a few specks that blink where two lines cross
+  if (Math.random() < 0.25) dust.push({ x: (1 + Math.floor(Math.random() * (rainW / GRIDP - 1))) * GRIDP, y: (1 + Math.floor(Math.random() * (rainH / GRIDP - 1))) * GRIDP, a: 0.6 });
+  rainCx.fillStyle = 'rgba(167,219,255,.5)';
+  dust = dust.filter(d => { d.a -= dt * 0.8; if (d.a > 0 && d.a > 0.3) rainCx.fillRect(d.x - 1, d.y - 1, 2, 2); return d.a > 0; });
 }
 function rainStep(now) {
   rainRaf = 0;
   if (!rainOn()) { rainCv.classList.remove('on'); return; }
-  if (!rainCv.classList.contains('on')) { rainCv.classList.add('on'); rainSize(); }
-  if (now - rainLast > 70) {
+  const mode = rainMx() ? 'mx' : 'pv';
+  if (!rainCv.classList.contains('on') || mode !== rainMode) { rainCv.classList.add('on'); rainMode = mode; rainSize(); rainLast = now; }
+  if (mode === 'pv') {
+    if (now - rainLast > 30) { pulseStep(Math.min(0.08, (now - rainLast) / 1000)); rainLast = now; }
+  } else if (now - rainLast > 70) {
     rainLast = now;
     rainCx.globalCompositeOperation = 'destination-out'; rainCx.fillStyle = 'rgba(0,0,0,.14)'; rainCx.fillRect(0, 0, rainW, rainH);
     rainCx.globalCompositeOperation = 'source-over'; rainCx.font = '14px ' + 'ui-monospace,monospace'; rainCx.fillStyle = 'rgba(0,255,65,.7)';
@@ -384,12 +449,12 @@ void main(){
   vec3 col = uColor * (1.0 + b * 1.5 + head * 2.5);
   gl_FragColor = vec4(col, min(1.0, uOpacity * (1.0 + b * 0.6 + head)) * fog);
 }`;
-const EDGE_VS = `varying float vY; varying float vDepth;
-void main(){ vY = position.y; vec4 mv = modelViewMatrix * vec4(position, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv; }`;
-const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uH; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity;
-varying float vY; varying float vDepth;
+const EDGE_VS = `attribute float aProg; varying float vY; varying float vDepth; varying float vProg;
+void main(){ vY = position.y; vProg = aProg; vec4 mv = modelViewMatrix * vec4(position, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv; }`;
+const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uH; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity; uniform float uTrace;
+varying float vY; varying float vDepth; varying float vProg;
 void main(){
-  if (vY > uH + 0.002) discard;
+  if (vY > uH + 0.002 || vProg > uTrace) discard;
   float front = 1.0 - smoothstep(0.0, 1.6, uH - vY);
   vec3 c = uColor * (0.8 + uGlow);
   c = mix(c, uHot * 1.5, front * uHotAmt);
@@ -621,14 +686,15 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   /* ---- volumes: wire edges + glass, clipped at the current build height ---- */
   function volume(x, z, w, d, h) {
     const g = new THREE.Group(); g.position.set(x, 0, z); scene.add(g);
-    const pos = [], hw = w / 2, hd = d / 2;
-    const ringAt = y => pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd);
+    const pos = [], prog = [], hw = w / 2, hd = d / 2;
+    // aProg: each ring is traced around its perimeter, the posts from the floor up (uTrace 0 → 1)
+    const ringAt = y => { pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd); prog.push(0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1); };
     ringAt(0.02); ringAt(h);
     for (let y = 1.6; y < h - 0.4; y += 1.6) ringAt(y);
-    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd);
-    const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd); prog.push(0, 1); }
+    const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); eg.setAttribute('aProg', new THREE.Float32BufferAttribute(prog, 1));
     const em = new THREE.ShaderMaterial({ vertexShader: EDGE_VS, fragmentShader: EDGE_FS, transparent: true, depthWrite: false,
-      uniforms: { uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 } } });
+      uniforms: { uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 }, uTrace: { value: MOTION ? 0 : 1 } } });
     const edges = new THREE.LineSegments(eg, em); edges.frustumCulled = false; g.add(edges);
     const gg = new THREE.BoxGeometry(w, h, d); gg.translate(0, h / 2, 0);
     const gm = new THREE.ShaderMaterial({ vertexShader: GLASS_VS, fragmentShader: GLASS_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
@@ -755,7 +821,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const tgtCurve = new THREE.CatmullRomCurve3(STOPS.map(s => V3(s[1][0], s[1][1], s[1][2])), false, 'centripetal');
   const stopEls = $$('[data-stop]'), rulerLis = $$('.ruler li');
   const sp = { p: 0 };
-  let anchors = [], maxS = 1, distMul = 1, ptrX = 0, ptrY = 0;
+  let anchors = [], maxS = 1, distMul = 1, ptrX = 0, ptrY = 0, lensFov = 40;
   function measure() {
     const vh = window.innerHeight;
     maxS = Math.max(1, HAS_GSAP ? ScrollTrigger.maxScroll(window) : root.scrollHeight - vh);
@@ -785,11 +851,21 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     gsap.to(sp, { p: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 1.2 } });
     ScrollTrigger.addEventListener('refresh', measure);
   }
-  const cp = V3(0, 0, 0), ct = V3(0, 0, 0), tmp = V3(0, 0, 0);
+  const cp = V3(0, 0, 0), ct = V3(0, 0, 0), tmp = V3(0, 0, 0), insP = V3(0, 0, 0), insT = V3(0, 0, 0);
+  /* a camera cut (entering Projetos, Atividade): the camera starts pulled back with a wider lens and pushes in hard */
+  const cut = { k: 0 };
+  function cutTo() { if (MOTION) gsap.fromTo(cut, { k: 1 }, { k: 0, duration: 1.3, ease: 'expo.out', overwrite: true }); }
+  /* inspection: a module clicked in the plan pulls the camera to it until Esc or a click outside */
+  const ins = { i: -1, k: 0 };
+  function inspect(i) {
+    if (i >= 0) ins.i = i;
+    gsap.to(ins, { k: i >= 0 ? 1 : 0, duration: i >= 0 ? 1.1 : 0.8, ease: i >= 0 ? 'expo.out' : 'power3.inOut', overwrite: true, onComplete() { if (ins.k === 0) ins.i = -1; } });
+    sheetMod = i;
+  }
   function lens() {
     const a = W / H;
     camera.aspect = a;
-    camera.fov = a >= 1 ? 40 : Math.min(68, 2 * Math.atan(Math.tan(20 * Math.PI / 180) / Math.pow(a, 0.75)) * 180 / Math.PI);
+    camera.fov = lensFov = a >= 1 ? 40 : Math.min(68, 2 * Math.atan(Math.tan(20 * Math.PI / 180) / Math.pow(a, 0.75)) * 180 / Math.PI);
     distMul = a >= 1 ? 1 : 1 + (1 - a) * 1.0;
     camera.updateProjectionMatrix();
   }
@@ -801,9 +877,19 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     const k = Math.min(1, dt * 3);
     ptrX += ((pIn && FINE ? pmx / W - 0.5 : 0) - ptrX) * k; ptrY += ((pIn && FINE ? pmy / H - 0.5 : 0) - ptrY) * k;
     cp.x += ptrX * 2.4 + Math.sin(T * 0.13) * 0.8; cp.y -= ptrY * 1.6;
+    if (cut.k > 0.001) { tmp.subVectors(cp, ct); cp.addScaledVector(tmp, cut.k * 0.35); }
+    if (ins.i >= 0 && ins.k > 0.001) {
+      const V = mods[ins.i];
+      insT.set(V.x, V.h * 0.4, V.z);
+      tmp.subVectors(cp, ct).normalize();
+      insP.copy(insT).addScaledVector(tmp, Math.max(V.w, V.d, V.h) * 2.1 + 12);
+      cp.lerp(insP, ins.k); ct.lerp(insT, ins.k);
+    }
     camera.position.copy(cp); camera.lookAt(ct);
-    const wide = W >= 900;
-    camera.setViewOffset(W, H, wide ? sideAt(f) * W : 0, wide ? 0 : 0.2 * H, W, H);
+    const fov = lensFov * (1 + cut.k * 0.18);
+    if (Math.abs(camera.fov - fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    const wide = W >= 900, side = sideAt(f) + (0.2 - sideAt(f)) * ins.k;
+    camera.setViewOffset(W, H, wide ? side * W : 0, wide ? 0 : 0.2 * H, W, H);
   }
 
   /* ---- agent behaviours: ring (holding orbit), flow (method pipeline), field (calendar), squad (module) ---- */
@@ -906,7 +992,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     });
     const md = clamp((drawT - 0.2) / 0.35, 0, 1);
     mvols.forEach((V, j) => {
-      const uH = md <= 0 ? -1 : md * V.h; V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH;
+      const uH = md <= 0 ? -1 : md * V.h; V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH; V.em.uniforms.uTrace.value = Math.max(V.em.uniforms.uTrace.value, md);
       V.glow += ((methodOn === j ? 1 : 0) - V.glow) * k; V.em.uniforms.uGlow.value = V.glow * 1.5; V.gm.uniforms.uGlow.value = V.glow * 1.5;
     });
     matGly.uniforms.uBoost.value.set(mvols[0].glow, mvols[1].glow, mvols[2].glow, mvols[3].glow);
@@ -930,8 +1016,9 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
       return;
     }
     const V = mods[+key]; if (!V || V.state) return;
-    if (instant) { V.b = 1; V.state = 2; refreshPick(); return; }
-    V.state = 1; V.hot = 1;
+    const trace = delay => { if (MOTION) gsap.fromTo(V.em.uniforms.uTrace, { value: 0 }, { value: 1, duration: 0.7, delay, ease: 'power2.inOut' }); else V.em.uniforms.uTrace.value = 1; };
+    if (instant) { V.b = 1; V.state = 2; refreshPick(); trace(0); return; }
+    V.state = 1; V.hot = 1; trace(0.6);
     V.squad = takeAgents(Math.round((V.w * V.d > 200 ? 64 : 42) * (LOW ? 0.55 : 1)));
     V.squad.forEach(j => { ROLE[j] = V.i; });
     gsap.to(V, { b: 1, duration: 3, delay: 0.6, ease: 'power1.inOut', onComplete() {
@@ -1038,9 +1125,10 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   if (window.PLANTA_TEMA) window.PLANTA_TEMA.on(retheme);
   return {
     frame, start, stop, build, setDraw, cursorText,
-    setChapter(i) { chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },
+    setChapter(i) { if ((i === 2 || i === 3) && i > chapterNow && running) cutTo(); chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },
     setMethod(k, who) { if (k >= 0) methodOn = k; else if (methodOn === who) methodOn = -1; },
-    highlight(i) { sheetMod = i; },
+    highlight(i) { if (ins.i < 0) sheetMod = i; },
+    inspect,
     hoverTarget() { return hover && hover.t === 'mod' ? MODS[hover.i].id : null; },
     get running() { return running; }
   };
