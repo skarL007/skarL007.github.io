@@ -40,7 +40,7 @@ const TX = {
     e: {
       chat: 'NDJSON · SSE', console: 'SSE · polling reserva', model: 'passo 0 forçado',
       fallback: '503 → reserva', emb: 'embeddings', ports: 'implementa as portas',
-      deploy: 'git archive', notRun: 'configurado · ainda não executado', otel: 'spans GenAI', sso: 'PKCE · JWKS'
+      deploy: 'git archive', notRun: 'rodando · pull a cada 10 min', otel: 'spans GenAI', sso: 'PKCE · JWKS'
     }
   },
   en: {
@@ -78,7 +78,7 @@ const TX = {
     e: {
       chat: 'NDJSON · SSE', console: 'SSE · polling fallback', model: 'step 0 forced',
       fallback: '503 → fallback', emb: 'embeddings', ports: 'implements the ports',
-      deploy: 'git archive', notRun: 'configured · not run yet', otel: 'GenAI spans', sso: 'PKCE · JWKS'
+      deploy: 'git archive', notRun: 'running · pulls every 10 min', otel: 'GenAI spans', sso: 'PKCE · JWKS'
     }
   }
 }[LANG];
@@ -98,7 +98,7 @@ const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 
 /* ---------- the model: one source for the 3D view and the 2D plan ----------
    x to the right, z towards the viewer, y up. g = the steps (1..6) that focus the node.
-   tone: plan | bright | accent | dash (optional, or configured and never run). tier: 1 always labelled,
+   tone: plan | bright | accent | dash (optional). tier: 1 always labelled,
    2 labelled in the overview on wide screens, 3 only when its step is open. */
 const TOOLS = ['recordUnderstanding', 'searchHelpCenter', 'listMyTickets', 'getTicket', 'draftNewTicket', 'draftTicketUpdate', 'confirmDraft', 'cancelDraft', 'offerQuickReplies', 'transferToAnalyst'];
 const NODES = [
@@ -117,9 +117,9 @@ const NODES = [
   { id: 'sso', x: -25, z: 20, w: 14, d: 7, y: 0, h: 1.2, tone: 'dash', g: [6], tier: 2 },
   { id: 'git', x: -52, z: 40, w: 12, d: 7, y: 0, h: 1, tone: 'plan', g: [5], tier: 2 },
   { id: 'vercel', x: -30, z: 53, w: 16, d: 8, y: 0, h: 2.4, tone: 'bright', g: [5], tier: 1 },
-  { id: 'circle', x: -28, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'dash', g: [5], tier: 2 },
-  { id: 'hub', x: -4, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'dash', g: [5], tier: 2 },
-  { id: 'komodo', x: 20, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'dash', g: [5], tier: 2 },
+  { id: 'circle', x: -28, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'plan', g: [5], tier: 2 },
+  { id: 'hub', x: -4, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'plan', g: [5], tier: 2 },
+  { id: 'komodo', x: 20, z: 40, w: 12, d: 7, y: 0, h: 1.2, tone: 'plan', g: [5], tier: 2 },
 ];
 TOOLS.forEach((t, i) => NODES.push({ id: 'tool' + i, tool: t, x: -10.4 + (i % 5) * 5.2, z: i < 5 ? -19.6 : -14.4, w: 4, d: 3.4, y: 1.2, h: 0.7, tone: 'accent', g: [2], tier: 3 }));
 const NODE = Object.fromEntries(NODES.map(n => [n.id, n]));
@@ -141,9 +141,9 @@ const EDGES = [
   { p: [[30, 8], [40, 15.5]], y: 0.6, kind: 'dash', g: [6], label: 'otel' },
   { p: [[-25, 16.5], [-25, 8]], y: 0.6, kind: 'dash', g: [6], label: 'sso' },
   { p: [[-52, 43.5], [-52, 53], [-38, 53]], y: 0.5, kind: 'flow', g: [5], label: 'deploy', lx: -52, lz: 48.5 },
-  { p: [[-46, 40], [-34, 40]], y: 0.6, kind: 'dash', g: [5] },
-  { p: [[-22, 40], [-10, 40]], y: 0.6, kind: 'dash', g: [5] },
-  { p: [[2, 40], [14, 40]], y: 0.6, kind: 'dash', g: [5] },
+  { p: [[-46, 40], [-34, 40]], y: 0.6, kind: 'flow', g: [5] },
+  { p: [[-22, 40], [-10, 40]], y: 0.6, kind: 'flow', g: [5] },
+  { p: [[2, 40], [14, 40]], y: 0.6, kind: 'flow', g: [5] },
 ];
 const NOTES = [{ key: 'notRun', x: -4, z: 46, g: [5] }];
 const STEP_N = 7;
@@ -217,7 +217,7 @@ const E2 = [
   ['infra', 'gemini', 'flow', 'emb', false, [[150, 38.5], [150, 8], [116, 8]]],
   ['infra', 'otel', 'dash', null, false, [[134, 65.5], [134, 81], [119, 81]]],
   ['sso', 'app', 'dash', 'sso'], ['git', 'vercel', 'flow', 'deploy'],
-  ['git', 'circle', 'dash'], ['circle', 'hub', 'dash'], ['hub', 'komodo', 'dash'],
+  ['git', 'circle', 'flow'], ['circle', 'hub', 'flow'], ['hub', 'komodo', 'flow'],
 ];
 let planBuilt = false;
 const SVGNS = 'http://www.w3.org/2000/svg';
