@@ -11,9 +11,9 @@
  */
 window.NEXO_NUMBERS = {
   asOf: '2026-10-30',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 148,              // git rev-list --count origin/main at 1d0e0c5 (also sets the 3D module height)
-  unitTests: 457,            // npm test (Vitest, 65 files)
-  e2eTests: 39,              // npm run test:e2e (Playwright)
+  commits: 154,              // git rev-list --count origin/main at 9d0605b (also sets the 3D module height)
+  unitTests: 472,            // npm test (Vitest, 68 files)
+  e2eTests: 42,              // npm run test:e2e (Playwright)
   evalsPassed: 36,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
   evalsTotal: 36,            // 30 Oct, with openrouter/openai/gpt-6-luna (the production model since that day)
   attacksPassed: 8,          // attack scenarios inside that suite
