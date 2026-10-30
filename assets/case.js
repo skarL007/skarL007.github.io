@@ -7,6 +7,7 @@ const LANG = /^en/i.test(root.lang || '') ? 'en' : 'pt';
 const TX = {
   pt: {
     no3d: '3D indisponível neste navegador',
+    zoomClose: 'Fechar a imagem ampliada', zoomOpen: 'Ampliar a imagem',
     hud: 'Planta N-02 · ',
     hudDrag: ' · arraste para girar',
     planAria: 'Planta 2D da arquitetura do Nexo Assist',
@@ -45,6 +46,7 @@ const TX = {
   },
   en: {
     no3d: '3D is not available in this browser',
+    zoomClose: 'Close the enlarged image', zoomOpen: 'Enlarge the image',
     hud: 'Sheet N-02 · ',
     hudDrag: ' · drag to rotate',
     planAria: '2D plan of the Nexo Assist architecture',
@@ -199,6 +201,46 @@ $$('[data-t]').forEach(b => b.addEventListener('click', () => {
   video.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
 }));
 
+/* ---------- screenshots: a click opens the 1600 px version in a dialog (Esc, the button or a click outside closes) ---------- */
+(function zoom() {
+  const links = $$('.shot a[href$=".webp"], .shot a[href$=".png"], .shot a[href$=".jpg"]');
+  if (!links.length || typeof HTMLDialogElement === 'undefined') return; // without <dialog> the link still opens the image
+  const dlg = document.createElement('dialog');
+  dlg.className = 'zoom';
+  dlg.innerHTML = '<button type="button" class="tgl zoom-x"><span aria-hidden="true">×</span></button><figure><div class="zoom-pan"><img alt=""></div><figcaption></figcaption></figure>';
+  const x = $('.zoom-x', dlg), im = $('img', dlg), cap = $('figcaption', dlg);
+  x.setAttribute('aria-label', TX.zoomClose);
+  document.body.appendChild(dlg);
+  let back = null;
+  x.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }); // the backdrop
+  // 'close' arrives as a task; if the dialog was reopened before it ran, keep the new image
+  dlg.addEventListener('close', () => { if (dlg.open) return; root.classList.remove('zoom-on'); im.removeAttribute('src'); if (back) back.focus({ preventScroll: true }); });
+  links.forEach(a => {
+    const img = $('img', a); if (!img) return;
+    a.setAttribute('aria-label', TX.zoomOpen + (img.alt ? ': ' + img.alt : ''));
+    a.addEventListener('click', e => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return; // a new tab still works
+      e.preventDefault(); back = a;
+      im.src = a.getAttribute('href'); im.alt = img.alt;
+      const fc = a.closest('figure').querySelector('figcaption'); cap.textContent = fc ? fc.textContent : '';
+      cap.hidden = !fc;
+      root.classList.add('zoom-on'); dlg.showModal(); x.focus();
+    });
+  });
+})();
+
+/* phones: the evidence and the open items start folded behind their summary row; wider screens keep them open.
+   Without JavaScript both stay open. */
+(function folds() {
+  const folds = $$('details.fold');
+  if (!folds.length) return;
+  const mq = window.matchMedia('(max-width:760px)');
+  const set = () => folds.forEach(d => { d.open = !mq.matches; });
+  set();
+  mq.addEventListener('change', set);
+})();
+
 /* ---------- 2D plan (SVG): the same nodes and steps, laid out flat so every name stays readable ---------- */
 /* [cx, cy, w, h] on a 160 × 122 sheet; db is a circle [cx, cy, r] */
 const P2 = {
@@ -228,9 +270,9 @@ function buildPlan() {
   const el = (tag, at, parent) => { const n = document.createElementNS(SVGNS, tag); for (const k in at) n.setAttribute(k, at[k]); if (parent) parent.appendChild(n); return n; };
   const svg = el('svg', { viewBox: '-2 -1 164 124', role: 'img', 'aria-label': TX.planAria, preserveAspectRatio: 'xMidYMid meet' });
   const defs = el('defs', {}, svg);
-  [['ar', '#D8EEFF'], ['ar-a', '#FF6A2B'], ['ar-p', '#6A9FCC'], ['ar-d', '#BFD2E6']].forEach(([id, c]) => {
+  [['ar', '--bright'], ['ar-a', '--accent'], ['ar-p', '--plan'], ['ar-d', '--fg-2']].forEach(([id, c]) => {
     const m = el('marker', { id, viewBox: '0 0 6 6', refX: 5, refY: 3, markerWidth: 4, markerHeight: 4, orient: 'auto-start-reverse' }, defs);
-    el('path', { d: 'M0,0 L6,3 L0,6 z', fill: c }, m);
+    el('path', { d: 'M0,0 L6,3 L0,6 z', style: 'fill:var(' + c + ')' }, m);
   });
   const groups = [];
   const G = gs => { const g = el('g', {}, svg); groups.push([g, gs]); return g; };
@@ -296,56 +338,122 @@ async function initGL() {
   if (GL || glLoading || glFailed || !archEl) return;
   if (!hasWebGL2()) { failGL(); return; }
   glLoading = true;
-  let THREE;
-  try { THREE = await import('three'); } catch (e) { failGL(); return; }
-  try { GL = createView(THREE); } catch (e) { console.warn(e); failGL(); return; }
+  let mods;
+  try {
+    mods = await Promise.all([
+      import('three'),
+      import('three/addons/postprocessing/EffectComposer.js'),
+      import('three/addons/postprocessing/RenderPass.js'),
+      import('three/addons/postprocessing/UnrealBloomPass.js'),
+      import('three/addons/postprocessing/ShaderPass.js'),
+      import('three/addons/postprocessing/OutputPass.js')
+    ]);
+  } catch (e) { failGL(); return; }
+  try { GL = createView(mods); } catch (e) { console.warn(e); failGL(); return; }
   glLoading = false;
   if (is2D()) GL.stop(); else GL.start();
 }
 
-function createView(THREE) {
+/* film grain + vignette, the same pass the home page uses */
+const GRAIN = {
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uGrain: { value: 1 }, uVig: { value: 0.32 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime; uniform float uGrain; uniform float uVig; varying vec2 vUv;
+float hash(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+void main(){
+  vec4 c = texture2D(tDiffuse, vUv);
+  float v = 1.0 - smoothstep(0.3, 0.85, length((vUv - 0.5) * vec2(1.1, 1.0)));
+  c.rgb *= mix(1.0 - uVig, 1.0, v);
+  float n = hash(gl_FragCoord.xy + floor(uTime * 24.0) * 17.0) - 0.5;
+  c.rgb = max(c.rgb + n * uGrain * (0.003 + c.rgb * 0.06), vec3(0.0));
+  gl_FragColor = c;
+}`
+};
+
+function createView([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPass }, { ShaderPass }, { OutputPass }]) {
   const view = $('#archView'), canvas = $('#archGl'), labelsEl = $('#archLabels'), hud = $('#archHud');
   let W = view.clientWidth, H = view.clientHeight;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(W, H, false);
-  renderer.setClearColor(0x050B16, 1);
+  /* the plan's colours (the CSS side holds the same values as custom properties in site.css) */
+  const PAL = { ink: '#050B16', plan: '#6A9FCC', bright: '#D8EEFF', accent: '#FF6A2B', dash: '#BFD2E6', grid: '#4F7FAD', flow: '#A7DBFF' };
+  const tint = (key, c) => c.set(PAL[key]);
+  renderer.setClearColor(PAL.ink, 1);
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); stop(); failGL(); }, false);
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x050B16, 140, 300);
+  scene.fog = new THREE.Fog(PAL.ink, 260, 520); // far enough that the plan keeps its full contrast
+  scene.background = new THREE.Color(PAL.ink); // the composer's render target needs the clear colour as a scene background, or it comes out washed
   const camera = new THREE.PerspectiveCamera(36, W / H, 0.5, 900);
-  const COL = { plan: 0x6A9FCC, bright: 0xD8EEFF, accent: 0xFF6A2B, dash: 0xBFD2E6, grid: 0x4F7FAD, flow: 0xA7DBFF };
+  /* post: a soft bloom on the lit hairlines, then grain and vignette */
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
+  composer.setPixelRatio(DPR); composer.setSize(W, H);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.32, 0.25, 0.62); composer.addPass(bloom);
+  const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
+  composer.addPass(new OutputPass());
 
-  /* drafting floor */
-  const g1 = new THREE.GridHelper(240, 48, COL.grid, COL.grid);
+  /* drafting floor (one material colour instead of GridHelper's vertex colours, so it can be repainted) */
+  const g1 = new THREE.GridHelper(240, 48);
+  g1.material.vertexColors = false; tint('grid', g1.material.color);
   g1.material.transparent = true; g1.material.opacity = 0.16; g1.position.y = -0.02; scene.add(g1);
-  const g2 = new THREE.GridHelper(240, 240, COL.grid, COL.grid);
+  const g2 = new THREE.GridHelper(240, 240);
+  g2.material.vertexColors = false; tint('grid', g2.material.color);
   g2.material.transparent = true; g2.material.opacity = 0.05; g2.position.y = -0.03; scene.add(g2);
 
   const parts = []; // { obj, mats: [mat, baseOpacity], g, node }
   function track(obj, mats, g, extra) { const p = Object.assign({ obj, mats, g, k: 1 }, extra || {}); parts.push(p); return p; }
-  function lineMat(color, opacity, dashed) {
-    return dashed ? new THREE.LineDashedMaterial({ color, transparent: true, opacity, dashSize: 0.9, gapSize: 0.7, depthWrite: false })
-      : new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false });
+  function lineMat(key, opacity, dashed) {
+    const m = dashed ? new THREE.LineDashedMaterial({ transparent: true, opacity, dashSize: 0.9, gapSize: 0.7, depthWrite: false })
+      : new THREE.LineBasicMaterial({ transparent: true, opacity, depthWrite: false });
+    tint(key, m.color); return m;
   }
 
-  /* nodes: hairline edges + a faint glass fill, rising from the floor */
+  /* nodes: hairline edges + a faint glass fill. A box is assembled like the home's blocks: the floor outline
+     is traced, the corner posts rise, the roof drops into place with a small settle, then the glass fades in */
+  const rectPts = (hw, hd, y) => [-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd];
+  const segGeo = pts => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3)); return g; };
   NODES.forEach((n, i) => {
-    const col = COL[n.tone];
+    const col = n.tone;
     const geo = n.cyl ? new THREE.CylinderGeometry(n.r, n.r, n.h, 40, 1, true) : new THREE.BoxGeometry(n.w, n.h, n.d);
     const grp = new THREE.Group();
-    const eg = n.cyl ? cylEdges(n.r, n.h) : new THREE.EdgesGeometry(geo);
-    const em = lineMat(col, n.tone === 'dash' ? 0.85 : 0.95, n.tone === 'dash');
-    const lines = new THREE.LineSegments(eg, em);
-    if (n.tone === 'dash') lines.computeLineDistances();
-    const fm = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: n.tone === 'dash' ? 0.025 : n.tool ? 0.16 : 0.07, depthWrite: false, side: THREE.DoubleSide });
+    const em = lineMat(col, n.tone === 'dash' ? 0.9 : 1, n.tone === 'dash');
+    const fm = new THREE.MeshBasicMaterial({ transparent: true, opacity: n.tone === 'dash' ? 0.04 : n.tool ? 0.2 : 0.11, depthWrite: false, side: THREE.DoubleSide });
+    tint(col, fm.color);
     const fill = new THREE.Mesh(geo, fm);
-    grp.add(fill, lines);
+    const dist = Math.hypot(n.x, n.z), extra = { node: n, fill, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 };
+    if (n.cyl) {
+      const lines = new THREE.LineSegments(cylEdges(n.r, n.h), em);
+      grp.add(fill, lines); extra.lines = lines;
+    } else {
+      const hw = n.w / 2, hd = n.d / 2, hh = n.h / 2;
+      const floor = new THREE.LineSegments(segGeo(rectPts(hw, hd, -hh)), em);
+      const posts = new THREE.LineSegments(segGeo([-hw, 0, -hd, -hw, n.h, -hd, hw, 0, -hd, hw, n.h, -hd, hw, 0, hd, hw, n.h, hd, -hw, 0, hd, -hw, n.h, hd]), em);
+      const roof = new THREE.LineSegments(segGeo(rectPts(hw, hd, 0)), em);
+      posts.position.y = -hh; roof.position.y = hh;
+      [floor, posts, roof].forEach(l => { if (n.tone === 'dash') l.computeLineDistances(); grp.add(l); });
+      grp.add(fill);
+      Object.assign(extra, { floor, posts, roof });
+    }
     grp.position.set(n.x, n.y + n.h / 2, n.z);
     scene.add(grp);
-    const dist = Math.hypot(n.x, n.z);
-    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, { node: n, delay: n.tool ? 0.55 + i * 0.012 : dist / 90 });
+    track(grp, [[em, em.opacity], [fm, fm.opacity]], n.g, extra);
   });
+  const settle = t => { const c1 = 1.70158, x = t - 1; return 1 + (c1 + 1) * x * x * x + c1 * x * x; };
+  /* one box at build progress u (0 → 1 over about 1.2 s) */
+  function assemble(p, u) {
+    const n = p.node;
+    if (!p.floor) { const g = ease(u / 0.8); p.obj.scale.y = Math.max(0.001, g); p.obj.position.y = n.y + n.h * g / 2; return clamp((u - 0.6) / 0.4, 0, 1); }
+    const tr = clamp(u / 0.28, 0, 1);
+    p.floor.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(4 * tr) * 2);
+    p.floor.visible = tr > 0;
+    const pu = ease(clamp((u - 0.22) / 0.3, 0, 1));
+    p.posts.scale.y = Math.max(0.001, pu); p.posts.visible = pu > 0;
+    const ru = clamp((u - 0.5) / 0.3, 0, 1);
+    p.roof.visible = ru > 0; p.roof.position.y = n.h / 2 + (1 - settle(ru)) * Math.min(4, 1.2 + n.h * 0.4);
+    return clamp((u - 0.72) / 0.28, 0, 1);
+  }
   function cylEdges(r, h) {
     const pts = [], N = 40;
     for (const y of [-h / 2, h / 2, h / 2 - 0.9]) for (let i = 0; i < N; i++) {
@@ -359,7 +467,7 @@ function createView(THREE) {
   /* edges with arrowheads; flows also carry a travelling pulse */
   const pulses = [];
   EDGES.forEach(e => {
-    const col = e.kind === 'dep' ? COL.bright : e.tone === 'accent' ? COL.accent : e.kind === 'dash' ? COL.dash : COL.plan;
+    const col = e.kind === 'dep' ? 'bright' : e.tone === 'accent' ? 'accent' : e.kind === 'dash' ? 'dash' : 'plan';
     const pts = [];
     const P = e.p.map(([x, z]) => new THREE.Vector3(x, e.y, z));
     for (let i = 1; i < P.length; i++) pts.push(P[i - 1], P[i]);
@@ -376,7 +484,7 @@ function createView(THREE) {
     const ls = new THREE.LineSegments(geo, m);
     if (e.kind === 'dash') ls.computeLineDistances();
     scene.add(ls);
-    track(ls, [[m, m.opacity]], e.g, { delay: 0.6 });
+    track(ls, [[m, m.opacity]], e.g, { lines: ls, delay: 0.6 });
     if (e.kind === 'flow' && !RM) {
       let len = 0; const segs = [];
       for (let i = 1; i < P.length; i++) { const l = P[i].distanceTo(P[i - 1]); segs.push([P[i - 1], P[i], len, l]); len += l; }
@@ -386,7 +494,8 @@ function createView(THREE) {
   const pulseGeo = new THREE.BufferGeometry();
   const pulsePos = new Float32Array(Math.max(1, pulses.length * 2) * 3);
   pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
-  const pulseMat = new THREE.PointsMaterial({ color: COL.flow, size: 4.5, sizeAttenuation: false, transparent: true, opacity: 0.95, depthWrite: false });
+  const pulseMat = new THREE.PointsMaterial({ size: 4.5, sizeAttenuation: false, transparent: true, opacity: 0.95, depthWrite: false });
+  tint('flow', pulseMat.color);
   const pulsePts = new THREE.Points(pulseGeo, pulseMat); pulsePts.frustumCulled = false;
   if (pulses.length) scene.add(pulsePts);
   const at = (pl, t) => {
@@ -423,7 +532,7 @@ function createView(THREE) {
   labels.sort((p, q) => p.pri - q.pri);
 
   /* camera: frame the nodes of the current step */
-  const DIR = { az: 0.42, el: 0.82 };
+  const DIR = { az: 0.42, el: 0.9 };
   const cam = { tx: 0, ty: 0, tz: 8, dist: 160 }, goal = { tx: 0, ty: 0, tz: 8, dist: 160 };
   let dragAz = 0, dragEl = 0, sway = 0;
   /* fit: project the corners of the step's nodes and correct target and distance a few times,
@@ -441,7 +550,7 @@ function createView(THREE) {
     probe.fov = camera.fov; probe.aspect = camera.aspect; probe.near = camera.near; probe.far = camera.far; probe.updateProjectionMatrix();
     const vf = THREE.MathUtils.degToRad(camera.fov), hf = 2 * Math.atan(Math.tan(vf / 2) * camera.aspect);
     const az = DIR.az, el = DIR.el, right = new THREE.Vector3(Math.cos(az), 0, -Math.sin(az)), fwd = new THREE.Vector3(-Math.sin(az), 0, -Math.cos(az));
-    const M = { x: 0.95, top: 0.84, bot: -0.88 }, v = new THREE.Vector3();
+    const M = { x: 0.98, top: 0.88, bot: -0.9 }, v = new THREE.Vector3();
     for (let it = 0; it < 6; it++) {
       probe.position.set(g.tx + Math.sin(az) * Math.cos(el) * g.dist, Math.sin(el) * g.dist, g.tz + Math.cos(az) * Math.cos(el) * g.dist);
       probe.lookAt(g.tx, 0, g.tz); probe.updateMatrixWorld();
@@ -490,15 +599,18 @@ function createView(THREE) {
     }
     place();
     parts.forEach(p => {
-      const target = inStep(p.g, step) ? 1 : 0.16;
+      const target = inStep(p.g, step) ? 1 : 0.2;
       p.k += RM ? target - p.k : (target - p.k) * Math.min(1, dt * 5);
-      const grow = RM ? 1 : ease((born - p.delay) / 0.9);
-      if (p.node) { p.obj.scale.y = Math.max(0.001, grow); p.obj.position.y = p.node.y + p.node.h * grow / 2; }
+      const fillK = p.node ? (RM ? 1 : assemble(p, clamp((born - p.delay) / 1.2, 0, 1))) : 1;
       const vis = p.node ? 1 : (RM ? 1 : ease((born - p.delay) / 0.7));
       p.mats.forEach(([m, base]) => { m.opacity = base * p.k * vis; });
+      if (p.fill) p.fill.material.opacity *= fillK;
+      // the connections are traced segment by segment (about 0.7 s)
+      const tr = p.node ? 1 : RM ? 1 : ease((born - p.delay) / 0.75);
+      if (p.lines && !p.node && p.tr !== tr) { p.tr = tr; const n = p.lines.geometry.attributes.position.count; p.lines.geometry.setDrawRange(0, tr >= 1 ? Infinity : Math.ceil(n * tr / 2) * 2); }
       if (Math.abs(target - p.k) > 0.01) moving = true;
     });
-    if (!RM && born < 2.4) moving = true;
+    if (!RM && born < 3.2) moving = true;
     if (pulses.length) {
       pulses.forEach((pl, i) => {
         const on = inStep(pl.g, step) && born > 1.2;
@@ -511,7 +623,8 @@ function createView(THREE) {
       pulseGeo.attributes.position.needsUpdate = true;
       moving = true;
     }
-    renderer.render(scene, camera);
+    grainPass.uniforms.uTime.value = t;
+    composer.render(dt);
     drawLabels(born);
     dirty = false;
     if (running && visible && (moving || !RM || drag)) { raf = requestAnimationFrame(tick); }
@@ -526,26 +639,31 @@ function createView(THREE) {
       if (b < 0.9 && !RM) want = false;
       v.copy(L.pos).project(camera);
       if (v.z > 1) want = false;
-      let x = (v.x * 0.5 + 0.5) * W; const y = (-v.y * 0.5 + 0.5) * H;
+      const ax = (v.x * 0.5 + 0.5) * W, y = (-v.y * 0.5 + 0.5) * H; let x = ax;
       if (want) {
         if (!L.w) { L.w = L.sp.offsetWidth; L.h = L.sp.offsetHeight; }
         const centered = L.cls === 't-edge' || L.cls === 't-note';
         // keep a label that runs past a side edge inside the frame, as long as its anchor is on screen
         if (x > 0 && x < W) x = clamp(x, L.w / 2 + 8, W - L.w / 2 - 8);
-        const r = { x0: x - L.w / 2 - 2, x1: x + L.w / 2 + 2, y0: centered ? y - L.h / 2 - 1 : y - L.h - 7, y1: centered ? y + L.h / 2 + 1 : y - 5 };
+        const r = { x0: x - L.w / 2 - 2, x1: x + L.w / 2 + 2, y0: centered ? y - L.h / 2 - 1 : y - L.h - 17, y1: centered ? y + L.h / 2 + 1 : y + 3 };
         if (r.x0 < 4 || r.x1 > W - 4 || r.y0 < 4 || r.y1 > H - 22) want = false;
         else if (placed.some(q => r.x0 < q.x1 && r.x1 > q.x0 && r.y0 < q.y1 && r.y1 > q.y0)) want = false;
         else placed.push(r);
       }
       const a = want ? 1 : 0;
       if (a !== L.a) { L.a = a; L.el.style.opacity = String(a); }
-      if (want) L.el.style.transform = 'translate3d(' + Math.round(x) + 'px,' + Math.round(y) + 'px,0)';
+      if (want) {
+        // the box stays on its anchor (dot + leader line); only the text slides when it was kept inside the frame
+        const centered = L.cls === 't-edge' || L.cls === 't-note', dx = centered ? 0 : Math.round(x - ax);
+        L.el.style.transform = 'translate3d(' + Math.round(centered ? x : ax) + 'px,' + Math.round(y) + 'px,0)';
+        if (dx !== L.dx) { L.dx = dx; L.sp.style.setProperty('--dx', dx + 'px'); }
+      }
     });
   }
   function resize() {
     const w = view.clientWidth, h = view.clientHeight;
     if (!w || !h || (w === W && h === H)) return;
-    W = w; H = h; renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+    W = w; H = h; renderer.setSize(W, H, false); composer.setSize(W, H); camera.aspect = W / H; camera.updateProjectionMatrix();
     labels.forEach(L => { L.w = 0; });
     frame(step); Object.assign(cam, goal); requestDraw();
   }

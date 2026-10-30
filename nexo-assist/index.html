@@ -40,9 +40,11 @@
     <a href="#desafio"><i aria-hidden="true">01</i>Desafio</a>
     <a href="#arquitetura"><i aria-hidden="true">02</i>Arquitetura</a>
     <a href="#produto"><i aria-hidden="true">03</i>Produto</a>
+    <a href="#video"><i aria-hidden="true">04</i>Vídeo</a>
     <a href="#decisoes"><i aria-hidden="true">05</i>Decisões</a>
     <a href="#provas"><i aria-hidden="true">06</i>Provas</a>
     <a href="#entrega"><i aria-hidden="true">07</i>Entrega</a>
+    <a href="#aberto"><i aria-hidden="true">08</i>Em aberto</a>
   </nav>
   <div class="hdr-tools">
     <a class="tgl lang" href="../en/nexo-assist/" hreflang="en" lang="en" aria-label="English version">EN</a>
@@ -72,6 +74,16 @@
     <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">148</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · GPT-6 Luna (OpenRouter) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
+  </dl>
+</section>
+
+<section id="em-60s" class="cs-60" aria-labelledby="h-60">
+  <h2 class="s60-h" id="h-60"><i aria-hidden="true"></i>Nexo Assist em 60 segundos</h2>
+  <dl class="s60">
+    <div><dt>O problema</dt><dd>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados e com prioridade errada.</dd></div>
+    <div><dt>O que o agente faz</dt><dd>Conversa com o funcionário, busca na central de ajuda, abre ou complementa o chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele fez e por quê.</dd></div>
+    <div><dt>A prova</dt><dd><span data-n="evals">36/36</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">457</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
+    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 5:28</a>.</dd></div>
   </dl>
 </section>
 
@@ -170,12 +182,13 @@
 <section id="video" class="cs-sec" aria-labelledby="h-video">
   <header>
     <p class="callout"><span class="cn">N-04</span><span class="ct">Vídeo de demo</span></p>
-    <h2 class="cs-h2" id="h-video" tabindex="-1">5:28, com música original de fundo e efeitos sonoros</h2>
-    <p class="cs-intro">As partes do app são gravações reais com o Gemini; as esperas pelo modelo aparecem aceleradas e sinalizadas. Diagramas e números são animações, e cada número mostra a fonte no repositório.</p>
+    <h2 class="cs-h2" id="h-video" tabindex="-1">Da conversa ao chamado, e do chamado ao analista</h2>
+    <p class="cs-intro">Em 5:28, o funcionário resolve sozinho, o agente monta o chamado e o analista assume no console. As partes do app são gravações reais com o Gemini; as esperas pelo modelo aparecem aceleradas e sinalizadas. Diagramas e números são animações, e cada número mostra a fonte no repositório. Tem música original de fundo e efeitos sonoros.</p>
   </header>
   <figure class="vid">
     <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp" aria-label="Vídeo de demonstração do Nexo Assist, 5 minutos e 28 segundos, com música original de fundo e efeitos sonoros">
       <source src="../assets/video/nexo-assist-demo.mp4" type="video/mp4">
+      <track kind="chapters" srclang="pt" label="Capítulos" src="../assets/video/nexo-assist-demo.chapters.pt.vtt" default>
     </video>
     <figcaption>H.264 · 1920×1080 · 27 MB · só toca quando você der play · efeitos sonoros: Pixabay · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
   </figure>
@@ -240,10 +253,12 @@
     <p class="cs-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o modelo de verdade e tem um relatório com pergunta, método, números e limites.</p>
   </header>
   <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">30 out 2026</span>, no main do repositório</p>
+  <details class="fold" open>
+  <summary>Ver os números e as fontes</summary>
   <dl class="proof">
     <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">457</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">36/36</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques e 6 cenários tirados das falhas do funcionário simulado. A falha, “Reabrir chamado resolvido”, é intermitente: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">repetida, deu 2/3</a>.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">36/36</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques, 6 cenários tirados das falhas do funcionário simulado e 2 de verificações de diagnóstico. Rodada com o GPT-6 Luna, o modelo de produção desde 30/10: o único cenário que falhou com ele supunha o Gemini pulando o autoatendimento e <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">foi corrigido no teste</a>, não no agente.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
     <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,93</span> <small>pass^1 · antes <span data-n="simPass1Before">0,72</span></small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. Três rodadas no mesmo dia: 0,72 / 0,50 → 0,93 / 0,80 → 0,93 / 0,80, a terceira com uma persona repetida depois de corrigida. Com 10 personas × 3, <span data-n="simRuns">28/30</span> conversas certas; pass^3 <span data-n="simPass3Before">0,50</span> → <span data-n="simPass3">0,80</span> (<span data-n="simPersonas">8/10</span> personas certas nas 3 execuções). A primeira rodada achou defeitos reais no agente, corrigidos com regras em código e testes, não com ajustes no prompt.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>busca na central</dt><dd class="n">84% → 94%</dd><dd class="d">Acerto geral em 50 perguntas, palavras-chave contra híbrida, com um conjunto separado escrito depois da escolha.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
@@ -251,6 +266,7 @@
     <div><dt>sugestão de resposta</dt><dd class="n">9/9</dd><dd class="d">3 conversas × 3, sem número nem ação inventados no rascunho para o analista.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div><dt>revisões de segurança</dt><dd class="n">4</dd><dd class="d">Antes e depois do deploy, 42 verificações de fora contra a produção e uma rodada com skills de auditoria de terceiros. <code>npm audit</code> sem vulnerabilidades.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/DEPLOY.md</a></dd></div>
   </dl>
+  </details>
 </section>
 
 <section id="entrega" class="cs-sec" aria-labelledby="h-entrega">
@@ -282,6 +298,8 @@
     <p class="callout"><span class="cn">N-08</span><span class="ct">Em aberto</span></p>
     <h2 class="cs-h2" id="h-aberto" tabindex="-1">O que ainda falta</h2>
   </header>
+  <details class="fold" open>
+  <summary>Ver o que ainda falta</summary>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
     <li><b>O que o funcionário simulado pegou</b><p>Todos os defeitos das três rodadas viraram regra em código, com testes: confirmação só explícita (e um “Sim, é esse mesmo” que só identifica o chamado não reabre nada), problema diferente vira chamado novo, Outlook entra como E-mail, analista só com motivo (prazo que não atende, chamado vencido ou frustração) e a pergunta sobre alternativa antes da prioridade. Repetidos depois das correções de 29 out, <code>senha-sap</code> e <code>vpn-reuniao</code> passaram 3 de 3, e a reabertura nos evals também. O que fica é a variação do próprio modelo: na suíte completa de 29 out, um cenário de incidente em massa falhou uma vez e passou 3 de 3 repetido.</p></li>
@@ -293,11 +311,13 @@
     <li><b>Serviços de verdade</b><p>O SSO só foi testado contra um provedor falso, e a telemetria contra um coletor local. Sair não revoga o JWT no servidor, e o console precisa de tela larga.</p></li>
   </ul>
   <!-- /nexo:open-items -->
+  </details>
 </section>
 
 <div class="cs-end">
   <a class="btn btn-solid" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Usar a demo ↗</a>
   <a class="btn" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Ver o repositório ↗</a>
+  <a class="btn" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Contato pelo LinkedIn ↗</a>
   <a class="btn" href="../#p-nexo">← Voltar ao portfólio</a>
 </div>
 </main>
@@ -307,8 +327,10 @@
   <p class="foot-src">Este site foi feito do mesmo jeito: eu dirigi e agentes de IA escreveram o código. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Código-fonte ↗</a> · <a href="../en/nexo-assist/" hreflang="en" lang="en">English version</a></p>
 </footer>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
 <script src="../assets/nexo-numbers.js" defer></script>
+<script src="../assets/motion.js" defer></script>
 <script type="module" src="../assets/case.js"></script>
+<script src="../assets/sfx.js" defer></script>
 </body>
 </html>

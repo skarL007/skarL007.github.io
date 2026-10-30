@@ -40,9 +40,11 @@
     <a href="#desafio"><i aria-hidden="true">01</i>Challenge</a>
     <a href="#arquitetura"><i aria-hidden="true">02</i>Architecture</a>
     <a href="#produto"><i aria-hidden="true">03</i>Product</a>
+    <a href="#video"><i aria-hidden="true">04</i>Video</a>
     <a href="#decisoes"><i aria-hidden="true">05</i>Decisions</a>
     <a href="#provas"><i aria-hidden="true">06</i>Evidence</a>
     <a href="#entrega"><i aria-hidden="true">07</i>Delivery</a>
+    <a href="#aberto"><i aria-hidden="true">08</i>Still open</a>
   </nav>
   <div class="hdr-tools">
     <a class="tgl lang" href="../../nexo-assist/" hreflang="pt-BR" lang="pt-BR" aria-label="Versão em português">PT</a>
@@ -72,6 +74,16 @@
     <div><dt>Delivered</dt><dd>28 Oct 2026 · <span data-n="commits">148</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">Strict TypeScript · Next.js 16 · Mastra · GPT-6 Luna (OpenRouter) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Code</dt><dd>Public on GitHub, with specs, validation reports and the demo video. The docs are in Portuguese.</dd></div>
+  </dl>
+</section>
+
+<section id="em-60s" class="cs-60" aria-labelledby="h-60">
+  <h2 class="s60-h" id="h-60"><i aria-hidden="true"></i>Nexo Assist in 60 seconds</h2>
+  <dl class="s60">
+    <div><dt>The problem</dt><dd>A fictional company of about 2,000 employees has an IT team buried in triage: tickets without context, duplicates and wrong priorities.</dd></div>
+    <div><dt>What the agent does</dt><dd>It talks to the employee, searches the help center, opens or updates a ticket once they confirm, and calls an analyst when it needs to. Every answer shows what it did and why.</dd></div>
+    <div><dt>The proof</dt><dd><span data-n="evals">36/36</span> evals with the real model, <span data-n="redTeam">21/21</span> in the red team and <span data-n="unitTests">457</span> tests without an LLM, each number with its source in the repository.</dd></div>
+    <div><dt>See it work</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Public demo ↗</a> in Portuguese, one click as Ana or Rafael, or the <a href="#video">5:28 video</a>.</dd></div>
   </dl>
 </section>
 
@@ -170,12 +182,13 @@
 <section id="video" class="cs-sec" aria-labelledby="h-video">
   <header>
     <p class="callout"><span class="cn">N-04</span><span class="ct">Demo video</span></p>
-    <h2 class="cs-h2" id="h-video" tabindex="-1">5:28, original background music and sound effects</h2>
-    <p class="cs-intro">The app footage is real, recorded with Gemini; waits for the model are sped up and marked as such. Diagrams and numbers are animations, and each number shows its source in the repository. The video is in Portuguese.</p>
+    <h2 class="cs-h2" id="h-video" tabindex="-1">From conversation to ticket, and from ticket to analyst</h2>
+    <p class="cs-intro">In 5:28, the employee solves a problem alone, the agent drafts the ticket and the analyst takes over in the console. The app footage is real, recorded with Gemini; waits for the model are sped up and marked as such. Diagrams and numbers are animations, and each number shows its source in the repository. It has original background music and sound effects. The video is in Portuguese.</p>
   </header>
   <figure class="vid">
     <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../../assets/shots/nexo-poster-1600.webp" aria-label="Nexo Assist demo video, 5 minutes 28 seconds, with original background music and sound effects">
       <source src="../../assets/video/nexo-assist-demo.mp4" type="video/mp4">
+      <track kind="chapters" srclang="en" label="Chapters" src="../../assets/video/nexo-assist-demo.chapters.en.vtt" default>
     </video>
     <figcaption>H.264 · 1920×1080 · 27 MB · plays only when you press play · sound effects: Pixabay · also in the <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repository ↗</a></figcaption>
   </figure>
@@ -240,10 +253,12 @@
     <p class="cs-intro">Unit and E2E tests run without an LLM. Anything that depends on the model runs against the real model and has a report with the question, method, numbers and limits.</p>
   </header>
   <p class="asof"><i aria-hidden="true"></i>Round of <span data-n="asOf">30 Oct 2026</span>, on the repository's main</p>
+  <details class="fold" open>
+  <summary>Show the numbers and their sources</summary>
   <dl class="proof">
     <div class="live"><dt>unit tests</dt><dd class="n"><span data-n="unitTests">457</span></dd><dd class="d">Vitest, no LLM: deadlines, priority, conversation states, privacy, duplicates, CSRF, OIDC against forged tokens, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
     <div class="live"><dt>E2E tests</dt><dd class="n"><span data-n="e2eTests">39</span></dd><dd class="d">Playwright against the production build, no LLM: login and SSO, handoff, report, indicators, real time, errors.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals with the real model</dt><dd class="n"><span data-n="evals">36/36</span></dd><dd class="d">Intent, expected and forbidden tools, handoff, critical case and data leaks. Among them, <span data-n="attacks">8/8</span> attacks and 6 scenarios taken from the simulated employee’s findings. The one failure, “Reabrir chamado resolvido” (reopening a resolved ticket), is intermittent: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">repeated, it scored 2/3</a>.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>evals with the real model</dt><dd class="n"><span data-n="evals">36/36</span></dd><dd class="d">Intent, expected and forbidden tools, handoff, critical case and data leaks. Among them, <span data-n="attacks">8/8</span> attacks, 6 scenarios taken from the simulated employee’s findings and 2 diagnostic-check scenarios. Run with GPT-6 Luna, the production model since 30 Oct: the one scenario that failed with it assumed Gemini skipping self-service and <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">was fixed in the test</a>, not in the agent.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapped to OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 attacks × 3: injection, data leaks, acting without confirmation, system prompt, goal hijack. Indirect injection through a help-center article: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
     <div class="live"><dt>simulated employee</dt><dd class="n"><span data-n="simPass1">0.93</span> <small>pass^1 · before <span data-n="simPass1Before">0.72</span></small></dd><dd class="d">A model plays the employee, with facts it only shares when asked. Three rounds on the same day: 0.72 / 0.50 → 0.93 / 0.80 → 0.93 / 0.80, the third with one persona re-run after its fix. With 10 personas × 3, <span data-n="simRuns">28/30</span> conversations right; pass^3 <span data-n="simPass3Before">0.50</span> → <span data-n="simPass3">0.80</span> (<span data-n="simPersonas">8/10</span> personas right in all 3 runs). The first round found real agent bugs, fixed with rules in code and tests, not prompt tweaks.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>help-center search</dt><dd class="n">84% → 94%</dd><dd class="d">Overall score on 50 questions, keywords against hybrid, with a held-out set written after the choice.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
@@ -251,6 +266,7 @@
     <div><dt>suggested reply</dt><dd class="n">9/9</dd><dd class="d">3 conversations × 3, with no invented number or action in the analyst's draft.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div><dt>security reviews</dt><dd class="n">4</dd><dd class="d">Before and after deploying, 42 black-box checks against production, and a round with third-party audit skills. <code>npm audit</code> with no vulnerabilities.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/DEPLOY.md</a></dd></div>
   </dl>
+  </details>
 </section>
 
 <section id="entrega" class="cs-sec" aria-labelledby="h-entrega">
@@ -282,6 +298,8 @@
     <p class="callout"><span class="cn">N-08</span><span class="ct">Still open</span></p>
     <h2 class="cs-h2" id="h-aberto" tabindex="-1">What is left</h2>
   </header>
+  <details class="fold" open>
+  <summary>Show what is still open</summary>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
     <li><b>What the simulated employee caught</b><p>Every bug from the three rounds became a rule in code, with tests: confirmation must be explicit (and a “Sim, é esse mesmo”, “yes, that’s the one”, that only identifies the ticket reopens nothing), a different problem gets a new ticket, Outlook is filed under E-mail, an analyst is offered only with a reason (a deadline that misses the need, an overdue ticket or frustration) and the workaround question comes before the priority. Re-run after the 29 Oct fixes, <code>senha-sap</code> and <code>vpn-reuniao</code> passed 3 out of 3, and so did the reopen eval. What remains is the model’s own variance: in the full suite on 29 Oct, one mass-incident scenario failed once and passed 3 out of 3 when repeated.</p></li>
@@ -293,11 +311,13 @@
     <li><b>Real services</b><p>SSO was only tested against a fake provider, and tracing against a local collector. Logging out does not revoke the JWT on the server, and the console needs a wide screen.</p></li>
   </ul>
   <!-- /nexo:open-items -->
+  </details>
 </section>
 
 <div class="cs-end">
   <a class="btn btn-solid" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a>
   <a class="btn" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">See the repository ↗</a>
+  <a class="btn" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Contact on LinkedIn ↗</a>
   <a class="btn" href="../#p-nexo">← Back to the portfolio</a>
 </div>
 </main>
@@ -307,8 +327,10 @@
   <p class="foot-src">This site was built the same way: I directed and AI agents wrote the code. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Source code ↗</a> · <a href="../../nexo-assist/" hreflang="pt-BR" lang="pt-BR">Versão em português</a></p>
 </footer>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
 <script src="../../assets/nexo-numbers.js" defer></script>
+<script src="../../assets/motion.js" defer></script>
 <script type="module" src="../../assets/case.js"></script>
+<script src="../../assets/sfx.js" defer></script>
 </body>
 </html>

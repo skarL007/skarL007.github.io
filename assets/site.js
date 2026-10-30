@@ -23,7 +23,8 @@ const TX = {
     lOrigin: '<b>origem</b><i>medicina · fora de escala</i>',
     lNext: '<b>próximo</b><i>faculdade + 1ª oportunidade</i>',
     commitsLog: ' commits · altura ∝ log',
-    seeSheet: ' · ver folha ↓',
+    seeSheet: ' · clique para inspecionar',
+    insLabel: 'Inspeção · ', insClose: 'Fechar · Esc', insGo: 'Ir para a folha na página ↓',
     contrib1: ' contribuição', contribN: ' contribuições',
   },
   en: {
@@ -44,7 +45,8 @@ const TX = {
     lOrigin: '<b>origin</b><i>medicine · not to scale</i>',
     lNext: '<b>next</b><i>degree + first opportunity</i>',
     commitsLog: ' commits · height ∝ log',
-    seeSheet: ' · see sheet ↓',
+    seeSheet: ' · click to inspect',
+    insLabel: 'Inspection · ', insClose: 'Close · Esc', insGo: 'Go to the sheet on the page ↓',
     contrib1: ' contribution', contribN: ' contributions',
   }
 }[LANG];
@@ -110,6 +112,7 @@ function setMode(two, persist) {
   if (two) { stopLenis(); if (GL) GL.stop(); }
   else { startLenis(); if (GL) GL.start(); else initGL(); }
   if (HAS_GSAP) window.requestAnimationFrame(() => ScrollTrigger.refresh());
+  kickField(); tbQueue();
 }
 btn2d.addEventListener('click', () => { if (!glFailed) setMode(!is2D(), true); });
 
@@ -127,7 +130,7 @@ if (CURSOR) root.classList.add('has-cursor');
 let snapEl = null, bx = -40, by = -40, boxW = 18, boxH = 18, lastLab = '', labW = 120;
 window.addEventListener('pointermove', e => {
   pmx = e.clientX; pmy = e.clientY; pIn = true;
-  overUI = !!(e.target && e.target.closest && e.target.closest('.sheet,a,button,.hdr,.hero-copy'));
+  overUI = !!(e.target && e.target.closest && e.target.closest('.sheet,a,button,.hdr,.hero-copy,#inspect'));
 }, { passive: true });
 document.addEventListener('mouseover', e => { snapEl = e.target && e.target.closest ? e.target.closest('a,button') : null; });
 root.addEventListener('mouseleave', () => { pIn = false; snapEl = null; });
@@ -168,7 +171,7 @@ else { let last = performance.now(); const loop = now => { tick(now / 1000, now 
 const menuBtn = $('#menuBtn');
 function closeMenu() { root.classList.remove('nav-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
 menuBtn.addEventListener('click', () => { const o = !root.classList.contains('nav-open'); root.classList.toggle('nav-open', o); menuBtn.setAttribute('aria-expanded', String(o)); });
-window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); closeInspect(); } });
 function goTo(t) {
   const isSec = t.tagName === 'SECTION';
   const off = isSec ? 0 : -Math.max(84, (window.innerHeight - t.offsetHeight) / 2);
@@ -186,11 +189,43 @@ document.addEventListener('click', e => {
   if (!f.hasAttribute('tabindex')) f.setAttribute('tabindex', '-1');
   f.focus({ preventScroll: true });
 });
-/* click on a 3D module jumps to its sheet */
+/* click on a 3D module: with a mouse and motion, the camera flies to it and its sheet opens beside it
+   (Esc or a click outside closes); otherwise the page scrolls to the sheet */
+let insOpen = -1, insEl = null;
+function openInspect(i) {
+  const src = document.getElementById(MODS[i].id); if (!src || !GL) return;
+  if (!insEl) {
+    insEl = document.createElement('aside'); insEl.id = 'inspect'; insEl.setAttribute('role', 'dialog');
+    insEl.innerHTML = '<div class="ins-bar"><span class="ins-k"></span><button type="button" class="tgl ins-x"></button></div><div class="ins-body"></div><p class="ins-foot"><button type="button" class="btn ins-go"></button></p>';
+    $('.ins-x', insEl).textContent = TX.insClose; $('.ins-go', insEl).textContent = TX.insGo;
+    $('.ins-x', insEl).addEventListener('click', closeInspect);
+    $('.ins-go', insEl).addEventListener('click', () => { const k = insOpen; closeInspect(); if (k >= 0) goTo(document.getElementById(MODS[k].id)); });
+    document.body.appendChild(insEl);
+  }
+  const c = src.cloneNode(true);
+  [c].concat(Array.from(c.querySelectorAll('[id],[style],[aria-labelledby],[data-build],[data-mod]'))).forEach(n => { ['id', 'style', 'aria-labelledby', 'data-build', 'data-mod'].forEach(a => n.removeAttribute(a)); });
+  c.classList.remove('rv'); c.classList.add('is-in');
+  const body = $('.ins-body', insEl); body.textContent = ''; body.appendChild(c); body.scrollTop = 0;
+  $('.ins-k', insEl).textContent = TX.insLabel + MODS[i].code + ' · ' + MODS[i].name;
+  insEl.setAttribute('aria-label', TX.insLabel + MODS[i].name);
+  insOpen = i; root.classList.add('ins-on'); GL.inspect(i);
+  if (lenis) lenis.stop();
+  $('.ins-x', insEl).focus({ preventScroll: true });
+}
+function closeInspect() {
+  if (insOpen < 0) return;
+  insOpen = -1; root.classList.remove('ins-on'); if (GL) GL.inspect(-1);
+  if (lenis) lenis.start();
+}
 window.addEventListener('click', e => {
-  if (!GL || !GL.running || (e.target.closest && e.target.closest('a,button,.sheet,.hero-copy,.hdr'))) return;
-  const id = GL.hoverTarget(); const t = id && document.getElementById(id);
-  if (t) goTo(t);
+  const inPanel = !!(e.target.closest && e.target.closest('#inspect'));
+  if (inPanel) return;
+  const onUI = !!(e.target.closest && e.target.closest('a,button,.sheet,.hero-copy,.hdr'));
+  const id = GL && GL.running && !onUI ? GL.hoverTarget() : null;
+  if (insOpen >= 0 && (!id || onUI)) { closeInspect(); if (!id) return; }
+  if (!id) return;
+  if (MOTION && FINE) openInspect(MODS.findIndex(m => m.id === id));
+  else { const t = document.getElementById(id); if (t) goTo(t); }
 });
 $$('[data-mod]').forEach(el => {
   el.addEventListener('pointerenter', () => { if (GL) GL.highlight(+el.dataset.mod); });
@@ -212,6 +247,78 @@ function setChapter(i) {
   if (GL) GL.setChapter(i);
 }
 setChapter(0);
+
+/* ---------- title block: folds to one line, then steps aside, when a content panel reaches it ---------- */
+const tblock = $('.tblock');
+const tbPanels = $$('.sheet:not(.ghost), .hero-copy, .foot');
+let tbRaf = 0, tbFull = 0, tbMini = 0;
+function tbCheck() {
+  tbRaf = 0;
+  if (!tblock || is2D() || window.innerWidth < 1024) return;
+  if (!tbFull) { tbFull = tblock.offsetHeight; tbMini = tblock.firstElementChild.offsetHeight + 2; }
+  const W = window.innerWidth, H = window.innerHeight, left = W - 24 - tblock.offsetWidth - 16, bottom = H - 8;
+  const hit = h => tbPanels.some(el => { const r = el.getBoundingClientRect(); return r.right > left && r.left < W && r.bottom > H - 24 - h - 16 && r.top < bottom; });
+  const off = hit(tbMini), mini = !off && hit(tbFull);
+  root.classList.toggle('tb-off', off); root.classList.toggle('tb-mini', mini);
+}
+function tbQueue() { if (!tbRaf) tbRaf = window.requestAnimationFrame(tbCheck); }
+window.addEventListener('scroll', tbQueue, { passive: true });
+window.addEventListener('resize', () => { tbFull = 0; tbQueue(); });
+tbQueue();
+
+/* ---------- the hero field: faint pulses running along drafting lines, with specks of "drafting dust" where they
+   cross; never with reduced motion or in 2D, and paused while the hero is off screen ---------- */
+const fieldHero = $('.hero');
+let fieldCv = null, fieldCx = null, fieldW = 0, fieldH = 0, fieldSeen = true, fieldRaf = 0, fieldLast = 0;
+let pulses = [], dust = [];
+const GRIDP = 48;
+function fieldOn() { return !RM && fieldSeen && !is2D(); }
+function newPulse() {
+  const h = Math.random() < 0.62, span = h ? fieldW : fieldH, lines = Math.max(1, Math.floor((h ? fieldH : fieldW) / GRIDP));
+  const dir = Math.random() < 0.5 ? 1 : -1;
+  return { h, at: (1 + Math.floor(Math.random() * (lines - 1))) * GRIDP + 0.5, s: dir > 0 ? -Math.random() * span * 0.8 : span + Math.random() * span * 0.8, v: dir * (70 + Math.random() * 120), span };
+}
+function fieldSize() {
+  fieldW = fieldCv.width = Math.round(fieldHero.offsetWidth); fieldH = fieldCv.height = Math.round(fieldHero.offsetHeight);
+  pulses = Array.from({ length: Math.round(clamp(fieldW * fieldH / 90000, 5, 12)) }, newPulse); dust = [];
+  fieldCx.clearRect(0, 0, fieldW, fieldH);
+}
+function pulseStep(dt) {
+  const cx = fieldCx;
+  cx.globalCompositeOperation = 'destination-out'; cx.fillStyle = 'rgba(0,0,0,.12)'; cx.fillRect(0, 0, fieldW, fieldH);
+  cx.globalCompositeOperation = 'source-over';
+  cx.lineWidth = 1.5; cx.strokeStyle = 'rgba(255,106,43,.85)'; cx.fillStyle = 'rgba(255,170,120,.95)';
+  cx.beginPath();
+  for (let i = 0; i < pulses.length; i++) {
+    const p = pulses[i], s0 = p.s; p.s += p.v * dt;
+    if (p.h) { cx.moveTo(s0, p.at); cx.lineTo(p.s, p.at); } else { cx.moveTo(p.at, s0); cx.lineTo(p.at, p.s); }
+    if ((p.v > 0 && p.s > p.span + 40) || (p.v < 0 && p.s < -40)) pulses[i] = newPulse();
+  }
+  cx.stroke();
+  pulses.forEach(p => { if (p.h) cx.fillRect(p.s - 1.5, p.at - 1.5, 3, 3); else cx.fillRect(p.at - 1.5, p.s - 1.5, 3, 3); });
+  if (Math.random() < 0.25) dust.push({ x: (1 + Math.floor(Math.random() * (fieldW / GRIDP - 1))) * GRIDP, y: (1 + Math.floor(Math.random() * (fieldH / GRIDP - 1))) * GRIDP, a: 0.6 });
+  cx.fillStyle = 'rgba(167,219,255,.5)';
+  dust = dust.filter(d => { d.a -= dt * 0.8; if (d.a > 0.3) cx.fillRect(d.x - 1, d.y - 1, 2, 2); return d.a > 0; });
+}
+function fieldStep(now) {
+  fieldRaf = 0;
+  if (!fieldOn()) { fieldCv.classList.remove('on'); return; }
+  if (!fieldCv.classList.contains('on')) { fieldCv.classList.add('on'); fieldSize(); fieldLast = now; }
+  if (now - fieldLast > 30) { pulseStep(Math.min(0.08, (now - fieldLast) / 1000)); fieldLast = now; }
+  fieldRaf = window.requestAnimationFrame(fieldStep);
+}
+function kickField() { if (fieldCv && !fieldRaf) fieldRaf = window.requestAnimationFrame(fieldStep); }
+if (fieldHero && !RM) {
+  fieldCv = document.createElement('canvas'); fieldCv.id = 'heroField'; fieldCv.setAttribute('aria-hidden', 'true');
+  fieldHero.prepend(fieldCv); fieldCx = fieldCv.getContext('2d');
+  if (!fieldCx) fieldCv = null;
+  else {
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { fieldSeen = es[0].isIntersecting; kickField(); }).observe(fieldHero);
+    window.addEventListener('resize', () => { if (fieldCv.classList.contains('on')) fieldSize(); });
+    kickField();
+  }
+}
+
 function requestBuild(k) { if (GL) GL.build(k); else pendingBuilds.add(k); }
 
 const GLY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·-';
@@ -324,18 +431,40 @@ void main(){
   vec3 col = uColor * (1.0 + b * 1.5 + head * 2.5);
   gl_FragColor = vec4(col, min(1.0, uOpacity * (1.0 + b * 0.6 + head)) * fog);
 }`;
-const EDGE_VS = `varying float vY; varying float vDepth;
-void main(){ vY = position.y; vec4 mv = modelViewMatrix * vec4(position, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv; }`;
-const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uH; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity;
-varying float vY; varying float vDepth;
+/* volumes are built in stages, all driven by uniforms: the floor outline is traced (uTrace), the corner posts
+   rise as scaffolding (uPost), then each floor ring drops into place with a small settle (uFloors: floors placed,
+   the fractional part is the one landing). aKind: 0 floor outline, 1 post, 2 floor ring; aLevel: 1..n */
+const BUILD_GLSL = `uniform float uPost; uniform float uFloors; uniform float uDrop;
+float settle(float t){ float c1 = 1.70158; float x = t - 1.0; return 1.0 + (c1 + 1.0) * x * x * x + c1 * x * x; }`;
+const EDGE_VS = BUILD_GLSL + `
+attribute float aProg; attribute float aKind; attribute float aLevel;
+varying float vDepth; varying float vProg; varying float vShow; varying float vNew;
 void main(){
-  if (vY > uH + 0.002) discard;
-  float front = 1.0 - smoothstep(0.0, 1.6, uH - vY);
+  vec3 p = position; vProg = aKind < 0.5 ? aProg : 0.0; vShow = 1.0; vNew = 0.0;
+  if (aKind > 0.5 && aKind < 1.5) { p.y *= uPost; vNew = 1.0 - uPost; }
+  else if (aKind > 1.5) { float t = clamp(uFloors - aLevel + 1.0, 0.0, 1.0); vShow = step(0.001, t); p.y += (1.0 - settle(t)) * uDrop; vNew = 1.0 - t; }
+  vec4 mv = modelViewMatrix * vec4(p, 1.0); vDepth = -mv.z; gl_Position = projectionMatrix * mv;
+}`;
+const EDGE_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uHotAmt; uniform float uGlow; uniform float uOpacity; uniform float uTrace;
+varying float vDepth; varying float vProg; varying float vShow; varying float vNew;
+void main(){
+  if (vShow < 0.5 || vProg > uTrace) discard;
   vec3 c = uColor * (0.8 + uGlow);
-  c = mix(c, uHot * 1.5, front * uHotAmt);
+  c = mix(c, uHot * 1.5, clamp(vNew * 1.6, 0.0, 1.0) * uHotAmt);
   float fog = 1.0 - smoothstep(240.0, 560.0, vDepth);
   gl_FragColor = vec4(c, uOpacity * fog);
 }`;
+/* the slab of each floor: a faint plate that lands with its ring */
+const SLAB_VS = BUILD_GLSL + `
+attribute float aLevel; varying float vShow; varying float vNew;
+void main(){
+  vec3 p = position; float t = clamp(uFloors - aLevel + 1.0, 0.0, 1.0);
+  vShow = step(0.001, t); p.y += (1.0 - settle(t)) * uDrop; vNew = 1.0 - t;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+}`;
+const SLAB_FS = `uniform vec3 uColor; uniform vec3 uHot; uniform float uOpacity;
+varying float vShow; varying float vNew;
+void main(){ if (vShow < 0.5) discard; gl_FragColor = vec4(mix(uColor, uHot, vNew), uOpacity * (1.0 + vNew * 3.0)); }`;
 const GLASS_VS = `varying float vY; varying vec3 vN; varying vec3 vV;
 void main(){ vY = position.y; vec4 mv = modelViewMatrix * vec4(position, 1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`;
 const GLASS_FS = `uniform vec3 uColor; uniform float uH; uniform float uOpacity; uniform float uGlow;
@@ -406,26 +535,28 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   let W = window.innerWidth, H = window.innerHeight;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
   renderer.setPixelRatio(DPR); renderer.setSize(W, H, false);
-  renderer.setClearColor(0x050B16, 1);
+  /* the plan's colours (the CSS side holds the same values as custom properties in site.css) */
+  const PAL = { ink: '#050B16', plan: '#6A9FCC', dim: '#41709A', bright: '#D8EEFF', glass: '#5EA8F0', accent: '#FF6A2B', grid: '#4F7FAD' };
+  const tint = (key, mul = 1, c = new THREE.Color()) => c.set(PAL[key]).multiplyScalar(mul);
+  renderer.setClearColor(PAL.ink, 1);
   renderer.toneMapping = THREE.NoToneMapping;
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); failGL(); }, false);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050B16); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
+  scene.background = new THREE.Color(PAL.ink); // RenderPass clears with autoClear off: a scene background keeps the clear colour linear
   const camera = new THREE.PerspectiveCamera(40, W / H, 0.5, 1400);
   const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
-  const COL = { plan: new THREE.Color('#6A9FCC'), dim: new THREE.Color('#41709A'), bright: new THREE.Color('#D8EEFF'), glass: new THREE.Color('#5EA8F0'), accent: new THREE.Color('#FF6A2B'), grid: new THREE.Color('#4F7FAD') };
   scene.add(new THREE.AmbientLight(0xffffff, 1.3));
   const sun = new THREE.DirectionalLight(0xffffff, 3.2); sun.position.set(-0.6, 1, 0.45); scene.add(sun);
 
   /* infinite drafting floor */
-  const gridMat = new THREE.ShaderMaterial({ vertexShader: GRID_VS, fragmentShader: GRID_FS, transparent: true, depthWrite: false, uniforms: { uColor: { value: COL.grid }, uCam: { value: V3(0, 0, 0) } } });
+  const gridMat = new THREE.ShaderMaterial({ vertexShader: GRID_VS, fragmentShader: GRID_FS, transparent: true, depthWrite: false, uniforms: { uColor: { value: tint('grid') }, uCam: { value: V3(0, 0, 0) } } });
   const grid = new THREE.Mesh(new THREE.PlaneGeometry(1400, 1400), gridMat);
   grid.rotation.x = -Math.PI / 2; grid.renderOrder = -2; grid.frustumCulled = false; scene.add(grid);
 
   /* self-drawing hairlines: every vertex carries its draw time (aProg) */
-  const lineMat = (color, opacity, dash = 0, flow = 0) => new THREE.ShaderMaterial({
+  const lineMat = (key, opacity, dash = 0, flow = 0) => new THREE.ShaderMaterial({
     vertexShader: LINE_VS, fragmentShader: LINE_FS, transparent: true, depthWrite: false,
-    uniforms: { uColor: { value: color.clone() }, uDraw: { value: 0 }, uOpacity: { value: opacity }, uDash: { value: dash }, uFlow: { value: flow }, uTime: { value: 0 }, uBoost: { value: new THREE.Vector4() } }
+    uniforms: { uColor: { value: tint(key) }, uDraw: { value: 0 }, uOpacity: { value: opacity }, uDash: { value: dash }, uFlow: { value: flow }, uTime: { value: 0 }, uBoost: { value: new THREE.Vector4() } }
   });
   const lb = () => ({ p: [], a: [], d: [], g: [] });
   function seg(L, x1, y1, z1, x2, y2, z2, t0, t1, g = 0, d0 = 0) {
@@ -550,34 +681,59 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   for (let k = 0; k < 6; k++) seg(timeL, 25.5, k * 0.75, TZ, 25.5, k * 0.75 + 0.4, TZ, 0.86 + k * 0.02, 0.88 + k * 0.02);
   seg(timeL, 24.6, 4.4, TZ, 26.4, 4.4, TZ, 0.97, 1);
 
-  const matPlan = lineMat(COL.plan, 0.78), matDim = lineMat(COL.dim, 0.7), matDash = lineMat(COL.dim, 0.55, 1.4, 0);
-  const matFlow = lineMat(COL.plan, 0.85, 1.1, 2.4), matGly = lineMat(COL.bright, 0.62), matTime = lineMat(COL.bright, 0.85);
+  const matPlan = lineMat('plan', 0.78), matDim = lineMat('dim', 0.7), matDash = lineMat('dim', 0.55, 1.4, 0);
+  const matFlow = lineMat('plan', 0.85, 1.1, 2.4), matGly = lineMat('bright', 0.62), matTime = lineMat('bright', 0.85);
   const drawMats = [matPlan, matDim, matDash, matFlow, matGly];
   addLines(planL, matPlan); addLines(dimL, matDim); addLines(dashL, matDash); addLines(flowL, matFlow); addLines(glyL, matGly); addLines(timeL, matTime);
 
   /* ---- volumes: wire edges + glass, clipped at the current build height ---- */
   function volume(x, z, w, d, h) {
     const g = new THREE.Group(); g.position.set(x, 0, z); scene.add(g);
-    const pos = [], hw = w / 2, hd = d / 2;
-    const ringAt = y => pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd);
-    ringAt(0.02); ringAt(h);
-    for (let y = 1.6; y < h - 0.4; y += 1.6) ringAt(y);
-    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd);
+    const pos = [], prog = [], kind = [], lev = [], hw = w / 2, hd = d / 2, levels = [];
+    const ringAt = (y, k, l) => { pos.push(-hw, y, -hd, hw, y, -hd, hw, y, -hd, hw, y, hd, hw, y, hd, -hw, y, hd, -hw, y, hd, -hw, y, -hd); prog.push(0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1); for (let q = 0; q < 8; q++) { kind.push(k); lev.push(l); } };
+    ringAt(0.02, 0, 0);
+    for (let y = 1.6; y < h - 0.4; y += 1.6) levels.push(y);
+    levels.push(h);
+    levels.forEach((y, l) => ringAt(y, 2, l + 1));
+    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { pos.push(sx * hw, 0, sz * hd, sx * hw, h, sz * hd); prog.push(0, 1); kind.push(1, 1); lev.push(0, 0); }
     const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    eg.setAttribute('aProg', new THREE.Float32BufferAttribute(prog, 1)); eg.setAttribute('aKind', new THREE.Float32BufferAttribute(kind, 1)); eg.setAttribute('aLevel', new THREE.Float32BufferAttribute(lev, 1));
+    const bu = { uPost: { value: 0 }, uFloors: { value: 0 }, uDrop: { value: Math.min(2.6, 1.2 + h * 0.12) } }; // shared by the edges and the slabs
     const em = new THREE.ShaderMaterial({ vertexShader: EDGE_VS, fragmentShader: EDGE_FS, transparent: true, depthWrite: false,
-      uniforms: { uColor: { value: COL.bright.clone() }, uHot: { value: COL.accent.clone() }, uH: { value: -1 }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 } } });
+      uniforms: Object.assign({ uColor: { value: tint('bright') }, uHot: { value: tint('accent') }, uHotAmt: { value: 0 }, uGlow: { value: 0 }, uOpacity: { value: 0.9 }, uTrace: { value: 0 } }, bu) });
     const edges = new THREE.LineSegments(eg, em); edges.frustumCulled = false; g.add(edges);
+    const sp = [], sl = [], si = [];
+    levels.forEach((y, l) => { const b0 = sp.length / 3, e = 0.15; sp.push(-hw + e, y, -hd + e, hw - e, y, -hd + e, hw - e, y, hd - e, -hw + e, y, hd - e); sl.push(l + 1, l + 1, l + 1, l + 1); si.push(b0, b0 + 1, b0 + 2, b0, b0 + 2, b0 + 3); });
+    const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3)); sg.setAttribute('aLevel', new THREE.Float32BufferAttribute(sl, 1)); sg.setIndex(si);
+    const sm = new THREE.ShaderMaterial({ vertexShader: SLAB_VS, fragmentShader: SLAB_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+      uniforms: Object.assign({ uColor: { value: tint('glass') }, uHot: { value: tint('accent') }, uOpacity: { value: 0.05 } }, bu) });
+    const slabs = new THREE.Mesh(sg, sm); slabs.frustumCulled = false; g.add(slabs);
     const gg = new THREE.BoxGeometry(w, h, d); gg.translate(0, h / 2, 0);
     const gm = new THREE.ShaderMaterial({ vertexShader: GLASS_VS, fragmentShader: GLASS_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
-      uniforms: { uColor: { value: COL.glass.clone() }, uH: { value: -1 }, uOpacity: { value: 0.42 }, uGlow: { value: 0 } } });
+      uniforms: { uColor: { value: tint('glass') }, uH: { value: -1 }, uOpacity: { value: 0.42 }, uGlow: { value: 0 } } });
     g.add(new THREE.Mesh(gg, gm));
-    return { g, em, gm, x, z, w, d, h, b: 0, hot: 0, glow: 0, state: 0, squad: [] };
+    return { g, em, gm, x, z, w, d, h, levels, b: 0, hot: 0, glow: 0, state: 0, squad: [], yNow: 0.02, tNow: 1 };
+  }
+  /* the stages of a build from one progress value b (0 → 1); returns the height built so far (-1: nothing yet) */
+  const settleJS = t => { const c1 = 1.70158, x = t - 1; return 1 + (c1 + 1) * x * x * x + c1 * x * x; };
+  function stage(V, b) {
+    const u = V.em.uniforms, n = V.levels.length;
+    if (b <= 0.0001) { u.uTrace.value = 0; u.uPost.value = 0; u.uFloors.value = 0; V.gm.uniforms.uH.value = -1; V.yNow = 0.02; V.tNow = 1; return -1; }
+    u.uTrace.value = clamp(b / 0.12, 0, 1);
+    const pe = clamp((b - 0.1) / 0.16, 0, 1); u.uPost.value = 1 - Math.pow(1 - pe, 3);
+    const fl = clamp((b - 0.26) / 0.6, 0, 1) * n; u.uFloors.value = fl;
+    const cur = Math.min(n - 1, Math.floor(fl));
+    V.tNow = fl >= n ? 1 : fl - cur;
+    V.yNow = fl <= 0 ? 0.02 : V.levels[cur] + (1 - settleJS(V.tNow)) * u.uDrop.value;
+    const fill = clamp((b - 0.84) / 0.16, 0, 1); V.gm.uniforms.uH.value = fill <= 0 ? -1 : fill * V.h;
+    return fl < 1 ? 0.02 : V.levels[Math.min(n, Math.floor(fl)) - 1];
   }
   const mods = MODS.map((m, i) => {
     const V = volume(m.x, m.z, m.w, m.d, Math.max(1.6, 4 * Math.log10(m.commits)));
     V.i = i;
     const wg = new THREE.BufferGeometry().setFromPoints([V3(-m.w / 2, 0, -m.d / 2), V3(m.w / 2, 0, -m.d / 2), V3(m.w / 2, 0, m.d / 2), V3(-m.w / 2, 0, m.d / 2)]);
-    V.weld = new THREE.LineLoop(wg, new THREE.LineBasicMaterial({ color: COL.accent.clone().multiplyScalar(1.6), transparent: true, opacity: 0, depthWrite: false }));
+    V.weld = new THREE.LineLoop(wg, new THREE.LineBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+    tint('accent', 1.6, V.weld.material.color);
     V.weld.visible = false; V.g.add(V.weld);
     V.proxy = new THREE.Mesh(new THREE.BoxGeometry(m.w, 1, m.d).translate(0, 0.5, 0), new THREE.MeshBasicMaterial());
     V.proxy.visible = false; V.proxy.scale.y = 0.01; V.proxy.userData.mod = i; V.g.add(V.proxy);
@@ -588,7 +744,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   /* ---- agents: one InstancedMesh of orange cubes, spring-driven ---- */
   const N = LOW ? 240 : 520, NF = LOW ? 36 : 72;
   const cube = new THREE.BoxGeometry(1, 1, 1);
-  const agents = new THREE.InstancedMesh(cube, new THREE.MeshLambertMaterial({ color: COL.accent, emissive: COL.accent, emissiveIntensity: 0.6 }), N);
+  const agents = new THREE.InstancedMesh(cube, new THREE.MeshLambertMaterial({ emissiveIntensity: 0.6 }), N);
+  tint('accent', 1, agents.material.color); tint('accent', 1, agents.material.emissive);
   agents.frustumCulled = false; agents.instanceMatrix.setUsage(THREE.DynamicDrawUsage); scene.add(agents);
   const AP = new Float32Array(N * 3), AV = new Float32Array(N * 3), PH = new Float32Array(N), RR = new Float32Array(N), ROLE = new Int16Array(N);
   for (let i = 0; i < N; i++) {
@@ -603,21 +760,24 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const BH = 0.28, UNIT = 5, bl = [];
   CONTRIB.forEach((wk, w) => wk.forEach((c, d) => { for (let l = 0; l < Math.ceil(c / UNIT); l++) bl.push([w, d, l]); }));
   const NB = bl.length;
-  const bricks = new THREE.InstancedMesh(new THREE.BoxGeometry(0.86, BH * 0.86, 0.86), new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: COL.accent, emissiveIntensity: 0.22 }), NB);
+  const bricks = new THREE.InstancedMesh(new THREE.BoxGeometry(0.86, BH * 0.86, 0.86), new THREE.MeshLambertMaterial({ color: 0xffffff, emissiveIntensity: 0.22 }), NB);
+  tint('accent', 1, bricks.material.emissive);
   bricks.count = 0; bricks.frustumCulled = false; bricks.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   const BF = new Float32Array(NB * 3), BS = new Float32Array(NB * 3), BT = new Float32Array(NB), BD = new Float32Array(NB), tc = new THREE.Color();
   bl.forEach(([w, d, l], k) => {
     BF[k * 3] = FX0 + w * P; BF[k * 3 + 1] = BH * (l + 0.5); BF[k * 3 + 2] = FZ0 + d * P;
-    const a = Math.random() * Math.PI * 2; BS[k * 3] = Math.cos(a) * 74; BS[k * 3 + 1] = 27 + Math.random() * 6; BS[k * 3 + 2] = 4 + Math.sin(a) * 60;
-    BT[k] = 0.2 + (w / 52) * 1.8 + l * 0.028 + Math.random() * 0.25; BD[k] = 0.8 + Math.random() * 0.35;
-    bricks.setColorAt(k, tc.copy(COL.accent).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)));
+    // each brick drops straight onto its column: oldest week first, a column fills bottom-up (about 3 s in all)
+    BS[k * 3] = BF[k * 3]; BS[k * 3 + 1] = BF[k * 3 + 1] + 9 + Math.random() * 3; BS[k * 3 + 2] = BF[k * 3 + 2];
+    BT[k] = 0.15 + (w / 52) * 1.7 + d * 0.012 + l * 0.015; BD[k] = 0.5;
   });
-  bricks.instanceColor.needsUpdate = true; scene.add(bricks);
+  function paintBricks() { const a = new THREE.Color(PAL.accent); bl.forEach(([, , l], k) => bricks.setColorAt(k, tc.copy(a).multiplyScalar(0.55 + 0.75 * Math.min(1, l / 24)))); bricks.instanceColor.needsUpdate = true; }
+  paintBricks(); scene.add(bricks);
   const ND = CONTRIB.reduce((s, wk) => s + wk.length, 0), dayIdx = [], dm = new THREE.Matrix4();
   const calProxy = new THREE.InstancedMesh(new THREE.BoxGeometry(P, 1, P).translate(0, 0.5, 0), new THREE.MeshBasicMaterial(), ND);
   CONTRIB.forEach((wk, w) => wk.forEach((c, d) => { dm.makeScale(1, Math.max(0.25, Math.ceil(c / UNIT) * BH), 1).setPosition(FX0 + w * P, 0, FZ0 + d * P); calProxy.setMatrixAt(dayIdx.length, dm); dayIdx.push([w, d, c]); }));
   calProxy.visible = false; calProxy.computeBoundingSphere(); scene.add(calProxy); calProxy.updateMatrixWorld(true);
-  const hoverMark = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([V3(-0.62, 0, -0.62), V3(0.62, 0, -0.62), V3(0.62, 0, 0.62), V3(-0.62, 0, 0.62)]), new THREE.LineBasicMaterial({ color: COL.bright.clone().multiplyScalar(1.4) }));
+  const hoverMark = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([V3(-0.62, 0, -0.62), V3(0.62, 0, -0.62), V3(0.62, 0, 0.62), V3(-0.62, 0, 0.62)]), new THREE.LineBasicMaterial());
+  tint('bright', 1.4, hoverMark.material.color);
   hoverMark.visible = false; scene.add(hoverMark);
 
   /* ---- HTML labels projected from 3D anchors ---- */
@@ -650,8 +810,12 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   label(TX.lNext, 'lbl-t', 25.5, 4.4, TZ, { gate: () => clamp((timeT - 0.9) * 10, 0, 1), max: 240, ch: C_TRJ });
   const modLabels = mods.map((V, i) => label('<b>' + MODS[i].code + '</b>' + MODS[i].name + '<em>' + MODS[i].commits.toLocaleString(TX.locale) + TX.commitsLog + '</em>', 'lbl-mod', V.x - V.w / 2, 0.05, V.z + V.d / 2, { gate: gDraw, ch: C_HERO | C_PRJ | C_CTT }));
   const pv = V3(0, 0, 0);
+  /* text that sits on the drawing without a panel: labels fade instead of running across it */
+  const shieldEls = $$('.hero-copy, .sheet.ghost');
+  let shields = [];
   function updateLabels(still) {
     const bit = 1 << clamp(chapterNow, 0, 5);
+    shields = shieldEls.map(e => e.getBoundingClientRect()).filter(r => r.bottom > 0 && r.top < H);
     for (let i = 0; i < LBL.length; i++) {
       const L = LBL[i];
       const want = (L.ch & bit) ? (L.gate ? L.gate() : 1) : 0;
@@ -669,7 +833,9 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
           if (L.w === undefined) { L.w = L.el.firstChild.offsetWidth; L.left = /\blbl-(mod|m|z)\b/.test(L.el.className); }
           const x0 = L.left ? sx : sx - L.w / 2, x1 = L.left ? sx + 8 + L.w : sx + L.w / 2;
           a *= clamp((W - (W >= 1024 ? 80 : 12) - x1) / 32, 0, 1) * clamp((x0 - 12) / 32, 0, 1);
-          L.el.style.transform = 'translate3d(' + sx + 'px,' + Math.round((-pv.y * 0.5 + 0.5) * H) + 'px,0)';
+          const sy = Math.round((-pv.y * 0.5 + 0.5) * H);
+          for (let k = 0; k < shields.length; k++) { const r = shields[k]; if (x1 > r.left - 16 && x0 < r.right + 16 && sy > r.top - 20 && sy - 32 < r.bottom + 8) { a = 0; break; } }
+          L.el.style.transform = 'translate3d(' + sx + 'px,' + sy + 'px,0)';
         }
       } else a = 0;
       if (Math.abs(a - L.a) > 0.015 || (a === 0 && L.a !== 0)) { L.el.style.opacity = a.toFixed(3); L.a = a; }
@@ -682,7 +848,7 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const tgtCurve = new THREE.CatmullRomCurve3(STOPS.map(s => V3(s[1][0], s[1][1], s[1][2])), false, 'centripetal');
   const stopEls = $$('[data-stop]'), rulerLis = $$('.ruler li');
   const sp = { p: 0 };
-  let anchors = [], maxS = 1, distMul = 1, ptrX = 0, ptrY = 0;
+  let anchors = [], maxS = 1, distMul = 1, ptrX = 0, ptrY = 0, lensFov = 40;
   function measure() {
     const vh = window.innerHeight;
     maxS = Math.max(1, HAS_GSAP ? ScrollTrigger.maxScroll(window) : root.scrollHeight - vh);
@@ -712,11 +878,21 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     gsap.to(sp, { p: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 1.2 } });
     ScrollTrigger.addEventListener('refresh', measure);
   }
-  const cp = V3(0, 0, 0), ct = V3(0, 0, 0), tmp = V3(0, 0, 0);
+  const cp = V3(0, 0, 0), ct = V3(0, 0, 0), tmp = V3(0, 0, 0), insP = V3(0, 0, 0), insT = V3(0, 0, 0);
+  /* a camera cut (entering Projetos, Atividade): the camera starts pulled back with a wider lens and pushes in hard */
+  const cut = { k: 0 };
+  function cutTo() { if (MOTION) gsap.fromTo(cut, { k: 1 }, { k: 0, duration: 1.3, ease: 'expo.out', overwrite: true }); }
+  /* inspection: a module clicked in the plan pulls the camera to it until Esc or a click outside */
+  const ins = { i: -1, k: 0 };
+  function inspect(i) {
+    if (i >= 0) ins.i = i;
+    gsap.to(ins, { k: i >= 0 ? 1 : 0, duration: i >= 0 ? 1.1 : 0.8, ease: i >= 0 ? 'expo.out' : 'power3.inOut', overwrite: true, onComplete() { if (ins.k === 0) ins.i = -1; } });
+    sheetMod = i;
+  }
   function lens() {
     const a = W / H;
     camera.aspect = a;
-    camera.fov = a >= 1 ? 40 : Math.min(68, 2 * Math.atan(Math.tan(20 * Math.PI / 180) / Math.pow(a, 0.75)) * 180 / Math.PI);
+    camera.fov = lensFov = a >= 1 ? 40 : Math.min(68, 2 * Math.atan(Math.tan(20 * Math.PI / 180) / Math.pow(a, 0.75)) * 180 / Math.PI);
     distMul = a >= 1 ? 1 : 1 + (1 - a) * 1.0;
     camera.updateProjectionMatrix();
   }
@@ -728,9 +904,19 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     const k = Math.min(1, dt * 3);
     ptrX += ((pIn && FINE ? pmx / W - 0.5 : 0) - ptrX) * k; ptrY += ((pIn && FINE ? pmy / H - 0.5 : 0) - ptrY) * k;
     cp.x += ptrX * 2.4 + Math.sin(T * 0.13) * 0.8; cp.y -= ptrY * 1.6;
+    if (cut.k > 0.001) { tmp.subVectors(cp, ct); cp.addScaledVector(tmp, cut.k * 0.35); }
+    if (ins.i >= 0 && ins.k > 0.001) {
+      const V = mods[ins.i];
+      insT.set(V.x, V.h * 0.4, V.z);
+      tmp.subVectors(cp, ct).normalize();
+      insP.copy(insT).addScaledVector(tmp, Math.max(V.w, V.d, V.h) * 2.1 + 12);
+      cp.lerp(insP, ins.k); ct.lerp(insT, ins.k);
+    }
     camera.position.copy(cp); camera.lookAt(ct);
-    const wide = W >= 900;
-    camera.setViewOffset(W, H, wide ? sideAt(f) * W : 0, wide ? 0 : 0.2 * H, W, H);
+    const fov = lensFov * (1 + cut.k * 0.18);
+    if (Math.abs(camera.fov - fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    const wide = W >= 900, side = sideAt(f) + (0.2 - sideAt(f)) * ins.k;
+    camera.setViewOffset(W, H, wide ? side * W : 0, wide ? 0 : 0.2 * H, W, H);
   }
 
   /* ---- agent behaviours: ring (holding orbit), flow (method pipeline), field (calendar), squad (module) ---- */
@@ -768,10 +954,11 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
         tx = wave + (rr - 0.5) * 16; ty = 8 + rr * 4 + Math.sin(T * 3 + ph * 20) * 1.2; tz = FZ0 + 3 * P + (ph - 0.5) * 12;
         k = 4; sc = 0.5;
       } else {
-        const V = mods[r], y = Math.max(0, V.b * V.h);
-        if (rr < 0.7) { perim(V, ph + T * 0.06, pp); tx = V.x + pp[0]; tz = V.z + pp[1]; ty = y + 0.3 + Math.sin(T * 7 + ph * 50) * 0.1; }
-        else { const a = ph * 6.2832 + T * 0.9; tx = V.x + Math.cos(a) * V.w * 0.3; tz = V.z + Math.sin(a) * V.d * 0.3; ty = y + 2 + Math.sin(T * 2 + ph * 9) * 0.7; }
-        k = 6; sc = 0.46;
+        // the squad walks the outline while it is traced, then rides each floor down as it is set in place
+        const V = mods[r], y = V.yNow;
+        if (rr < 0.7) { perim(V, ph + (V.b < 0.12 ? T * 0.25 : T * 0.06), pp); tx = V.x + pp[0]; tz = V.z + pp[1]; ty = y + 0.3 + Math.sin(T * 7 + ph * 50) * 0.1; }
+        else { const a = ph * 6.2832 + T * 0.9; tx = V.x + Math.cos(a) * V.w * 0.3; tz = V.z + Math.sin(a) * V.d * 0.3; ty = y + (V.tNow < 1 ? 1.2 : 2.2) + Math.sin(T * 2 + ph * 9) * 0.5; }
+        k = 9; sc = 0.46;
       }
       let px = AP[o], py = AP[o + 1], pz = AP[o + 2];
       if (snap) { px = tx; py = ty; pz = tz; AV[o] = AV[o + 1] = AV[o + 2] = 0; }
@@ -800,21 +987,23 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   }
   function updateBricks() {
     if (calState !== 1) return;
-    const t = T - calT0, m = bricks.instanceMatrix.array, s0 = 0.55 / 0.86, s1 = 0.55 / (BH * 0.86);
+    const t = T - calT0, m = bricks.instanceMatrix.array;
     let done = true;
     for (let k = 0; k < NB; k++) {
       let u = (t - BT[k]) / BD[k]; const o = k * 16;
       if (u < 1) done = false;
       if (u <= 0) { for (let q = 0; q < 16; q++) m[o + q] = 0; continue; }
       if (u > 1) u = 1;
-      const e = 1 - Math.pow(1 - u, 3), a = 1 - e, k3 = k * 3;
-      const sx = BS[k3], sy = BS[k3 + 1], sz = BS[k3 + 2], fx = BF[k3], fy = BF[k3 + 1], fz = BF[k3 + 2];
-      const cx = (sx + fx) * 0.5, cy = Math.max(sy, fy) + 9, cz = (sz + fz) * 0.5;
-      const r = a * 7, c = Math.cos(r), s = Math.sin(r), sxz = s0 * a + e, syy = s1 * a + e;
-      m[o] = c * sxz; m[o + 1] = 0; m[o + 2] = -s * sxz; m[o + 3] = 0;
+      const k3 = k * 3, fy = BF[k3 + 1];
+      // fall (accelerating) for the first 75%, then a small squash-and-settle on landing
+      let y = fy, sq = 0;
+      if (u < 0.75) { const f = u / 0.75; y = fy + (BS[k3 + 1] - fy) * (1 - f * f); }
+      else sq = Math.sin((u - 0.75) / 0.25 * Math.PI) * (1 - u) * 2.4;
+      const sxz = 1 + sq * 0.25, syy = 1 - sq * 0.35;
+      m[o] = sxz; m[o + 1] = 0; m[o + 2] = 0; m[o + 3] = 0;
       m[o + 4] = 0; m[o + 5] = syy; m[o + 6] = 0; m[o + 7] = 0;
-      m[o + 8] = s * sxz; m[o + 9] = 0; m[o + 10] = c * sxz; m[o + 11] = 0;
-      m[o + 12] = a * a * sx + 2 * a * e * cx + e * e * fx; m[o + 13] = a * a * sy + 2 * a * e * cy + e * e * fy; m[o + 14] = a * a * sz + 2 * a * e * cz + e * e * fz; m[o + 15] = 1;
+      m[o + 8] = 0; m[o + 9] = 0; m[o + 10] = sxz; m[o + 11] = 0;
+      m[o + 12] = BF[k3]; m[o + 13] = y - BH * 0.43 * (1 - syy); m[o + 14] = BF[k3 + 2]; m[o + 15] = 1;
     }
     bricks.instanceMatrix.needsUpdate = true;
     if (done) { calState = 2; fieldSquad.forEach(j => { if (ROLE[j] === -3) ROLE[j] = -1; }); fieldSquad = []; refreshPick(); }
@@ -822,18 +1011,17 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   function updateMods(dt) {
     const k = Math.min(1, dt * 5);
     mods.forEach((V, i) => {
-      const uH = V.b <= 0.0001 ? -1 : V.b * V.h;
-      V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH; V.em.uniforms.uHotAmt.value = V.hot;
+      const uH = stage(V, V.b); V.em.uniforms.uHotAmt.value = V.hot;
       V.glow += ((hoverMod === i || sheetMod === i ? 1 : chapterNow === 5 ? 0.45 : 0) - V.glow) * k;
       V.em.uniforms.uGlow.value = V.glow * 1.2; V.gm.uniforms.uGlow.value = V.glow;
       const wa = V.state === 1 ? 1 : V.hot;
-      V.weld.material.opacity = wa; V.weld.visible = wa > 0.01 && uH > 0; V.weld.position.y = Math.max(0.05, uH);
+      V.weld.material.opacity = wa; V.weld.visible = wa > 0.01 && uH > 0; V.weld.position.y = Math.max(0.05, V.state === 1 ? V.yNow : uH); // marks the floor being placed
       V.proxy.scale.y = Math.max(0.01, uH);
       modLabels[i].p.y = Math.max(0.05, uH) + 0.1;
     });
     const md = clamp((drawT - 0.2) / 0.35, 0, 1);
     mvols.forEach((V, j) => {
-      const uH = md <= 0 ? -1 : md * V.h; V.em.uniforms.uH.value = uH; V.gm.uniforms.uH.value = uH;
+      stage(V, md);
       V.glow += ((methodOn === j ? 1 : 0) - V.glow) * k; V.em.uniforms.uGlow.value = V.glow * 1.5; V.gm.uniforms.uGlow.value = V.glow * 1.5;
     });
     matGly.uniforms.uBoost.value.set(mvols[0].glow, mvols[1].glow, mvols[2].glow, mvols[3].glow);
@@ -861,7 +1049,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
     V.state = 1; V.hot = 1;
     V.squad = takeAgents(Math.round((V.w * V.d > 200 ? 64 : 42) * (LOW ? 0.55 : 1)));
     V.squad.forEach(j => { ROLE[j] = V.i; });
-    gsap.to(V, { b: 1, duration: 3, delay: 0.6, ease: 'power1.inOut', onComplete() {
+    // linear on purpose: each stage (outline, scaffolding, floors, glass) carries its own easing inside stage()
+    gsap.to(V, { b: 1, duration: 2.6 + V.levels.length * 0.3, delay: 0.4, ease: 'none', onComplete() {
       V.state = 2; refreshPick();
       gsap.to(V, { hot: 0, duration: 1.4, delay: 0.3 });
       gsap.delayedCall(0.9, () => { V.squad.forEach(j => { if (ROLE[j] === V.i) ROLE[j] = -1; }); V.squad = []; });
@@ -900,7 +1089,8 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   const composer = new EffectComposer(renderer, rt);
   composer.setPixelRatio(DPR); composer.setSize(W, H);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(W, H), LOW ? 0.38 : 0.46, 0.32, 0.3));
+  const BLOOM = LOW ? 0.38 : 0.46;
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), BLOOM, 0.32, 0.3); composer.addPass(bloom);
   const grainPass = new ShaderPass(GRAIN); composer.addPass(grainPass);
   composer.addPass(new OutputPass());
 
@@ -956,9 +1146,10 @@ function createWorld([THREE, { EffectComposer }, { RenderPass }, { UnrealBloomPa
   function stop() { running = false; root.classList.remove('gl-on'); }
   return {
     frame, start, stop, build, setDraw, cursorText,
-    setChapter(i) { chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },
+    setChapter(i) { if ((i === 2 || i === 3) && i > chapterNow && running) cutTo(); chapterNow = i; if (!MOTION && root.classList.contains("gl-on") && !is2D()) renderStill(); },
     setMethod(k, who) { if (k >= 0) methodOn = k; else if (methodOn === who) methodOn = -1; },
-    highlight(i) { sheetMod = i; },
+    highlight(i) { if (ins.i < 0) sheetMod = i; },
+    inspect,
     hoverTarget() { return hover && hover.t === 'mod' ? MODS[hover.i].id : null; },
     get running() { return running; }
   };
