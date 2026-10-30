@@ -13,7 +13,7 @@ const TX = {
     planAria: 'Planta 2D da arquitetura do Nexo Assist',
     p2: {
       domain: ['domain/', 'regras puras'], application: ['application/', ''], app: ['app/ · server/', 'rotas · sessão'],
-      agent: ['agent/', 'Mastra · 10 tools'], infra: ['infrastructure/', 'Drizzle · portas'], gemini: ['Gemini 3.5 Flash', ''],
+      agent: ['agent/', 'Mastra · 11 tools'], infra: ['infrastructure/', 'Drizzle · portas'], gemini: ['GPT-6 Luna', ''],
       lite: ['Flash Lite', 'reserva'], db: ['libSQL · Turso', ''], legacy: ['legado simulado', ''], chat: ['Chat do funcionário', 'NDJSON · SSE'],
       console: ['Console do analista', 'SSE · RTK Query'], otel: ['OTel · Langfuse', ''], sso: ['SSO OIDC', ''], git: ['git · main', ''],
       vercel: ['Vercel + Turso', 'produção'], circle: ['CircleCI', ''], hub: ['Docker Hub', ''], komodo: ['Komodo', ''],
@@ -22,9 +22,9 @@ const TX = {
       domain: ['domain/', 'regras puras do service desk'],
       application: ['application/', 'casos de uso + portas'],
       app: ['app/ · server/', 'rotas, sessão JWT, proxy.ts'],
-      agent: ['agent/', 'Mastra · 10 tools'],
+      agent: ['agent/', 'Mastra · 11 tools'],
       infra: ['infrastructure/', 'Drizzle, repositórios, telemetria'],
-      gemini: ['Gemini 3.5 Flash', 'modelo principal'],
+      gemini: ['GPT-6 Luna', 'modelo principal · OpenRouter'],
       lite: ['Gemini 3.5 Flash Lite', 'reserva'],
       db: ['libSQL', 'SQLite local · Turso no deploy'],
       legacy: ['legado simulado', 'falha 15% · retry'],
@@ -40,7 +40,7 @@ const TX = {
     },
     e: {
       chat: 'NDJSON · SSE', console: 'SSE · polling reserva', model: 'passo 0 forçado',
-      fallback: '503 → reserva', emb: 'embeddings', ports: 'implementa as portas',
+      fallback: '503 → reserva', emb: 'embeddings (Gemini)', ports: 'implementa as portas',
       deploy: 'git archive', notRun: 'rodando · pull a cada 10 min', otel: 'spans GenAI', sso: 'PKCE · JWKS'
     }
   },
@@ -52,7 +52,7 @@ const TX = {
     planAria: '2D plan of the Nexo Assist architecture',
     p2: {
       domain: ['domain/', 'pure rules'], application: ['application/', ''], app: ['app/ · server/', 'routes · session'],
-      agent: ['agent/', 'Mastra · 10 tools'], infra: ['infrastructure/', 'Drizzle · ports'], gemini: ['Gemini 3.5 Flash', ''],
+      agent: ['agent/', 'Mastra · 11 tools'], infra: ['infrastructure/', 'Drizzle · ports'], gemini: ['GPT-6 Luna', ''],
       lite: ['Flash Lite', 'fallback'], db: ['libSQL · Turso', ''], legacy: ['simulated legacy', ''], chat: ['Employee chat', 'NDJSON · SSE'],
       console: ['Analyst console', 'SSE · RTK Query'], otel: ['OTel · Langfuse', ''], sso: ['OIDC SSO', ''], git: ['git · main', ''],
       vercel: ['Vercel + Turso', 'production'], circle: ['CircleCI', ''], hub: ['Docker Hub', ''], komodo: ['Komodo', ''],
@@ -61,9 +61,9 @@ const TX = {
       domain: ['domain/', 'pure service-desk rules'],
       application: ['application/', 'use cases + ports'],
       app: ['app/ · server/', 'routes, JWT session, proxy.ts'],
-      agent: ['agent/', 'Mastra · 10 tools'],
+      agent: ['agent/', 'Mastra · 11 tools'],
       infra: ['infrastructure/', 'Drizzle, repositories, telemetry'],
-      gemini: ['Gemini 3.5 Flash', 'main model'],
+      gemini: ['GPT-6 Luna', 'main model · OpenRouter'],
       lite: ['Gemini 3.5 Flash Lite', 'fallback'],
       db: ['libSQL', 'local SQLite · Turso when deployed'],
       legacy: ['simulated legacy', 'fails 15% · retry'],
@@ -79,7 +79,7 @@ const TX = {
     },
     e: {
       chat: 'NDJSON · SSE', console: 'SSE · polling fallback', model: 'step 0 forced',
-      fallback: '503 → fallback', emb: 'embeddings', ports: 'implements the ports',
+      fallback: '503 → fallback', emb: 'embeddings (Gemini)', ports: 'implements the ports',
       deploy: 'git archive', notRun: 'running · pulls every 10 min', otel: 'GenAI spans', sso: 'PKCE · JWKS'
     }
   }
