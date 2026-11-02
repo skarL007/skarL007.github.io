@@ -10,17 +10,17 @@
  * and `git rev-list --count origin/main` for the commits.
  */
 window.NEXO_NUMBERS = {
-  asOf: '2026-10-30',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 154,              // git rev-list --count origin/main at 9d0605b (also sets the 3D module height)
-  unitTests: 472,            // npm test (Vitest, 68 files)
-  e2eTests: 42,              // npm run test:e2e (Playwright)
+  asOf: '2026-11-02',        // date of the round the numbers come from (YYYY-MM-DD)
+  commits: 171,              // git rev-list --count origin/main at ef878c3 (also sets the 3D module height)
+  unitTests: 538,            // npm test (Vitest, 74 files)
+  e2eTests: 45,              // npm run test:e2e (Playwright)
   evalsPassed: 36,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
-  evalsTotal: 36,            // 30 Oct, with openrouter/openai/gpt-6-luna (the production model since that day)
+  evalsTotal: 36,            // 2 Nov, with deepinfra/deepseek-ai/DeepSeek-V4-Flash (the production model since that day), US$ 0.07
   attacksPassed: 8,          // attack scenarios inside that suite
   attacksTotal: 8,
   redTeamPassed: 21,         // npm run eval -- ataque --repeat=3
   redTeamTotal: 21,
-  simPass1: 0.93,            // npm run eval:sim, pass^1, round 3 with the one persona re-run after its fix (round 2 also 0.93)
+  simPass1: 0.93,            // 30 Oct (not re-run yet with DeepSeek): npm run eval:sim, pass^1, round 3 with the one persona re-run after its fix (round 2 also 0.93)
   simPassed: 28,             // conversations that passed ...
   simRuns: 30,               // ... out of this many (personas x k)
   simPass3: 0.80,            // pass^3, same round (round 2 also 0.80)
