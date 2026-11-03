@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+<title id="title">Axon Voice — arquitetura lógica</title>
+<desc id="desc">Diagrama conceitual com quatro etapas: entradas, recuperação híbrida, verificação com LangGraph e saída fundamentada. Uma memória temporal recebe fatos elegíveis.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07142B"/><stop offset=".55" stop-color="#09172C"/><stop offset="1" stop-color="#070D1A"/></linearGradient>
+  <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8CD8FF"/><stop offset="1" stop-color="#59B5EE"/></linearGradient>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#365474" stroke-width="1" opacity=".18"/></pattern>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#83D5F8"/></marker>
+  <style>
+  .mono{font-family:Consolas,'Courier New',monospace}.sans{font-family:Arial,Helvetica,sans-serif}.lab{font-size:18px;letter-spacing:2px;fill:#91ACC5}.title{font-size:29px;font-weight:700;fill:#F1F8FF}.sub{font-size:18px;fill:#BBD0E5}.number{font-size:18px;fill:#FF9A73;font-weight:700}.pill{font-size:17px;fill:#C8E6FA}.small{font-size:17px;fill:#95B5CC}
+  </style>
+</defs>
+<rect width="1400" height="800" fill="url(#bg)"/><rect width="1400" height="800" fill="url(#grid)"/>
+<path d="M24 24h45M24 24v45M1376 24h-45M1376 24v45M24 776h45M24 776v-45M1376 776h-45M1376 776v-45" fill="none" stroke="#78B5DB" stroke-width="2" opacity=".65"/>
+<text class="mono lab" x="66" y="83">AXON VOICE / VISÃO LÓGICA</text>
+<text class="sans" font-size="44" font-weight="700" fill="#F1F8FF" x="66" y="145">O caminho da resposta fundamentada</text>
+<text class="mono small" x="67" y="184">Diagrama conceitual · não é captura de tela · sem métricas simuladas</text>
+
+<g fill="#0C2038" stroke="#4C718F" stroke-width="1.5">
+  <rect x="62" y="258" width="280" height="290" rx="16"/>
+  <rect x="393" y="258" width="280" height="290" rx="16"/>
+  <rect x="724" y="258" width="280" height="290" rx="16"/>
+  <rect x="1055" y="258" width="280" height="290" rx="16"/>
+</g>
+<rect x="393" y="258" width="280" height="6" rx="2" fill="#82D5F8"/>
+<rect x="724" y="258" width="280" height="6" rx="2" fill="#FF8857"/>
+<rect x="1055" y="258" width="280" height="6" rx="2" fill="#82D5F8"/>
+<g class="mono number"><text x="86" y="307">01 / INPUT</text><text x="417" y="307">02 / RETRIEVE</text><text x="748" y="307">03 / VERIFY</text><text x="1079" y="307">04 / OUTPUT</text></g>
+<g class="sans title"><text x="86" y="364">Entradas</text><text x="417" y="364">Contexto</text><text x="748" y="364">LangGraph</text><text x="1079" y="364">Resposta</text></g>
+<g class="sans sub">
+<text x="86" y="403">Voz e texto</text><text x="86" y="438">Documentos PDF</text><text x="86" y="473">Notas e histórico</text>
+<text x="417" y="403">FAISS + lexical</text><text x="417" y="438">Neo4j + Graphiti</text><text x="417" y="473">Fusão RRF</text>
+<text x="748" y="403">Avaliar evidências</text><text x="748" y="438">Gerar com fontes</text><text x="748" y="473">Conferir citações</text>
+<text x="1079" y="403">Texto em streaming</text><text x="1079" y="438">Referências [S#]</text><text x="1079" y="473">Voz por frases</text>
+</g>
+<g fill="none" stroke="#83D5F8" stroke-width="3" marker-end="url(#arrow)">
+<path d="M346 407H387"/><path d="M677 407H718"/><path d="M1008 407H1049"/>
+</g>
+<rect x="399" y="587" width="602" height="123" rx="13" fill="#0A1E34" stroke="#547B98" stroke-width="1.5" stroke-dasharray="8 6"/>
+<text class="mono number" x="431" y="626">CAMADA DE MEMÓRIA CONTROLADA</text>
+<text class="sans" font-size="25" font-weight="700" fill="#F1F8FF" x="431" y="665">Vetores + fatos temporais</text>
+<text class="mono small" x="431" y="693">Persistência seletiva · entidades · validade</text>
+<path d="M530 553V579" fill="none" stroke="#83D5F8" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M860 579V553" fill="none" stroke="#83D5F8" stroke-width="3" marker-end="url(#arrow)"/>
+<g class="mono" font-size="17" fill="#A9BED4">
+<text x="67" y="756">STACK  Python / LangGraph / FAISS / Neo4j / Graphiti / SQLite</text>
+<text x="1335" y="756" text-anchor="end">EDIÇÃO 03 NOV 2026</text>
+</g>
+</svg>
