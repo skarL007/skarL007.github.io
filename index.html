@@ -173,14 +173,19 @@
   <div class="stop r" data-stop>
     <div class="pair">
       <article class="sheet rv" id="p-axon" data-build="4" data-mod="4" aria-labelledby="t-axon">
-        <header class="sh-head"><b>M-05</b><span>privado</span><span>em finalização</span><span class="sh-r">257 commits</span></header>
+        <header class="sh-head"><b>M-05</b><span>independente</span><span>atualizado · nov 2026</span><span class="sh-r">GraphRAG · LangGraph</span></header>
         <h3 class="sh-title" id="t-axon">Axon Voice</h3>
-        <p class="sh-lede">Parceiro de trabalho por voz, local, que responde com fontes e aprende com você.</p>
-        <p class="pipe">voz → Whisper → busca paralela (memória vetorial · base de conhecimento · grafo Neo4j) com fusão RRF → LLM local (Ollama) ou na nuvem → voz frase a frase</p>
-        <p>Cita a página exata ou diz que não sabe (RAG corretivo com LangGraph). Guarda o que você afirma num grafo de conhecimento com datas. Um orbe sempre visível: segure o Ctrl direito para falar de qualquer app.</p>
-        <p class="sh-fact">1.622 testes · E2E com Playwright · nenhum teste chega à nuvem</p>
-        <figure class="shot"><a href="assets/shots/axon-voice.webp" target="_blank" rel="noopener"><img src="assets/shots/axon-voice.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Axon Voice no modo cinema: a resposta aparece frase a frase no ritmo da fala, com a fonte citada ao lado"></a><figcaption><b>Do vídeo de demo do repositório</b> · modo cinema, legenda no ritmo da fala e a fonte citada</figcaption></figure>
-        <p><a class="lnk" href="axon-voice/">Ver o estudo de caso e o vídeo →</a></p><p class="priv">Repositório privado · demonstração e decisões nesta página</p>
+        <p class="sh-lede">Engenharia de IA com recuperação híbrida, memória temporal e respostas fundamentadas em fontes verificáveis.</p>
+        <p class="sh-stack">Python · FAISS · Neo4j · Graphiti · LangGraph · CircleCI</p>
+        <p>Recuperação vetorial, lexical e em grafo; verificação de citações e caminhos de abstenção quando falta evidência. Testes e avaliações para recall, roteamento, latência e custo, sem confundir metas de qualidade com resultados de produção.</p>
+        <figure class="shot axon-home-visual">
+          <a href="axon-voice/" aria-label="Abrir estudo de caso técnico do Axon Voice">
+            <img src="assets/axon/architecture-2026.svg" width="1400" height="800" loading="lazy" decoding="async" alt="Diagrama conceitual da arquitetura do Axon Voice com entradas, recuperação, verificação e saída fundamentada">
+          </a>
+          <figcaption><b>Arquitetura conceitual</b> · Diagrama vetorial atualizado; não é captura da interface</figcaption>
+        </figure>
+        <p class="sh-links"><a class="lnk" href="axon-voice/">Explorar arquitetura, decisões e avaliações →</a></p>
+        <p class="priv">Repositório privado · projeto individual · sem resultados comerciais alegados</p>
       </article>
       <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
         <header class="sh-head"><b>M-06</b><span>público</span><span>v1.3.1</span><span class="sh-r">94 commits</span></header>
