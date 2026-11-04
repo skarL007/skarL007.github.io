@@ -191,6 +191,17 @@ function setMode(two, persist) {
 }
 btn2d.addEventListener('click', () => { if (!glFailed) setMode(!is2D(), true); });
 
+/* Inicia o fluxo 3D ao entrar na tela. Os controles nativos continuam donos da pausa. */
+const flowVideo = document.querySelector('.nexo-flow video');
+if (flowVideo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const visible = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    visible.disconnect();
+    flowVideo.play().catch(() => {});
+  }, { threshold: 0.25 });
+  visible.observe(flowVideo);
+}
+
 /* ---------- video chapters: jump to a time ---------- */
 const video = $('#demo');
 $$('[data-t]').forEach(b => b.addEventListener('click', () => {

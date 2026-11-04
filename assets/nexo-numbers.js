@@ -5,13 +5,13 @@
  * and the case study (nexo-assist/ pages), in both languages. Every element
  * with data-n="<key>" is filled from this block when the page loads; the text
  * already in the HTML is only the fallback for visitors without JavaScript.
- * Sources (nexo-assist, b3c9c27): README.md ("Como garanti a qualidade"),
+ * Sources (nexo-assist, 94eaf07): README.md ("Como garanti a qualidade"),
  * docs/validacao/README.md, docs/validacao/SIMULACAO.md, docs/validacao/RED-TEAM.md,
- * and `git rev-list --count b3c9c27` for the commits.
+ * and `git rev-list --count 94eaf07` for the commits.
  */
 window.NEXO_NUMBERS = {
   asOf: '2026-11-03',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 175,              // git rev-list --count b3c9c27
+  commits: 176,              // git rev-list --count 94eaf07
   unitTests: 563,            // npm test (Vitest, 77 files)
   e2eTests: 48,              // npm run test:e2e (Playwright)
   evalsPassed: 35,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
