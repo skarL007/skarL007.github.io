@@ -71,7 +71,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
-    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">174</span> commits</dd></div>
+    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">175</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
   </dl>
@@ -83,7 +83,7 @@
     <div><dt>O problema</dt><dd>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados e com prioridade errada.</dd></div>
     <div><dt>O que o agente faz</dt><dd>Conversa com o funcionário, busca na central de ajuda, abre ou complementa o chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele fez e por quê.</dd></div>
     <div><dt>A prova</dt><dd><span data-n="evals">35/36</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">563</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
-    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 4:33</a>.</dd></div>
+    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 4:49</a>.</dd></div>
   </dl>
 </section>
 
@@ -143,6 +143,13 @@
     <li class="k-flow-li"><i class="k-flow" aria-hidden="true"></i>Dados em movimento</li>
   </ul>
   <p class="cs-note">Fonte: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/specs/04-arquitetura.md" target="_blank" rel="noopener">docs/specs/04-arquitetura.md</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/src/agent/tools/index.ts" target="_blank" rel="noopener">src/agent/tools/index.ts</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a></p>
+  <h3 class="cs-h3" id="fluxo-imagem">Como a foto vira texto</h3>
+  <figure class="vid nexo-flow">
+    <video controls muted playsinline preload="none" width="1696" height="486" poster="../assets/shots/nexo-visao-3d.webp" aria-label="Como a foto vira texto · 3D">
+      <source src="../assets/video/nexo-visao-3d.mp4" type="video/mp4">
+    </video>
+    <figcaption>O modelo de visão lê a foto. O agente recebe a descrição como dado da conversa.</figcaption>
+  </figure>
 </section>
 
 <section id="produto" class="cs-sec" aria-labelledby="h-produto">
@@ -180,30 +187,46 @@
   </div>
 </section>
 
+<section id="hardware" class="cs-sec hardware-case" aria-labelledby="h-hardware">
+  <header><p class="callout"><span class="cn">N-03B</span><span class="ct">Hardware</span></p>
+    <h2 class="cs-h2" id="h-hardware" tabindex="-1">Papel preso na impressora</h2>
+  </header>
+  <div class="cs-two">
+    <figure class="shot"><img src="../assets/shots/nexo-impressora.webp" width="1450" height="965" loading="lazy" alt="Mãos seguram uma folha amassada dentro de uma impressora aberta.">
+      <figcaption><b>Foto do equipamento</b> · <a href="https://freeimageslive.co.uk/free_stock_image/printer-problem-jpg">Freeing up a paper jam</a>, gratuit / FreeImagesLive · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · redimensionada</figcaption>
+    </figure>
+    <article class="sheet cs-side"><h3 class="cs-h3"><small>Teste de 03/11</small>Da foto ao analista</h3>
+      <p>Na demo local, Ana anexou uma foto de uma impressora aberta. O Nexo leu o papel amassado, perguntou se havia uma mensagem no painel e sugeriu conferir a energia. A sugestão sobre o cabo foi genérica para o problema visível. Ana preferiu não mexer na máquina aberta e pediu ajuda. A conversa passou para a fila do analista. O teste terminou nesse ponto, com o reparo em aberto.</p>
+      <p class="sh-links"><a class="lnk" href="../assets/shots/nexo-impressora-atendimento.webp">Ver a resposta real no chat ↗</a></p>
+    </article>
+  </div>
+</section>
+
 <section id="video" class="cs-sec" aria-labelledby="h-video">
   <header>
     <p class="callout"><span class="cn">N-04</span><span class="ct">Vídeo de demo</span></p>
     <h2 class="cs-h2" id="h-video" tabindex="-1">Da conversa ao chamado, e do chamado ao analista</h2>
-    <p class="cs-intro">Carla manda uma foto do monitor apagado. O agente lê a imagem e pede uma verificação por vez, até que ela encontra o cabo HDMI solto. Depois, uma falha no sistema de ponto vira chamado. O analista assume a conversa pelo console e Carla vê a mudança no chat. O vídeo dura 4:33. As cenas do app foram gravadas em 02/11 com o DeepSeek-V4-Flash. As esperas cortadas estão sinalizadas. As animações mostram quatro decisões do projeto e as fontes dos números daquela rodada.</p>
+    <p class="cs-intro">Carla envia a foto do monitor apagado e encontra o cabo HDMI solto ao seguir as verificações. Em outro atendimento, Ana envia a foto de uma impressora com papel preso e pede um analista. Depois, uma falha no sistema de ponto vira chamado. O vídeo dura 4:49. As cenas do monitor e do ponto foram gravadas em 02/11, e o atendimento da impressora foi testado em 03/11. A animação 3D mostra como a imagem vira texto para o agente.</p>
   </header>
   <figure class="vid">
-    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp" aria-label="Vídeo de demonstração do Nexo Assist, 4 minutos e 33 segundos, com música original de fundo e efeitos sonoros">
-      <source src="../assets/video/nexo-assist-demo.mp4" type="video/mp4">
-      <track kind="chapters" srclang="pt" label="Capítulos" src="../assets/video/nexo-assist-demo.chapters.pt.vtt" default>
+    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" aria-label="Vídeo de demonstração do Nexo Assist, 4 minutos e 49 segundos, com narração em português e trilha instrumental suave">
+      <source src="../assets/video/nexo-assist-demo.mp4?v=hardware3d-mix2" type="video/mp4">
+      <track kind="chapters" srclang="pt" label="Capítulos" src="../assets/video/nexo-assist-demo.chapters.pt.vtt?v=hardware3d-mix2" default>
     </video>
-    <figcaption>H.264 · 1920×1080 · 60 fps · 42,4 MB · só toca quando você der play · narração com voz sintética (Fish Audio) · trilha original · efeitos sonoros: Pixabay · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
+    <figcaption>H.264 · 1920×1080 · 60 fps · 48,5 MB · só toca quando você der play · narração com voz sintética (Fish Audio) · piano elétrico, baixo e acordes suaves · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
   </figure>
   <ol class="chap-list" aria-label="Capítulos do vídeo">
     <li><button type="button" data-t="0.000"><time>0:00</time>Abertura</button></li>
     <li><button type="button" data-t="6.000"><time>0:06</time>Gancho: a foto do monitor apagado</button></li>
     <li><button type="button" data-t="25.900"><time>0:25</time>O problema</button></li>
-    <li><button type="button" data-t="40.900"><time>0:40</time>Ela resolve sozinha: foto, verificações e "Isso resolveu?"</button></li>
-    <li><button type="button" data-t="78.200"><time>1:18</time>Quando precisa de chamado: ponto e incidente em massa</button></li>
-    <li><button type="button" data-t="124.767"><time>2:04</time>Do outro lado: relatório, foto e tempo real</button></li>
-    <li><button type="button" data-t="168.050"><time>2:48</time>Por dentro do turno e indicadores</button></li>
-    <li><button type="button" data-t="193.867"><time>3:13</time>Quatro decisões: busca, modelo, imagem e segurança</button></li>
-    <li><button type="button" data-t="253.867"><time>4:13</time>Provas</button></li>
-    <li><button type="button" data-t="265.867"><time>4:25</time>Chamada</button></li>
+    <li><button type="button" data-t="40.900"><time>0:40</time>Ela resolve sozinha: foto, verificações e &quot;Isso resolveu?&quot;</button></li>
+    <li><button type="button" data-t="78.200"><time>1:18</time>Impressora com papel preso</button></li>
+    <li><button type="button" data-t="94.200"><time>1:34</time>Quando precisa de chamado: ponto e incidente em massa</button></li>
+    <li><button type="button" data-t="140.767"><time>2:20</time>Do outro lado: relatório, foto e tempo real</button></li>
+    <li><button type="button" data-t="184.050"><time>3:04</time>Por dentro do turno e indicadores</button></li>
+    <li><button type="button" data-t="209.867"><time>3:29</time>Quatro decisões: busca, modelo, imagem e segurança</button></li>
+    <li><button type="button" data-t="269.867"><time>4:29</time>Provas</button></li>
+    <li><button type="button" data-t="281.867"><time>4:41</time>Chamada</button></li>
   </ol>
 </section>
 

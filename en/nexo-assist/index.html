@@ -71,7 +71,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>My role</dt><dd>Architecture, rules, acceptance criteria and evidence. Coding agents wrote the code, in small verified increments.</dd></div>
-    <div><dt>Delivered</dt><dd>28 Oct 2026 · <span data-n="commits">174</span> commits</dd></div>
+    <div><dt>Delivered</dt><dd>28 Oct 2026 · <span data-n="commits">175</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">Strict TypeScript · Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Code</dt><dd>Public on GitHub, with specs, validation reports and the demo video. The docs are in Portuguese.</dd></div>
   </dl>
@@ -83,7 +83,7 @@
     <div><dt>The problem</dt><dd>A fictional company of about 2,000 employees has an IT team buried in triage: tickets without context, duplicates and wrong priorities.</dd></div>
     <div><dt>What the agent does</dt><dd>It talks to the employee, searches the help center, opens or updates a ticket once they confirm, and calls an analyst when it needs to. Every answer shows what it did and why.</dd></div>
     <div><dt>The proof</dt><dd><span data-n="evals">35/36</span> evals with the real model, <span data-n="redTeam">21/21</span> in the red team and <span data-n="unitTests">563</span> tests without an LLM, each number with its source in the repository.</dd></div>
-    <div><dt>See it work</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Public demo ↗</a> in Portuguese, one click as Ana or Rafael, or the <a href="#video">4:33 video</a>.</dd></div>
+    <div><dt>See it work</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Public demo ↗</a> in Portuguese, one click as Ana or Rafael, or the <a href="#video">4:49 video</a>.</dd></div>
   </dl>
 </section>
 
@@ -143,6 +143,13 @@
     <li class="k-flow-li"><i class="k-flow" aria-hidden="true"></i>Data in motion</li>
   </ul>
   <p class="cs-note">Source: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/specs/04-arquitetura.md" target="_blank" rel="noopener">docs/specs/04-arquitetura.md</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/src/agent/tools/index.ts" target="_blank" rel="noopener">src/agent/tools/index.ts</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a></p>
+  <h3 class="cs-h3" id="fluxo-imagem">How the photo becomes text</h3>
+  <figure class="vid nexo-flow">
+    <video controls muted playsinline preload="none" width="1696" height="486" poster="../../assets/shots/nexo-visao-3d.webp" aria-label="How the photo becomes text · 3D">
+      <source src="../../assets/video/nexo-visao-3d.mp4" type="video/mp4">
+    </video>
+    <figcaption>The vision model reads the photo. The agent receives the description as conversation data. The animation is in Portuguese.</figcaption>
+  </figure>
 </section>
 
 <section id="produto" class="cs-sec" aria-labelledby="h-produto">
@@ -180,30 +187,46 @@
   </div>
 </section>
 
+<section id="hardware" class="cs-sec hardware-case" aria-labelledby="h-hardware">
+  <header><p class="callout"><span class="cn">N-03B</span><span class="ct">Hardware</span></p>
+    <h2 class="cs-h2" id="h-hardware" tabindex="-1">A paper jam in the office printer</h2>
+  </header>
+  <div class="cs-two">
+    <figure class="shot"><img src="../../assets/shots/nexo-impressora.webp" width="1450" height="965" loading="lazy" alt="Hands holding a crumpled sheet inside an open office printer.">
+      <figcaption><b>Equipment photo</b> · <a href="https://freeimageslive.co.uk/free_stock_image/printer-problem-jpg">Freeing up a paper jam</a>, gratuit / FreeImagesLive · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · resized</figcaption>
+    </figure>
+    <article class="sheet cs-side"><h3 class="cs-h3"><small>3 Nov test</small>From photo to analyst</h3>
+      <p>In the local demo, Ana attached a photo of an open printer. Nexo identified crumpled paper, asked about a message on the control panel and suggested checking the power. The power check was generic for the visible problem. Ana chose to leave the open machine alone and asked for help. The conversation moved to the analyst queue. The test ended there, with the repair still open.</p>
+      <p class="sh-links"><a class="lnk" href="../../assets/shots/nexo-impressora-atendimento.webp">View the actual chat reply (Portuguese) ↗</a></p>
+    </article>
+  </div>
+</section>
+
 <section id="video" class="cs-sec" aria-labelledby="h-video">
   <header>
     <p class="callout"><span class="cn">N-04</span><span class="ct">Demo video</span></p>
     <h2 class="cs-h2" id="h-video" tabindex="-1">From conversation to ticket, and from ticket to analyst</h2>
-    <p class="cs-intro">Carla sends a photo of her dark monitor. The agent reads it and asks for one check at a time until she finds the loose HDMI cable. Next, a time-clock failure becomes a ticket. An analyst takes over in the console, and Carla sees the handoff in her chat. The video runs 4:33. The app footage was recorded on 2 Nov with DeepSeek-V4-Flash. Labels flag the waits that were cut. The animations explain four project decisions and identify the sources for that run’s results.</p>
+    <p class="cs-intro">Carla sends a photo of her dark monitor and finds the loose HDMI cable during the checks. In a separate session, Ana sends a photo of a printer with jammed paper and asks for an analyst. Next, a time-clock failure becomes a ticket. The video runs 4:49. The monitor and time-clock scenes were recorded on 2 Nov. The printer conversation was tested on 3 Nov. The 3D sequence shows how a photo becomes text for the agent.</p>
   </header>
   <figure class="vid">
-    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../../assets/shots/nexo-poster-1600.webp" aria-label="Nexo Assist demo video, 4 minutes 33 seconds, with original background music and sound effects">
-      <source src="../../assets/video/nexo-assist-demo.mp4" type="video/mp4">
-      <track kind="chapters" srclang="en" label="Chapters" src="../../assets/video/nexo-assist-demo.chapters.en.vtt" default>
+    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" aria-label="Nexo Assist demo video, 4 minutes 49 seconds, with Portuguese narration and a quiet instrumental score">
+      <source src="../../assets/video/nexo-assist-demo.mp4?v=hardware3d-mix2" type="video/mp4">
+      <track kind="chapters" srclang="en" label="Chapters" src="../../assets/video/nexo-assist-demo.chapters.en.vtt?v=hardware3d-mix2" default>
     </video>
-    <figcaption>H.264 · 1920×1080 · 60 fps · 42.4 MB · plays only when you press play · Portuguese narration with a synthetic voice (Fish Audio) · original score · sound effects: Pixabay · also in the <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repository ↗</a></figcaption>
+    <figcaption>H.264 · 1920×1080 · 60 fps · 48.5 MB · plays only when you press play · Portuguese narration with a synthetic voice (Fish Audio) · original electric piano, bass and soft chords · also in the <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repository ↗</a></figcaption>
   </figure>
   <ol class="chap-list" aria-label="Video chapters">
     <li><button type="button" data-t="0.000"><time>0:00</time>Opening</button></li>
     <li><button type="button" data-t="6.000"><time>0:06</time>Hook: the photo of the dark monitor</button></li>
     <li><button type="button" data-t="25.900"><time>0:25</time>The problem</button></li>
     <li><button type="button" data-t="40.900"><time>0:40</time>She solves it alone: photo, checks and “Did this solve it?”</button></li>
-    <li><button type="button" data-t="78.200"><time>1:18</time>When a ticket is needed: time clock and mass incident</button></li>
-    <li><button type="button" data-t="124.767"><time>2:04</time>On the other side: report, photo and real time</button></li>
-    <li><button type="button" data-t="168.050"><time>2:48</time>Inside the turn and indicators</button></li>
-    <li><button type="button" data-t="193.867"><time>3:13</time>Four decisions: search, model, image and security</button></li>
-    <li><button type="button" data-t="253.867"><time>4:13</time>Proof</button></li>
-    <li><button type="button" data-t="265.867"><time>4:25</time>Links</button></li>
+    <li><button type="button" data-t="78.200"><time>1:18</time>Paper jam in the office printer</button></li>
+    <li><button type="button" data-t="94.200"><time>1:34</time>When a ticket is needed: time clock and mass incident</button></li>
+    <li><button type="button" data-t="140.767"><time>2:20</time>On the other side: report, photo and real time</button></li>
+    <li><button type="button" data-t="184.050"><time>3:04</time>Inside the turn and indicators</button></li>
+    <li><button type="button" data-t="209.867"><time>3:29</time>Four decisions: search, model, image and security</button></li>
+    <li><button type="button" data-t="269.867"><time>4:29</time>Proof</button></li>
+    <li><button type="button" data-t="281.867"><time>4:41</time>Links</button></li>
   </ol>
 </section>
 

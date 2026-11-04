@@ -247,3 +247,6 @@ dialog.zoom figcaption{padding:10px 14px;font:500 12px/1.5 var(--mono);letter-sp
 .case:not(.axon-case) :is(.cs-back,.cs-note a,.proof dd.s,.vid figcaption a,.foot a,.skip){font-size:14px}
 .case:not(.axon-case) .cs-back{letter-spacing:.04em}
 .case:not(.axon-case) .proof dd.s a{overflow-wrap:anywhere}
+
+.nexo-flow video{aspect-ratio:1696/486}
+.hardware-case .shot img{width:100%;height:auto;aspect-ratio:auto}
