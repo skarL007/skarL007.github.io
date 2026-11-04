@@ -71,7 +71,7 @@
   </div>
   <dl class="cs-meta">
     <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
-    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">154</span> commits</dd></div>
+    <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">174</span> commits</dd></div>
     <div><dt>Stack</dt><dd class="mono">TypeScript estrito · Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
     <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
   </dl>
@@ -82,8 +82,8 @@
   <dl class="s60">
     <div><dt>O problema</dt><dd>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados e com prioridade errada.</dd></div>
     <div><dt>O que o agente faz</dt><dd>Conversa com o funcionário, busca na central de ajuda, abre ou complementa o chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele fez e por quê.</dd></div>
-    <div><dt>A prova</dt><dd><span data-n="evals">36/36</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">472</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
-    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 5:28</a>.</dd></div>
+    <div><dt>A prova</dt><dd><span data-n="evals">35/36</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">563</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
+    <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 4:33</a>.</dd></div>
   </dl>
 </section>
 
@@ -155,6 +155,7 @@
       <h3 class="cs-h3" id="h-func"><small>Para o funcionário</small>Resolver sem fila</h3>
       <ul class="cs-list">
         <li>Escreve do jeito dele. O agente busca na central de ajuda e pergunta <b>“Isso resolveu?”</b>; a resposta entra no indicador de resolução.</li>
+        <li>Manda uma <b>foto ou captura de tela</b> do problema. Um modelo de visão barato descreve a imagem, e o agente recebe só a descrição, tratada como dado e nunca como instrução. A imagem só aparece para a pessoa e para os analistas.</li>
         <li>Acha o chamado sem o número e avisa quando o <b>prazo está em risco</b> (75% do prazo útil), com a conta explicada.</li>
         <li>Monta um <b>rascunho</b> com prioridade e prazo calculados em código. Nada é criado antes de a pessoa confirmar; “Alterar detalhes” recalcula no servidor.</li>
         <li>Quando três ou mais pessoas relatam o mesmo problema em 4 horas úteis, sobe o impacto para “equipe” sem revelar quem relatou.</li>
@@ -170,7 +171,7 @@
         <li>O <b>relatório da conversa</b>: o que a pessoa precisa, o que o agente já fez e o que está pendente. É montado do histórico e dos traces, sem chamar o modelo.</li>
         <li>Assume a conversa com o agente pausado, devolve ou encerra. O banco só aceita a mudança se o estado ainda for o esperado, então analista e agente não se atropelam.</li>
         <li><b>“Sugerir resposta”</b>: o modelo escreve, o analista revisa antes de enviar.</li>
-        <li>Tudo em <b>tempo real</b> pelo stream SSE, com o polling como reserva.</li>
+        <li>Tudo em <b>tempo real</b> pelo stream SSE, com o polling como reserva. Quando o analista assume uma conversa que estava com o agente, o chat da pessoa muda na hora.</li>
         <li><b>Indicadores</b> honestos: resolução confirmada separada da presumida, sem contar chamado aberto nem quem voltou com o mesmo problema, e as lacunas da central com dados pessoais mascarados.</li>
       </ul>
       <figure class="shot"><a href="../assets/shots/nexo-report-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/nexo-report-960.webp" srcset="../assets/shots/nexo-report-960.webp 960w, ../assets/shots/nexo-report-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" width="960" height="540" loading="lazy" decoding="async" alt="Console do analista com o relatório da conversa aberto: o que a funcionária precisa, o chamado citado com prioridade Alta, a pendência e o sinal de frustração alta"></a><figcaption><b>Do vídeo de demo</b> · relatório da conversa no console</figcaption></figure>
@@ -183,25 +184,26 @@
   <header>
     <p class="callout"><span class="cn">N-04</span><span class="ct">Vídeo de demo</span></p>
     <h2 class="cs-h2" id="h-video" tabindex="-1">Da conversa ao chamado, e do chamado ao analista</h2>
-    <p class="cs-intro">Em 5:28, o funcionário resolve sozinho, o agente monta o chamado e o analista assume no console. As partes do app são gravações reais de 28/10, feitas com o Gemini; as esperas pelo modelo aparecem aceleradas e sinalizadas. Diagramas e números são animações, atualizadas em 30/10: busca com avaliador de relevância, GPT-6 Luna e os números atuais, e cada número mostra a fonte no repositório. Tem música original de fundo e efeitos sonoros.</p>
+    <p class="cs-intro">Carla manda uma foto do monitor apagado. O agente lê a imagem e pede uma verificação por vez, até que ela encontra o cabo HDMI solto. Depois, uma falha no sistema de ponto vira chamado. O analista assume a conversa pelo console e Carla vê a mudança no chat. O vídeo dura 4:33. As cenas do app foram gravadas em 02/11 com o DeepSeek-V4-Flash. As esperas cortadas estão sinalizadas. As animações mostram quatro decisões do projeto e as fontes dos números daquela rodada.</p>
   </header>
   <figure class="vid">
-    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp" aria-label="Vídeo de demonstração do Nexo Assist, 5 minutos e 28 segundos, com música original de fundo e efeitos sonoros">
+    <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp" aria-label="Vídeo de demonstração do Nexo Assist, 4 minutos e 33 segundos, com música original de fundo e efeitos sonoros">
       <source src="../assets/video/nexo-assist-demo.mp4" type="video/mp4">
       <track kind="chapters" srclang="pt" label="Capítulos" src="../assets/video/nexo-assist-demo.chapters.pt.vtt" default>
     </video>
-    <figcaption>H.264 · 1920×1080 · 27 MB · só toca quando você der play · narração com voz sintética (Fish Audio) · trilha original · efeitos sonoros: Pixabay · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
+    <figcaption>H.264 · 1920×1080 · 60 fps · 42,4 MB · só toca quando você der play · narração com voz sintética (Fish Audio) · trilha original · efeitos sonoros: Pixabay · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
   </figure>
   <ol class="chap-list" aria-label="Capítulos do vídeo">
-    <li><button type="button" data-t="0"><time>0:00</time>Abertura: o problema e a solução</button></li>
-    <li><button type="button" data-t="25"><time>0:25</time>O funcionário resolve sozinho</button></li>
-    <li><button type="button" data-t="61"><time>1:01</time>Prazo em risco e incidente em massa</button></li>
-    <li><button type="button" data-t="113"><time>1:53</time>Console do analista</button></li>
-    <li><button type="button" data-t="176"><time>2:56</time>Busca híbrida na central</button></li>
-    <li><button type="button" data-t="208"><time>3:28</time>Qualidade: testes e evals</button></li>
-    <li><button type="button" data-t="250"><time>4:10</time>Arquitetura</button></li>
-    <li><button type="button" data-t="281"><time>4:41</time>Entrega: imagem, CI e deploy</button></li>
-    <li><button type="button" data-t="316"><time>5:16</time>Os números</button></li>
+    <li><button type="button" data-t="0.000"><time>0:00</time>Abertura</button></li>
+    <li><button type="button" data-t="6.000"><time>0:06</time>Gancho: a foto do monitor apagado</button></li>
+    <li><button type="button" data-t="25.900"><time>0:25</time>O problema</button></li>
+    <li><button type="button" data-t="40.900"><time>0:40</time>Ela resolve sozinha: foto, verificações e "Isso resolveu?"</button></li>
+    <li><button type="button" data-t="78.200"><time>1:18</time>Quando precisa de chamado: ponto e incidente em massa</button></li>
+    <li><button type="button" data-t="124.767"><time>2:04</time>Do outro lado: relatório, foto e tempo real</button></li>
+    <li><button type="button" data-t="168.050"><time>2:48</time>Por dentro do turno e indicadores</button></li>
+    <li><button type="button" data-t="193.867"><time>3:13</time>Quatro decisões: busca, modelo, imagem e segurança</button></li>
+    <li><button type="button" data-t="253.867"><time>4:13</time>Provas</button></li>
+    <li><button type="button" data-t="265.867"><time>4:25</time>Chamada</button></li>
   </ol>
 </section>
 
@@ -254,13 +256,13 @@
     <h2 class="cs-h2" id="h-provas" tabindex="-1">Os números, com a fonte</h2>
     <p class="cs-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o modelo de verdade e tem um relatório com pergunta, método, números e limites.</p>
   </header>
-  <p class="asof"><i aria-hidden="true"></i>Rodada de <span data-n="asOf">30 out 2026</span>, no main do repositório</p>
+  <p class="asof"><i aria-hidden="true"></i>Testes do app e evals de <span data-n="asOf">03 nov 2026</span>. O benchmark e as simulações têm datas próprias.</p>
   <details class="fold" open>
   <summary>Ver os números e as fontes</summary>
   <dl class="proof">
-    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">472</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
-    <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">42</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
-    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">36/36</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques, 6 cenários tirados das falhas do funcionário simulado e 2 de verificações de diagnóstico. Rodada com o DeepSeek-V4-Flash, o modelo de produção desde 02/11: 36/36 por US$ 0,07. Na troca anterior, para o GPT-6 Luna, o único cenário que falhou supunha o Gemini pulando o autoatendimento e <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">foi corrigido no teste</a>, não no agente.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
+    <div class="live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">563</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+    <div class="live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">48</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, imagem anexada, erros.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
+    <div class="live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">35/36</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques, 6 cenários tirados das falhas do funcionário simulado e 2 de verificações de diagnóstico. Em 03/11, o DeepSeek-V4-Flash passou em 35 dos 36 cenários por US$ 0,07. No incidente do ponto, perguntou se havia alternativa e não entregou o rascunho. Na rodada de 02/11 exibida no vídeo, passou nos 36.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao/README.md</a></dd></div>
     <div class="live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/validacao/RED-TEAM.md</a></dd></div>
     <div class="live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,93</span> <small>pass^1 · antes <span data-n="simPass1Before">0,72</span></small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. Três rodadas em 30/10, ainda com o Gemini: 0,72 / 0,50 → 0,93 / 0,80 → 0,93 / 0,80, a terceira com uma persona repetida depois de corrigida. Com 10 personas × 3, <span data-n="simRuns">28/30</span> conversas certas; pass^3 <span data-n="simPass3Before">0,50</span> → <span data-n="simPass3">0,80</span> (<span data-n="simPersonas">8/10</span> personas certas nas 3 execuções). A primeira rodada achou defeitos reais no agente, corrigidos com regras em código e testes, não com ajustes no prompt.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/validacao/SIMULACAO.md</a></dd></div>
     <div><dt>busca na central</dt><dd class="n">56 → 78 <small>de 81 · 0 artigo errado</small></dd><dd class="d">Palavras-chave contra híbrida com avaliador de relevância, em quatro conjuntos; 18 perguntas de pedido × defeito × fora da central congeladas antes da correção: 9/18 → 18/18.</dd><dd class="s"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/validacao/BUSCA.md</a></dd></div>
@@ -304,10 +306,11 @@
   <summary>Ver o que ainda falta</summary>
   <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
   <ul class="open">
+    <li><b>O que apareceu na gravação</b><p>O botão “Já estava assim” pode deixar a resposta ambígua. O chamado do ponto exigiu seis turnos de perguntas, e o resumo da transferência incluiu um detalhe que Carla não informou.</p></li>
     <li><b>O que o funcionário simulado pegou</b><p>Todos os defeitos das três rodadas viraram regra em código, com testes: confirmação só explícita (e um “Sim, é esse mesmo” que só identifica o chamado não reabre nada), problema diferente vira chamado novo, Outlook entra como E-mail, analista só com motivo (prazo que não atende, chamado vencido ou frustração) e a pergunta sobre alternativa antes da prioridade. Repetidos depois das correções de 29 out, <code>senha-sap</code> e <code>vpn-reuniao</code> passaram 3 de 3, e a reabertura nos evals também. O que fica é a variação do próprio modelo: na suíte completa de 29 out, um cenário de incidente em massa falhou uma vez e passou 3 de 3 repetido.</p></li>
     <li><b>Entrega por imagem só local</b><p>O caminho CircleCI → Docker Hub → Komodo roda, mas o Komodo fica na minha máquina, só em loopback: prova a entrega por imagem, não é um segundo ambiente público. A produção continua na Vercel, publicada à mão.</p></li>
     <li><b>Amostra pequena</b><p>10 personas × 3 execuções é pouco para cravar uma taxa. Os números mostram a direção, não uma garantia.</p></li>
-    <li><b>Teto de gasto</b><p>A demo pública tem US$ 0,07 por dia para o modelo. Quando acaba, o chat avisa e volta no dia seguinte, sem modelo de reserva.</p></li>
+    <li><b>Teto de gasto</b><p>A demo pública tem US$ 0,07 por dia para o modelo. Quando acaba, o chat avisa e volta no dia seguinte, sem modelo de reserva. Um atendimento resolvido sem analista custa cerca de US$ 0,005 em modelo; a sugestão de resposta, os embeddings e o avaliador ainda ficam fora do livro-caixa (<a href="https://github.com/skarL007/nexo-assist/blob/main/docs/CUSTOS.md" target="_blank" rel="noopener">relatório de custos ↗</a>, <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/ESCALA.md" target="_blank" rel="noopener">plano de escala ↗</a>).</p></li>
     <li><b>Chamadas repetidas</b><p>A telemetria mostrou o modelo chamando a tool de entendimento várias vezes em paralelo no primeiro passo. Só a primeira vale, mas as outras gastam tokens.</p></li>
     <li><b>Evals fora do CI</b><p>Rodam à mão porque chamam o modelo real. O próximo passo é rodá-los no CI com um limiar mínimo.</p></li>
     <li><b>Serviços de verdade</b><p>O SSO só foi testado contra um provedor falso, e a telemetria contra um coletor local. Sair não revoga o JWT no servidor, e o console precisa de tela larga.</p></li>

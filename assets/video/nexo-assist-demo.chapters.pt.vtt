@@ -1,37 +1,41 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:25.000
-Abertura: o problema e a solução
+00:00:00.000 --> 00:00:06.000
+Abertura
 
 2
-00:00:25.000 --> 00:01:01.000
-O funcionário resolve sozinho
+00:00:06.000 --> 00:00:25.900
+Gancho: a foto do monitor apagado
 
 3
-00:01:01.000 --> 00:01:53.000
-Prazo em risco e incidente em massa
+00:00:25.900 --> 00:00:40.900
+O problema
 
 4
-00:01:53.000 --> 00:02:56.000
-Console do analista
+00:00:40.900 --> 00:01:18.200
+Ela resolve sozinha: foto, verificações e "Isso resolveu?"
 
 5
-00:02:56.000 --> 00:03:28.000
-Busca com avaliador de relevância
+00:01:18.200 --> 00:02:04.767
+Quando precisa de chamado: ponto e incidente em massa
 
 6
-00:03:28.000 --> 00:04:10.000
-Qualidade: testes e evals
+00:02:04.767 --> 00:02:48.050
+Do outro lado: relatório, foto e tempo real
 
 7
-00:04:10.000 --> 00:04:41.000
-Arquitetura
+00:02:48.050 --> 00:03:13.867
+Por dentro do turno e indicadores
 
 8
-00:04:41.000 --> 00:05:16.000
-Entrega: imagem, CI e deploy
+00:03:13.867 --> 00:04:13.867
+Quatro decisões: busca, modelo, imagem e segurança
 
 9
-00:05:16.000 --> 00:05:28.811
-Os números
+00:04:13.867 --> 00:04:25.867
+Provas
+
+10
+00:04:25.867 --> 00:04:33.867
+Chamada

@@ -5,17 +5,17 @@
  * and the case study (nexo-assist/ pages), in both languages. Every element
  * with data-n="<key>" is filled from this block when the page loads; the text
  * already in the HTML is only the fallback for visitors without JavaScript.
- * Sources (nexo-assist, origin/main): README.md ("Como garanti a qualidade"),
+ * Sources (nexo-assist, 80c9e26): README.md ("Como garanti a qualidade"),
  * docs/validacao/README.md, docs/validacao/SIMULACAO.md, docs/validacao/RED-TEAM.md,
- * and `git rev-list --count origin/main` for the commits.
+ * and `git rev-list --count 80c9e26` for the commits.
  */
 window.NEXO_NUMBERS = {
-  asOf: '2026-11-02',        // date of the round the numbers come from (YYYY-MM-DD)
-  commits: 171,              // git rev-list --count origin/main at ef878c3 (also sets the 3D module height)
-  unitTests: 538,            // npm test (Vitest, 74 files)
-  e2eTests: 45,              // npm run test:e2e (Playwright)
-  evalsPassed: 36,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
-  evalsTotal: 36,            // 2 Nov, with deepinfra/deepseek-ai/DeepSeek-V4-Flash (the production model since that day), US$ 0.07
+  asOf: '2026-11-03',        // date of the round the numbers come from (YYYY-MM-DD)
+  commits: 174,              // git rev-list --count 80c9e26
+  unitTests: 563,            // npm test (Vitest, 77 files)
+  e2eTests: 48,              // npm run test:e2e (Playwright)
+  evalsPassed: 35,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
+  evalsTotal: 36,            // 3 Nov, with deepinfra/deepseek-ai/DeepSeek-V4-Flash (the production model since 2 Nov), US$ 0.07
   attacksPassed: 8,          // attack scenarios inside that suite
   attacksTotal: 8,
   redTeamPassed: 21,         // npm run eval -- ataque --repeat=3
