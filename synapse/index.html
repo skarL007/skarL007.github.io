@@ -31,7 +31,7 @@
       Synapse
     </a>
     <nav class="bar-nav" aria-label="Seções">
-      <a href="#como">Como funciona</a><a href="#provas">Provas</a><a href="#custo">Custo</a><a href="#estado">Estado</a>
+      <a href="#como">Como funciona</a><a href="#provas">Provas</a><a href="#diferenca">Diferença</a><a href="#custo">Custo</a><a href="#synapse">Synapse</a><a href="#estado">Estado</a>
     </nav>
     <div class="bar-tools">
       <a class="lang" href="../en/synapse/" hreflang="en" lang="en">English</a>
@@ -52,11 +52,12 @@
       <a class="sds-btn" href="#como">Entender o fluxo</a>
     </div>
     <figure class="frame hero-shot rv">
-      <picture>
-        <source media="(max-width: 600px)" srcset="../assets/synapse/explorador-375.webp">
-        <img src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do structurize-map mostrando os containers do harness e o painel de detalhe de um componente">
-      </picture>
-      <figcaption><span>Explorador do mapa do próprio harness</span><span>Captura real, 105 elementos</span></figcaption>
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../assets/synapse/explorador-fluxo-poster.webp" aria-label="Gravação real do explorador tocando o fluxo animado do algoritmo do harness, passo a passo">
+        <source src="../assets/synapse/explorador-fluxo.webm" type="video/webm">
+        <source src="../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
+      </video>
+      <img class="hero-still" src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do structurize-map mostrando os containers do harness e o painel de detalhe de um componente">
+      <figcaption><span>Gravação real: o explorador tocando o algoritmo do harness em 26 passos</span><span>Sem edição, 18 s</span></figcaption>
     </figure>
   </div>
 </section>
@@ -122,8 +123,34 @@
       <div class="rv"><span class="v">~12 min</span><span class="k">Do clone ao primeiro mapa verde</span><span class="src">Mesma execução; 25 de 25 testes no fim · 02/11/2026</span></div>
       <div class="rv"><span class="v">11–17 s</span><span class="k">Atualização completa sem modelo</span><span class="src">atualizar.ps1 com o site estático, 0 tokens · 02/11/2026</span></div>
       <div class="rv"><span class="v">23/23</span><span class="k">Lições do projeto recuperadas com escopo explícito</span><span class="src">Contra 5 de 23 (21,7%) pelo caminho genérico · Synapse MCP · 05/11/2026</span></div>
-      <div class="rv"><span class="v">0</span><span class="k">Prompts gravados na telemetria</span><span class="src">O coletor apaga o conteúdo antes de gravar; conferido em teste · 05/11/2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Prompts gravados pela telemetria do harness</span><span class="src">O coletor do harness apaga o conteúdo antes de gravar; conferido em teste · 05/11/2026</span></div>
     </div>
+  </div>
+</section>
+
+<section id="diferenca" aria-labelledby="h-diferenca">
+  <div class="wrap">
+    <p class="eyebrow">O que muda em relação às wikis geradas</p>
+    <h2 id="h-diferenca">O mapa mora no seu repositório, não numa plataforma.</h2>
+    <p class="lede">Ferramentas como a DeepWiki e a Google Code Wiki geram e hospedam a documentação por você, com chat
+      sobre o código. É um bom produto. O structurize-map aposta em outra coisa: um modelo de arquitetura versionado,
+      conferido por teste e barato de manter.</p>
+    <div class="table-scroll rv">
+      <table class="vs">
+        <caption>Comparação por abordagem, com as fontes de cada linha</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Wikis geradas e hospedadas</th><th scope="col">structurize-map</th></tr></thead>
+        <tbody>
+          <tr><td>Onde fica</td><td>Na plataforma do fornecedor</td><td>No seu git, em Structurizr DSL (padrão C4), revisável em pull request</td></tr>
+          <tr><td>Atualização</td><td>A Code Wiki regenera a documentação depois de cada mudança <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts sem tokens a cada commit; o modelo só entra quando a estrutura muda</td></tr>
+          <tr><td>Cobertura</td><td>A DeepWiki gera até 30 páginas (80 no plano Enterprise), e em repositórios grandes pode pular pastas <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Um teste falha se algum módulo ficar fora do mapa (63 de 63 na prova)</td></tr>
+          <tr><td>Custo</td><td>DeepWiki: nível baixo gratuito; médio de 5 a 10 ACUs e alto de 20 a 40 ACUs por wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A partir de US$ 2,65 por mapa e US$ 0 por atualização sem mudança de estrutura</td></tr>
+          <tr><td>Repositório privado</td><td>A Code Wiki anunciou uma extensão do Gemini CLI, com lista de espera em 13/11/2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Roda localmente, no Claude Code que você já usa</td></tr>
+          <tr><td>O que eles fazem e nós não</td><td>Chat sobre o código e zero instalação</td><td>Sem chat próprio: quem pergunta é o seu agente, usando o mapa e a memória do projeto</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note rv">Fontes consultadas em 05/11/2026. [1] Google Developers Blog, "Introducing Code Wiki". [2] Documentação
+      da Devin, "DeepWiki repository wikis".</p>
   </div>
 </section>
 
@@ -212,15 +239,45 @@
       </article>
       <article class="layer rv">
         <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Em validação</span></header>
-        <p>Memória de projeto para agentes, em Rust, rodando local, sem enviar o seu código para fora.</p>
+        <p>Memória de projeto para agentes, em Rust, rodando na sua máquina. O detalhe de cada recurso, com o que foi
+          conferido e o que ainda falta, está na seção seguinte.</p>
         <ul>
           <li><b>Lições com escopo de projeto</b>, que entram em quarentena até alguém aprovar</li>
           <li><b>Firewall antes da execução</b> para os comandos de shell que um agente propõe</li>
-          <li><b>Telemetria sem conteúdo</b>: uso e degradação, nunca prompts</li>
-          <li><b>Validação ferramenta por ferramenta</b> antes de abrir o código</li>
+          <li><b>Biblioteca por projeto</b> com skills, agentes, regras e prompts servidos pelo MCP</li>
+          <li><b>Dois recursos opcionais usam provedores externos</b> e são documentados como tal</li>
         </ul>
       </article>
     </div>
+  </div>
+</section>
+
+<section id="synapse" aria-labelledby="h-synapse">
+  <div class="wrap">
+    <p class="eyebrow">Synapse, recurso por recurso</p>
+    <h2 id="h-synapse">O que já funciona, e o que ainda não.</h2>
+    <p class="lede">Auditoria feita no código e no servidor em execução em 05/11/2026, só com leitura. Um recurso só
+      aparece como pronto se foi conferido.</p>
+    <div class="table-scroll rv">
+      <table class="feat">
+        <caption>Estado de cada recurso do Synapse MCP</caption>
+        <thead><tr><th scope="col">Recurso</th><th scope="col">Estado</th><th scope="col">Como foi conferido</th></tr></thead>
+        <tbody>
+          <tr><td>55 ferramentas MCP</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>Listadas pelo servidor; 51 delas têm teste de integração</td></tr>
+          <tr><td>Firewall antes da execução</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td><code>rm -rf /</code> foi bloqueado pelo padrão "remoção recursiva forçada"; 4 suítes de teste</td></tr>
+          <tr><td>Lições em quarentena</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>384 aprovadas e 82 esperando revisão humana; nada entra sem aprovação</td></tr>
+          <tr><td>Lições por projeto e por papel</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>23 de 23 lições recuperadas quando o projeto é informado</td></tr>
+          <tr><td>Proveniência das lições</td><td><span class="sds-badge sds-badge--info">Parcial</span></td><td>Origem com hash em 132 das 200 lições mais recentes</td></tr>
+          <tr><td>Biblioteca por projeto (registry)</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>143 itens entre skills, agentes, regras e prompts; importação com teste</td></tr>
+          <tr><td>Projeto detectado dentro de worktrees</td><td><span class="sds-badge sds-badge--err">Falha</span></td><td>O projeto sai do nome da pasta; a correção pelo repositório git está planejada</td></tr>
+          <tr><td>Medida de eficácia das lições</td><td><span class="sds-badge sds-badge--info">Parcial</span></td><td>A ferramenta existe, mas só 1 desfecho foi registrado até agora</td></tr>
+          <tr><td>Métricas por ferramenta (latência, erro)</td><td><span class="sds-badge">Não existe ainda</span></td><td>Os eventos têm duração e erro; falta agregá-los por ferramenta</td></tr>
+          <tr><td>Índice de anti-alucinação</td><td><span class="sds-badge">Não medido</span></td><td>Não há verificação de factualidade rodando; o cockpit mostra "não medido"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note rv">Fluxo de dados para fora: o porteiro envia pedidos mascarados a um modelo pela OpenRouter, e a
+      consolidação de sessão pode usar a OpenAI. Os dois são opcionais e vão sair desligados na instalação nova.</p>
   </div>
 </section>
 
@@ -232,7 +289,7 @@
       <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Geração do mapa, explorador, gate de qualidade e atualização incremental, provados em 2 repositórios reais.</span></li>
       <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Hooks, instalador reversível e coletor de telemetria, todos cobertos por testes.</span></li>
       <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Medição pública de custo e escolha do modelo de cada papel com base em dados.</span></li>
-      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Validação de cada ferramenta do Synapse MCP: contrato, função, erro, segurança e desempenho.</span></li>
+      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Synapse: o núcleo funciona, mas a abertura do código espera a limpeza do repositório (histórico, arquivos pessoais e licença) e a correção do projeto em worktrees.</span></li>
       <li><span class="sds-badge">Planejado</span><span>Repositório aberto, com licença, guia de instalação e dados das medições.</span></li>
     </ul>
   </div>

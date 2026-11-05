@@ -31,7 +31,7 @@
       Synapse
     </a>
     <nav class="bar-nav" aria-label="Sections">
-      <a href="#how">How it works</a><a href="#proof">Proof</a><a href="#cost">Cost</a><a href="#status">Status</a>
+      <a href="#how">How it works</a><a href="#proof">Proof</a><a href="#difference">Difference</a><a href="#cost">Cost</a><a href="#synapse">Synapse</a><a href="#status">Status</a>
     </nav>
     <div class="bar-tools">
       <a class="lang" href="../../synapse/" hreflang="pt-BR" lang="pt-BR">Português</a>
@@ -52,11 +52,12 @@
       <a class="sds-btn" href="#how">Understand the flow</a>
     </div>
     <figure class="frame hero-shot rv">
-      <picture>
-        <source media="(max-width: 600px)" srcset="../../assets/synapse/explorador-375.webp">
-        <img src="../../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="structurize-map explorer showing the harness containers and the detail panel of one component">
-      </picture>
-      <figcaption><span>Explorer of the harness's own map</span><span>Real capture, 105 elements</span></figcaption>
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../../assets/synapse/explorador-fluxo-poster.webp" aria-label="Real recording of the explorer playing the animated flow of the harness algorithm, step by step">
+        <source src="../../assets/synapse/explorador-fluxo.webm" type="video/webm">
+        <source src="../../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
+      </video>
+      <img class="hero-still" src="../../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="structurize-map explorer showing the harness containers and the detail panel of one component">
+      <figcaption><span>Real recording: the explorer playing the harness algorithm in 26 steps</span><span>Unedited, 18 s</span></figcaption>
     </figure>
   </div>
 </section>
@@ -121,8 +122,34 @@
       <div class="rv"><span class="v">~12 min</span><span class="k">From clone to the first green map</span><span class="src">Same run; 25 of 25 tests at the end · Nov 2, 2026</span></div>
       <div class="rv"><span class="v">11–17 s</span><span class="k">Full refresh with no model</span><span class="src">atualizar.ps1 including the static site, 0 tokens · Nov 2, 2026</span></div>
       <div class="rv"><span class="v">23/23</span><span class="k">Project lessons recalled with explicit scope</span><span class="src">Versus 5 of 23 (21.7%) through the generic path · Synapse MCP · Nov 5, 2026</span></div>
-      <div class="rv"><span class="v">0</span><span class="k">Prompts stored by telemetry</span><span class="src">The collector deletes content before writing; checked by test · Nov 5, 2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Prompts stored by the harness telemetry</span><span class="src">The harness collector deletes content before writing; checked by test · Nov 5, 2026</span></div>
     </div>
+  </div>
+</section>
+
+<section id="difference" aria-labelledby="h-difference">
+  <div class="wrap">
+    <p class="eyebrow">How it differs from generated wikis</p>
+    <h2 id="h-difference">The map lives in your repository, not on a platform.</h2>
+    <p class="lede">Tools such as DeepWiki and Google Code Wiki generate and host documentation for you, with chat over the
+      code. They're good products. structurize-map bets on something else: an architecture model that is versioned,
+      checked by tests and cheap to keep current.</p>
+    <div class="table-scroll rv">
+      <table class="vs">
+        <caption>Comparison by approach, with the source for each row</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Generated, hosted wikis</th><th scope="col">structurize-map</th></tr></thead>
+        <tbody>
+          <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, as Structurizr DSL (C4 standard), reviewable in a pull request</td></tr>
+          <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Zero-token scripts on every commit; a model only steps in when the structure changes</td></tr>
+          <tr><td>Coverage</td><td>DeepWiki generates up to 30 pages (80 on Enterprise), and large repositories may skip folders <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (63 of 63 in the proof run)</td></tr>
+          <tr><td>Cost</td><td>DeepWiki: low effort free; medium 5–10 ACUs and high 20–40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>From US$ 2.65 per map and US$ 0 per refresh with no structural change</td></tr>
+          <tr><td>Private repositories</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist, on Nov 13, 2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Runs locally, in the Claude Code you already use</td></tr>
+          <tr><td>What they do that we don't</td><td>Chat over the code and zero setup</td><td>No built-in chat: your own agent asks, using the map and the project memory</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note rv">Sources checked on Nov 5, 2026. [1] Google Developers Blog, "Introducing Code Wiki". [2] Devin
+      documentation, "DeepWiki repository wikis".</p>
   </div>
 </section>
 
@@ -210,15 +237,45 @@
       </article>
       <article class="layer rv">
         <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Being validated</span></header>
-        <p>Project memory for agents, written in Rust and running locally, without sending your code anywhere.</p>
+        <p>Project memory for agents, written in Rust and running on your machine. The detail of each feature, with what
+          was checked and what is still missing, is in the next section.</p>
         <ul>
           <li><b>Project-scoped lessons</b>, held in quarantine until someone approves them</li>
           <li><b>Pre-execution firewall</b> for the shell commands an agent proposes</li>
-          <li><b>Content-free telemetry</b>: usage and degradation, never prompts</li>
-          <li><b>Tool-by-tool validation</b> before the code opens</li>
+          <li><b>Per-project library</b> of skills, agents, rules and prompts served over MCP</li>
+          <li><b>Two optional features use external providers</b> and are documented as such</li>
         </ul>
       </article>
     </div>
+  </div>
+</section>
+
+<section id="synapse" aria-labelledby="h-synapse">
+  <div class="wrap">
+    <p class="eyebrow">Synapse, feature by feature</p>
+    <h2 id="h-synapse">What works today, and what doesn't yet.</h2>
+    <p class="lede">Read-only audit of the code and the running server on Nov 5, 2026. A feature only shows as working if
+      it was checked.</p>
+    <div class="table-scroll rv">
+      <table class="feat">
+        <caption>Status of each Synapse MCP feature</caption>
+        <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col">How it was checked</th></tr></thead>
+        <tbody>
+          <tr><td>55 MCP tools</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>Listed by the server; 51 of them have integration tests</td></tr>
+          <tr><td>Pre-execution firewall</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td><code>rm -rf /</code> was blocked by the "recursive force deletion" pattern; 4 test suites</td></tr>
+          <tr><td>Lessons in quarantine</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>384 approved and 82 waiting for human review; nothing goes in without approval</td></tr>
+          <tr><td>Lessons by project and role</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>23 of 23 lessons recalled when the project is given</td></tr>
+          <tr><td>Lesson provenance</td><td><span class="sds-badge sds-badge--info">Partial</span></td><td>Origin with a hash on 132 of the 200 most recent lessons</td></tr>
+          <tr><td>Per-project library (registry)</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>143 items across skills, agents, rules and prompts; import is tested</td></tr>
+          <tr><td>Project detection inside worktrees</td><td><span class="sds-badge sds-badge--err">Fails</span></td><td>The project comes from the folder name; a fix based on the git repository is planned</td></tr>
+          <tr><td>Lesson effectiveness tracking</td><td><span class="sds-badge sds-badge--info">Partial</span></td><td>The tool exists, but only 1 outcome has been recorded so far</td></tr>
+          <tr><td>Per-tool metrics (latency, errors)</td><td><span class="sds-badge">Not built yet</span></td><td>Events carry duration and errors; aggregating them per tool is still missing</td></tr>
+          <tr><td>Anti-hallucination index</td><td><span class="sds-badge">Not measured</span></td><td>No factuality check is running; the cockpit shows "not measured"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note rv">Data leaving the machine: the gatekeeper sends masked requests to a model through OpenRouter, and
+      session consolidation can use OpenAI. Both are optional and will ship disabled on a fresh install.</p>
   </div>
 </section>
 
@@ -230,7 +287,7 @@
       <li><span class="sds-badge sds-badge--ok">Done</span><span>Map generation, explorer, quality gate and incremental refresh, proven on 2 real repositories.</span></li>
       <li><span class="sds-badge sds-badge--ok">Done</span><span>Hooks, reversible installer and telemetry collector, all covered by tests.</span></li>
       <li><span class="sds-badge sds-badge--info">In progress</span><span>Public cost measurement and data-driven choice of the model for each role.</span></li>
-      <li><span class="sds-badge sds-badge--info">In progress</span><span>Validation of every Synapse MCP tool: contract, behavior, errors, security and performance.</span></li>
+      <li><span class="sds-badge sds-badge--info">In progress</span><span>Synapse: the core works, but opening the code waits on a repository cleanup (history, personal files and license) and the worktree project fix.</span></li>
       <li><span class="sds-badge">Planned</span><span>Open repository, with a license, install guide and measurement data.</span></li>
     </ul>
   </div>
