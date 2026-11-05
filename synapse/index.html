@@ -130,19 +130,56 @@
 <section id="custo" aria-labelledby="h-custo">
   <div class="wrap">
     <p class="eyebrow">Custo</p>
-    <h2 id="h-custo">Quanto custa um mapa? Ainda estamos medindo.</h2>
-    <p class="lede">Prometer "barato" sem número seria fácil. A medição vai seguir um protocolo público, e o resultado entra
-      aqui como saiu, mesmo que seja pior que o esperado.</p>
+    <h2 id="h-custo">Um mapa completo a partir de US$ 2,65. Cada commit depois: US$ 0.</h2>
+    <p class="lede">Documentação só continua viva se atualizar for de graça. Por isso o trabalho repetitivo fica com
+      scripts, e o modelo entra só quando a estrutura muda. Assim o custo deixa de crescer a cada commit e passa a ser
+      previsível.</p>
+    <div class="econ">
+      <div class="econ-hero rv">
+        <span class="econ-v">US$&nbsp;0</span>
+        <span class="econ-k">por atualização a cada commit</span>
+        <p>Quando o commit não muda a estrutura, só os scripts rodam: diff, regeneração do mapa, do site e dos documentos,
+          verificação e teste de cobertura. Não há chamada de modelo. Leva de 11 a 17 segundos.</p>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">US$&nbsp;2,65</span>
+        <span class="econ-k">mapa completo de um repositório de 63 módulos</span>
+        <p>Sonnet 5.5, 93 chamadas, 25 minutos, incluindo 6 correções. Gate de qualidade 95,2.</p>
+        <span class="econ-tag">piso: entrada sem cache e escrita de cache não registradas</span>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">−87%</span>
+        <span class="econ-k">de US$ 20,88 para US$ 2,65</span>
+        <p>A 1ª geração usou Opus em tudo e incluiu criar a própria skill. A pilha roteada gastou 64% menos tokens de saída
+          e 74% menos leitura de cache.</p>
+        <span class="econ-tag">mesma régua de preço, tokens medidos</span>
+      </div>
+      <div class="econ-card econ-proj rv">
+        <span class="econ-v">US$&nbsp;0,22–1,10</span>
+        <span class="econ-k">projeção com Haiku 5.5</span>
+        <p>São os mesmos tokens no preço do Haiku. O valor muda conforme cada chamada fique abaixo ou acima de 100 mil
+          tokens de prompt. Por isso o harness limita a janela do Haiku a 100 mil.</p>
+        <span class="sds-badge sds-badge--warn">projeção, ainda não medida</span>
+      </div>
+    </div>
+    <details class="method rv">
+      <summary>Como estes números foram calculados</summary>
+      <p>Os tokens vêm do registro dos agentes, deduplicado por mensagem, e cada um foi multiplicado pelo preço oficial da
+        API (platform.claude.com/docs/en/about-claude/pricing, conferido em 05/11/2026). Sonnet 5.5: US$ 10 por milhão de
+        tokens de saída e US$ 0,10 por milhão de leitura de cache. As rodadas foram feitas pela assinatura do Claude Code,
+        então o valor é o custo equivalente pela API, não uma fatura. O script <code>custo_equivalente.py</code> e um teste
+        recalculam cada número desta seção.</p>
+    </details>
     <div class="cost">
       <div class="cost-state rv">
-        <span class="sds-badge sds-badge--warn">Não medido ainda</span>
-        <strong>Custo por mapa, por tamanho de repositório e por modelo.</strong>
-        <p>A única medição feita até agora é de tokens: cerca de 88,5 mil tokens de saída na prova com Sonnet. O custo em dólar
-          vai sair do faturamento da API, não de estimativa.</p>
+        <span class="sds-badge sds-badge--info">Próxima medição</span>
+        <strong>Campanha pública: custo faturado, por tamanho de repositório e por modelo.</strong>
+        <p>Os números acima são de duas execuções reais. A campanha repete a medição em vários repositórios públicos,
+          com o custo tirado do faturamento.</p>
       </div>
       <div class="table-scroll rv">
         <table>
-          <caption>Protocolo da medição</caption>
+          <caption>Protocolo da campanha</caption>
           <thead><tr><th scope="col">Item</th><th scope="col">Como</th></tr></thead>
           <tbody>
             <tr><td>Repositórios</td><td>Públicos, de tamanhos e linguagens diferentes, cada um num commit fixo</td></tr>

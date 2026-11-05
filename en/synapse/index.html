@@ -129,19 +129,55 @@
 <section id="cost" aria-labelledby="h-cost">
   <div class="wrap">
     <p class="eyebrow">Cost</p>
-    <h2 id="h-cost">What does a map cost? We're still measuring.</h2>
-    <p class="lede">Promising "cheap" without a number would be easy. The measurement follows a public protocol, and the result
-      goes here as it comes out, even if it's worse than expected.</p>
+    <h2 id="h-cost">A full map from US$ 2.65. Every commit after that: US$ 0.</h2>
+    <p class="lede">Documentation only stays alive if updating it is free. So the repetitive work goes to scripts, and
+      a model only steps in when the structure changes. Cost stops growing with every commit and becomes predictable.</p>
+    <div class="econ">
+      <div class="econ-hero rv">
+        <span class="econ-v">US$&nbsp;0</span>
+        <span class="econ-k">per refresh on every commit</span>
+        <p>When a commit doesn't change the structure, only scripts run: diff, regeneration of the map, the site and the
+          docs, verification and the coverage test. No model call. It takes 11 to 17 seconds.</p>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">US$&nbsp;2.65</span>
+        <span class="econ-k">full map of a 63-module repository</span>
+        <p>Sonnet 5.5, 93 calls, 25 minutes, including 6 fixes. Quality gate 95.2.</p>
+        <span class="econ-tag">floor: uncached input and cache writes were not recorded</span>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">−87%</span>
+        <span class="econ-k">from US$ 20.88 to US$ 2.65</span>
+        <p>The 1st generation used Opus for everything and included building the skill itself. The routed stack spent 64%
+          fewer output tokens and 74% fewer cache reads.</p>
+        <span class="econ-tag">same price table, measured tokens</span>
+      </div>
+      <div class="econ-card econ-proj rv">
+        <span class="econ-v">US$&nbsp;0.22–1.10</span>
+        <span class="econ-k">projection with Haiku 5.5</span>
+        <p>The same tokens at Haiku prices. The figure depends on whether each call's prompt stays under or goes over
+          100 thousand tokens, which is why the harness caps Haiku's window at 100 thousand.</p>
+        <span class="sds-badge sds-badge--warn">projection, not measured yet</span>
+      </div>
+    </div>
+    <details class="method rv">
+      <summary>How these numbers were calculated</summary>
+      <p>Tokens come from the agents' logs, deduplicated by message, and each was multiplied by the official API price
+        (platform.claude.com/docs/en/about-claude/pricing, checked on Nov 5, 2026). Sonnet 5.5: US$ 10 per million output
+        tokens and US$ 0.10 per million cache reads. The runs went through a Claude Code subscription, so the figure is the
+        equivalent API cost, not an invoice. The <code>custo_equivalente.py</code> script and a test recompute every number
+        in this section.</p>
+    </details>
     <div class="cost">
       <div class="cost-state rv">
-        <span class="sds-badge sds-badge--warn">Not measured yet</span>
-        <strong>Cost per map, by repository size and by model.</strong>
-        <p>The only measurement so far is in tokens: about 88.5 thousand output tokens in the Sonnet run. The dollar cost will
-          come from API billing, not from an estimate.</p>
+        <span class="sds-badge sds-badge--info">Next measurement</span>
+        <strong>Public campaign: billed cost, by repository size and by model.</strong>
+        <p>The numbers above come from two real runs. The campaign repeats the measurement across several public
+          repositories, with cost taken from billing.</p>
       </div>
       <div class="table-scroll rv">
         <table>
-          <caption>Measurement protocol</caption>
+          <caption>Campaign protocol</caption>
           <thead><tr><th scope="col">Item</th><th scope="col">How</th></tr></thead>
           <tbody>
             <tr><td>Repositories</td><td>Public, of different sizes and languages, each pinned to a commit</td></tr>

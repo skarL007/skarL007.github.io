@@ -99,6 +99,26 @@ td{color:var(--label-2)}
 td:first-child{color:var(--label);font-weight:var(--weight-medium)}
 .table-scroll{overflow-x:auto}
 
+/* economia */
+.econ{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);margin-top:var(--space-7)}
+.econ-hero{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--space-2) var(--space-7);align-items:end;padding:var(--space-7) var(--space-6);border-radius:var(--radius-surface);background:var(--brand-tint)}
+.econ-hero .econ-v{grid-row:1/3;font-size:clamp(64px,10vw,120px);color:var(--brand)}
+.econ-hero .econ-k{font-size:var(--text-xl);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-title)}
+.econ-hero p{margin:0;max-width:52ch}
+.econ-card{display:flex;flex-direction:column;padding:var(--space-5);border-radius:var(--radius-surface);border:var(--hairline) solid var(--separator);background:var(--surface)}
+.econ-v{display:block;color:var(--label);font:var(--weight-bold) var(--text-3xl)/1 var(--font-sans);letter-spacing:var(--tracking-display);font-variant-numeric:tabular-nums}
+.econ-k{display:block;margin-top:var(--space-2);color:var(--label);font-weight:var(--weight-medium)}
+.econ-card p{flex:1;font-size:var(--text-sm)}
+.econ-tag{margin-top:var(--space-4);color:var(--label-3);font-size:var(--text-xs)}
+.econ-proj{border-style:dashed}
+.econ-proj .econ-v{color:var(--label-2)}
+.econ-proj .sds-badge{align-self:flex-start;margin-top:var(--space-4)}
+@media (max-width:860px){.econ{grid-template-columns:1fr}.econ-hero{grid-template-columns:1fr}.econ-hero .econ-v{grid-row:auto}}
+.method{margin-top:var(--space-5);padding:var(--space-4) var(--space-5);border-radius:var(--radius-surface);background:var(--bg-grouped);border:var(--hairline) solid var(--separator)}
+.method summary{cursor:pointer;color:var(--label);font-weight:var(--weight-medium)}
+.method p{font-size:var(--text-sm);max-width:80ch}
+.method code{font-family:var(--font-mono);font-size:var(--text-xs)}
+
 /* camadas */
 .layers{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-5);margin-top:var(--space-7)}
 @media (max-width:860px){.layers{grid-template-columns:1fr}}
