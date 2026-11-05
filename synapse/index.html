@@ -56,7 +56,7 @@
         <source src="../assets/synapse/explorador-fluxo.webm" type="video/webm">
         <source src="../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
       </video>
-      <img class="hero-still" src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do structurize-map mostrando os containers do harness e o painel de detalhe de um componente">
+      <img class="hero-still" src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do Lodemap mostrando os containers do harness e o painel de detalhe de um componente">
       <figcaption><span>Gravação real: o explorador tocando o algoritmo do harness em 26 passos</span><span>Sem edição, 18 s</span></figcaption>
     </figure>
   </div>
@@ -133,12 +133,12 @@
     <p class="eyebrow">O que muda em relação às wikis geradas</p>
     <h2 id="h-diferenca">O mapa mora no seu repositório, não numa plataforma.</h2>
     <p class="lede">Ferramentas como a DeepWiki e a Google Code Wiki geram e hospedam a documentação por você, com chat
-      sobre o código. É um bom produto. O structurize-map aposta em outra coisa: um modelo de arquitetura versionado,
+      sobre o código. É um bom produto. O Lodemap aposta em outra coisa: um modelo de arquitetura versionado,
       conferido por teste e barato de manter.</p>
     <div class="table-scroll rv">
       <table class="vs">
         <caption>Comparação por abordagem, com as fontes de cada linha</caption>
-        <thead><tr><th scope="col"></th><th scope="col">Wikis geradas e hospedadas</th><th scope="col">structurize-map</th></tr></thead>
+        <thead><tr><th scope="col"></th><th scope="col">Wikis geradas e hospedadas</th><th scope="col">Lodemap</th></tr></thead>
         <tbody>
           <tr><td>Onde fica</td><td>Na plataforma do fornecedor</td><td>No seu git, em Structurizr DSL (padrão C4), revisável em pull request</td></tr>
           <tr><td>Atualização</td><td>A Code Wiki regenera a documentação depois de cada mudança <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts sem tokens a cada commit; o modelo só entra quando a estrutura muda</td></tr>
@@ -228,7 +228,7 @@
     <h2 id="h-camadas">Duas camadas. A segunda só sai quando passar no gate.</h2>
     <div class="layers">
       <article class="layer rv">
-        <header><h3>1 · structurize-map + harness</h3><span class="sds-badge sds-badge--info">Primeiro</span></header>
+        <header><h3>1 · Lodemap + harness</h3><span class="sds-badge sds-badge--info">Primeiro</span></header>
         <p>Mapa de arquitetura vivo e agentes do Claude Code com papéis, modelos e permissões definidos.</p>
         <ul>
           <li><b>Mapa C4 em Structurizr DSL</b>, com status por componente e fluxos animados</li>
