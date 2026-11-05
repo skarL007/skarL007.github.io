@@ -1,0 +1,132 @@
+/* Synapse Design System — tokens (H-011). Fonte única para cockpit, web viewer, Mesa, explorador e landing.
+   Princípios: fonte do sistema, uma cor de marca, neutros, uma cor por estado, separadores finos, grade de 4/8 px,
+   dois raios (controle e superfície), sombra só no tema claro, movimento curto e respeito a prefers-reduced-motion.
+   Escuro é o padrão das ferramentas; o claro entra por prefers-color-scheme ou [data-theme="light"]. */
+:root {
+  color-scheme: dark;
+  /* tipografia: no máximo duas famílias */
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --text-xs: 12px;  --text-sm: 13px;  --text-md: 15px;  --text-lg: 17px;
+  --text-xl: 22px;  --text-2xl: 28px; --text-3xl: 40px; --text-4xl: clamp(44px, 6vw, 72px);
+  --leading-tight: 1.1; --leading-snug: 1.3; --leading-body: 1.55;
+  --tracking-display: -0.03em; --tracking-title: -0.015em; --tracking-caps: 0.06em;
+  --weight-regular: 400; --weight-medium: 500; --weight-semibold: 600; --weight-bold: 700;
+
+  /* espaço: múltiplos de 4 */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px; --space-5: 24px;
+  --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
+
+  /* forma: dois raios, usados com intenção */
+  --radius-control: 8px;  --radius-surface: 14px; --radius-pill: 999px;
+  --hairline: 1px;
+
+  /* cores — escuro (padrão) */
+  --bg: #000000;            /* fundo da janela */
+  --bg-grouped: #0b0b0d;    /* área de conteúdo */
+  --surface: #1c1c1e;       /* cartões e painéis */
+  --surface-2: #2c2c2e;     /* elevado, hover */
+  --surface-3: #3a3a3c;     /* controles */
+  --separator: rgba(84, 84, 88, 0.6);
+  --separator-strong: rgba(120, 120, 128, 0.7);
+  --label: #f5f5f7;                       /* 18.6:1 sobre --surface */
+  --label-2: rgba(235, 235, 245, 0.68);   /* ~9:1 sobre --surface: texto secundário */
+  --label-3: rgba(235, 235, 245, 0.46);   /* ~4.6:1: só legenda e metadado */
+  --label-disabled: rgba(235, 235, 245, 0.28);
+  --brand: #0a84ff;          /* única cor de marca */
+  --brand-hover: #409cff;
+  --brand-ink: #ffffff;      /* texto sobre --brand */
+  --brand-tint: rgba(10, 132, 255, 0.16);
+  --ok: #30d158;   --ok-tint: rgba(48, 209, 88, 0.16);
+  --warn: #ff9f0a; --warn-tint: rgba(255, 159, 10, 0.16);
+  --err: #ff453a;  --err-tint: rgba(255, 69, 58, 0.16);
+  --info: var(--brand); --info-tint: var(--brand-tint);
+  --focus: #409cff;
+  --shadow-1: none; --shadow-2: none;
+  --material: rgba(28, 28, 30, 0.72);    /* barra translúcida (com backdrop-filter) */
+
+  /* status do mapa e da Mesa (semântica única) */
+  --status-pronto: var(--ok);
+  --status-andamento: var(--brand);
+  --status-aguardando: var(--warn);
+  --status-planejado: rgba(235, 235, 245, 0.55);
+  --status-fora: rgba(235, 235, 245, 0.3);
+  --status-falha: var(--err);
+
+  /* movimento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms; --dur: 200ms; --dur-slow: 360ms;
+
+  /* camadas */
+  --z-bar: 40; --z-drawer: 60; --z-dialog: 80; --z-toast: 90;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #ffffff; --bg-grouped: #f5f5f7; --surface: #ffffff; --surface-2: #f2f2f4; --surface-3: #e8e8ed;
+    --separator: rgba(60, 60, 67, 0.18); --separator-strong: rgba(60, 60, 67, 0.32);
+    --label: #1d1d1f; --label-2: #515154; --label-3: #6e6e73; --label-disabled: rgba(60, 60, 67, 0.3);
+    --brand: #0066cc; --brand-hover: #0071e3; --brand-ink: #ffffff; --brand-tint: rgba(0, 102, 204, 0.1);
+    --ok: #1f7a35; --ok-tint: rgba(31, 122, 53, 0.1);
+    --warn: #a54800; --warn-tint: rgba(165, 72, 0, 0.1);
+    --err: #c4001a; --err-tint: rgba(196, 0, 26, 0.08);
+    --focus: #0071e3;
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+    --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --material: rgba(255, 255, 255, 0.72);
+    --status-planejado: #6e6e73; --status-fora: #aeaeb2;
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff; --bg-grouped: #f5f5f7; --surface: #ffffff; --surface-2: #f2f2f4; --surface-3: #e8e8ed;
+  --separator: rgba(60, 60, 67, 0.18); --separator-strong: rgba(60, 60, 67, 0.32);
+  --label: #1d1d1f; --label-2: #515154; --label-3: #6e6e73; --label-disabled: rgba(60, 60, 67, 0.3);
+  --brand: #0066cc; --brand-hover: #0071e3; --brand-ink: #ffffff; --brand-tint: rgba(0, 102, 204, 0.1);
+  --ok: #1f7a35; --ok-tint: rgba(31, 122, 53, 0.1);
+  --warn: #a54800; --warn-tint: rgba(165, 72, 0, 0.1);
+  --err: #c4001a; --err-tint: rgba(196, 0, 26, 0.08);
+  --focus: #0071e3;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --material: rgba(255, 255, 255, 0.72);
+  --status-planejado: #6e6e73; --status-fora: #aeaeb2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; scroll-behavior: auto !important; }
+}
+
+/* base mínima compartilhada */
+.sds { font-family: var(--font-sans); font-size: var(--text-md); line-height: var(--leading-body); color: var(--label);
+       background: var(--bg-grouped); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.sds :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--radius-control); }
+.sds-caps { font: var(--weight-semibold) var(--text-xs) / 1.4 var(--font-sans); letter-spacing: var(--tracking-caps);
+            text-transform: uppercase; color: var(--label-3); }
+.sds-num { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.sds-btn { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 36px; padding: 0 var(--space-4);
+           border: var(--hairline) solid var(--separator-strong); border-radius: var(--radius-control);
+           background: var(--surface-2); color: var(--label); font: var(--weight-medium) var(--text-sm) / 1 var(--font-sans);
+           cursor: pointer; transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+.sds-btn:hover { background: var(--surface-3); }
+.sds-btn--primary { background: var(--brand); border-color: transparent; color: var(--brand-ink); }
+.sds-btn--primary:hover { background: var(--brand-hover); }
+.sds-btn:disabled { color: var(--label-disabled); cursor: not-allowed; }
+.sds-card { background: var(--surface); border: var(--hairline) solid var(--separator); border-radius: var(--radius-surface);
+            box-shadow: var(--shadow-1); }
+.sds-bar { position: sticky; top: 0; z-index: var(--z-bar); background: var(--material);
+           -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+           border-bottom: var(--hairline) solid var(--separator); }
+.sds-badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px var(--space-2); border-radius: var(--radius-pill);
+             font: var(--weight-medium) var(--text-xs) / 1.5 var(--font-sans); background: var(--surface-2); color: var(--label-2); }
+.sds-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.sds-badge--ok { background: var(--ok-tint); color: var(--ok); }
+.sds-badge--warn { background: var(--warn-tint); color: var(--warn); }
+.sds-badge--err { background: var(--err-tint); color: var(--err); }
+.sds-badge--info { background: var(--brand-tint); color: var(--brand); }
+.sds-skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 37%, var(--surface-2) 63%);
+                background-size: 400% 100%; animation: sds-shimmer 1.4s var(--ease-in-out) infinite; border-radius: var(--radius-control); }
+@keyframes sds-shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }

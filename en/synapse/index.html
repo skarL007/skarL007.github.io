@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synapse for Claude Code: living architecture and scoped memory · Marcelo Machuca</title>
+<meta name="description" content="A C4 architecture map that updates on every commit, Claude Code agents with measured cost, and project memory that does not make things up. Being validated for an open-source release.">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://skarl007.github.io/en/synapse/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Synapse for Claude Code">
+<meta property="og:description" content="Living architecture, generated and checked by agents, with every number tied to its source.">
+<meta property="og:url" content="https://skarl007.github.io/en/synapse/">
+<meta property="og:image" content="https://skarl007.github.io/assets/synapse/explorador-1440.webp">
+<meta property="og:image:alt" content="Architecture explorer showing an animated flow between components">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/synapse/tokens.css">
+<link rel="stylesheet" href="../../assets/synapse/synapse.css">
+<script defer src="../../assets/synapse/synapse.js"></script>
+</head>
+<body class="sds">
+<a class="skip" href="#content">Skip to content</a>
+<header class="sds-bar">
+  <div class="bar">
+    <a class="bar-brand" href="../#p-syn" aria-label="Back to Marcelo Machuca's portfolio">
+      <svg class="bar-mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="var(--brand)"/></svg>
+      Synapse
+    </a>
+    <nav class="bar-nav" aria-label="Sections">
+      <a href="#how">How it works</a><a href="#proof">Proof</a><a href="#cost">Cost</a><a href="#status">Status</a>
+    </nav>
+    <div class="bar-tools">
+      <a class="lang" href="../../synapse/" hreflang="pt-BR" lang="pt-BR">Português</a>
+      <button class="sds-btn" id="temaBtn" type="button" data-claro="Light theme" data-escuro="Dark theme" aria-pressed="false">Theme</button>
+    </div>
+  </div>
+</header>
+
+<main id="content" tabindex="-1">
+<section class="hero">
+  <div class="wrap">
+    <span class="sds-badge sds-badge--warn hero-status">Being validated · open-source release for Claude Code</span>
+    <h1>Your code's architecture, always current.</h1>
+    <p class="lede">Claude Code agents read the repository, build a C4 map with animated flows and check every number against
+      its source. On each commit, scripts refresh the map at zero tokens. A model only steps in when the structure changes.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="#proof">See what has been measured</a>
+      <a class="sds-btn" href="#how">Understand the flow</a>
+    </div>
+    <figure class="frame hero-shot rv">
+      <picture>
+        <source media="(max-width: 600px)" srcset="../../assets/synapse/explorador-375.webp">
+        <img src="../../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="structurize-map explorer showing the harness containers and the detail panel of one component">
+      </picture>
+      <figcaption><span>Explorer of the harness's own map</span><span>Real capture, 105 elements</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="problem" aria-labelledby="h-problem">
+  <div class="wrap split">
+    <div class="rv">
+      <p class="eyebrow">The problem</p>
+      <h2 id="h-problem">Documentation dies at the first merge.</h2>
+      <p class="lede">Teams inherit systems nobody can explain end to end. Rewriting the docs takes weeks, and they go stale
+        again soon after. Asking a model to "document everything" is expensive and gives no guarantee the text matches the code.</p>
+    </div>
+    <ul class="pain rv" aria-label="Symptoms">
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.5" fill="none" transform="rotate(45 10 10)"/></svg><span><b>Diagrams that lie</b>Drawn by hand once, never checked again.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Slow onboarding</b>Newcomers have to work out on their own where a request goes.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 15l5-5 3 3 6-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Numbers without a source</b>Metrics and benchmarks quoted with no file and no commit.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5h10v10H5z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 10h4" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Agents that forget</b>Every session, the assistant relearns the project from scratch.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2 id="h-how">Scripts before models. Small models before big ones.</h2>
+    <p class="lede">Each step only runs when the one below it can't handle the job. That's what keeps cost predictable.</p>
+    <ol class="steps">
+      <li class="rv"><span class="who">0 tokens · scripts</span><h3>Inventory and refresh</h3><p>List the modules, suggest relations from the code graph and regenerate the map, the site and the docs. On a checkpoint with no structural change, the work ends here.</p></li>
+      <li class="rv"><span class="who">Haiku · reading</span><h3>Diagnosis</h3><p>Classify what the scripts couldn't and point to the exact line of an error.</p></li>
+      <li class="rv"><span class="who">Sonnet · fixing</span><h3>Fixes and metrics</h3><p>Fix from findings already written down and tie each metric to the file and commit it came from.</p></li>
+      <li class="rv"><span class="who">Sonnet high · structure</span><h3>Architecture decisions</h3><p>Cut components, name the relations and draw the flows. Only runs on a new map or a structural change, and goes through an objective quality gate.</p></li>
+    </ol>
+    <div class="gallery">
+      <figure class="frame rv">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../../assets/synapse/mesa-375.webp">
+          <img src="../../assets/synapse/mesa-1440.webp" width="1440" height="900" loading="lazy" alt="Agent board with the harness workflow organized by phase">
+        </picture>
+        <figcaption><span>Agent board: the workflow, model and permissions of each role</span><span>Real capture</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../../assets/synapse/cockpit-1440.webp" width="1440" height="448" loading="lazy" alt="Synapse cockpit: engine and database health, and indicators that say where each value comes from">
+        <figcaption><span>Synapse cockpit</span><span>Real capture</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../../assets/synapse/explorador-fluxo-1440.webp" width="1440" height="900" loading="lazy" alt="Animated flow of the harness algorithm, step by step">
+        <figcaption><span>Animated flow: the harness algorithm in 26 steps</span><span>Real capture</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="proof" aria-labelledby="h-proof">
+  <div class="wrap">
+    <p class="eyebrow">Proof</p>
+    <h2 id="h-proof">Only what was measured shows up here.</h2>
+    <p class="lede">Every number in this section has an evidence file and a date. When the repository opens, the raw data and
+      the measurement scripts ship with it.</p>
+    <div class="proof">
+      <div class="rv"><span class="v">63/63</span><span class="k">Modules covered on the 2nd real project</span><span class="src">Repository with 316 Python files and 8 code folders · Sonnet 5.5, one agent · Nov 2, 2026</span></div>
+      <div class="rv"><span class="v">95.2</span><span class="k">Quality gate score</span><span class="src">Objective rubric run by script; 72.2 is the pass mark · Nov 2, 2026</span></div>
+      <div class="rv"><span class="v">~12 min</span><span class="k">From clone to the first green map</span><span class="src">Same run; 25 of 25 tests at the end · Nov 2, 2026</span></div>
+      <div class="rv"><span class="v">11–17 s</span><span class="k">Full refresh with no model</span><span class="src">atualizar.ps1 including the static site, 0 tokens · Nov 2, 2026</span></div>
+      <div class="rv"><span class="v">23/23</span><span class="k">Project lessons recalled with explicit scope</span><span class="src">Versus 5 of 23 (21.7%) through the generic path · Synapse MCP · Nov 5, 2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Prompts stored by telemetry</span><span class="src">The collector deletes content before writing; checked by test · Nov 5, 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cost" aria-labelledby="h-cost">
+  <div class="wrap">
+    <p class="eyebrow">Cost</p>
+    <h2 id="h-cost">What does a map cost? We're still measuring.</h2>
+    <p class="lede">Promising "cheap" without a number would be easy. The measurement follows a public protocol, and the result
+      goes here as it comes out, even if it's worse than expected.</p>
+    <div class="cost">
+      <div class="cost-state rv">
+        <span class="sds-badge sds-badge--warn">Not measured yet</span>
+        <strong>Cost per map, by repository size and by model.</strong>
+        <p>The only measurement so far is in tokens: about 88.5 thousand output tokens in the Sonnet run. The dollar cost will
+          come from API billing, not from an estimate.</p>
+      </div>
+      <div class="table-scroll rv">
+        <table>
+          <caption>Measurement protocol</caption>
+          <thead><tr><th scope="col">Item</th><th scope="col">How</th></tr></thead>
+          <tbody>
+            <tr><td>Repositories</td><td>Public, of different sizes and languages, each pinned to a commit</td></tr>
+            <tr><td>Configurations</td><td>Haiku 5.5 (medium and high), Sonnet 5.5 and the recommended mixed stack</td></tr>
+            <tr><td>Repetitions</td><td>Three per configuration; results are reported as a range, not a single number</td></tr>
+            <tr><td>Cost</td><td>Billing of a dedicated API workspace, reconciled with each run's usage</td></tr>
+            <tr><td>Quality</td><td>Scripted gate, module coverage, tests and a sampled audit against the code</td></tr>
+            <tr><td>Publication</td><td>Raw data, scripts and the commit behind every number</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="layers" aria-labelledby="h-layers">
+  <div class="wrap">
+    <p class="eyebrow">What ships</p>
+    <h2 id="h-layers">Two layers. The second only ships once it passes the gate.</h2>
+    <div class="layers">
+      <article class="layer rv">
+        <header><h3>1 · structurize-map + harness</h3><span class="sds-badge sds-badge--info">First</span></header>
+        <p>A living architecture map and Claude Code agents with defined roles, models and permissions.</p>
+        <ul>
+          <li><b>C4 map in Structurizr DSL</b>, with per-component status and animated flows</li>
+          <li><b>Coverage test</b> that fails when a module is left out of the map</li>
+          <li><b>Hooks</b> that block tools outside a role and ask before destructive commands</li>
+          <li><b>Installer</b> with plan, apply, revert and a manifest</li>
+        </ul>
+      </article>
+      <article class="layer rv">
+        <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Being validated</span></header>
+        <p>Project memory for agents, written in Rust and running locally, without sending your code anywhere.</p>
+        <ul>
+          <li><b>Project-scoped lessons</b>, held in quarantine until someone approves them</li>
+          <li><b>Pre-execution firewall</b> for the shell commands an agent proposes</li>
+          <li><b>Content-free telemetry</b>: usage and degradation, never prompts</li>
+          <li><b>Tool-by-tool validation</b> before the code opens</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="status" aria-labelledby="h-status">
+  <div class="wrap">
+    <p class="eyebrow">Project status</p>
+    <h2 id="h-status">What's done and what's left.</h2>
+    <ul class="status-list">
+      <li><span class="sds-badge sds-badge--ok">Done</span><span>Map generation, explorer, quality gate and incremental refresh, proven on 2 real repositories.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Done</span><span>Hooks, reversible installer and telemetry collector, all covered by tests.</span></li>
+      <li><span class="sds-badge sds-badge--info">In progress</span><span>Public cost measurement and data-driven choice of the model for each role.</span></li>
+      <li><span class="sds-badge sds-badge--info">In progress</span><span>Validation of every Synapse MCP tool: contract, behavior, errors, security and performance.</span></li>
+      <li><span class="sds-badge">Planned</span><span>Open repository, with a license, install guide and measurement data.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="end" aria-labelledby="h-end">
+  <div class="wrap">
+    <h2 id="h-end">Want to follow the release?</h2>
+    <p class="lede">The code is still private. Get in touch for a live demo or to try it on your repository.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="../#contato">Talk to Marcelo</a>
+      <a class="sds-btn" href="https://github.com/skarL007" rel="noopener">Follow on GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Marcelo Machuca · AI Solutions Developer</span>
+    <span>Product concept and direction by Marcelo; built with help from AI agents. <a href="../">Back to the portfolio</a></span>
+  </div>
+</footer>
+</body>
+</html>

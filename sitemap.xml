@@ -25,6 +25,18 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/nexo-assist/"/>
   </url>
   <url>
+    <loc>https://skarl007.github.io/synapse/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/"/>
+  </url>
+  <url>
+    <loc>https://skarl007.github.io/en/synapse/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/"/>
+  </url>
+  <url>
     <loc>https://skarl007.github.io/lumen-demo/</loc>
     <lastmod>2026-10-27</lastmod>
   </url>

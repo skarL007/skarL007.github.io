@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synapse para Claude Code: arquitetura viva e memória com escopo · Marcelo Machuca</title>
+<meta name="description" content="Mapa de arquitetura C4 que se atualiza a cada commit, agentes Claude Code com custo medido e memória de projeto que não inventa. Em validação para lançamento open source.">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://skarl007.github.io/synapse/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Synapse para Claude Code">
+<meta property="og:description" content="Arquitetura viva, gerada e conferida por agentes, com cada número ligado à sua fonte.">
+<meta property="og:url" content="https://skarl007.github.io/synapse/">
+<meta property="og:image" content="https://skarl007.github.io/assets/synapse/explorador-1440.webp">
+<meta property="og:image:alt" content="Explorador de arquitetura com um fluxo animado entre componentes">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/synapse/tokens.css">
+<link rel="stylesheet" href="../assets/synapse/synapse.css">
+<script defer src="../assets/synapse/synapse.js"></script>
+</head>
+<body class="sds">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="sds-bar">
+  <div class="bar">
+    <a class="bar-brand" href="../#p-syn" aria-label="Voltar ao portfólio de Marcelo Machuca">
+      <svg class="bar-mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="var(--brand)"/></svg>
+      Synapse
+    </a>
+    <nav class="bar-nav" aria-label="Seções">
+      <a href="#como">Como funciona</a><a href="#provas">Provas</a><a href="#custo">Custo</a><a href="#estado">Estado</a>
+    </nav>
+    <div class="bar-tools">
+      <a class="lang" href="../en/synapse/" hreflang="en" lang="en">English</a>
+      <button class="sds-btn" id="temaBtn" type="button" data-claro="Tema claro" data-escuro="Tema escuro" aria-pressed="false">Tema</button>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+<section class="hero">
+  <div class="wrap">
+    <span class="sds-badge sds-badge--warn hero-status">Em validação · lançamento open source para Claude Code</span>
+    <h1>A arquitetura do seu código, sempre atual.</h1>
+    <p class="lede">Agentes do Claude Code leem o repositório, montam um mapa C4 com fluxos animados e conferem cada número
+      com a sua fonte. A cada commit, os scripts atualizam o mapa sem gastar tokens. O modelo só entra quando a estrutura muda.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="#provas">Ver o que já foi medido</a>
+      <a class="sds-btn" href="#como">Entender o fluxo</a>
+    </div>
+    <figure class="frame hero-shot rv">
+      <picture>
+        <source media="(max-width: 600px)" srcset="../assets/synapse/explorador-375.webp">
+        <img src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do structurize-map mostrando os containers do harness e o painel de detalhe de um componente">
+      </picture>
+      <figcaption><span>Explorador do mapa do próprio harness</span><span>Captura real, 105 elementos</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="problema" aria-labelledby="h-problema">
+  <div class="wrap split">
+    <div class="rv">
+      <p class="eyebrow">O problema</p>
+      <h2 id="h-problema">A documentação morre no primeiro merge.</h2>
+      <p class="lede">Times herdam sistemas que ninguém consegue explicar inteiro. Escrever a documentação de novo custa
+        semanas, e ela volta a ficar velha logo depois. Pedir a um modelo para "documentar tudo" sai caro e não traz garantia
+        nenhuma de que o texto bate com o código.</p>
+    </div>
+    <ul class="pain rv" aria-label="Sintomas">
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.5" fill="none" transform="rotate(45 10 10)"/></svg><span><b>Diagramas que mentem</b>Desenhados à mão uma vez, nunca mais conferidos.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Onboarding lento</b>Quem chega precisa descobrir sozinho por onde o pedido passa.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 15l5-5 3 3 6-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Números sem origem</b>Métricas e benchmarks citados sem arquivo nem commit.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5h10v10H5z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 10h4" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Agentes que esquecem</b>A cada sessão, o assistente reaprende o projeto do zero.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="como" aria-labelledby="h-como">
+  <div class="wrap">
+    <p class="eyebrow">Como funciona</p>
+    <h2 id="h-como">Script antes de modelo. Modelo pequeno antes de modelo grande.</h2>
+    <p class="lede">Cada degrau só entra quando o anterior não resolve. É assim que o custo fica previsível.</p>
+    <ol class="steps">
+      <li class="rv"><span class="who">0 tokens · scripts</span><h3>Inventário e atualização</h3><p>Lista os módulos, sugere relações pelo grafo de código e regenera o mapa, o site e os documentos. Num checkpoint sem mudança estrutural, o trabalho para aqui.</p></li>
+      <li class="rv"><span class="who">Haiku · leitura</span><h3>Diagnóstico</h3><p>Classifica o que os scripts não souberam classificar e aponta a linha exata de um erro.</p></li>
+      <li class="rv"><span class="who">Sonnet · correção</span><h3>Correção e métricas</h3><p>Corrige a partir de achados já escritos e liga cada métrica ao arquivo e ao commit de onde saiu.</p></li>
+      <li class="rv"><span class="who">Sonnet high · estrutura</span><h3>Decisão de arquitetura</h3><p>Corta componentes, nomeia as relações e desenha os fluxos. Só entra num mapa novo ou numa mudança estrutural, e passa por um gate de qualidade objetivo.</p></li>
+    </ol>
+    <div class="gallery">
+      <figure class="frame rv">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/synapse/mesa-375.webp">
+          <img src="../assets/synapse/mesa-1440.webp" width="1440" height="900" loading="lazy" alt="Mesa dos agentes com o workflow do harness organizado por fases">
+        </picture>
+        <figcaption><span>Mesa dos agentes: o workflow, o modelo e as permissões de cada papel</span><span>Captura real</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../assets/synapse/cockpit-1440.webp" width="1440" height="448" loading="lazy" alt="Cockpit do Synapse: saúde do motor e do banco, e indicadores que dizem de onde vem cada valor">
+        <figcaption><span>Cockpit do Synapse</span><span>Captura real</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../assets/synapse/explorador-fluxo-1440.webp" width="1440" height="900" loading="lazy" alt="Fluxo animado do algoritmo do harness, passo a passo">
+        <figcaption><span>Fluxo animado: o algoritmo do harness em 26 passos</span><span>Captura real</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="provas" aria-labelledby="h-provas">
+  <div class="wrap">
+    <p class="eyebrow">Provas</p>
+    <h2 id="h-provas">Só aparece aqui o que foi medido.</h2>
+    <p class="lede">Todo número desta seção tem arquivo de evidência e data. Quando o repositório abrir, os dados brutos e os
+      scripts de medição vão junto com ele.</p>
+    <div class="proof">
+      <div class="rv"><span class="v">63/63</span><span class="k">Módulos cobertos no 2º projeto real</span><span class="src">Repositório com 316 arquivos Python e 8 pastas de código · Sonnet 5.5, um agente · 02/11/2026</span></div>
+      <div class="rv"><span class="v">95,2</span><span class="k">Nota do gate de qualidade</span><span class="src">Rubrica objetiva por script; o mínimo para passar é 72,2 · 02/11/2026</span></div>
+      <div class="rv"><span class="v">~12 min</span><span class="k">Do clone ao primeiro mapa verde</span><span class="src">Mesma execução; 25 de 25 testes no fim · 02/11/2026</span></div>
+      <div class="rv"><span class="v">11–17 s</span><span class="k">Atualização completa sem modelo</span><span class="src">atualizar.ps1 com o site estático, 0 tokens · 02/11/2026</span></div>
+      <div class="rv"><span class="v">23/23</span><span class="k">Lições do projeto recuperadas com escopo explícito</span><span class="src">Contra 5 de 23 (21,7%) pelo caminho genérico · Synapse MCP · 05/11/2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Prompts gravados na telemetria</span><span class="src">O coletor apaga o conteúdo antes de gravar; conferido em teste · 05/11/2026</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="custo" aria-labelledby="h-custo">
+  <div class="wrap">
+    <p class="eyebrow">Custo</p>
+    <h2 id="h-custo">Quanto custa um mapa? Ainda estamos medindo.</h2>
+    <p class="lede">Prometer "barato" sem número seria fácil. A medição vai seguir um protocolo público, e o resultado entra
+      aqui como saiu, mesmo que seja pior que o esperado.</p>
+    <div class="cost">
+      <div class="cost-state rv">
+        <span class="sds-badge sds-badge--warn">Não medido ainda</span>
+        <strong>Custo por mapa, por tamanho de repositório e por modelo.</strong>
+        <p>A única medição feita até agora é de tokens: cerca de 88,5 mil tokens de saída na prova com Sonnet. O custo em dólar
+          vai sair do faturamento da API, não de estimativa.</p>
+      </div>
+      <div class="table-scroll rv">
+        <table>
+          <caption>Protocolo da medição</caption>
+          <thead><tr><th scope="col">Item</th><th scope="col">Como</th></tr></thead>
+          <tbody>
+            <tr><td>Repositórios</td><td>Públicos, de tamanhos e linguagens diferentes, cada um num commit fixo</td></tr>
+            <tr><td>Configurações</td><td>Haiku 5.5 (medium e high), Sonnet 5.5 e a pilha mista recomendada</td></tr>
+            <tr><td>Repetições</td><td>Três por configuração; o resultado sai como faixa, não como número único</td></tr>
+            <tr><td>Custo</td><td>Faturamento de um workspace exclusivo da API, conferido contra o uso de cada execução</td></tr>
+            <tr><td>Qualidade</td><td>Gate por script, cobertura de módulos, testes e auditoria por amostra contra o código</td></tr>
+            <tr><td>Publicação</td><td>Dados brutos, scripts e commit de cada número</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="camadas" aria-labelledby="h-camadas">
+  <div class="wrap">
+    <p class="eyebrow">O que vai ser lançado</p>
+    <h2 id="h-camadas">Duas camadas. A segunda só sai quando passar no gate.</h2>
+    <div class="layers">
+      <article class="layer rv">
+        <header><h3>1 · structurize-map + harness</h3><span class="sds-badge sds-badge--info">Primeiro</span></header>
+        <p>Mapa de arquitetura vivo e agentes do Claude Code com papéis, modelos e permissões definidos.</p>
+        <ul>
+          <li><b>Mapa C4 em Structurizr DSL</b>, com status por componente e fluxos animados</li>
+          <li><b>Teste de cobertura</b> que falha quando um módulo fica fora do mapa</li>
+          <li><b>Hooks</b> que bloqueiam ferramentas fora do papel e pedem confirmação antes de comandos destrutivos</li>
+          <li><b>Instalador</b> com plano, aplicação, reversão e manifesto</li>
+        </ul>
+      </article>
+      <article class="layer rv">
+        <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Em validação</span></header>
+        <p>Memória de projeto para agentes, em Rust, rodando local, sem enviar o seu código para fora.</p>
+        <ul>
+          <li><b>Lições com escopo de projeto</b>, que entram em quarentena até alguém aprovar</li>
+          <li><b>Firewall antes da execução</b> para os comandos de shell que um agente propõe</li>
+          <li><b>Telemetria sem conteúdo</b>: uso e degradação, nunca prompts</li>
+          <li><b>Validação ferramenta por ferramenta</b> antes de abrir o código</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="estado" aria-labelledby="h-estado">
+  <div class="wrap">
+    <p class="eyebrow">Estado do projeto</p>
+    <h2 id="h-estado">O que está pronto e o que falta.</h2>
+    <ul class="status-list">
+      <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Geração do mapa, explorador, gate de qualidade e atualização incremental, provados em 2 repositórios reais.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Hooks, instalador reversível e coletor de telemetria, todos cobertos por testes.</span></li>
+      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Medição pública de custo e escolha do modelo de cada papel com base em dados.</span></li>
+      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Validação de cada ferramenta do Synapse MCP: contrato, função, erro, segurança e desempenho.</span></li>
+      <li><span class="sds-badge">Planejado</span><span>Repositório aberto, com licença, guia de instalação e dados das medições.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="end" aria-labelledby="h-end">
+  <div class="wrap">
+    <h2 id="h-end">Quer acompanhar o lançamento?</h2>
+    <p class="lede">O código ainda é privado. Fale comigo para ver uma demonstração ao vivo ou para testar no seu repositório.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="../#contato">Falar com Marcelo</a>
+      <a class="sds-btn" href="https://github.com/skarL007" rel="noopener">Seguir no GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span>
+    <span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../">Voltar ao portfólio</a></span>
+  </div>
+</footer>
+</body>
+</html>
