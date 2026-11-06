@@ -95,6 +95,7 @@ p{margin:var(--space-3) 0 0;color:var(--label-2)}
 .gallery{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--space-5);margin-top:var(--space-7)}
 .gallery .frame:nth-child(1){grid-column:1/-1}
 .gallery .frame:nth-child(2),.gallery .frame:nth-child(3){grid-column:span 6}
+.gallery .frame:nth-child(2):last-child{grid-column:1/-1}
 @media (max-width:760px){.gallery .frame:nth-child(2),.gallery .frame:nth-child(3){grid-column:1/-1}}
 
 /* provas */

@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Synapse for Claude Code: living architecture and scoped memory · Marcelo Machuca</title>
-<meta name="description" content="A C4 architecture map that updates on every commit, Claude Code agents with measured cost, and project memory that does not make things up. Being validated for an open-source release.">
+<title>Lodemap for Claude Code: living architecture, refreshed on every commit · Marcelo Machuca</title>
+<meta name="description" content="A C4 architecture map that refreshes without a model call, plus a small, auditable layer of Claude Code agents with a reversible installer. Open source in preparation.">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://skarl007.github.io/en/synapse/">
 <link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/">
 <link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Synapse for Claude Code">
+<meta property="og:title" content="Lodemap for Claude Code">
 <meta property="og:description" content="Living architecture, generated and checked by agents, with every number tied to its source.">
 <meta property="og:url" content="https://skarl007.github.io/en/synapse/">
 <meta property="og:image" content="https://skarl007.github.io/assets/synapse/explorador-1440.webp">
@@ -28,10 +28,10 @@
   <div class="bar">
     <a class="bar-brand" href="../#p-syn" aria-label="Back to Marcelo Machuca's portfolio">
       <svg class="bar-mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="var(--brand)"/></svg>
-      Synapse
+      Lodemap
     </a>
     <nav class="bar-nav" aria-label="Sections">
-      <a href="#how">How it works</a><a href="#proof">Proof</a><a href="#difference">Difference</a><a href="#cost">Cost</a><a href="#synapse">Synapse</a><a href="#status">Status</a>
+      <a href="#how">How it works</a><a href="#proof">Proof</a><a href="#difference">Difference</a><a href="#cost">Cost</a><a href="#layers">Lodeward</a><a href="#status">Status</a>
     </nav>
     <div class="bar-tools">
       <a class="lang" href="../../synapse/" hreflang="pt-BR" lang="pt-BR">Português</a>
@@ -43,10 +43,10 @@
 <main id="content" tabindex="-1">
 <section class="hero">
   <div class="wrap">
-    <span class="sds-badge sds-badge--warn hero-status">Being validated · open-source release for Claude Code</span>
+    <span class="sds-badge sds-badge--warn hero-status">In preparation · open-source release for Claude Code</span>
     <h1>Your code's architecture, always current.</h1>
     <p class="lede">Claude Code agents read the repository, build a C4 map with animated flows and check every number against
-      its source. On each commit, scripts refresh the map at zero tokens. A model only steps in when the structure changes.</p>
+      its source. With the optional commit hook on, scripts refresh the map on every commit with no model call. A model only steps in when the structure changes.</p>
     <div class="hero-actions">
       <a class="sds-btn sds-btn--primary" href="#proof">See what has been measured</a>
       <a class="sds-btn" href="#how">Understand the flow</a>
@@ -57,7 +57,7 @@
         <source src="../../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
       </video>
       <img class="hero-still" src="../../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Lodemap explorer showing the harness containers and the detail panel of one component">
-      <figcaption><span>Real recording: the explorer playing the harness algorithm in 26 steps</span><span>Unedited, 18 s</span></figcaption>
+      <figcaption><span>Real recording: the explorer playing the harness algorithm in 26 steps</span><span>18 s</span></figcaption>
     </figure>
   </div>
 </section>
@@ -83,7 +83,7 @@
   <div class="wrap">
     <p class="eyebrow">How it works</p>
     <h2 id="h-how">Scripts before models. Small models before big ones.</h2>
-    <p class="lede">Each step only runs when the one below it can't handle the job. That's what keeps cost predictable.</p>
+    <p class="lede">Each step only runs when the one below it can't handle the job. So cost only goes up when the structure changes.</p>
     <ol class="steps">
       <li class="rv"><span class="who">0 tokens · scripts</span><h3>Inventory and refresh</h3><p>List the modules, suggest relations from the code graph and regenerate the map, the site and the docs. On a checkpoint with no structural change, the work ends here.</p></li>
       <li class="rv"><span class="who">Haiku · reading</span><h3>Diagnosis</h3><p>Classify what the scripts couldn't and point to the exact line of an error.</p></li>
@@ -97,10 +97,6 @@
           <img src="../../assets/synapse/mesa-1440.webp" width="1440" height="900" loading="lazy" alt="Agent board with the harness workflow organized by phase">
         </picture>
         <figcaption><span>Agent board: the workflow, model and permissions of each role</span><span>Real capture</span></figcaption>
-      </figure>
-      <figure class="frame rv">
-        <img src="../../assets/synapse/cockpit-1440.webp" width="1440" height="448" loading="lazy" alt="Synapse cockpit: engine and database health, and indicators that say where each value comes from">
-        <figcaption><span>Synapse cockpit</span><span>Real capture</span></figcaption>
       </figure>
       <figure class="frame rv">
         <img src="../../assets/synapse/explorador-fluxo-1440.webp" width="1440" height="900" loading="lazy" alt="Animated flow of the harness algorithm, step by step">
@@ -121,7 +117,7 @@
       <div class="rv"><span class="v">95.2</span><span class="k">Quality gate score</span><span class="src">Objective rubric run by script; 72.2 is the pass mark · Nov 2, 2026</span></div>
       <div class="rv"><span class="v">~12 min</span><span class="k">From clone to the first green map</span><span class="src">Same run; 25 of 25 tests at the end · Nov 2, 2026</span></div>
       <div class="rv"><span class="v">11–17 s</span><span class="k">Full refresh with no model</span><span class="src">atualizar.ps1 including the static site, 0 tokens · Nov 2, 2026</span></div>
-      <div class="rv"><span class="v">23/23</span><span class="k">Project lessons recalled with explicit scope</span><span class="src">Versus 5 of 23 (21.7%) through the generic path · Synapse MCP · Nov 5, 2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Critical findings in the Lodemap security audit</span><span class="src">3 high, 9 medium and 9 low; 2 highs fixed with tests and 1 documented in the README · Nov 5, 2026</span></div>
       <div class="rv"><span class="v">0</span><span class="k">Prompts stored by the harness telemetry</span><span class="src">The harness collector deletes content before writing; checked by test · Nov 5, 2026</span></div>
     </div>
   </div>
@@ -141,14 +137,14 @@
         <tbody>
           <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, as Structurizr DSL (C4 standard), reviewable in a pull request</td></tr>
           <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Zero-token scripts on every commit; a model only steps in when the structure changes</td></tr>
-          <tr><td>Coverage</td><td>DeepWiki generates up to 30 pages (80 on Enterprise), and large repositories may skip folders <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (63 of 63 in the proof run)</td></tr>
-          <tr><td>Cost</td><td>DeepWiki: low effort free; medium 5–10 ACUs and high 20–40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>From US$ 2.65 per map and US$ 0 per refresh with no structural change</td></tr>
-          <tr><td>Private repositories</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist, on Nov 13, 2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Runs locally, in the Claude Code you already use</td></tr>
+          <tr><td>Coverage</td><td>On large repositories DeepWiki may leave folders out; you can list up to 30 pages (80 on Enterprise) in <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (63 of 63 in the proof run)</td></tr>
+          <tr><td>Cost</td><td>DeepWiki: low effort free; medium 5–10 ACUs and high 20–40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A floor of US$ 2.65 per map (measured once); a refresh with no structural change makes no model call</td></tr>
+          <tr><td>Private repositories</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist, on Nov 13, 2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts run on your machine; model steps send the code they read to Anthropic, through the Claude Code you already use</td></tr>
           <tr><td>What they do that we don't</td><td>Chat over the code and zero setup</td><td>No built-in chat: your own agent asks, using the map and the project memory</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note rv">Sources checked on Nov 5, 2026. [1] Google Developers Blog, "Introducing Code Wiki". [2] Devin
+    <p class="note rv">Sources checked on Nov 5, 2026; what is said about other products holds only as far as we could verify it that day. [1] Google Developers Blog, "Introducing Code Wiki". [2] Devin
       documentation, "DeepWiki repository wikis".</p>
   </div>
 </section>
@@ -156,28 +152,27 @@
 <section id="cost" aria-labelledby="h-cost">
   <div class="wrap">
     <p class="eyebrow">Cost</p>
-    <h2 id="h-cost">A full map from US$ 2.65. Every commit after that: US$ 0.</h2>
+    <h2 id="h-cost">A full map from US$ 2.65 (a floor). Refreshing on every commit calls no model.</h2>
     <p class="lede">Documentation only stays alive if updating it is free. So the repetitive work goes to scripts, and
-      a model only steps in when the structure changes. Cost stops growing with every commit and becomes predictable.</p>
+      a model only steps in when the structure changes. Cost stops growing with every commit.</p>
     <div class="econ">
       <div class="econ-hero rv">
-        <span class="econ-v">US$&nbsp;0</span>
-        <span class="econ-k">per refresh on every commit</span>
+        <span class="econ-v">0</span>
+        <span class="econ-k">model calls per refresh with no structural change</span>
         <p>When a commit doesn't change the structure, only scripts run: diff, regeneration of the map, the site and the
           docs, verification and the coverage test. No model call. It takes 11 to 17 seconds.</p>
       </div>
       <div class="econ-card rv">
         <span class="econ-v">US$&nbsp;2.65</span>
         <span class="econ-k">full map of a 63-module repository</span>
-        <p>Sonnet 5.5, 93 calls, 25 minutes, including 6 fixes. Quality gate 95.2.</p>
+        <p>Sonnet 5.5, one agent, 93 calls, 25 minutes, including 6 fixes to the skill itself. Quality gate 95.2.</p>
         <span class="econ-tag">floor: uncached input and cache writes were not recorded</span>
       </div>
       <div class="econ-card rv">
         <span class="econ-v">−87%</span>
         <span class="econ-k">from US$ 20.88 to US$ 2.65</span>
-        <p>The 1st generation used Opus for everything and included building the skill itself. The routed stack spent 64%
-          fewer output tokens and 74% fewer cache reads.</p>
-        <span class="econ-tag">same price table, measured tokens</span>
+        <p>The 1st generation used Opus for everything, on a 98-module repository, and included building the skill itself. The 2nd was a single Sonnet agent with no subagents, on a different repository (63 modules). It spent 64% fewer output tokens and 74% fewer cache reads.</p>
+        <span class="econ-tag">floor at both ends; two different runs, not a controlled test</span>
       </div>
       <div class="econ-card econ-proj rv">
         <span class="econ-v">US$&nbsp;0.22–1.10</span>
@@ -192,8 +187,7 @@
       <p>Tokens come from the agents' logs, deduplicated by message, and each was multiplied by the official API price
         (platform.claude.com/docs/en/about-claude/pricing, checked on Nov 5, 2026). Sonnet 5.5: US$ 10 per million output
         tokens and US$ 0.10 per million cache reads. The runs went through a Claude Code subscription, so the figure is the
-        equivalent API cost, not an invoice. The <code>custo_equivalente.py</code> script and a test recompute every number
-        in this section.</p>
+        equivalent API cost, not an invoice. The <code>custo_equivalente.py</code> script recomputes the dollar figures in this section from the token log, and a test checks US$ 2.65 and US$ 20.88 against this page. Model steps send the files they read to Anthropic.</p>
     </details>
     <div class="cost">
       <div class="cost-state rv">
@@ -236,9 +230,8 @@
         </ul>
       </article>
       <article class="layer rv">
-        <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Being validated</span></header>
-        <p>Project memory for agents, written in Rust and running on your machine. The detail of each feature, with what
-          was checked and what is still missing, is in the next section.</p>
+        <header><h3>2 · Lodeward</h3><span class="sds-badge sds-badge--warn">In development</span></header>
+        <p>Project memory for agents (formerly Synapse), written in Rust and running on your machine. No date yet: opening it waits on a repository cleanup and on measuring its savings.</p>
         <ul>
           <li><b>Project-scoped lessons</b>, held in quarantine until someone approves them</li>
           <li><b>Pre-execution firewall</b> for the shell commands an agent proposes</li>
@@ -247,35 +240,7 @@
         </ul>
       </article>
     </div>
-  </div>
-</section>
-
-<section id="synapse" aria-labelledby="h-synapse">
-  <div class="wrap">
-    <p class="eyebrow">Synapse, feature by feature</p>
-    <h2 id="h-synapse">What works today, and what doesn't yet.</h2>
-    <p class="lede">Read-only audit of the code and the running server on Nov 5, 2026. A feature only shows as working if
-      it was checked.</p>
-    <div class="table-scroll rv">
-      <table class="feat">
-        <caption>Status of each Synapse MCP feature</caption>
-        <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col">How it was checked</th></tr></thead>
-        <tbody>
-          <tr><td>55 MCP tools</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>Listed by the server; 51 of them have integration tests</td></tr>
-          <tr><td>Pre-execution firewall</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td><code>rm -rf /</code> was blocked by the "recursive force deletion" pattern; 4 test suites</td></tr>
-          <tr><td>Lessons in quarantine</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>384 approved and 82 waiting for human review; nothing goes in without approval</td></tr>
-          <tr><td>Lessons by project and role</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>23 of 23 lessons recalled when the project is given</td></tr>
-          <tr><td>Lesson provenance</td><td><span class="sds-badge sds-badge--info">Partial</span></td><td>Origin with a hash on 132 of the 200 most recent lessons</td></tr>
-          <tr><td>Per-project library (registry)</td><td><span class="sds-badge sds-badge--ok">Works</span></td><td>143 items across skills, agents, rules and prompts; import is tested</td></tr>
-          <tr><td>Project detection inside worktrees</td><td><span class="sds-badge sds-badge--err">Fails</span></td><td>The project comes from the folder name; a fix based on the git repository is planned</td></tr>
-          <tr><td>Lesson effectiveness tracking</td><td><span class="sds-badge sds-badge--info">Partial</span></td><td>The tool exists, but only 1 outcome has been recorded so far</td></tr>
-          <tr><td>Per-tool metrics (latency, errors)</td><td><span class="sds-badge">Not built yet</span></td><td>Events carry duration and errors; aggregating them per tool is still missing</td></tr>
-          <tr><td>Anti-hallucination index</td><td><span class="sds-badge">Not measured</span></td><td>No factuality check is running; the cockpit shows "not measured"</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note rv">Data leaving the machine: the gatekeeper sends masked requests to a model through OpenRouter, and
-      session consolidation can use OpenAI. Both are optional and will ship disabled on a fresh install.</p>
+    <p class="note rv">Data leaving the machine from Lodeward: the gatekeeper sends masked requests to a model through OpenRouter, and session consolidation can use OpenAI. Both are optional and will ship disabled on a fresh install.</p>
   </div>
 </section>
 
@@ -285,9 +250,10 @@
     <h2 id="h-status">What's done and what's left.</h2>
     <ul class="status-list">
       <li><span class="sds-badge sds-badge--ok">Done</span><span>Map generation, explorer, quality gate and incremental refresh, proven on 2 real repositories.</span></li>
-      <li><span class="sds-badge sds-badge--ok">Done</span><span>Hooks, reversible installer and telemetry collector, all covered by tests.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Done</span><span>Reversible installer, hooks and per-scope permission, with 50 tests (Windows) and a security audit on Nov 5, 2026 (2 high findings fixed, 1 documented).</span></li>
       <li><span class="sds-badge sds-badge--info">In progress</span><span>Public cost measurement and data-driven choice of the model for each role.</span></li>
-      <li><span class="sds-badge sds-badge--info">In progress</span><span>Synapse: the core works, but opening the code waits on a repository cleanup (history, personal files and license) and the worktree project fix.</span></li>
+      <li><span class="sds-badge sds-badge--info">In progress</span><span>Lodeward (formerly Synapse): the core works, but opening the code waits on a repository cleanup (history, personal files and license).</span></li>
+      <li><span class="sds-badge">Not measured</span><span>Whether the map improves the agent's results. A recent study of repository context files (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) found no general gain in task success and about 20% higher cost; it did not test C4 maps. That measurement has not been done yet.</span></li>
       <li><span class="sds-badge">Planned</span><span>Open repository, with a license, install guide and measurement data.</span></li>
     </ul>
   </div>

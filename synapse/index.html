@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Synapse para Claude Code: arquitetura viva e memória com escopo · Marcelo Machuca</title>
-<meta name="description" content="Mapa de arquitetura C4 que se atualiza a cada commit, agentes Claude Code com custo medido e memória de projeto que não inventa. Em validação para lançamento open source.">
+<title>Lodemap para Claude Code: arquitetura viva, atualizada a cada commit · Marcelo Machuca</title>
+<meta name="description" content="Mapa de arquitetura C4 que se atualiza sem chamar modelo e uma camada pequena e auditável de agentes do Claude Code, com instalador reversível. Open source em preparação.">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://skarl007.github.io/synapse/">
 <link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/synapse/">
 <link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/synapse/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Synapse para Claude Code">
+<meta property="og:title" content="Lodemap para Claude Code">
 <meta property="og:description" content="Arquitetura viva, gerada e conferida por agentes, com cada número ligado à sua fonte.">
 <meta property="og:url" content="https://skarl007.github.io/synapse/">
 <meta property="og:image" content="https://skarl007.github.io/assets/synapse/explorador-1440.webp">
@@ -28,10 +28,10 @@
   <div class="bar">
     <a class="bar-brand" href="../#p-syn" aria-label="Voltar ao portfólio de Marcelo Machuca">
       <svg class="bar-mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="var(--brand)"/></svg>
-      Synapse
+      Lodemap
     </a>
     <nav class="bar-nav" aria-label="Seções">
-      <a href="#como">Como funciona</a><a href="#provas">Provas</a><a href="#diferenca">Diferença</a><a href="#custo">Custo</a><a href="#synapse">Synapse</a><a href="#estado">Estado</a>
+      <a href="#como">Como funciona</a><a href="#provas">Provas</a><a href="#diferenca">Diferença</a><a href="#custo">Custo</a><a href="#camadas">Lodeward</a><a href="#estado">Estado</a>
     </nav>
     <div class="bar-tools">
       <a class="lang" href="../en/synapse/" hreflang="en" lang="en">English</a>
@@ -43,10 +43,10 @@
 <main id="conteudo" tabindex="-1">
 <section class="hero">
   <div class="wrap">
-    <span class="sds-badge sds-badge--warn hero-status">Em validação · lançamento open source para Claude Code</span>
+    <span class="sds-badge sds-badge--warn hero-status">Em preparação · lançamento open source para Claude Code</span>
     <h1>A arquitetura do seu código, sempre atual.</h1>
     <p class="lede">Agentes do Claude Code leem o repositório, montam um mapa C4 com fluxos animados e conferem cada número
-      com a sua fonte. A cada commit, os scripts atualizam o mapa sem gastar tokens. O modelo só entra quando a estrutura muda.</p>
+      com a sua fonte. Com o gancho de commit ligado (opcional), os scripts atualizam o mapa a cada commit sem chamar modelo. O modelo só entra quando a estrutura muda.</p>
     <div class="hero-actions">
       <a class="sds-btn sds-btn--primary" href="#provas">Ver o que já foi medido</a>
       <a class="sds-btn" href="#como">Entender o fluxo</a>
@@ -57,7 +57,7 @@
         <source src="../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
       </video>
       <img class="hero-still" src="../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Explorador do Lodemap mostrando os containers do harness e o painel de detalhe de um componente">
-      <figcaption><span>Gravação real: o explorador tocando o algoritmo do harness em 26 passos</span><span>Sem edição, 18 s</span></figcaption>
+      <figcaption><span>Gravação real: o explorador tocando o algoritmo do harness em 26 passos</span><span>18 s</span></figcaption>
     </figure>
   </div>
 </section>
@@ -84,7 +84,7 @@
   <div class="wrap">
     <p class="eyebrow">Como funciona</p>
     <h2 id="h-como">Script antes de modelo. Modelo pequeno antes de modelo grande.</h2>
-    <p class="lede">Cada degrau só entra quando o anterior não resolve. É assim que o custo fica previsível.</p>
+    <p class="lede">Cada degrau só entra quando o anterior não resolve. Assim o custo só sobe quando a estrutura muda.</p>
     <ol class="steps">
       <li class="rv"><span class="who">0 tokens · scripts</span><h3>Inventário e atualização</h3><p>Lista os módulos, sugere relações pelo grafo de código e regenera o mapa, o site e os documentos. Num checkpoint sem mudança estrutural, o trabalho para aqui.</p></li>
       <li class="rv"><span class="who">Haiku · leitura</span><h3>Diagnóstico</h3><p>Classifica o que os scripts não souberam classificar e aponta a linha exata de um erro.</p></li>
@@ -98,10 +98,6 @@
           <img src="../assets/synapse/mesa-1440.webp" width="1440" height="900" loading="lazy" alt="Mesa dos agentes com o workflow do harness organizado por fases">
         </picture>
         <figcaption><span>Mesa dos agentes: o workflow, o modelo e as permissões de cada papel</span><span>Captura real</span></figcaption>
-      </figure>
-      <figure class="frame rv">
-        <img src="../assets/synapse/cockpit-1440.webp" width="1440" height="448" loading="lazy" alt="Cockpit do Synapse: saúde do motor e do banco, e indicadores que dizem de onde vem cada valor">
-        <figcaption><span>Cockpit do Synapse</span><span>Captura real</span></figcaption>
       </figure>
       <figure class="frame rv">
         <img src="../assets/synapse/explorador-fluxo-1440.webp" width="1440" height="900" loading="lazy" alt="Fluxo animado do algoritmo do harness, passo a passo">
@@ -122,7 +118,7 @@
       <div class="rv"><span class="v">95,2</span><span class="k">Nota do gate de qualidade</span><span class="src">Rubrica objetiva por script; o mínimo para passar é 72,2 · 02/11/2026</span></div>
       <div class="rv"><span class="v">~12 min</span><span class="k">Do clone ao primeiro mapa verde</span><span class="src">Mesma execução; 25 de 25 testes no fim · 02/11/2026</span></div>
       <div class="rv"><span class="v">11–17 s</span><span class="k">Atualização completa sem modelo</span><span class="src">atualizar.ps1 com o site estático, 0 tokens · 02/11/2026</span></div>
-      <div class="rv"><span class="v">23/23</span><span class="k">Lições do projeto recuperadas com escopo explícito</span><span class="src">Contra 5 de 23 (21,7%) pelo caminho genérico · Synapse MCP · 05/11/2026</span></div>
+      <div class="rv"><span class="v">0</span><span class="k">Achados críticos na auditoria de segurança do Lodemap</span><span class="src">3 altos, 9 médios e 9 baixos; 2 altos corrigidos com teste e 1 documentado no README · 05/11/2026</span></div>
       <div class="rv"><span class="v">0</span><span class="k">Prompts gravados pela telemetria do harness</span><span class="src">O coletor do harness apaga o conteúdo antes de gravar; conferido em teste · 05/11/2026</span></div>
     </div>
   </div>
@@ -142,14 +138,14 @@
         <tbody>
           <tr><td>Onde fica</td><td>Na plataforma do fornecedor</td><td>No seu git, em Structurizr DSL (padrão C4), revisável em pull request</td></tr>
           <tr><td>Atualização</td><td>A Code Wiki regenera a documentação depois de cada mudança <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts sem tokens a cada commit; o modelo só entra quando a estrutura muda</td></tr>
-          <tr><td>Cobertura</td><td>A DeepWiki gera até 30 páginas (80 no plano Enterprise), e em repositórios grandes pode pular pastas <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Um teste falha se algum módulo ficar fora do mapa (63 de 63 na prova)</td></tr>
-          <tr><td>Custo</td><td>DeepWiki: nível baixo gratuito; médio de 5 a 10 ACUs e alto de 20 a 40 ACUs por wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A partir de US$ 2,65 por mapa e US$ 0 por atualização sem mudança de estrutura</td></tr>
-          <tr><td>Repositório privado</td><td>A Code Wiki anunciou uma extensão do Gemini CLI, com lista de espera em 13/11/2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Roda localmente, no Claude Code que você já usa</td></tr>
+          <tr><td>Cobertura</td><td>Em repositórios grandes a DeepWiki pode deixar pastas de fora; dá para listar até 30 páginas (80 no Enterprise) no <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Um teste falha se algum módulo ficar fora do mapa (63 de 63 na prova)</td></tr>
+          <tr><td>Custo</td><td>DeepWiki: nível baixo gratuito; médio de 5 a 10 ACUs e alto de 20 a 40 ACUs por wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Piso de US$ 2,65 por mapa (medido uma vez); atualização sem mudança de estrutura não chama modelo</td></tr>
+          <tr><td>Repositório privado</td><td>A Code Wiki anunciou uma extensão do Gemini CLI, com lista de espera em 13/11/2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Os scripts rodam na sua máquina; os passos com modelo enviam à Anthropic o código que leem, pelo Claude Code que você já usa</td></tr>
           <tr><td>O que eles fazem e nós não</td><td>Chat sobre o código e zero instalação</td><td>Sem chat próprio: quem pergunta é o seu agente, usando o mapa e a memória do projeto</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note rv">Fontes consultadas em 05/11/2026. [1] Google Developers Blog, "Introducing Code Wiki". [2] Documentação
+    <p class="note rv">Fontes consultadas em 05/11/2026; o que se diz de outros produtos vale até onde deu para conferir naquele dia. [1] Google Developers Blog, "Introducing Code Wiki". [2] Documentação
       da Devin, "DeepWiki repository wikis".</p>
   </div>
 </section>
@@ -157,29 +153,27 @@
 <section id="custo" aria-labelledby="h-custo">
   <div class="wrap">
     <p class="eyebrow">Custo</p>
-    <h2 id="h-custo">Um mapa completo a partir de US$ 2,65. Cada commit depois: US$ 0.</h2>
+    <h2 id="h-custo">Um mapa completo a partir de US$ 2,65 (piso). Atualizar a cada commit não chama modelo.</h2>
     <p class="lede">Documentação só continua viva se atualizar for de graça. Por isso o trabalho repetitivo fica com
-      scripts, e o modelo entra só quando a estrutura muda. Assim o custo deixa de crescer a cada commit e passa a ser
-      previsível.</p>
+      scripts, e o modelo entra só quando a estrutura muda. Assim o custo deixa de crescer a cada commit.</p>
     <div class="econ">
       <div class="econ-hero rv">
-        <span class="econ-v">US$&nbsp;0</span>
-        <span class="econ-k">por atualização a cada commit</span>
+        <span class="econ-v">0</span>
+        <span class="econ-k">chamadas de modelo por atualização sem mudança de estrutura</span>
         <p>Quando o commit não muda a estrutura, só os scripts rodam: diff, regeneração do mapa, do site e dos documentos,
           verificação e teste de cobertura. Não há chamada de modelo. Leva de 11 a 17 segundos.</p>
       </div>
       <div class="econ-card rv">
         <span class="econ-v">US$&nbsp;2,65</span>
         <span class="econ-k">mapa completo de um repositório de 63 módulos</span>
-        <p>Sonnet 5.5, 93 chamadas, 25 minutos, incluindo 6 correções. Gate de qualidade 95,2.</p>
+        <p>Sonnet 5.5, um agente, 93 chamadas, 25 minutos, incluindo 6 correções da própria skill. Gate de qualidade 95,2.</p>
         <span class="econ-tag">piso: entrada sem cache e escrita de cache não registradas</span>
       </div>
       <div class="econ-card rv">
         <span class="econ-v">−87%</span>
         <span class="econ-k">de US$ 20,88 para US$ 2,65</span>
-        <p>A 1ª geração usou Opus em tudo e incluiu criar a própria skill. A pilha roteada gastou 64% menos tokens de saída
-          e 74% menos leitura de cache.</p>
-        <span class="econ-tag">mesma régua de preço, tokens medidos</span>
+        <p>A 1ª geração usou Opus em tudo, num repositório de 98 módulos, e incluiu criar a própria skill. A 2ª foi um único agente Sonnet, sem subagentes, em outro repositório (63 módulos). Gastou 64% menos tokens de saída e 74% menos leitura de cache.</p>
+        <span class="econ-tag">piso nas duas pontas; duas execuções diferentes, não um teste controlado</span>
       </div>
       <div class="econ-card econ-proj rv">
         <span class="econ-v">US$&nbsp;0,22–1,10</span>
@@ -194,8 +188,7 @@
       <p>Os tokens vêm do registro dos agentes, deduplicado por mensagem, e cada um foi multiplicado pelo preço oficial da
         API (platform.claude.com/docs/en/about-claude/pricing, conferido em 05/11/2026). Sonnet 5.5: US$ 10 por milhão de
         tokens de saída e US$ 0,10 por milhão de leitura de cache. As rodadas foram feitas pela assinatura do Claude Code,
-        então o valor é o custo equivalente pela API, não uma fatura. O script <code>custo_equivalente.py</code> e um teste
-        recalculam cada número desta seção.</p>
+        então o valor é o custo equivalente pela API, não uma fatura. O script <code>custo_equivalente.py</code> recalcula os valores em dólar desta seção a partir do registro de tokens, e um teste confere US$ 2,65 e US$ 20,88 contra esta página. Os passos com modelo enviam à Anthropic os arquivos que leem.</p>
     </details>
     <div class="cost">
       <div class="cost-state rv">
@@ -238,9 +231,8 @@
         </ul>
       </article>
       <article class="layer rv">
-        <header><h3>2 · Synapse MCP</h3><span class="sds-badge sds-badge--warn">Em validação</span></header>
-        <p>Memória de projeto para agentes, em Rust, rodando na sua máquina. O detalhe de cada recurso, com o que foi
-          conferido e o que ainda falta, está na seção seguinte.</p>
+        <header><h3>2 · Lodeward</h3><span class="sds-badge sds-badge--warn">Em desenvolvimento</span></header>
+        <p>Memória de projeto para agentes (antes chamada Synapse), em Rust, rodando na sua máquina. Ainda sem data: a abertura espera a limpeza do repositório e a medição da economia.</p>
         <ul>
           <li><b>Lições com escopo de projeto</b>, que entram em quarentena até alguém aprovar</li>
           <li><b>Firewall antes da execução</b> para os comandos de shell que um agente propõe</li>
@@ -249,35 +241,7 @@
         </ul>
       </article>
     </div>
-  </div>
-</section>
-
-<section id="synapse" aria-labelledby="h-synapse">
-  <div class="wrap">
-    <p class="eyebrow">Synapse, recurso por recurso</p>
-    <h2 id="h-synapse">O que já funciona, e o que ainda não.</h2>
-    <p class="lede">Auditoria feita no código e no servidor em execução em 05/11/2026, só com leitura. Um recurso só
-      aparece como pronto se foi conferido.</p>
-    <div class="table-scroll rv">
-      <table class="feat">
-        <caption>Estado de cada recurso do Synapse MCP</caption>
-        <thead><tr><th scope="col">Recurso</th><th scope="col">Estado</th><th scope="col">Como foi conferido</th></tr></thead>
-        <tbody>
-          <tr><td>55 ferramentas MCP</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>Listadas pelo servidor; 51 delas têm teste de integração</td></tr>
-          <tr><td>Firewall antes da execução</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td><code>rm -rf /</code> foi bloqueado pelo padrão "remoção recursiva forçada"; 4 suítes de teste</td></tr>
-          <tr><td>Lições em quarentena</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>384 aprovadas e 82 esperando revisão humana; nada entra sem aprovação</td></tr>
-          <tr><td>Lições por projeto e por papel</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>23 de 23 lições recuperadas quando o projeto é informado</td></tr>
-          <tr><td>Proveniência das lições</td><td><span class="sds-badge sds-badge--info">Parcial</span></td><td>Origem com hash em 132 das 200 lições mais recentes</td></tr>
-          <tr><td>Biblioteca por projeto (registry)</td><td><span class="sds-badge sds-badge--ok">Funciona</span></td><td>143 itens entre skills, agentes, regras e prompts; importação com teste</td></tr>
-          <tr><td>Projeto detectado dentro de worktrees</td><td><span class="sds-badge sds-badge--err">Falha</span></td><td>O projeto sai do nome da pasta; a correção pelo repositório git está planejada</td></tr>
-          <tr><td>Medida de eficácia das lições</td><td><span class="sds-badge sds-badge--info">Parcial</span></td><td>A ferramenta existe, mas só 1 desfecho foi registrado até agora</td></tr>
-          <tr><td>Métricas por ferramenta (latência, erro)</td><td><span class="sds-badge">Não existe ainda</span></td><td>Os eventos têm duração e erro; falta agregá-los por ferramenta</td></tr>
-          <tr><td>Índice de anti-alucinação</td><td><span class="sds-badge">Não medido</span></td><td>Não há verificação de factualidade rodando; o cockpit mostra "não medido"</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note rv">Fluxo de dados para fora: o porteiro envia pedidos mascarados a um modelo pela OpenRouter, e a
-      consolidação de sessão pode usar a OpenAI. Os dois são opcionais e vão sair desligados na instalação nova.</p>
+    <p class="note rv">Fluxo de dados para fora do Lodeward: o porteiro envia pedidos mascarados a um modelo pela OpenRouter, e a consolidação de sessão pode usar a OpenAI. Os dois são opcionais e vão sair desligados na instalação nova.</p>
   </div>
 </section>
 
@@ -287,9 +251,10 @@
     <h2 id="h-estado">O que está pronto e o que falta.</h2>
     <ul class="status-list">
       <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Geração do mapa, explorador, gate de qualidade e atualização incremental, provados em 2 repositórios reais.</span></li>
-      <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Hooks, instalador reversível e coletor de telemetria, todos cobertos por testes.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Pronto</span><span>Instalador reversível, hooks e permissão por escopo, com 50 testes (Windows) e auditoria de segurança de 05/11/2026 (2 achados altos corrigidos, 1 documentado).</span></li>
       <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Medição pública de custo e escolha do modelo de cada papel com base em dados.</span></li>
-      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Synapse: o núcleo funciona, mas a abertura do código espera a limpeza do repositório (histórico, arquivos pessoais e licença) e a correção do projeto em worktrees.</span></li>
+      <li><span class="sds-badge sds-badge--info">Em andamento</span><span>Lodeward (antes Synapse): o núcleo funciona, mas a abertura do código espera a limpeza do repositório (histórico, arquivos pessoais e licença).</span></li>
+      <li><span class="sds-badge">Não medido</span><span>Se o mapa melhora o resultado do agente. Um estudo recente sobre arquivos de contexto de repositório (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) não achou ganho geral de sucesso e viu custo 20% maior; ele não testou mapas C4. Essa medição ainda não foi feita.</span></li>
       <li><span class="sds-badge">Planejado</span><span>Repositório aberto, com licença, guia de instalação e dados das medições.</span></li>
     </ul>
   </div>
