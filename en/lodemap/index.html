@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lodemap: living architecture for Claude Code · Marcelo Machuca</title>
+<meta name="description" content="Open source Claude Code skill that builds a C4 map of your repository in Structurizr DSL, with an interactive explorer, a docs reader and a test that fails when a module is left out. Updating on every commit makes no model call.">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://skarl007.github.io/en/lodemap/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/lodemap/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/lodemap/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lodemap: living architecture for Claude Code">
+<meta property="og:description" content="A C4 map versioned in your repository, checked by a test and updated on every commit with no model call.">
+<meta property="og:url" content="https://skarl007.github.io/en/lodemap/">
+<meta property="og:image" content="https://skarl007.github.io/assets/lodemap/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lodemap explorer playing a flow step by step, with the path listed on the side">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/synapse/tokens.css">
+<link rel="stylesheet" href="../../assets/synapse/synapse.css">
+<link rel="stylesheet" href="../../assets/lodemap/lodemap.css">
+<script defer src="../../assets/synapse/synapse.js"></script>
+<script defer src="../../assets/lodemap/lodemap.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Lodemap","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, Linux (partial)","softwareVersion":"0.1.0","license":"https://opensource.org/licenses/MIT","description":"Claude Code skill that keeps a living C4 architecture map of a repository.","author":{"@type":"Person","name":"Marcelo Machuca","url":"https://skarl007.github.io/en/"}}
+</script>
+</head>
+<body class="sds">
+<a class="skip" href="#content">Skip to content</a>
+<header class="sds-bar">
+  <div class="bar">
+    <a class="bar-brand" href="../#p-syn" aria-label="Back to Marcelo Machuca's portfolio">
+      <svg class="bar-mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="var(--brand)"/></svg>
+      Lodemap
+    </a>
+    <nav class="bar-nav" aria-label="Sections">
+      <a href="#outputs">What it builds</a><a href="#how">How it works</a><a href="#proof">Proof</a><a href="#cost">Cost</a><a href="#install">Install</a><a href="#status">Status</a>
+    </nav>
+    <div class="bar-tools">
+      <a class="lang" href="../../lodemap/" hreflang="pt-BR" lang="pt-BR">Português</a>
+      <button class="sds-btn" id="temaBtn" type="button" data-claro="Light theme" data-escuro="Dark theme" aria-pressed="false">Theme</button>
+    </div>
+  </div>
+</header>
+
+<main id="content" tabindex="-1">
+<section class="hero">
+  <div class="wrap">
+    <span class="sds-badge sds-badge--warn hero-status">v0.1.0 · open source (MIT) pre-release for Claude Code</span>
+    <h1>Your code's architecture, always current.</h1>
+    <p class="lede">Lodemap is a Claude Code skill. Agents read the repository and build a C4 map with animated flows, a docs
+      reader and a test that fails when a module is left out. From then on, every commit updates it all with scripts only,
+      with no model call.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="#outputs">See what it builds</a>
+      <a class="sds-btn" href="#proof">What has been measured</a>
+    </div>
+    <figure class="frame hero-shot rv">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../../assets/synapse/explorador-fluxo-poster.webp" aria-label="Real recording of the explorer playing an animated flow, step by step">
+        <source src="../../assets/synapse/explorador-fluxo.webm" type="video/webm">
+        <source src="../../assets/synapse/explorador-fluxo.mp4" type="video/mp4">
+      </video>
+      <img class="hero-still" src="../../assets/synapse/explorador-1440.webp" width="1440" height="900" alt="Lodemap explorer showing containers and the detail panel of a component">
+      <figcaption><span>Real recording: the explorer playing a 26-step flow in a map built by the skill</span><span>18 s</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="problem" aria-labelledby="h-problem">
+  <div class="wrap split">
+    <div class="rv">
+      <p class="eyebrow">The problem</p>
+      <h2 id="h-problem">Documentation dies at the first merge.</h2>
+      <p class="lede">Teams inherit systems nobody can explain end to end. Rewriting the docs takes weeks, and they go stale
+        right after. Asking a model to "document everything" is expensive and gives no guarantee the text matches the code.</p>
+    </div>
+    <ul class="pain rv" aria-label="Symptoms">
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.5" fill="none" transform="rotate(45 10 10)"/></svg><span><b>Diagrams that lie</b>Drawn by hand once, never checked again.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Slow onboarding</b>Newcomers have to find out alone where a request goes.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 15l5-5 3 3 6-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg><span><b>Numbers without a source</b>Metrics and benchmarks quoted with no file or commit.</span></li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5h10v10H5z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 10h4" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Lost decisions</b>Why each choice was made lives in chats nobody finds later.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="outputs" aria-labelledby="h-outputs">
+  <div class="wrap">
+    <p class="eyebrow">What it builds</p>
+    <h2 id="h-outputs">One source of truth. Six outputs generated from it.</h2>
+    <p class="lede">The architecture model lives in your repository, in Structurizr DSL (the C4 standard), and is reviewed in
+      pull requests like any code. Everything else is generated from it and runs locally, with no server.</p>
+    <ul class="outputs">
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="12" width="6" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 8v6h5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span><h3>Versioned C4 model</h3><p>System, containers, components per area, named relationships, views and dynamic flows. Every component has a status: ready, in progress, waiting, planned or out of focus.</p><span class="path">workspace.dsl · model/ · views/</span></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="5" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="15" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 9l6-3M7 11l6 3" stroke="currentColor" stroke-width="1.5"/></svg></span><h3>Interactive explorer</h3><p>Browse the views, play flows step by step with a link to each step, filter by status and see what changed since the last commit. Relationships with no proof in the code are flagged.</p><span class="path">explorador/index.html</span></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3.5h8l4 4v9H4z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.5"/></svg></span><h3>Docs reader</h3><p>Docs and decisions (ADRs) with search, table of contents, a decision timeline and Mermaid diagrams drawn offline. Every element mentioned links to the same spot on the map.</p><span class="path">leitor/index.html</span></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><h3>Coverage test</h3><p>A pytest that fails when any code module is left out of the model. The map cannot go stale silently: CI tells you.</p><span class="path">tests/test_arquitetura_cobertura.py</span></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 16h14M5 16V9M9 16V5M13 16v-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span><h3>Metrics with a source</h3><p>Every number tied to a component points to the file and the commit it came from. A test checks the source still exists.</p><span class="path">metricas/metricas.json</span></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l6 3.5v7L10 17l-6-3.5v-7z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 10v7M10 10l6-3.5M10 10L4 6.5" stroke="currentColor" stroke-width="1.2"/></svg></span><h3>Optional outputs</h3><p>Derived Markdown docs, Obsidian vault notes with wikilinks, Structurizr Lite and a static site. Turn on only what you want.</p><span class="path">-ComObsidian · -ComLite · -ComSite</span></li>
+    </ul>
+    <div class="gallery g3">
+      <figure class="frame rv">
+        <img src="../../assets/lodemap/explorador-fluxo-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Explorer at step 3 of 5 of a routing flow: the active step highlighted in the graph and the full path listed on the right panel, each relationship confirmed in the code">
+        <figcaption><span>Step-by-step flow, each relationship confirmed in the code by the AST</span><span>Real capture · 3rd repository</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../../assets/lodemap/leitor-mermaid.webp" width="1170" height="730" loading="lazy" decoding="async" alt="Docs reader drawing a Mermaid decision flowchart, with real size, view source and full screen buttons">
+        <figcaption><span>Mermaid drawn offline in the reader</span><span>Real capture</span></figcaption>
+      </figure>
+      <figure class="frame rv">
+        <img src="../../assets/lodemap/leitor-decisoes-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Decision timeline in the reader: six ADRs, five accepted and one proposed, newest first">
+        <figcaption><span>Decisions on a timeline, with status and map elements</span><span>Real capture</span></figcaption>
+      </figure>
+    </div>
+    <p class="note rv">The tool's own UI and messages are in Brazilian Portuguese.</p>
+  </div>
+</section>
+
+<section id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2 id="h-how">Scripts before models. Small models before big ones.</h2>
+    <p class="lede">Each step runs only when the one below cannot handle it. Cost goes up when the structure changes, not on every commit.</p>
+    <ol class="steps">
+      <li class="rv"><span class="who">0 tokens · scripts</span><h3>Inventory and update</h3><p>Lists modules, suggests relationships from the code graph (CodeGraph or AST) and regenerates map, reader and docs. With no structural change, work stops here.</p></li>
+      <li class="rv"><span class="who">Haiku · reading</span><h3>Model-assisted inventory</h3><p>Only for what the scripts could not classify. Read-only.</p></li>
+      <li class="rv"><span class="who">Sonnet high · structure</span><h3>Architecture decisions</h3><p>The only role that decides: cuts components, names relationships and draws flows. Goes through an objective quality gate.</p></li>
+      <li class="rv"><span class="who">Sonnet · fixes</span><h3>Metrics, generation and checks</h3><p>Ties metrics to sources, runs the pipeline and checks coverage, links and scripts. Fixes from findings already written down.</p></li>
+    </ol>
+    <div class="table-scroll rv" style="margin-top:var(--space-7)">
+      <table class="agents">
+        <caption>The six agents the installer puts in ~/.claude/agents/</caption>
+        <thead><tr><th scope="col">Agent</th><th scope="col">Model</th><th scope="col">Effort</th><th scope="col">Does</th></tr></thead>
+        <tbody>
+          <tr><td><code>lodemap-inventario</code></td><td>haiku</td><td>low</td><td>Lists modules, entry points and dependencies; does not edit</td></tr>
+          <tr><td><code>lodemap-modelador</code></td><td>sonnet</td><td>high</td><td>Containers, components, relationships, views, flows and status</td></tr>
+          <tr><td><code>lodemap-metricas</code></td><td>sonnet</td><td>low</td><td>Pulls numbers from evidence with file and commit checked</td></tr>
+          <tr><td><code>lodemap-gerador</code></td><td>sonnet</td><td>medium</td><td>Templates, <code>lodemap.json</code> and the update pipeline</td></tr>
+          <tr><td><code>lodemap-verificador</code></td><td>haiku</td><td>medium</td><td>Coverage, wikilinks, <code>node --check</code> and a headless browser; does not edit</td></tr>
+          <tr><td><code>lodemap-revisor-visual</code></td><td>sonnet</td><td>high</td><td>Only when you ask for a visual change; compares before and after captures</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="flow-line rv" aria-label="Flow order"><span>inventory</span><i>→</i><span>modeler</span><i>→</i><span class="gate">quality gate</span><i>→</i><span>metrics ∥ generator</span><i>→</i><span>verifier</span></p>
+    <p class="note rv">No skill agent uses Opus. In "update on every merge" mode only scripts run; the modeler joins only if coverage fails or a module shows up without a component.</p>
+  </div>
+</section>
+
+<section id="proof" aria-labelledby="h-proof">
+  <div class="wrap">
+    <p class="eyebrow">Proof</p>
+    <h2 id="h-proof">Only what was measured shows up here.</h2>
+    <p class="lede">Every number has an evidence file and a date. The raw records are in <code>references/benchmark-e-custo.md</code>
+      and <code>references/custo-equivalente.json</code>, in the skill's repository.</p>
+    <div class="proof">
+      <div class="rv"><span class="v">3</span><span class="k">Real repositories mapped</span><span class="src">Axon Voice (Python, Electron, web) and an agent factory on 2026-11-02; UACR (agent router) on 2026-11-06</span></div>
+      <div class="rv"><span class="v">63/63</span><span class="k">Modules covered in the 2nd project</span><span class="src">316 Python files, 8 code folders · Sonnet 5.5, one agent · 2026-11-02</span></div>
+      <div class="rv"><span class="v">95.2</span><span class="k">Quality gate score</span><span class="src">Objective rubric run by a script, 14 criteria; the pass mark was 72.2 · 2026-11-02</span></div>
+      <div class="rv"><span class="v">~12 min</span><span class="k">From clone to the first green map</span><span class="src">Same run; 25 of 25 tests at the end · 2026-11-02</span></div>
+      <div class="rv"><span class="v">11–17 s</span><span class="k">Full update with no model</span><span class="src"><code>atualizar.ps1</code> with the static site, 0 tokens · 2026-11-02</span></div>
+      <div class="rv"><span class="v">42</span><span class="k">Skill tests passing</span><span class="src">Installer, permission, hooks, launcher and new map end to end · Windows, Python 3.12 · 2026-11-08</span></div>
+    </div>
+    <p class="note rv">Security audit of 2026-11-05: 0 critical findings; 3 high (2 fixed with tests, 1 documented in the README), 9 medium and 9 low. In the 3rd repository the explorer shows 22 components and 21 relationships confirmed in the code by the AST mode.</p>
+  </div>
+</section>
+
+<section id="difference" aria-labelledby="h-difference">
+  <div class="wrap">
+    <p class="eyebrow">How it differs from generated wikis</p>
+    <h2 id="h-difference">The map lives in your repository, not on a platform.</h2>
+    <p class="lede">Tools like DeepWiki and Google Code Wiki generate and host the docs for you, with chat over the code. It is a
+      good product. Lodemap bets on something else: an architecture model that is versioned, checked by a test and cheap to keep.</p>
+    <div class="table-scroll rv">
+      <table class="vs">
+        <caption>Comparison by approach, with the source for each row</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Generated, hosted wikis</th><th scope="col">Lodemap</th></tr></thead>
+        <tbody>
+          <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, in Structurizr DSL (C4), reviewable in pull requests</td></tr>
+          <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Token-free scripts on every commit; the model joins only when the structure changes</td></tr>
+          <tr><td>Coverage</td><td>On large repositories DeepWiki may leave folders out; you can list up to 30 pages (80 on Enterprise) in <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (63 of 63 in the proof run)</td></tr>
+          <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Floor of US$ 2.65 per map (measured once); an update with no structural change makes no model call</td></tr>
+          <tr><td>Private repositories</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist, on 2025-11-13 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts run on your machine; model steps send the code they read to Anthropic, through the Claude Code you already use</td></tr>
+          <tr><td>What they do and we don't</td><td>Chat over the code and zero install</td><td>No chat of its own: your agent asks the questions, using the map</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note rv">Sources checked on 2026-11-05; claims about other products hold as far as could be checked that day. [1] Google Developers Blog, "Introducing Code Wiki". [2] Devin docs, "DeepWiki repository wikis".</p>
+  </div>
+</section>
+
+<section id="cost" aria-labelledby="h-cost">
+  <div class="wrap">
+    <p class="eyebrow">Cost</p>
+    <h2 id="h-cost">A full map from US$ 2.65 (floor). Updating on every commit makes no model call.</h2>
+    <p class="lede">Docs stay alive only if updating is free. Repetitive work goes to scripts, and the model joins only when
+      the structure changes.</p>
+    <div class="econ">
+      <div class="econ-hero rv">
+        <span class="econ-v">0</span>
+        <span class="econ-k">model calls per update with no structural change</span>
+        <p>Diff, regeneration of the map, reader and docs, checks and the coverage test. Scripts only, 11 to 17 seconds.</p>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">US$&nbsp;2.65</span>
+        <span class="econ-k">full map of a 63-module repository</span>
+        <p>Sonnet 5.5, one agent, 93 calls, 25 minutes, including 6 fixes to the skill itself. Quality gate 95.2.</p>
+        <span class="econ-tag">floor: uncached input and cache writes were not recorded</span>
+      </div>
+      <div class="econ-card rv">
+        <span class="econ-v">−87%</span>
+        <span class="econ-k">from US$ 20.88 to US$ 2.65</span>
+        <p>The 1st run used Opus for everything, on a 98-module repository, and included writing the skill itself. The 2nd was a single Sonnet agent on another repository (63 modules): 64% fewer output tokens and 74% fewer cache reads.</p>
+        <span class="econ-tag">floor at both ends; two different runs, not a controlled test</span>
+      </div>
+      <div class="econ-card econ-proj rv">
+        <span class="econ-v">US$&nbsp;0.22–1.10</span>
+        <span class="econ-k">projection with Haiku 5.5</span>
+        <p>The same tokens at Haiku prices. The figure depends on whether each call stays under or over 100k prompt tokens.</p>
+        <span class="sds-badge sds-badge--warn">projection, not yet measured</span>
+      </div>
+    </div>
+    <details class="method rv">
+      <summary>How these numbers were computed</summary>
+      <p>Tokens come from the agents' logs, deduplicated per message, multiplied by the official API prices
+        (platform.claude.com/docs/en/about-claude/pricing, checked on 2026-11-05). Sonnet 5.5: US$ 10 per million output
+        tokens and US$ 0.10 per million cache reads. The runs used a Claude Code subscription, so the figure is the
+        API-equivalent cost, not a bill. Tokens, prices and what was not recorded in each run are in
+        <code>references/custo-equivalente.json</code>; the <code>plano</code> command reads its estimate from that file before you authorize anything.</p>
+    </details>
+  </div>
+</section>
+
+<section id="install" aria-labelledby="h-install">
+  <div class="wrap">
+    <p class="eyebrow">Install</p>
+    <h2 id="h-install">Three commands. Nothing is written before you see it.</h2>
+    <p class="lede">Requires Python 3.11+ and git. The installer prints every change, backs up everything it touches and reverts byte for byte.</p>
+    <div class="install">
+      <div>
+        <figure class="term rv">
+          <figcaption class="term-head"><span>Install the skill and the six agents</span><button class="sds-btn" type="button" data-copiar="i1" data-ok="Copied">Copy</button></figcaption>
+<pre id="i1"><span class="c"># the public repository opens at launch</span>
+git clone https://github.com/skarL007/lodemap &amp;&amp; cd lodemap
+python -m lodemap instalar --perfil padrao            <span class="c"># dry run: prints only</span>
+python -m lodemap instalar --perfil padrao --aplicar  <span class="c"># applies, with backups and a manifest</span></pre>
+        </figure>
+        <figure class="term rv">
+          <figcaption class="term-head"><span>Permission, per repository</span><button class="sds-btn" type="button" data-copiar="i2" data-ok="Copied">Copy</button></figcaption>
+<pre id="i2">python -m lodemap plano --repo .   <span class="c"># 0 tokens: modules, cost, time, files</span>
+python -m lodemap consentir --repo . --escopos gerar,modelo --orcamento-mensal 5
+python -m lodemap reverter         <span class="c"># undoes the latest install</span></pre>
+        </figure>
+      </div>
+      <ul class="consent rv">
+        <li><b>A plan before anything</b><code>plano</code> counts modules, estimates cost and time from the measured run and lists the files it would create. It makes no model call. If it finds no module, it warns instead of estimating zero.</li>
+        <li><b>Consent per scope</b><code>gerar</code> (scripts only), <code>gancho</code> (commit hook), <code>modelo</code> (model steps, within a finite monthly ceiling) and <code>synapse</code> (optional note).</li>
+        <li><b>What consent is not</b>A record the skill and its agents read and follow. No hook enforces it; the only hook installed prints a one-time hint.</li>
+        <li><b>Optional commit hook</b>Runs only scripts whose hash was approved. After a <code>git pull</code> that changes them, it logs a warning and runs nothing until you approve again.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="limits" aria-labelledby="h-limits">
+  <div class="wrap">
+    <p class="eyebrow">Known limits</p>
+    <h2 id="h-limits">What it does not do yet.</h2>
+    <ul class="limits">
+      <li><b>Generation is Windows-first.</b> <code>atualizar.ps1</code> calls <code>structurizr.bat</code> and <code>dot.exe</code>. The installer, permission flow, new-map scaffold and tests also run on Linux (WSL Ubuntu).</li>
+      <li><b>Relationship proof covers Python and JS/TS</b> in AST mode. For other languages use a CodeGraph index; without one, the relationship is marked "model only".</li>
+      <li><b>Messages in Brazilian Portuguese.</b> Prompts, agents and script output.</li>
+      <li><b>The reader does not draw</b> Mermaid <code>mindmap</code>, <code>architecture</code> or math; the block shows a notice and keeps its text.</li>
+      <li><b>Model steps send the code</b> they read to Anthropic, through Claude Code. The scripts make no network call.</li>
+      <li><b>Not measured:</b> whether the map makes an agent solve tasks better or cheaper. A study of context files (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) found no general gain and a 20% higher cost; it did not test C4 maps.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="status" aria-labelledby="h-status">
+  <div class="wrap">
+    <p class="eyebrow">Project status</p>
+    <h2 id="h-status">What is ready and what is left before launch.</h2>
+    <div class="meter rv" role="group" aria-label="Launch progress">
+      <div class="meter-row"><span>Launch items done</span><b>6 of 10</b></div>
+      <div class="meter-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="6" aria-label="6 of 10 items"><span style="width:60%"></span></div>
+    </div>
+    <ul class="status-list">
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>Map generation, explorer, reader with Mermaid, quality gate and incremental update, proven on 3 real repositories.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>Reversible installer with two profiles, per-scope permission and a hash-approved commit hook; 42 tests passing.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>Security audit (Nov 5) and launch audit (Nov 8), with the low-risk fixes applied.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>Lean scope: map and docs only. Default agents, safety hooks and telemetry stayed in Synapse.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>README with cost, limits and security; MIT license, third-party notices and a 0.1.0 changelog.</span></li>
+      <li><span class="sds-badge sds-badge--ok">Ready</span><span>CI configured for Linux and Windows, Python 3.11 and 3.12.</span></li>
+      <li><span class="sds-badge sds-badge--info">Left</span><span>Publish the repository on GitHub and run CI for the first time.</span></li>
+      <li><span class="sds-badge sds-badge--info">Left</span><span>An example map of a public project inside the repository, with a capture in the README.</span></li>
+      <li><span class="sds-badge sds-badge--info">Left</span><span>A portable generation pipeline (Linux and macOS) and a quality baseline that does not depend on the first project.</span></li>
+      <li><span class="sds-badge">Planned</span><span>Public cost campaign: several public repositories, three runs per model, cost taken from billing.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="family" aria-labelledby="h-family">
+  <div class="wrap">
+    <div class="layers">
+      <article class="layer rv">
+        <header><h3 id="h-family">Lodemap</h3><span class="sds-badge sds-badge--info">This page</span></header>
+        <p>The project's map and docs. Works on its own, with no server. CodeGraph (token-free relationships) and Synapse (project lessons) are optional integrations.</p>
+      </article>
+      <article class="layer rv">
+        <header><h3>Synapse</h3><span class="sds-badge sds-badge--warn">In development</span></header>
+        <p>Project memory for agents, in Rust, with a pre-execution firewall, default agents and honest telemetry. <a href="../#p-syn">See it in the portfolio</a>.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="end" aria-labelledby="h-end">
+  <div class="wrap">
+    <h2 id="h-end">Want a map of your repository?</h2>
+    <p class="lede">The repository opens soon. Until then, reach out for a live demo or to try it on your code.</p>
+    <div class="hero-actions">
+      <a class="sds-btn sds-btn--primary" href="../#contato">Talk to Marcelo</a>
+      <a class="sds-btn" href="https://github.com/skarL007" rel="noopener">Follow on GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Marcelo Machuca · AI Solutions Developer</span>
+    <span>Product concept and direction by Marcelo; built with the help of AI agents. <a href="../">Back to the portfolio</a></span>
+  </div>
+</footer>
+</body>
+</html>

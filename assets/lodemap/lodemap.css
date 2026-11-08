@@ -1,0 +1,53 @@
+/* Página do Lodemap: complementa synapse.css (mesmo design system, tokens em ../synapse/tokens.css). */
+
+/* o que você recebe */
+.outputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);margin:var(--space-7) 0 0;padding:0;list-style:none}
+.outputs li{display:flex;flex-direction:column;padding:var(--space-5);border-radius:var(--radius-surface);border:var(--hairline) solid var(--separator);background:var(--surface)}
+.outputs .ico{width:32px;height:32px;display:grid;place-items:center;margin-bottom:var(--space-4);border-radius:var(--radius-control);background:var(--brand-tint);color:var(--brand)}
+.outputs .ico svg{width:18px;height:18px}
+.outputs p{font-size:var(--text-sm)}
+.outputs code,.agents code,.install code,.limits code{font-family:var(--font-mono);font-size:var(--text-xs)}
+.outputs .path{margin-top:auto;padding-top:var(--space-4);color:var(--label-3);font:var(--weight-medium) var(--text-xs)/1.4 var(--font-mono)}
+@media (max-width:960px){.outputs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.outputs{grid-template-columns:1fr}}
+
+/* galeria com três capturas novas */
+.gallery.g3 .frame:nth-child(1){grid-column:1/-1}
+.gallery.g3 .frame:nth-child(2),.gallery.g3 .frame:nth-child(3){grid-column:span 6}
+.gallery.g3 .frame:nth-child(n+2) img{aspect-ratio:16/10;object-fit:cover;object-position:left top}
+@media (max-width:760px){.gallery.g3 .frame:nth-child(2),.gallery.g3 .frame:nth-child(3){grid-column:1/-1}}
+
+/* agentes */
+.agents td:nth-child(2),.agents td:nth-child(3){white-space:nowrap;font-family:var(--font-mono);font-size:var(--text-xs)}
+.flow-line{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin-top:var(--space-5);font:var(--weight-medium) var(--text-xs)/1.4 var(--font-mono);color:var(--label-2)}
+.flow-line span{padding:var(--space-1) var(--space-3);border-radius:999px;border:var(--hairline) solid var(--separator);background:var(--bg-grouped)}
+.flow-line span.gate{border-color:var(--brand);color:var(--brand);background:var(--brand-tint)}
+.flow-line i{font-style:normal;color:var(--label-3)}
+
+/* instalação */
+.install{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);margin-top:var(--space-7);align-items:start}
+.consent{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--space-7)}
+@media (max-width:760px){.consent{grid-template-columns:1fr}}
+.term{margin:0;border-radius:var(--radius-surface);border:var(--hairline) solid var(--separator);background:var(--bg-grouped);overflow:hidden}
+.term-head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);padding:var(--space-2) var(--space-4);border-bottom:var(--hairline) solid var(--separator);color:var(--label-3);font-size:var(--text-xs)}
+.term-head button{min-height:28px;padding:0 var(--space-3);font-size:var(--text-xs)}
+.term pre{margin:0;padding:var(--space-4) var(--space-5);overflow-x:auto;font:var(--weight-medium) var(--text-sm)/1.7 var(--font-mono);color:var(--label)}
+.term .c{color:var(--label-3)}
+.term + .term{margin-top:var(--space-4)}
+.consent{margin:0;padding:0;list-style:none;border-top:var(--hairline) solid var(--separator)}
+.consent li{padding:var(--space-4) 0;border-bottom:var(--hairline) solid var(--separator);color:var(--label-2);font-size:var(--text-sm)}
+.consent b{display:block;margin-bottom:var(--space-1);color:var(--label);font-weight:var(--weight-semibold)}
+
+/* limites */
+.limits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--space-7);margin:var(--space-7) 0 0;padding:0;list-style:none;border-top:var(--hairline) solid var(--separator)}
+.limits li{padding:var(--space-4) 0;border-bottom:var(--hairline) solid var(--separator);color:var(--label-2);font-size:var(--text-sm)}
+.limits b{color:var(--label);font-weight:var(--weight-semibold)}
+@media (max-width:760px){.limits{grid-template-columns:1fr}}
+
+/* progresso do lançamento */
+.meter{margin-top:var(--space-6);max-width:560px}
+.meter-row{display:flex;justify-content:space-between;color:var(--label-2);font-size:var(--text-sm)}
+.meter-row b{color:var(--label);font-variant-numeric:tabular-nums}
+.meter-bar{height:8px;margin-top:var(--space-2);border-radius:999px;background:var(--bg-grouped);border:var(--hairline) solid var(--separator);overflow:hidden}
+.meter-bar span{display:block;height:100%;background:var(--brand);border-radius:inherit}
+.copied{color:var(--brand)}
