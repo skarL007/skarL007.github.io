@@ -163,7 +163,7 @@
       <div class="rv"><span class="v">11–17 s</span><span class="k">Full update with no model</span><span class="src"><code>atualizar.ps1</code> with the static site, 0 tokens · 2026-11-02</span></div>
       <div class="rv"><span class="v">42</span><span class="k">Skill tests passing</span><span class="src">Installer, permission, hooks, launcher and new map end to end · Windows, Python 3.12 · 2026-11-08</span></div>
     </div>
-    <p class="note rv">Security audit of 2026-11-05: 0 critical findings; 3 high (2 fixed with tests, 1 documented in the README), 9 medium and 9 low. In the 3rd repository the explorer shows 22 components and 21 relationships confirmed in the code by the AST mode.</p>
+    <p class="note rv">Security audit of 2026-11-05: 0 critical findings; 3 high (2 fixed with tests, 1 documented in the README), 9 medium and 9 low. On the 3rd repository (UACR) the gate scored 92.9. An independent audit on 2026-11-08, with a Sonnet agent reading the code and a random sample (seed 7), found that all 7 relationships the AST mode missed are real, through a subprocess or a generated file; 8 of 10 sampled relationships exist (1 is only planned, 1 could not be checked); 7 of 10 descriptions are correct and 3 incomplete, none wrong. Small samples: the 95% interval for 8 of 10 runs from 49% to 94%.</p>
   </div>
 </section>
 
@@ -181,7 +181,7 @@
           <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, in Structurizr DSL (C4), reviewable in pull requests</td></tr>
           <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Token-free scripts on every commit; the model joins only when the structure changes</td></tr>
           <tr><td>Coverage</td><td>On large repositories DeepWiki may leave folders out; you can list up to 30 pages (80 on Enterprise) in <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (63 of 63 in the proof run)</td></tr>
-          <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Floor of US$ 2.65 per map (measured once); an update with no structural change makes no model call</td></tr>
+          <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>US$ 3.61 per map in API-equivalent cost (measured once); an update with no structural change makes no model call</td></tr>
           <tr><td>Private repositories</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist, on 2025-11-13 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts run on your machine; model steps send the code they read to Anthropic, through the Claude Code you already use</td></tr>
           <tr><td>What they do and we don't</td><td>Chat over the code and zero install</td><td>No chat of its own: your agent asks the questions, using the map</td></tr>
         </tbody>
@@ -194,7 +194,7 @@
 <section id="cost" aria-labelledby="h-cost">
   <div class="wrap">
     <p class="eyebrow">Cost</p>
-    <h2 id="h-cost">A full map from US$ 2.65 (floor). Updating on every commit makes no model call.</h2>
+    <h2 id="h-cost">A full map for US$ 3.61 in the one run we measured. Updating on every commit makes no model call.</h2>
     <p class="lede">Docs stay alive only if updating is free. Repetitive work goes to scripts, and the model joins only when
       the structure changes.</p>
     <div class="econ">
@@ -204,30 +204,31 @@
         <p>Diff, regeneration of the map, reader and docs, checks and the coverage test. Scripts only, 11 to 17 seconds.</p>
       </div>
       <div class="econ-card rv">
-        <span class="econ-v">US$&nbsp;2.65</span>
+        <span class="econ-v">US$&nbsp;3.61</span>
         <span class="econ-k">full map of a 63-module repository</span>
         <p>Sonnet 5.5, one agent, 93 calls, 25 minutes, including 6 fixes to the skill itself. Quality gate 95.2.</p>
-        <span class="econ-tag">floor: uncached input and cache writes were not recorded</span>
+        <span class="econ-tag">all four token types counted; the orchestrator that dispatched the agent is left out</span>
       </div>
       <div class="econ-card rv">
-        <span class="econ-v">−87%</span>
-        <span class="econ-k">from US$ 20.88 to US$ 2.65</span>
+        <span class="econ-v">−84%</span>
+        <span class="econ-k">from US$ 22.37 to US$ 3.61</span>
         <p>The 1st run used Opus for everything, on a 98-module repository, and included writing the skill itself. The 2nd was a single Sonnet agent on another repository (63 modules): 64% fewer output tokens and 74% fewer cache reads.</p>
-        <span class="econ-tag">floor at both ends; two different runs, not a controlled test</span>
+        <span class="econ-tag">two different runs on different repositories; not a controlled test</span>
       </div>
       <div class="econ-card econ-proj rv">
-        <span class="econ-v">US$&nbsp;0.22–1.10</span>
+        <span class="econ-v">US$&nbsp;1.26</span>
         <span class="econ-k">projection with Haiku 5.5</span>
-        <p>The same tokens at Haiku prices. The figure depends on whether each call stays under or over 100k prompt tokens.</p>
+        <p>The same tokens at Haiku prices. 87 of the 93 calls went over 100k prompt tokens, so nearly all of them land in Haiku's higher price tier.</p>
         <span class="sds-badge sds-badge--warn">projection, not yet measured</span>
       </div>
     </div>
     <details class="method rv">
       <summary>How these numbers were computed</summary>
       <p>Tokens come from the agents' logs, deduplicated per message, multiplied by the official API prices
-        (platform.claude.com/docs/en/about-claude/pricing, checked on 2026-11-05). Sonnet 5.5: US$ 10 per million output
-        tokens and US$ 0.10 per million cache reads. The runs used a Claude Code subscription, so the figure is the
-        API-equivalent cost, not a bill. Tokens, prices and what was not recorded in each run are in
+        (platform.claude.com/docs/en/about-claude/pricing, checked on 2026-11-08). Sonnet 5.5: US$ 10 per million output
+        tokens, US$ 0.10 per million cache reads and US$ 4 per million 1-hour cache writes, the kind these runs used. Input,
+        cache writes, cache reads and output all count. The runs used a Claude Code subscription, so the figure is the
+        API-equivalent cost, not a bill. Tokens, prices and what each run leaves out are in
         <code>references/custo-equivalente.json</code>; the <code>plano</code> command reads its estimate from that file before you authorize anything.</p>
     </details>
   </div>
