@@ -224,6 +224,9 @@ body.lm{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--d
 .phase-list span:last-child{color:var(--ink-2);font-size:15px}
 .phases .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 @media (max-width:860px){.phases{grid-template-columns:1fr}}
+.phases.proof-gate{margin:0 0 clamp(40px,5vw,64px);align-items:center}
+.proof-gate .actions{justify-content:flex-start;margin-top:22px}
+.proof-gate .win video{width:100%;height:auto;aspect-ratio:1084/736;background:var(--card-2)}
 
 .pipe{display:flex;flex-wrap:wrap;align-items:center;gap:8px 0;margin-top:40px;font:400 11.5px/1 var(--mono)}
 .pipe span{padding:10px 14px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);background:var(--bg)}
@@ -267,7 +270,7 @@ body.lm{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--d
 
 /* 06 custo */
 .bars{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
-.bars li{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) 128px;gap:10px 28px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.bars li{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) minmax(128px,max-content);gap:10px 28px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
 .bars .lab b{display:block;font-weight:600;font-size:17px}
 .bars .lab span{color:var(--ink-3);font-size:13.5px}
 .bars .track{height:14px;border-radius:999px;background:var(--bg-2);overflow:hidden}

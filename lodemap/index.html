@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lodemap: arquitetura viva para Claude Code · Marcelo Machuca</title>
-<meta name="description" content="Skill open source para Claude Code que gera um mapa C4 do repositório em Structurizr DSL, com explorador interativo, leitor de documentação e um teste que falha quando um módulo fica fora. Atualizar a cada commit não chama modelo.">
+<meta name="description" content="Skill open source para Claude Code que gera um mapa C4 do repositório em Structurizr DSL, com explorador interativo, leitor de documentação e um teste que falha quando um módulo fica fora. Commit sem mudança de estrutura não chama modelo.">
 <meta name="theme-color" content="#0b0a09" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://skarl007.github.io/lodemap/">
@@ -12,18 +12,18 @@
 <link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/lodemap/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lodemap: arquitetura viva para Claude Code">
-<meta property="og:description" content="Mapa C4 versionado no seu repositório, conferido por teste e atualizado a cada commit sem chamar modelo.">
+<meta property="og:description" content="Mapa C4 versionado no seu repositório, conferido por teste e atualizado por scripts; o modelo só volta quando a estrutura muda.">
 <meta property="og:url" content="https://skarl007.github.io/lodemap/">
-<meta property="og:image" content="https://skarl007.github.io/assets/lodemap/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Explorador do Lodemap tocando um fluxo passo a passo, com o percurso listado ao lado">
+<meta property="og:image" content="https://skarl007.github.io/assets/lodemap/demo-axios-fluxo-poster.webp">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1200">
+<meta property="og:image:alt" content="Explorador do Lodemap no mapa do axios, tocando o fluxo “request lifecycle (Node.js)” de 13 passos, com o percurso no painel da direita">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
-<link rel="stylesheet" href="../assets/lodemap/lodemap.css?v=20261108">
+<link rel="stylesheet" href="../assets/lodemap/lodemap.css?v=20261110">
 <script defer src="../assets/synapse/synapse.js"></script>
 <script defer src="../assets/lodemap/lodemap.js?v=20261108"></script>
 <script type="application/ld+json">
@@ -55,20 +55,20 @@
     <h1 id="h-hero"><span class="ln"><span>A arquitetura</span></span><span class="ln"><span>do seu código,</span></span><span class="ln"><span><em>sempre atual.</em></span></span></h1>
     <div class="hero-row">
       <p class="lede">Agentes leem o repositório e montam um mapa C4 com fluxos animados, um leitor de documentação e um teste que
-        falha quando um módulo fica de fora. Depois disso, cada commit atualiza tudo só com scripts, sem chamar modelo.</p>
+        falha quando um módulo fica de fora. Depois disso, um commit que não muda a estrutura atualiza tudo só com scripts, e o modelo só volta para o que mudou.</p>
       <div class="actions">
-        <a class="btn btn--acc" href="#recebe">Ver o que ele gera <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn--acc" href="demo/">Abrir a demo ao vivo <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn" href="#provas">O que já foi medido</a>
       </div>
     </div>
     <figure class="win hero-shot rv">
-      <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>docs/architecture/structurizr/explorador/index.html</span><span>localhost</span></div>
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../assets/lodemap/explorador-fluxo-pt-poster.webp" aria-label="Gravação real do explorador tocando um fluxo animado, passo a passo">
-        <source src="../assets/lodemap/explorador-fluxo-pt.webm" type="video/webm">
-        <source src="../assets/lodemap/explorador-fluxo-pt.mp4" type="video/mp4">
+      <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>docs/architecture/structurizr/explorador/index.html</span><span>axios v1.21.1</span></div>
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../assets/lodemap/demo-axios-fluxo-poster.webp" aria-label="Gravação real do explorador tocando o fluxo “request lifecycle (Node.js)”, de 13 passos, no mapa do axios">
+        <source src="../assets/lodemap/demo-axios-fluxo.webm" type="video/webm">
+        <source src="../assets/lodemap/demo-axios-fluxo.mp4" type="video/mp4">
       </video>
-      <img class="hero-still" src="../assets/lodemap/explorador-fluxo-pt-2x.webp" width="2880" height="1800" alt="Explorador do Lodemap no passo 3 de 5 de um fluxo de roteamento, com o percurso no painel da direita">
-      <figcaption><span>Gravação real: o explorador tocando um fluxo de 6 passos no mapa do 3º repositório</span><span>15 s · 2x · sem cortes</span></figcaption>
+      <img class="hero-still" src="../assets/lodemap/demo-axios-fluxo-2x.webp" width="2880" height="1800" alt="Explorador do Lodemap no mapa do axios, no passo 4 de 13 do fluxo “request lifecycle (Node.js)”, com o percurso no painel da direita">
+      <figcaption><span>Gravação real: o explorador tocando o fluxo “request lifecycle (Node.js)”, de 13 passos, no mapa do axios (interface e mapa em inglês)</span><span>17 s · 2x · sem cortes</span></figcaption>
     </figure>
   </div>
 </section>
@@ -76,22 +76,22 @@
 <div class="ticker" aria-label="Números medidos">
   <div class="ticker-track">
     <ul>
-      <li><b>0</b>chamadas de modelo por commit</li>
-      <li><b>US$ 2,84</b>por mapa completo</li>
-      <li><b>96,5</b>nota do gate de qualidade</li>
-      <li><b>20/20</b>relações auditadas no código</li>
-      <li><b>63/63</b>módulos no mapa</li>
-      <li><b>11–17 s</b>por atualização</li>
-      <li><b>49</b>testes passando</li>
+      <li><b>72/72</b>módulos do axios no mapa</li>
+      <li><b>US$ 1,74</b>mapa completo</li>
+      <li><b>US$ 0,47</b>atualização de versão</li>
+      <li><b>0</b>chamadas de modelo em commit sem mudança de estrutura</li>
+      <li><b>94,5</b>nota do gate de qualidade</li>
+      <li><b>177/177</b>imports do código no modelo</li>
+      <li><b>238</b>testes passando</li>
     </ul>
     <ul aria-hidden="true">
-      <li><b>0</b>chamadas de modelo por commit</li>
-      <li><b>US$ 2,84</b>por mapa completo</li>
-      <li><b>96,5</b>nota do gate de qualidade</li>
-      <li><b>20/20</b>relações auditadas no código</li>
-      <li><b>63/63</b>módulos no mapa</li>
-      <li><b>11–17 s</b>por atualização</li>
-      <li><b>49</b>testes passando</li>
+      <li><b>72/72</b>módulos do axios no mapa</li>
+      <li><b>US$ 1,74</b>mapa completo</li>
+      <li><b>US$ 0,47</b>atualização de versão</li>
+      <li><b>0</b>chamadas de modelo em commit sem mudança de estrutura</li>
+      <li><b>94,5</b>nota do gate de qualidade</li>
+      <li><b>177/177</b>imports do código no modelo</li>
+      <li><b>238</b>testes passando</li>
     </ul>
   </div>
 </div>
@@ -175,19 +175,19 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     </ul>
     <div class="shots">
       <figure class="win rv">
-        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>explorador · Runtime UACR · inspetor</span></div>
-        <img src="../assets/lodemap/explorador-componente-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Explorador com o componente Inferência do roteador em foco: só as duas dependências dele acesas no grafo e, no inspetor, status, código, marcadores e o impacto de mudar o elemento">
-        <figcaption><span>Foco num componente: dependências, código e impacto de mudar</span><span>Captura real 2x · 3º repositório</span></figcaption>
+        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>explorador · axios · inspetor</span></div>
+        <img src="../assets/lodemap/demo-axios-componente-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Explorador no mapa do axios com o componente Multipart body builder em foco: ele e a dependência dele destacados no grafo e, no inspetor, descrição, status, código, marcadores e o impacto de mudar o elemento">
+        <figcaption><span>Foco num componente: dependências, código e impacto de mudar</span><span>Captura real 2x · mapa do axios (interface em inglês)</span></figcaption>
       </figure>
       <figure class="win rv">
-        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>leitor · mapa mental</span></div>
-        <img src="../assets/lodemap/leitor-mermaid-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Leitor de documentação desenhando um mapa mental Mermaid com os ramos Existente, Proposta, Avaliação e Questão aberta">
-        <figcaption><span>Mermaid offline, inclusive mapa mental, architecture e fórmulas</span><span>Captura real 2x</span></figcaption>
+        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>explorador · containers</span></div>
+        <img src="../assets/lodemap/demo-axios-containers-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Visão de containers do axios no explorador: o desenvolvedor da aplicação, o pacote axios e os quatro ambientes de execução (Node.js, XMLHttpRequest no navegador, Fetch API e proxy HTTP)">
+        <figcaption><span>Visão de containers do mapa do axios</span><span>Captura real 2x</span></figcaption>
       </figure>
       <figure class="win rv">
-        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>leitor · decisões</span></div>
-        <img src="../assets/lodemap/leitor-decisoes-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Linha do tempo de decisões do leitor: seis ADRs, cinco aceitas e uma proposta, da mais nova para a mais antiga">
-        <figcaption><span>Decisões em linha do tempo, com status e elementos do mapa</span><span>Captura real 2x</span></figcaption>
+        <div class="win-bar" aria-hidden="true"><i><b></b><b></b><b></b></i><span>leitor · visão geral</span></div>
+        <img src="../assets/lodemap/demo-axios-leitor-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Leitor de documentação do axios na visão geral: guias, referência (mapa de status, catálogo de observabilidade, métricas e registro de mudanças) e a decisão 0001">
+        <figcaption><span>Documentação gerada a partir do modelo, com busca e decisões</span><span>Captura real 2x</span></figcaption>
       </figure>
     </div>
   </div>
@@ -216,7 +216,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <p>Um script monta o rascunho (um componente por módulo e as relações achadas no código) sem gastar token. O modelador só
           preenche as decisões num JSON, e outro script escreve o DSL. Cada fase roda com um agente novo, então o contexto não
           acumula. Ao rodar de novo, só o que mudou no código volta para decisão.</p>
-        <div class="facts"><span class="tag">contexto máx. 80.170 tokens</span><span class="tag">0 de 98 chamadas acima de 100 mil</span></div>
+        <div class="facts"><span class="tag">nenhuma chamada acima de 100 mil tokens</span><span class="tag">pico de 97 mil tokens de contexto</span></div>
       </div>
       <ol class="phase-list">
         <li><span class="l">A</span><b>Containers, áreas e sistemas externos</b><span>A visão de cima, decidida primeiro.</span></li>
@@ -252,25 +252,42 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <p class="idx"><b>04</b>Provas</p>
       <div>
         <h2 id="h-provas">Só aparece aqui <em>o que foi medido.</em></h2>
-        <p class="lede">Cada número tem arquivo de evidência e data. Os registros brutos estão em <code>references/benchmark-e-custo.md</code>
-          e <code>references/custo-equivalente.json</code>, no repositório da skill.</p>
+        <p class="lede">Todo número vem de uma rodada em repositório público: o mapa do axios e a revisão de descrições no rich. Abra o mapa na demo e confira.</p>
       </div>
     </div>
+    <div class="phases proof-gate rv">
+      <div>
+        <span class="tag tag--acc">Atualização real do axios</span>
+        <h3 style="margin-top:16px">O teste falha quando o código cresce</h3>
+        <p>O axios publicou a v1.21.1 (99 commits; 27 arquivos mudaram em <code>lib/</code>, 3 deles novos). Depois do merge, o teste de cobertura falhou citando os 3 arquivos sem componente: <code>lib/core/assertParamsAcyclic.js</code>, <code>lib/core/createMultipartBody.js</code> e <code>lib/helpers/formDataToBlob.js</code>. O script (0 tokens) apontou 3 módulos novos, 16 dos 24 arquivos alterados com superfície pública diferente e 12 relações novas. Uma chamada de Haiku (26.029 tokens, 34 s) descreveu os 3 novos e revisou os 16. O modelador em Sonnet (19 chamadas, 129 s, US$ 0,45) decidiu container, status e as 12 relações. Os scripts regeneraram tudo em 17 s. Total: no máximo US$ 0,47. O teste voltou a passar.</p>
+        <div class="actions">
+          <a class="btn btn--acc" href="demo/explorador/index.html">Abrir o explorador <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn" href="demo/leitor/index.html">Abrir o leitor de documentação</a>
+        </div>
+      </div>
+      <figure class="win">
+        <video controls muted playsinline preload="none" width="1084" height="736" poster="../assets/lodemap/demo-axios-gate-poster.webp" aria-label="Gravação do terminal, em inglês: o teste de cobertura falha, os scripts e os agentes atualizam o mapa do axios e o teste passa">
+          <source src="../assets/lodemap/demo-axios-gate.mp4" type="video/mp4">
+          Seu navegador não toca este vídeo.
+        </video>
+        <figcaption><span>Gravação real do terminal no mapa do axios, da v1.20.0 para a v1.21.1 (em inglês)</span><span>41 s</span></figcaption>
+      </figure>
+    </div>
     <div class="stats">
-      <div class="stat rv"><span class="v" data-to="3">3</span><span class="k">Repositórios reais mapeados</span><span class="src">Axon Voice (Python, Electron, web) e Fábrica de Agentes em 02/11/2026; UACR (roteador de agentes) em 06/11/2026</span></div>
-      <div class="stat rv"><span class="v">63<small>/63</small></span><span class="k">Módulos cobertos no 2º projeto</span><span class="src">316 arquivos Python, 8 pastas de código; o teste de cobertura falharia com um a menos</span></div>
-      <div class="stat rv"><span class="v" data-to="96.5" data-dec="1">96,5</span><span class="k">Nota do gate na geração em fases</span><span class="src">Rubrica objetiva por script, 14 critérios, na primeira tentativa; 95,2 na rodada anterior; mínimo para passar 72,2 · 08/11/2026</span></div>
-      <div class="stat rv"><span class="v">20<small>/20</small></span><span class="k">Relações sorteadas confirmadas no código</span><span class="src">Auditoria independente do mapa em fases, amostra sorteada (semente 20261108). Com 20 de 20, o intervalo de 95% vai de 83% a 100%</span></div>
-      <div class="stat rv"><span class="v">11–17<small> s</small></span><span class="k">Atualização completa sem modelo</span><span class="src"><code>atualizar.ps1</code> com o site estático, 0 tokens · 02/11/2026</span></div>
-      <div class="stat rv"><span class="v" data-to="109">109</span><span class="k">Testes da skill passando</span><span class="src">Instalador, ganchos, esqueleto, idioma pt/en, pipeline multiplataforma, 8 linguagens no AST, mapa novo ponta a ponta · Windows, Python 3.12 · 08/11/2026</span></div>
+      <div class="stat rv"><span class="v">72<small>/72</small></span><span class="k">Módulos do axios cobertos pelo mapa</span><span class="src">O teste de cobertura falha se um módulo de <code>lib/</code> ficar fora do modelo. O mapa foi feito na v1.20.0 (69 módulos) e atualizado para a v1.21.1</span></div>
+      <div class="stat rv"><span class="v" data-to="94.5" data-dec="1">94,5</span><span class="k">Nota do gate de qualidade do mapa do axios</span><span class="src">Rubrica objetiva por script, 14 critérios; mínimo para passar 72,2</span></div>
+      <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports entre módulos que estão no modelo</span><span class="src">Nenhum import do código ficou de fora do mapa do axios</span></div>
+      <div class="stat rv"><span class="v" data-to="96.9" data-dec="1">96,9</span><span class="k">Nota da rota enxuta de descrições, no rich</span><span class="src">Intervalo de 95%: 92,7 a 98,7. Usou 64.670 tokens, contra 129.385 de um subagente com a mesma nota</span></div>
+      <div class="stat rv"><span class="v" data-to="0.9" data-dec="2">0,90</span><span class="k">Concordância da área escolhida, no axios</span><span class="src">Concordância com a referência. A referência é uma rodada de Sonnet, não gabarito humano</span></div>
+      <div class="stat rv"><span class="v">238</span><span class="k">Testes da skill passando</span><span class="src">Windows, Python 3.12 · 09/11/2026</span></div>
     </div>
     <div class="audit">
-      <div class="rv"><b>18 · 2 · 0</b><span>Descrições corretas, parciais e erradas, em 20 sorteadas</span></div>
-      <div class="rv"><b>20/20</b><span>Status dos componentes conferidos com o código</span></div>
-      <div class="rv"><b>14 · 2 · 0</b><span>Pontos de observabilidade reais, parciais e inventados</span></div>
-      <div class="rv weak"><b>15 de 54</b><span>Ponto fraco: componentes sem nenhuma relação (critério de órfãos 72,2)</span></div>
+      <div class="rv"><b>177 de 188</b><span>Relações do modelo com import que as confirma; as outras 11 foram acrescentadas pelo modelador</span></div>
+      <div class="rv"><b>14 de 16</b><span>Descrições mantidas em uma segunda rodada idêntica de revisão (26.660 tokens)</span></div>
+      <div class="rv"><b>2</b><span>Componentes sem relação nenhuma</span></div>
+      <div class="rv weak"><b>0 de 72</b><span>Ponto fraco: observabilidade. O axios é uma biblioteca, sem log nem métrica</span></div>
     </div>
-    <p class="note rv">Auditoria de segurança de 05/11/2026: 0 achados críticos; 3 altos (2 corrigidos com teste, 1 documentado no README), 9 médios e 9 baixos. No 3º repositório (UACR), o gate deu 92,9. A primeira auditoria de precisão (08/11, semente 7, mapa anterior) achou 8 de 10 relações existentes e 7 de 10 descrições corretas, nenhuma errada. Amostras pequenas: leia os intervalos, não só a fração.</p>
+    <p class="note rv">Limites: a referência é uma rodada de Sonnet, não gabarito humano; só o Windows foi rodado de ponta a ponta; não foi medido se o mapa ajuda um agente de código; cada número vem de uma rodada só.</p>
   </div>
 </section>
 
@@ -291,8 +308,8 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <tbody>
           <tr><td>Onde fica</td><td>Na plataforma do fornecedor</td><td>No seu git, em Structurizr DSL (padrão C4), revisável em pull request</td></tr>
           <tr><td>Atualização</td><td>A Code Wiki regenera a documentação depois de cada mudança <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts sem tokens a cada commit; o modelo só entra quando a estrutura muda</td></tr>
-          <tr><td>Cobertura</td><td>Em repositórios grandes a DeepWiki pode deixar pastas de fora; dá para listar até 30 páginas (80 no Enterprise) no <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Um teste falha se algum módulo ficar fora do mapa (63 de 63 na prova)</td></tr>
-          <tr><td>Custo</td><td>DeepWiki: nível baixo gratuito; médio de 5 a 10 ACUs e alto de 20 a 40 ACUs por wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>US$ 2,84 por mapa em custo equivalente da API (medido uma vez, 08/11/2026); atualização sem mudança de estrutura não chama modelo</td></tr>
+          <tr><td>Cobertura</td><td>Em repositórios grandes a DeepWiki pode deixar pastas de fora; dá para listar até 30 páginas (80 no Enterprise) no <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>Um teste falha se algum módulo ficar fora do mapa (72 de 72 no mapa do axios)</td></tr>
+          <tr><td>Custo</td><td>DeepWiki: nível baixo gratuito; médio de 5 a 10 ACUs e alto de 20 a 40 ACUs por wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>US$ 1,74 por mapa completo do axios e US$ 0,47 para atualizá-lo de uma versão para a outra, em custo equivalente da API (medido uma vez, 09/11/2026); commit sem mudança de estrutura não chama modelo</td></tr>
           <tr><td>Repositório privado</td><td>A Code Wiki anunciou uma extensão do Gemini CLI, com lista de espera em 13/11/2025 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Os scripts rodam na sua máquina; os passos com modelo enviam à Anthropic o código que leem, pelo Claude Code que você já usa</td></tr>
           <tr><td>O que eles fazem e nós não</td><td>Chat sobre o código e zero instalação</td><td>Sem chat próprio: quem pergunta é o seu agente, usando o mapa</td></tr>
         </tbody>
@@ -307,35 +324,30 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <div class="head rv">
       <p class="idx"><b>06</b>Custo</p>
       <div>
-        <h2 id="h-custo">Um mapa completo por <em>US$ 2,84.</em> Atualizar não chama modelo.</h2>
-        <p class="lede">Documentação só continua viva se atualizar for de graça. O trabalho repetitivo fica com scripts, e o modelo
-          entra só quando a estrutura muda.</p>
+        <h2 id="h-custo">Um mapa completo do axios por <em>US$ 1,74.</em> Atualizar custou US$ 0,47.</h2>
+        <p class="lede">Documentação só continua viva se atualizar for barato, e de graça quando a estrutura não muda. O trabalho repetitivo fica com scripts, e o modelo entra só quando a estrutura muda.</p>
       </div>
     </div>
-    <ul class="bars rv" aria-label="Custo equivalente pela API de cada geração completa medida">
-      <li><span class="lab"><b>1ª geração</b><span>Opus em tudo, 98 módulos, incluiu criar a própria skill</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 22,37</span></li>
-      <li><span class="lab"><b>Um agente Sonnet</b><span>Fábrica de Agentes, 63 módulos, 93 chamadas, 25 min</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:16.14%"></span></span><span class="val">US$ 3,61</span></li>
-      <li class="me"><span class="lab"><b>Esqueleto e fases</b><span>Mesmo repositório e commit, 98 chamadas, 14 min</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:12.7%"></span></span><span class="val">US$ 2,84</span></li>
-      <li class="proj"><span class="lab"><b>Projeção com Haiku 5.5</b><span>Os mesmos tokens no preço do Haiku; não medida</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:.76%"></span></span><span class="val">US$ 0,17</span></li>
+    <ul class="bars rv" aria-label="Custo equivalente pela API de cada rodada medida no axios">
+      <li><span class="lab"><b>Mapa completo</b><span>v1.20.0, 69 módulos: 4 fases em Sonnet 5.5 e uma chamada de Haiku 5.5</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1,74</span></li>
+      <li><span class="lab"><b>Atualização v1.20.0 → v1.21.1</b><span>3 módulos novos, 16 descrições revisadas e 12 relações novas</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:27%"></span></span><span class="val">US$ 0,47</span></li>
+      <li class="me"><span class="lab"><b>Commit sem mudança de estrutura</b><span>0 chamadas de modelo; só scripts</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:0%"></span></span><span class="val">US$ 0</span></li>
     </ul>
-    <p class="chips rv" aria-label="Progressão do custo"><span>US$ 22,37</span>→<span>US$ 3,61</span>→<span>US$ 2,84</span></p>
     <div class="econ">
-      <div class="zero rv"><span class="ev">0</span><span class="ek">chamadas de modelo por atualização sem mudança de estrutura</span><p>Diff, regeneração do mapa, do leitor e dos documentos, verificação e teste de cobertura. Só scripts, de 11 a 17 segundos.</p></div>
-      <div class="rv"><span class="ev">−21%</span><span class="ek">de US$ 3,61 para US$ 2,84</span><p>Mesmo repositório e commit. A rodada de US$ 3,61 incluiu 6 correções da própria skill, então não é um teste controlado.</p></div>
-      <div class="rv"><span class="ev">−78%</span><span class="ek">leitura de cache</span><p>De 17,6 milhões para 3,9 milhões de tokens, porque nenhuma fase arrasta o contexto das anteriores.</p></div>
-      <div class="rv"><span class="ev">0<small style="font-size:.45em;color:var(--ink-3)">/98</small></span><span class="ek">chamadas acima de 100 mil tokens</span><p>Antes eram 87 de 93. Abaixo desse limite, o Haiku fica na faixa barata de preço.</p></div>
-      <div class="rv"><span class="ev">+69%</span><span class="ek">escrita de cache</span><p>O preço de começar cada fase do zero. É 53% do custo; a saída é 34% e a leitura, 13%.</p></div>
+      <div class="zero rv"><span class="ev">0</span><span class="ek">chamadas de modelo em commit sem mudança de estrutura</span><p>Os scripts regeneram mapa, leitor e documentos: 17 s no axios.</p></div>
+      <div class="rv"><span class="ev">US$ 1,71</span><span class="ek">4 fases do modelador em Sonnet 5.5</span><p>50 chamadas, 8,9 min de modelo. Mais uma chamada de Haiku 5.5 nomeou e descreveu os 69 módulos (54.116 tokens, 66 s) e custa menos de US$ 0,03, mesmo cobrando todos os tokens como saída. Nenhuma chamada passou de 100 mil tokens de contexto (pico 97 mil).</p></div>
+      <div class="rv"><span class="ev">US$ 0,45</span><span class="ek">o modelador na atualização</span><p>19 chamadas em Sonnet, 129 s: decidiu container, status e as 12 relações. Uma chamada de Haiku (26.029 tokens, 34 s) descreveu os 3 módulos novos e revisou 16.</p></div>
+      <div class="rv"><span class="ev">15 de 16</span><span class="ek">descrições revisadas ficaram iguais</span><p>Palavra por palavra; 1 mudou (o módulo de cookies, que ganhou suporte à Cookie Store API naquela versão). Nenhum nome e nenhuma área mudou.</p></div>
+      <div class="rv"><span class="ev">63%</span><span class="ek">menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 29 revisões, porque só reabre o módulo cuja superfície pública mudou.</p></div>
     </div>
     <details class="method rv">
       <summary>Como estes números foram calculados</summary>
       <p>Os tokens vêm do registro dos agentes, deduplicado por mensagem, multiplicados pelo preço oficial da API
         (platform.claude.com/docs/en/about-claude/pricing, conferido em 08/11/2026). Sonnet 5.5: US$ 2 por milhão de entrada,
-        US$ 10 de saída, US$ 0,10 de leitura de cache e US$ 4 de escrita de cache de 1 hora, que foi a usada nessas rodadas.
-        Haiku 5.5 até 100 mil tokens de prompt: US$ 0,10 de entrada e US$ 0,50 de saída, cinco vezes mais acima disso.</p>
-      <p>As rodadas foram feitas pela assinatura do Claude Code, então o valor é o custo equivalente pela API, não uma fatura.
-        Ficam de fora o orquestrador que despachou os agentes e a auditoria (US$ 0,56). A qualidade do Haiku como modelador não
-        foi medida. Tokens, preços e o que cada rodada deixa de fora ficam em <code>references/custo-equivalente.json</code>; é desse
-        arquivo que o comando <code>plano</code> tira a estimativa que mostra antes de você autorizar.</p>
+        US$ 10 de saída, US$ 0,10 de leitura de cache e US$ 4 de escrita de cache de 1 hora. Haiku 5.5 até 100 mil tokens de
+        prompt: US$ 0,10 de entrada e US$ 0,50 de saída.</p>
+      <p>As rodadas usaram a assinatura do Claude Code, então o valor é o custo equivalente pela API, não uma fatura. Fica de fora
+        a sessão que orquestrou os agentes. Cada número é de uma rodada só (medido em 09/11/2026).</p>
     </details>
   </div>
 </section>
@@ -384,7 +396,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <ul class="limits">
       <li class="rv"><b>Linux e macOS sem execução real.</b> O <code>atualizar.py</code> roda em qualquer sistema e acha <code>structurizr.sh</code> e <code>dot</code> pelo PATH, mas só o Windows foi executado de ponta a ponta; Linux e macOS passaram em testes que simulam a plataforma. O gancho do git e o <code>ver-arquitetura.ps1</code> ainda pedem PowerShell.</li>
       <li class="rv"><b>Prova de relação só por imports.</b> O modo AST lê Python, JS/TS, Go, Rust, Java, Kotlin, C# e C/C++, sem dependência. Macros do Rust, reflection e injeção de dependência não são seguidos, e a precisão nas linguagens novas ainda não foi medida. Para chamadas, use um índice do CodeGraph.</li>
-      <li class="rv"><b>Terminal ainda em português.</b> Documentos, explorador, leitor e rótulos do modelo saem em português (padrão) ou inglês, com seletor PT | EN nas páginas. As mensagens dos scripts no terminal continuam em português.</li>
+      <li class="rv"><b>Terminal só em parte em inglês.</b> Documentos, explorador, leitor e rótulos do modelo saem em português (padrão) ou inglês, com seletor PT | EN nas páginas. No terminal, o teste de cobertura e a atualização seguem o idioma do mapa; instalador, plano e avisos continuam em português.</li>
       <li class="rv"><b>Diagramas avançados pesam 5,3 MB.</b> <code>mindmap</code>, <code>architecture</code> e fórmulas usam a versão completa do Mermaid, carregada só na página que tem um desses. Apague o arquivo para economizar espaço; o bloco mostra um aviso e mantém o texto.</li>
       <li class="rv"><b>Passos com modelo enviam o código</b> que leem à Anthropic, pelo Claude Code. Os scripts não fazem chamada de rede.</li>
       <li class="rv"><b>Não medido:</b> se o mapa faz um agente resolver tarefas melhor ou mais barato. Um estudo sobre arquivos de contexto (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) não achou ganho geral e viu custo 20% maior; ele não testou mapas C4.</li>
@@ -404,9 +416,9 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <p>Itens do lançamento concluídos</p>
     </div>
     <ul class="status">
-      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Geração do mapa (agora em fases, com esqueleto por script), explorador, leitor com Mermaid, gate de qualidade e atualização incremental, provados em 3 repositórios reais.</span></li>
-      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Instalador reversível com dois perfis, permissão por escopo e gancho com hash aprovado; 49 testes passando.</span></li>
-      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Auditoria de segurança (05/11) e auditoria de lançamento (08/11) com as correções de baixo risco aplicadas.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Geração do mapa (agora em fases, com esqueleto por script), explorador, leitor com Mermaid, gate de qualidade e atualização incremental, medidos em dois repositórios públicos, axios e rich.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Instalador reversível com dois perfis, permissão por escopo e gancho com hash aprovado; 238 testes passando.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Auditoria de lançamento com as correções de baixo risco aplicadas.</span></li>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>Escopo enxuto: só mapa e documentação. Agentes padrão, hooks de segurança e telemetria ficaram no Synapse.</span></li>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>README com custo, limites e segurança; licença MIT, avisos de terceiros e CHANGELOG da 0.1.0.</span></li>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>CI configurado para Linux e Windows, Python 3.11 e 3.12.</span></li>
@@ -436,7 +448,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
 <section class="end" aria-labelledby="h-end">
   <div class="wrap">
     <h2 id="h-end">Quer o mapa do <em>seu repositório?</em></h2>
-    <p class="lede">O repositório abre em breve. Até lá, fale comigo para ver uma demonstração ao vivo ou testar no seu código.</p>
+    <p class="lede">O repositório abre em breve. Até lá, abra a demo ao vivo ou fale comigo para testar no seu código.</p>
     <div class="actions">
       <a class="btn btn--acc" href="../#contato">Falar com Marcelo <span class="arr" aria-hidden="true">→</span></a>
       <a class="btn" href="https://github.com/skarL007" rel="noopener">Seguir no GitHub</a>
