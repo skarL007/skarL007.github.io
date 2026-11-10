@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lodemap: observabilidade de arquitetura · Marcelo Machuca</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="O Lodemap transforma o seu repositório num fluxograma vivo: quem conversa com quem, por onde passa cada fluxo e o que mudou em cada versão. Scripts mantêm o mapa a cada merge e um teste impede que ele fique para trás.">
+<meta name="theme-color" content="#0e1213" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f5f3" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://skarl007.github.io/lodemap/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lodemap: veja como o seu sistema funciona e como ele vem mudando">
+<meta property="og:description" content="Mapa C4 versionado no seu repositório, com fluxos animados, conferido por teste e mantido por scripts.">
+<meta property="og:url" content="https://skarl007.github.io/lodemap/">
+<meta property="og:image" content="https://skarl007.github.io/assets/lodemap/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="nova.css">
+<script>
+(function(){var r=document.documentElement,K="synapse-tema",q=null,s=null;
+try{q=new URLSearchParams(location.search).get("tema")}catch(e){}
+try{s=localStorage.getItem(K)}catch(e){}
+var t=q==="claro"?"light":q==="escuro"?"dark":s;
+if(t==="light"||t==="dark")r.setAttribute("data-theme",t);
+document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("temaBtn");if(!b)return;
+function atual(){return r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
+function rot(){var a=atual();b.textContent=a==="light"?b.dataset.escuro:b.dataset.claro;b.setAttribute("aria-pressed",a==="dark")}
+rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"light";r.setAttribute("data-theme",n);try{localStorage.setItem(K,n)}catch(e){}rot()})})})();
+</script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="top">
+  <div class="wrap in">
+    <a class="brand" href="../../#p-syn" aria-label="Voltar ao portfólio de Marcelo Machuca">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V6h20" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6 12h20M12 6v20" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".4"/><rect x="15" y="15" width="9" height="9" fill="var(--azul)"/></svg>
+      Lodemap
+    </a>
+    <button class="tbtn" id="temaBtn" type="button" data-claro="Tema claro" data-escuro="Tema escuro" aria-pressed="false">Tema</button>
+    <nav class="nav" aria-label="Figuras da página">
+      <a href="#fig-01"><b>01</b>Problema</a><a href="#fig-02"><b>02</b>Linha do tempo</a><a href="#fig-03"><b>03</b>Entregas</a><a href="#fig-04"><b>04</b>Garantia</a><a href="#fig-05"><b>05</b>Diferença</a><a href="#fig-06"><b>06</b>Custo</a><a href="#fig-07"><b>07</b>Instalar</a><a href="#fig-08"><b>08</b>Limites</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+
+<section class="hero" aria-labelledby="h-hero">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Lodemap · observabilidade de arquitetura · pré-lançamento v0.1.0</p>
+      <h1 id="h-hero">Veja como o seu sistema funciona. <span class="e2">E como ele vem mudando.</span></h1>
+      <p class="sub">O Lodemap transforma o seu repositório num <strong>fluxograma vivo</strong>: quem conversa com quem, por onde passa cada fluxo e o que mudou em cada versão. Scripts mantêm o mapa a cada merge, quase sem tokens, e um teste impede que ele fique para trás.</p>
+      <div class="btns">
+        <a class="btn pri" href="../demo/explorador/index.html"><i aria-hidden="true">[</i> Ver o mapa do axios <i aria-hidden="true">]</i></a>
+        <a class="btn" href="#fig-07"><i aria-hidden="true">[</i> Instalar <i aria-hidden="true">]</i></a>
+      </div>
+      <p class="facts"><span>Skill do Claude Code</span><span>Open source · MIT</span><span>Python 3.11+ e git</span></p>
+    </div>
+
+    <figure class="frame" aria-labelledby="hg-cap">
+      <div class="fhead"><span>Fluxo real · mapa do axios</span><span>ciclo de vida da requisição (Node.js)</span></div>
+      <svg class="graph" viewBox="0 0 440 640" role="img" aria-label="Grafo com oito componentes reais do mapa do axios e as sete relações entre eles: Fábrica da instância padrão chama a Classe de orquestração de requisições, que usa a Mescla de configuração, o Gerenciador de interceptors e o Despacho da requisição; o despacho chama as Transformações e o Transporte HTTP do Node, que usa a Resolução da promise pelo status.">
+        <g aria-hidden="true">
+          <path class="g-edge" d="M220 72V108"/>
+          <path class="g-edge" d="M220 172C220 204 103 190 103 222"/>
+          <path class="g-edge" d="M220 172C220 204 337 190 337 222"/>
+          <path class="g-edge" d="M220 172V336"/>
+          <path class="g-edge" d="M220 400C220 432 103 418 103 450"/>
+          <path class="g-edge" d="M220 400C220 432 337 418 337 450"/>
+          <path class="g-edge" d="M337 514V564"/>
+          <path class="g-flow" d="M220 72V108"/>
+          <path class="g-flow" d="M220 172C220 204 103 190 103 222"/>
+          <path class="g-flow" d="M220 172C220 204 337 190 337 222"/>
+          <path class="g-flow" d="M220 172V336"/>
+          <path class="g-flow" d="M220 400C220 432 103 418 103 450"/>
+          <path class="g-flow" d="M220 400C220 432 337 418 337 450"/>
+          <path class="g-flow" d="M337 514V564"/>
+
+          <g class="g-node" style="--i:0"><rect x="125" y="8" width="190" height="64"/><text class="ix" x="135" y="24">01</text><text class="cd" x="156" y="24">lib/axios.js</text><text class="nm" x="135" y="44">Fábrica da instância</text><text class="nm" x="135" y="60">padrão</text></g>
+          <g class="g-node" style="--i:1"><rect x="125" y="108" width="190" height="64"/><text class="ix" x="135" y="124">02</text><text class="cd" x="156" y="124">lib/core/Axios.js</text><text class="nm" x="135" y="144">Classe de orquestração</text><text class="nm" x="135" y="160">de requisições</text></g>
+          <g class="g-node" style="--i:2"><rect x="8" y="222" width="190" height="64"/><text class="ix" x="18" y="238">03</text><text class="cd" x="39" y="238">lib/core/mergeConfig.js</text><text class="nm" x="18" y="258">Mescla de configuração</text><text class="nm" x="18" y="274">com precedência</text></g>
+          <g class="g-node" style="--i:3"><rect x="242" y="222" width="190" height="64"/><text class="ix" x="252" y="238">04</text><text class="cd" x="273" y="238" textLength="152" lengthAdjust="spacingAndGlyphs">core/InterceptorManager.js</text><text class="nm" x="252" y="258">Gerenciador da pilha</text><text class="nm" x="252" y="274">de interceptors</text></g>
+          <g class="g-node" style="--i:4"><rect x="125" y="336" width="190" height="64"/><text class="ix" x="135" y="352">05</text><text class="cd" x="156" y="352">core/dispatchRequest.js</text><text class="nm" x="135" y="372">Despacho da requisição</text><text class="nm" x="135" y="388">e transformações</text></g>
+          <g class="g-node" style="--i:5"><rect x="8" y="450" width="190" height="64"/><text class="ix" x="18" y="466">06</text><text class="cd" x="39" y="466">core/transformData.js</text><text class="nm" x="18" y="486">Transformações de</text><text class="nm" x="18" y="502">requisição e resposta</text></g>
+          <g class="g-node" style="--i:6"><rect x="242" y="450" width="190" height="64"/><text class="ix" x="252" y="466">07</text><text class="cd" x="273" y="466">lib/adapters/http.js</text><text class="nm" x="252" y="486">Transporte HTTP</text><text class="nm" x="252" y="502">do Node</text></g>
+          <g class="g-node" style="--i:7"><rect x="242" y="564" width="190" height="64"/><text class="ix" x="252" y="580">08</text><text class="cd" x="273" y="580">lib/core/settle.js</text><text class="nm" x="252" y="600">Resolução da promise</text><text class="nm" x="252" y="616">pelo status</text></g>
+
+          <text class="g-note" x="8" y="580">01 a 08: ordem de entrada</text>
+          <text class="g-note" x="8" y="596">no fluxo, de cima para baixo.</text>
+        </g>
+      </svg>
+      <figcaption class="ffoot" id="hg-cap">8 componentes e 7 relações do mapa do axios em português, todos do fluxo “ciclo de vida da requisição (Node.js)”, que na demo tem 13 passos.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="nums" role="list" aria-label="Números medidos, com origem na página atual do Lodemap">
+    <div class="num" role="listitem"><span class="v">72<small>/72</small></span><span class="k">módulos do axios no mapa</span><span class="s">teste de cobertura · v1.21.1</span></div>
+    <div class="num" role="listitem"><span class="v">177<small>/177</small></span><span class="k">imports do código estão no modelo</span><span class="s">mapa do axios</span></div>
+    <div class="num" role="listitem"><span class="v">0</span><span class="k">chamadas de modelo em commit sem mudança de estrutura</span><span class="s">só scripts</span></div>
+    <div class="num" role="listitem"><span class="v">17<small> s</small></span><span class="k">para os scripts regenerarem tudo</span><span class="s">no axios</span></div>
+    <div class="num" role="listitem"><span class="v">488</span><span class="k">testes da skill passando</span><span class="s">Windows e Linux · 10/11/2026</span></div>
+  </div>
+  <div class="asc" aria-hidden="true">┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼</div>
+</div>
+
+<!-- FIG. 01 -->
+<section class="fig" id="fig-01" aria-labelledby="h-01">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>01</em></b><span class="t">O problema</span><p>Quatro dores que todo time que herda um sistema reconhece.</p></div>
+    <div>
+      <h2 id="h-01">O diagrama de ontem já não é o sistema de hoje.</h2>
+      <p class="lede">Times herdam sistemas que ninguém consegue explicar inteiro. A documentação é escrita uma vez e envelhece no merge seguinte; pedir a um modelo para “documentar tudo” sai caro e não garante que o texto bate com o código.</p>
+      <ol class="pains body">
+        <li class="rv"><span class="n">01</span><h3>Diagramas que mentem</h3><p>Desenhados à mão uma vez, nunca mais conferidos contra o código.</p></li>
+        <li class="rv"><span class="n">02</span><h3>Ninguém vê o que mudou</h3><p>A estrutura se move a cada versão, mas o que entrou, saiu ou foi alterado só aparece lendo o diff inteiro.</p></li>
+        <li class="rv"><span class="n">03</span><h3>Onboarding lento</h3><p>Quem chega precisa descobrir sozinho por onde o pedido passa.</p></li>
+        <li class="rv"><span class="n">04</span><h3>Status sem evidência</h3><p>“Pronto” e “em andamento” sem arquivo nem commit que sustentem; números citados sem origem.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 02 -->
+<section class="fig" id="fig-02" aria-labelledby="h-02">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>02</em></b><span class="t">Linha do tempo</span><p>Em construção. As versões serão geradas por script a partir do git, a cada merge.</p></div>
+    <div>
+      <span class="sel">Em construção · maquete</span>
+      <h2 id="h-02">O que entrou, o que saiu, o que mudou entre duas versões.</h2>
+      <p class="lede">Hoje o explorador já mostra o que mudou desde o último commit. A linha do tempo vai estender isso para o histórico de versões. Abaixo, a <strong>maquete</strong> de como ela vai se comportar: troque entre o estado de uma versão e a comparação.</p>
+
+      <div class="tl body">
+        <input class="vh" type="radio" name="modo" id="m-est" checked>
+        <input class="vh" type="radio" name="modo" id="m-cmp">
+        <input class="vh" type="radio" name="ver" id="v-a">
+        <input class="vh" type="radio" name="ver" id="v-b" checked>
+        <div class="ctrl">
+          <div class="seg" role="group" aria-label="Modo de exibição"><label for="m-est">Estado</label><label for="m-cmp">Comparar</label></div>
+          <div class="rail" role="group" aria-label="Versões do axios">
+            <span title="rótulo ilustrativo">v1.17</span><span title="rótulo ilustrativo">v1.18</span><span title="rótulo ilustrativo">v1.19</span>
+            <label for="v-a">v1.20.0</label><label for="v-b">v1.21.1</label>
+          </div>
+        </div>
+        <div class="stage">
+          <svg class="graph" viewBox="0 0 440 396" role="img" aria-label="Maquete: seis componentes do mapa do axios. No modo comparar, o Pool de sessões HTTP/2 aparece como novo, com borda cheia e sinal de mais; o Conversor de async para callback aparece como removido, tracejado e com sinal de menos; a Classe de orquestração e o Transporte HTTP aparecem em âmbar como alterados.">
+            <g aria-hidden="true">
+              <path class="g-edge" d="M220 72V108"/>
+              <path class="g-edge" d="M220 172C220 192 103 188 103 208"/>
+              <path class="g-edge" d="M220 172C220 192 337 188 337 208"/>
+              <path class="g-edge e-novo" d="M337 272C337 298 103 292 103 318"/>
+              <path class="g-edge e-rem" d="M337 272V318"/>
+              <g class="t-node alt"><rect x="125" y="8" width="190" height="64"/><text class="cd" x="135" y="24">lib/core/Axios.js</text><text class="nm" x="135" y="44">Classe de orquestração</text><text class="nm" x="135" y="60">de requisições</text></g>
+              <g class="t-node"><rect x="125" y="108" width="190" height="64"/><text class="cd" x="135" y="124">core/dispatchRequest.js</text><text class="nm" x="135" y="144">Despacho da requisição</text><text class="nm" x="135" y="160">e transformações</text></g>
+              <g class="t-node"><rect x="8" y="208" width="190" height="64"/><text class="cd" x="18" y="224">core/transformData.js</text><text class="nm" x="18" y="244">Transformações de</text><text class="nm" x="18" y="260">requisição e resposta</text></g>
+              <g class="t-node alt"><rect x="242" y="208" width="190" height="64"/><text class="cd" x="252" y="224">lib/adapters/http.js</text><text class="nm" x="252" y="244">Transporte HTTP</text><text class="nm" x="252" y="260">do Node</text></g>
+              <g class="t-node novo"><rect x="8" y="318" width="190" height="64"/><text class="cd" x="18" y="334">helpers/Http2Sessions.js</text><text class="nm" x="18" y="354">Pool de sessões</text><text class="nm" x="18" y="370">HTTP/2</text><text class="bd" x="172" y="340">+</text></g>
+              <g class="t-node rem"><rect x="242" y="318" width="190" height="64"/><text class="cd" x="252" y="334">helpers/callbackify.js</text><text class="nm" x="252" y="354">Conversor de async</text><text class="nm" x="252" y="370">para callback</text><text class="bd" x="406" y="340">−</text></g>
+            </g>
+          </svg>
+          <div class="side">
+            <div class="only-est">
+              <h3>Estado do mapa</h3>
+              <ul>
+                <li><span class="sg">·</span><span>v1.20.0: <b>69</b> módulos no mapa</span></li>
+                <li><span class="sg">·</span><span>v1.21.1: <b>72</b> módulos no mapa</span></li>
+                <li><span class="sg none">·</span><span class="none">Versões anteriores: —, ainda não geradas</span></li>
+              </ul>
+            </div>
+            <div class="only-cmp">
+              <h3>v1.20.0 → v1.21.1</h3>
+              <ul>
+                <li><span class="sg">+</span><span><b>3</b> módulos novos</span></li>
+                <li><span class="sg">~</span><span><b>16</b> com superfície pública diferente</span></li>
+                <li><span class="sg">+</span><span><b>12</b> relações novas</span></li>
+                <li><span class="sg">−</span><span class="none">Módulos removidos: —, não contados</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="ffoot">
+          <div class="key"><span><i class="k-novo"></i>+ entrou: borda cheia</span><span><i class="k-rem"></i>− saiu: tracejado</span><span><i class="k-alt"></i>alterado: âmbar</span></div>
+          <p style="margin-top:12px">Maquete · em construção. As contagens do painel são da atualização real do axios, v1.20.0 para v1.21.1. Quais nós aparecem como novos, removidos ou alterados no desenho é ilustrativo, e os rótulos v1.17 a v1.19 também.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 03 -->
+<section class="fig" id="fig-03" aria-labelledby="h-03">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>03</em></b><span class="t">O que você recebe</span><p>Uma fonte de verdade no repositório e as saídas geradas a partir dela. Tudo roda local, sem servidor.</p></div>
+    <div>
+      <h2 id="h-03">Seis entregas, todas geradas do mesmo modelo.</h2>
+      <p class="lede">O modelo de arquitetura mora no seu repositório, em Structurizr DSL (padrão C4), e é revisado em pull request como qualquer código. As capturas abaixo são reais, em português, de outro mapa de exemplo (o projeto UACR Adaptive).</p>
+
+      <div class="deliv body">
+        <div class="dl-row rv">
+          <div class="txt"><span class="ix">3.1</span><h3>Fluxos animados no explorador</h3><p>Navega pelas visões, toca os fluxos passo a passo com link para cada passo, filtra por status e mostra o que mudou desde o último commit. Relação sem prova no código aparece marcada.</p><span class="path">explorador/index.html</span></div>
+          <figure class="frame shot">
+            <div class="fhead"><span>explorador · fluxo, 6 passos</span><span>gravação real</span></div>
+            <video controls muted playsinline preload="none" width="2304" height="1440" poster="../../assets/lodemap/explorador-fluxo-pt-poster.webp" aria-label="Gravação real do explorador em português tocando o fluxo exploratório de recuperação, de 6 passos, com o percurso no painel da direita">
+              <source src="../../assets/lodemap/explorador-fluxo-pt.webm" type="video/webm">
+              <source src="../../assets/lodemap/explorador-fluxo-pt.mp4" type="video/mp4">
+            </video>
+            <figcaption class="ffoot">Gravação real do explorador, interface em português, mapa de exemplo do projeto UACR Adaptive.</figcaption>
+          </figure>
+        </div>
+
+        <div class="dl-row rev rv">
+          <div class="txt"><span class="ix">3.2</span><h3>Foco num componente</h3><p>Dependências, código, marcadores e o impacto de mudar o elemento, no inspetor do explorador.</p><span class="path">explorador/index.html</span></div>
+          <figure class="frame shot">
+            <div class="fhead"><span>explorador · inspetor</span><span>captura real 2x</span></div>
+            <img src="../../assets/lodemap/explorador-componente-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Explorador do Lodemap em português, no modo escuro, com o componente Inferência do roteador em foco no grafo e, no inspetor à direita, descrição, status Em andamento, container, tecnologia, código e o impacto de mudar o elemento">
+          </figure>
+        </div>
+
+        <div class="mini">
+          <div class="rv">
+            <div class="txt"><span class="ix">3.3</span><h3>Leitor de documentação</h3><p>Docs com busca, sumário e diagramas Mermaid desenhados offline. Cada elemento citado leva ao mesmo ponto no mapa.</p><span class="path">leitor/index.html</span></div>
+            <figure class="frame shot" style="margin-top:22px">
+              <img src="../../assets/lodemap/leitor-mermaid-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Leitor de documentação em português mostrando um mapa mental em Mermaid desenhado offline, com botões para tamanho real, ver código e tela cheia">
+            </figure>
+          </div>
+          <div class="rv">
+            <div class="txt"><span class="ix">3.4</span><h3>Decisões com origem</h3><p>Decisões (ADRs) numa linha do tempo, com status e a contagem de elementos do mapa que cada uma cita.</p><span class="path">leitor/index.html · decisões</span></div>
+            <figure class="frame shot" style="margin-top:22px">
+              <img src="../../assets/lodemap/leitor-decisoes-pt-2x.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Página Decisões do leitor em português: seis decisões registradas, cinco aceitas e uma proposta, em linha do tempo da mais nova para a mais antiga, cada uma com a contagem de elementos do mapa">
+            </figure>
+          </div>
+        </div>
+
+        <ul class="mini">
+          <li class="txt rv"><span class="ix">3.5</span><h3>Métricas com origem</h3><p>Cada número ligado a um componente aponta o arquivo e o commit de onde saiu. Um teste confere se a fonte ainda existe.</p><span class="path">metricas/metricas.json</span></li>
+          <li class="txt rv"><span class="ix">3.6</span><h3>Teste de cobertura</h3><p>Um pytest que falha quando algum módulo do código fica fora do modelo. O mapa não envelhece em silêncio: o CI avisa.</p><span class="path">tests/test_arquitetura_cobertura.py</span></li>
+        </ul>
+
+        <div class="dl-row rv">
+          <div class="txt"><span class="ix">3.7 · base técnica</span><h3>Modelo C4 em Structurizr DSL</h3><p>Sistema, containers, componentes por área, relações nomeadas, visões e fluxos dinâmicos. Cada componente tem status: pronto, em andamento, aguardando, planejado ou fora do foco.</p><span class="path">workspace.dsl · model/ · views/</span></div>
+          <pre class="dsl" aria-label="Trecho de exemplo do DSL gerado"><span class="c"># model/componentes-api.dsl (exemplo)</span>
+<span class="k">group</span> <span class="s">"Roteamento"</span> {
+  roteador = <span class="k">component</span> <span class="s">"Roteador"</span> <span class="s">"Escolhe o agente"</span> {
+    <span class="k">properties</span> {
+      <span class="s">"status"</span> <span class="s">"Em andamento"</span>
+      <span class="s">"codigo"</span> <span class="s">"app/roteador.py"</span>
+    }
+  }
+}
+roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="asc" aria-hidden="true">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</div></div>
+
+<!-- FIG. 04 -->
+<section class="fig" id="fig-04" aria-labelledby="h-04">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>04</em></b><span class="t">A garantia</span><p>O teste de cobertura e o gate de qualidade existem para o mapa não ficar para trás. São a garantia, não a promessa principal.</p></div>
+    <div>
+      <h2 id="h-04">O teste falha quando o código cresce e o mapa não.</h2>
+      <p class="lede">O axios publicou a v1.21.1: 99 commits, 27 arquivos alterados em <code>lib/</code>, 3 deles novos. Foi isto que aconteceu depois do merge, em cinco etapas.</p>
+
+      <div class="cols2 body">
+        <figure class="term rv">
+          <div class="fhead"><span>atualização real do axios · v1.20.0 → v1.21.1</span><span>resumo</span></div>
+<pre class="sum"><span class="c"># 99 commits · 27 arquivos em lib/ · 3 novos</span>
+
+<span class="c">[1]</span> cobertura  <span class="f">− FALHA</span>
+    cita os 3 arquivos novos sem componente
+<span class="c">[2]</span> script     <span class="o">0 tokens</span>
+    3 módulos novos · 16 com superfície pública
+    diferente · 12 relações novas
+<span class="c">[3]</span> haiku      26.029 tokens · 34 s
+    descreve os 3 novos, revisa 16 (15 iguais)
+<span class="c">[4]</span> sonnet     19 chamadas · 129 s
+    container, status e as 12 relações
+<span class="c">[5]</span> scripts    17 s
+    regeneram mapa, leitor e documentos
+<span class="c">[5]</span> cobertura  <span class="o">+ PASSA</span>
+    o teste volta a passar</pre>
+          <figcaption class="ffoot">Resumo das etapas medidas, escrito a partir do texto da página atual do Lodemap; não é a saída bruta do pytest. A gravação real está ao lado.</figcaption>
+        </figure>
+        <figure class="frame shot rv">
+          <div class="fhead"><span>terminal · gravação real</span><span>41 s · em inglês</span></div>
+          <video controls muted playsinline preload="none" width="1084" height="736" poster="../../assets/lodemap/demo-axios-gate-poster.webp" aria-label="Gravação do terminal, em inglês: o teste de cobertura falha, os scripts e os agentes atualizam o mapa do axios e o teste passa">
+            <source src="../../assets/lodemap/demo-axios-gate.mp4" type="video/mp4">
+            Seu navegador não toca este vídeo.
+          </video>
+          <figcaption class="ffoot">Da v1.20.0 para a v1.21.1, sem cortes. Terminal em inglês.</figcaption>
+        </figure>
+      </div>
+
+      <div class="gate rv" role="list" aria-label="Medidas do gate de qualidade">
+        <div role="listitem"><b>94,6</b><span>nota do gate de qualidade, mapa do axios</span></div>
+        <div role="listitem"><b>72,2</b><span>mínimo para passar</span></div>
+        <div role="listitem"><b>14</b><span>critérios, rubrica objetiva por script</span></div>
+      </div>
+      <p class="fn">A nota de qualidade mede forma; a verdade das descrições é medida à parte por um juiz que é um modelo (ver FIG. 08).</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 05 -->
+<section class="fig" id="fig-05" aria-labelledby="h-05">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>05</em></b><span class="t">Diferença</span><p>Para quem é cada ferramenta e que pergunta ela responde. O Lodemap lê o CodeGraph (<code>codegraph_ponte.py</code>).</p></div>
+    <div>
+      <h2 id="h-05">Não é índice de código nem memória de agente. É o mapa para pessoas.</h2>
+      <p class="lede">CodeGraph e Graphiti são boas ferramentas, e servem a outro trabalho. O Lodemap usa o primeiro como fonte opcional de relações, com 0 tokens.</p>
+      <table class="cmp body rv">
+        <caption>Lodemap, CodeGraph e Graphiti, por critério</caption>
+        <thead><tr><th scope="col"><span class="vh">Critério</span></th><th scope="col" class="us">Lodemap</th><th scope="col">CodeGraph</th><th scope="col">Graphiti</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Para quem</th><td class="us" data-l="Lodemap">Pessoas e agentes que precisam entender a arquitetura do repositório</td><td data-l="CodeGraph">Agentes de código que consultam símbolos, chamadas e impacto</td><td data-l="Graphiti">Agentes que precisam de memória de longo prazo</td></tr>
+          <tr><th scope="row">Responde</th><td class="us" data-l="Lodemap">Quem conversa com quem, por onde passa cada fluxo, o que está pronto e o que mudou</td><td data-l="CodeGraph">Onde está um símbolo, quem o chama e o que uma edição afeta</td><td data-l="Graphiti">O que o agente sabe e desde quando cada fato vale</td></tr>
+          <tr><th scope="row">Mantido por</th><td class="us" data-l="Lodemap">Scripts a cada merge; o modelo só volta quando a estrutura muda; um teste falha se o mapa ficar para trás</td><td data-l="CodeGraph">Índice atualizado pelo observador de arquivos</td><td data-l="Graphiti">Episódios gravados pelo agente e extraídos por modelo</td></tr>
+          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Hoje, o que mudou desde o último commit. Por versão: em construção (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
+        </tbody>
+      </table>
+      <p class="fn">As colunas CodeGraph e Graphiti resumem a descrição que cada ferramenta publica em seu servidor MCP, lida em 10/11/2026; confira nos projetos antes de decidir. A coluna Lodemap vem da página atual.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 06 -->
+<section class="fig" id="fig-06" aria-labelledby="h-06">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>06</em></b><span class="t">Custo</span><p>Resposta a uma objeção: manter o mapa vivo precisa ser barato. Medido uma vez, em 09/11/2026.</p></div>
+    <div>
+      <h2 id="h-06">O trabalho repetitivo é de script. O modelo entra quando a estrutura muda.</h2>
+      <p class="lede">As barras contam chamadas de modelo, não tokens nem dinheiro, porque é o que cada rodada realmente fez.</p>
+
+      <ul class="bars body rv" aria-label="Chamadas de modelo por rodada medida no axios">
+        <li><span><b>Mapa completo do axios</b><span class="d">v1.20.0, 69 módulos. 4 fases em Sonnet 5.5 (50 chamadas, 8,9 min de modelo) e uma chamada de Haiku 5.5 (54.116 tokens, 66 s).</span></span><span class="tr" aria-hidden="true"><i style="--w:100%"></i></span><span class="vl">51<small>chamadas</small></span></li>
+        <li><span><b>Atualização, v1.20.0 → v1.21.1</b><span class="d">3 módulos novos, 16 descrições revisadas, 12 relações novas. Sonnet: 19 chamadas, 129 s. Haiku: 1 chamada, 26.029 tokens, 34 s.</span></span><span class="tr" aria-hidden="true"><i style="--w:39%"></i></span><span class="vl">20<small>chamadas</small></span></li>
+        <li><span><b>Commit sem mudança de estrutura</b><span class="d">Só scripts regeneram mapa, leitor e documentos: 17 s no axios.</span></span><span class="tr" aria-hidden="true"><i style="--w:0%"></i></span><span class="vl">0<small>chamadas</small></span></li>
+      </ul>
+      <p class="fn">51 = 50 de Sonnet + 1 de Haiku; 20 = 19 + 1. Somas feitas a partir dos números da página atual. Nenhuma chamada passou de 100 mil tokens de contexto (pico de 97 mil).</p>
+
+      <div class="tiles">
+        <div class="rv"><b>15 de 16</b><span>descrições revisadas ficaram iguais</span><p>Palavra por palavra. Uma mudou: o módulo de cookies, que ganhou suporte à Cookie Store API naquela versão.</p></div>
+        <div class="rv"><b>59%</b><span>menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 32 revisões: só reabre o módulo cuja superfície pública mudou.</p></div>
+        <div class="rv"><b>64.670</b><span>tokens na rota enxuta, no rich</span><p>Contra 129.385 de um subagente com a mesma nota (96,9; intervalo de 95%: 92,7 a 98,7).</p></div>
+      </div>
+      <p class="ausente rv"><b>Valor em dinheiro: —.</b> Este rascunho não publica valor monetário. A página atual traz o preço equivalente de API de cada rodada, que não é fatura, junto do método de cálculo. A economia de tokens para agentes <b>não</b> foi demonstrada (FIG. 08).</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 07 -->
+<section class="fig" id="fig-07" aria-labelledby="h-07">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>07</em></b><span class="t">Instalar</span><p>Requer Python 3.11+ e git. O instalador mostra cada mudança, guarda cópia de tudo que toca e desfaz byte a byte.</p></div>
+    <div>
+      <h2 id="h-07">Três comandos. Nada é escrito sem você ver antes.</h2>
+      <div class="steps body">
+        <figure class="term rv">
+          <div class="fhead"><span>Instalar a skill e os seis agentes</span><span>terminal</span></div>
+<pre><span class="c"># o repositório público abre no lançamento</span>
+<span class="p"></span>git clone https://github.com/skarL007/lodemap &amp;&amp; cd lodemap
+<span class="p"></span>python -m lodemap instalar --perfil padrao            <span class="c"># simulação: só mostra</span>
+<span class="p"></span>python -m lodemap instalar --perfil padrao --aplicar  <span class="c"># aplica, com backup e manifesto</span></pre>
+        </figure>
+        <figure class="term rv">
+          <div class="fhead"><span>Permissão, por repositório</span><span>terminal</span></div>
+<pre><span class="p"></span>python -m lodemap plano --repo .   <span class="c"># 0 tokens: módulos, custo, tempo, arquivos</span>
+<span class="p"></span>python -m lodemap consentir --repo . --escopos gerar,modelo --orcamento-mensal 5
+<span class="p"></span>python -m lodemap reverter         <span class="c"># desfaz a última instalação</span></pre>
+        </figure>
+      </div>
+      <ul class="consent">
+        <li class="rv"><b>Plano antes de tudo</b>O <code>plano</code> conta os módulos, estima custo e tempo pela rodada medida e lista os arquivos que seriam criados. Não chama modelo. Se não achar módulo, avisa em vez de estimar zero.</li>
+        <li class="rv"><b>Consentimento por escopo</b><code>gerar</code> (só scripts), <code>gancho</code> (commit) e <code>modelo</code> (passos com modelo, dentro de um teto mensal finito).</li>
+        <li class="rv"><b>O que o consentimento não é</b>Um registro que a skill e os agentes leem e seguem. Nenhum hook o impõe; o único hook instalado só mostra um aviso uma vez.</li>
+        <li class="rv"><b>Gancho de commit opcional</b>Só executa scripts cujo hash foi aprovado. Depois de um <code>git pull</code> que os muda, registra o aviso e não roda nada até nova aprovação.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FIG. 08 -->
+<section class="fig" id="fig-08" aria-labelledby="h-08">
+  <div class="wrap cols">
+    <div class="leg"><b>Fig. <em>08</em></b><span class="t">Limites, em diff</span><p>O sinal − é o que o Lodemap ainda não faz ou não provou. O + é o que está pronto e foi medido.</p></div>
+    <div>
+      <h2 id="h-08">O que ele ainda não faz, escrito como diff.</h2>
+      <ul class="diff body rv">
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Economia de tokens para agentes: não demonstrada.</b><span>Num teste pré-registrado (Sonnet, 16 tarefas de navegação no chi e no axios, 3 rodadas cada), os tokens foram os mesmos com e sem o mapa: razão mediana 0,99. O acerto se manteve (recall 0,991 contra 0,977). Ele é antes de tudo um mapa para pessoas.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ganho de entendimento para pessoas: não medido ainda.</b><span>Ainda não há medição com leitores.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Status medido em execução: fora do escopo.</b><span>O mapa mostra o código, não o sistema rodando. Cobertura de observabilidade no axios: 0 de 72, porque ele é uma biblioteca, sem log nem métrica.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Linha do tempo e modo Saúde: em construção.</b><span>A maquete da FIG. 02 ainda não é a funcionalidade.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>macOS sem execução real.</b><span>Scripts, testes, regeneração e gancho rodaram no Windows e no Linux (Ubuntu 24.04). As fases com modelo, só no Windows.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ainda há frases falsas.</b><span>Com a conferência, 5 de 213 descrições de módulo eram falsas segundo um juiz Sonnet no chi e no axios (antes dela, 15 de 108). A conferência custa cerca de 3,7 vezes os tokens.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Prova de relação só por imports.</b><span>Macros do Rust, reflection e injeção de dependência não são seguidos. Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Passos com modelo enviam à Anthropic o código que leem, pelo Claude Code.</span></div></li>
+        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Geração do mapa, explorador, leitor, gate e atualização incremental.</b><span>Medidos em dois repositórios públicos, axios e rich. Teste de cobertura 72/72, 177/177 imports no modelo, gate 94,6.</span></div></li>
+        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Instalador reversível, permissão por escopo e gancho com hash aprovado.</b><span>488 testes passando no Windows e no Linux, em 10/11/2026.</span></div></li>
+        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Teste pré-registrado publicado, com o resultado desfavorável.</b><span>Licença MIT, README com custo, limites e segurança, e terminal em inglês ou português.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="fig" aria-labelledby="h-fam">
+  <div class="wrap">
+    <h2 class="vh" id="h-fam">Família de projetos</h2>
+    <div class="fam">
+      <article class="rv"><h3>Lodemap</h3><p>O mapa e a documentação do projeto. Funciona sozinho, sem servidor. O CodeGraph é uma integração opcional. Esta página.</p></article>
+      <article class="rv"><h3><a href="../../lodeward/">Lodeward</a></h3><p>Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições só com aprovação e números com origem.</p></article>
+      <article class="rv"><h3><a href="../../#p-syn">Synapse</a></h3><p>Memória de projeto para agentes, em Rust, com firewall antes da execução, agentes padrão e telemetria honesta. Em desenvolvimento.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="end" aria-labelledby="h-end">
+  <div class="wrap">
+    <h2 id="h-end">Quer o mapa do seu repositório?</h2>
+    <p>O repositório abre em breve. Até lá, abra a demo ao vivo ou fale comigo para testar no seu código.</p>
+    <div class="btns">
+      <a class="btn pri" href="../../#contato"><i aria-hidden="true">[</i> Falar com Marcelo <i aria-hidden="true">]</i></a>
+      <a class="btn" href="../demo/explorador/index.html"><i aria-hidden="true">[</i> Ver o mapa do axios <i aria-hidden="true">]</i></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span>
+    <span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../../">Voltar ao portfólio</a></span>
+  </div>
+</footer>
+</body>
+</html>
