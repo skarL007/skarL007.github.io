@@ -407,7 +407,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       </div>
       <ul class="consent rv">
         <li><b>Plano antes de tudo</b>O <code>plano</code> conta os módulos, estima custo e tempo pela rodada medida e lista os arquivos que seriam criados. Não chama modelo. Se não achar módulo, avisa em vez de estimar zero.</li>
-        <li><b>Consentimento por escopo</b><code>gerar</code> (só scripts), <code>gancho</code> (commit), <code>modelo</code> (passos com modelo, dentro de um teto mensal finito) e <code>synapse</code> (nota opcional).</li>
+        <li><b>Consentimento por escopo</b><code>gerar</code> (só scripts), <code>gancho</code> (commit) e <code>modelo</code> (passos com modelo, dentro de um teto mensal finito).</li>
         <li><b>O que o consentimento não é</b>Um registro que a skill e os agentes leem e seguem. Nenhum hook o impõe; o único hook instalado só mostra um aviso uma vez.</li>
         <li><b>Gancho de commit opcional</b>Só executa scripts cujo hash foi aprovado. Depois de um <code>git pull</code> que os muda, registra o aviso e não roda nada até nova aprovação.</li>
       </ul>
@@ -463,7 +463,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <div class="layers">
       <article class="layer rv">
         <header><h3 id="h-familia">Lodemap</h3><span class="tag tag--acc">Esta página</span></header>
-        <p>O mapa e a documentação do projeto. Funciona sozinho, sem servidor. CodeGraph (relações com 0 tokens) e Synapse (lições do projeto) são integrações opcionais.</p>
+        <p>O mapa e a documentação do projeto. Funciona sozinho, sem servidor. O CodeGraph (relações com 0 tokens) é uma integração opcional.</p>
       </article>
       <article class="layer rv">
         <header><h3>Synapse</h3><span class="tag tag--warn">Em desenvolvimento</span></header>
