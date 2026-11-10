@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
-<link rel="stylesheet" href="../../assets/lodemap/lodemap.css?v=20261110">
+<link rel="stylesheet" href="../../assets/lodemap/lodemap.css?v=20261111">
 <script defer src="../../assets/synapse/synapse.js"></script>
 <script defer src="../../assets/lodemap/lodemap.js?v=20261108"></script>
 <script type="application/ld+json">
@@ -82,7 +82,7 @@
       <li><b>0</b>model calls on a commit with no structural change</li>
       <li><b>94.5</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
-      <li><b>238</b>tests passing</li>
+      <li><b>284</b>tests passing</li>
     </ul>
     <ul aria-hidden="true">
       <li><b>72/72</b>axios modules in the map</li>
@@ -91,7 +91,7 @@
       <li><b>0</b>model calls on a commit with no structural change</li>
       <li><b>94.5</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
-      <li><b>238</b>tests passing</li>
+      <li><b>284</b>tests passing</li>
     </ul>
   </div>
 </div>
@@ -242,7 +242,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
         </tbody>
       </table>
     </div>
-    <p class="note rv">No agent in the skill uses Opus. In "update on every merge" mode only scripts run; the modeler steps in if coverage fails or a module shows up with no component.</p>
+    <p class="note rv">No agent in the skill uses Opus. To update, a script decides first, for zero tokens: scripts only, defer with a deadline, or one model session for everything pending.</p>
   </div>
 </section>
 
@@ -259,7 +259,14 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div>
         <span class="tag tag--acc">A real axios update</span>
         <h3 style="margin-top:16px">The test fails when the code outgrows the map</h3>
-        <p>axios shipped v1.21.1 (99 commits; 27 files changed in <code>lib/</code>, 3 of them new). After the merge, the coverage test failed, naming the 3 files with no component: <code>lib/core/assertParamsAcyclic.js</code>, <code>lib/core/createMultipartBody.js</code> and <code>lib/helpers/formDataToBlob.js</code>. The script (0 tokens) pointed out 3 new modules, 16 of the 24 changed files with a different public surface and 12 new relations. One Haiku call (26,029 tokens, 34 s) described the 3 new modules and reviewed the 16. The Sonnet modeler (19 calls, 129 s, US$ 0.45) decided the container, the status and the 12 relations. Scripts regenerated everything in 17 s. Total: at most US$ 0.47. The test passed again.</p>
+        <p>axios shipped v1.21.1: 99 commits, 27 files changed in <code>lib/</code>, 3 of them new. What happened after the merge:</p>
+        <ol class="phase-list proof-steps">
+          <li><span class="l">1</span><b>The coverage test fails</b><span>It names the 3 new files that have no component.</span></li>
+          <li><span class="l">2</span><b>A script finds what changed ·&nbsp;0&nbsp;tokens</b><span>3 new modules, 16 with a different public surface, 12 new relations.</span></li>
+          <li><span class="l">3</span><b>Haiku describes · 26,029&nbsp;tokens,&nbsp;34&nbsp;s</b><span>One call describes the 3 new modules and reviews the 16; 15 stay word for word.</span></li>
+          <li><span class="l">4</span><b>Sonnet decides ·&nbsp;US$&nbsp;0.45</b><span>Container, status and the 12 relations, in 19 calls and 129 s.</span></li>
+          <li><span class="l">5</span><b>Scripts regenerate everything ·&nbsp;17&nbsp;s</b><span>The test passes again. Total: at most US$ 0.47.</span></li>
+        </ol>
         <div class="actions">
           <a class="btn btn--acc" href="../../lodemap/demo/explorador/index.html">Open the explorer <span class="arr" aria-hidden="true">→</span></a>
           <a class="btn" href="../../lodemap/demo/leitor/index.html">Open the docs reader</a>
@@ -279,7 +286,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports between modules that are in the model</span><span class="src">No import in the code was left out of the axios map</span></div>
       <div class="stat rv"><span class="v" data-to="96.9" data-dec="1" data-sep=".">96.9</span><span class="k">Score of the lean description route, on rich</span><span class="src">95% interval: 92.7 to 98.7. It used 64,670 tokens, against 129,385 for a subagent with the same score</span></div>
       <div class="stat rv"><span class="v" data-to="0.9" data-dec="2" data-sep=".">0.90</span><span class="k">Agreement of the chosen area, on axios</span><span class="src">Agreement with the reference. The reference is one Sonnet run, not a human answer key</span></div>
-      <div class="stat rv"><span class="v">238</span><span class="k">Skill tests passing</span><span class="src">Windows, Python 3.12 · 2026-11-09</span></div>
+      <div class="stat rv"><span class="v">284</span><span class="k">Skill tests passing</span><span class="src">Windows, Python 3.12 · 2026-11-09</span></div>
     </div>
     <div class="audit">
       <div class="rv"><b>177 of 188</b><span>Model relations with an import in the code that confirms them; the other 11 were added by the modeler</span></div>
@@ -307,7 +314,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
         <thead><tr><th scope="col"></th><th scope="col">Generated, hosted wikis</th><th scope="col">Lodemap</th></tr></thead>
         <tbody>
           <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, in Structurizr DSL (C4 standard), reviewable in a pull request</td></tr>
-          <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Token-free scripts on every commit; the model only steps in when the structure changes</td></tr>
+          <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>A script decides for zero tokens: regenerate with scripts, defer with a deadline, or call the model once for everything that changed in the structure</td></tr>
           <tr><td>Coverage</td><td>On large repositories DeepWiki may leave folders out; you can list up to 30 pages (80 on Enterprise) in <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (72 of 72 on the axios map)</td></tr>
           <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>US$ 1.74 for a full axios map and US$ 0.47 to update it from one version to the next, in API-equivalent cost (measured once, 2026-11-09); a commit with no structural change makes no model call</td></tr>
           <tr><td>Private repository</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist on 2025-11-13 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts run on your machine; model steps send the code they read to Anthropic, through the Claude Code you already use</td></tr>
@@ -339,6 +346,23 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div class="rv"><span class="ev">US$ 0.45</span><span class="ek">the modeler on the update</span><p>19 Sonnet calls, 129 s: it decided the container, the status and the 12 relations. One Haiku call (26,029 tokens, 34 s) described the 3 new modules and reviewed 16.</p></div>
       <div class="rv"><span class="ev">15 of 16</span><span class="ek">reviewed descriptions came out unchanged</span><p>Word for word; 1 changed (the cookies module, which gained Cookie Store API support in that release). No name and no area changed.</p></div>
       <div class="rv"><span class="ev">63%</span><span class="ek">fewer description reviews, on rich</span><p>Across 5 version pairs, 78 changed files called for 29 reviews, because only a module whose public surface changed is reopened.</p></div>
+    </div>
+    <div class="phases rv" id="quando">
+      <div>
+        <span class="tag tag--acc">New on 2026-11-09</span>
+        <h3 style="margin-top:16px">A script decides when an update is worth it</h3>
+        <p>Updating on every commit is waste: each model session pays for its context again. <code>lodemap_decidir.py</code>
+          measures what changed and answers one of five actions. The test stays strict by default; you choose how many modules
+          may wait and for how many days, and the list is versioned, with dates.</p>
+        <div class="facts"><span class="tag">0 tokens to decide</span><span class="tag">one session for everything that waited</span><span class="tag">savings from batching: not measured yet</span></div>
+      </div>
+      <ol class="phase-list">
+        <li><span class="l">1</span><b>Nothing</b><span>Nothing changed, or too little since the last run.</span></li>
+        <li><span class="l">2</span><b>Scripts · no model</b><span>The model sources or the set of modules changed, or 10 commits went by.</span></li>
+        <li><span class="l">3</span><b>Defer · no model</b><span>A new module within the tolerance: it goes into <code>pendentes.json</code>, dated, in your commit.</span></li>
+        <li><span class="l">4</span><b>Describe · one Haiku call</b><span>10 or more modules changed their public surface.</span></li>
+        <li><span class="l">5</span><b>Model · one Sonnet session</b><span>Past the limit or the deadline: everything pending is handled at once.</span></li>
+      </ol>
     </div>
     <details class="method rv">
       <summary>How these numbers were calculated</summary>
@@ -417,7 +441,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     </div>
     <ul class="status">
       <li class="rv"><span class="tag tag--ok">Done</span><span>Map generation (now in phases, with a script skeleton), explorer, reader with Mermaid, quality gate and incremental updates, measured on two public repositories, axios and rich.</span></li>
-      <li class="rv"><span class="tag tag--ok">Done</span><span>Reversible installer with two profiles, per-scope permission and a hash-approved hook; 238 tests passing.</span></li>
+      <li class="rv"><span class="tag tag--ok">Done</span><span>Reversible installer with two profiles, per-scope permission and a hash-approved hook; 284 tests passing.</span></li>
       <li class="rv"><span class="tag tag--ok">Done</span><span>Launch audit with the low-risk fixes applied.</span></li>
       <li class="rv"><span class="tag tag--ok">Done</span><span>Lean scope: map and documentation only. Default agents, safety hooks and telemetry stayed in Synapse.</span></li>
       <li class="rv"><span class="tag tag--ok">Done</span><span>README with cost, limits and security; MIT license, third-party notices and the 0.1.0 CHANGELOG.</span></li>

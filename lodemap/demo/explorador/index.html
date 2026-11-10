@@ -800,7 +800,7 @@ footer.visivel { display: flex; }
     <button class="botao icone" id="btnEnquadrar" title="Enquadrar o diagrama (F)" aria-label="Enquadrar o diagrama" data-i18n-title="enquadrarTitulo" data-i18n-aria="enquadrar">
       <svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg></button>
   </div>
-  <details id="legendaCaixa" class="flutuante" open><summary data-i18n="legendaTitulo">Legenda</summary><div id="legenda"></div></details>
+  <details id="legendaCaixa" class="flutuante"><summary data-i18n="legendaTitulo">Legenda</summary><div id="legenda"></div></details>
   <div id="aviso" class="flutuante" role="status" aria-live="polite" hidden></div>
 </main>
 
@@ -854,6 +854,10 @@ footer.visivel { display: flex; }
     return window.ARQ && IDIOMAS.includes(window.ARQ.idioma) ? window.ARQ.idioma : "pt";
   })();
   const t = (k, ...a) => { const v = T[lang][k] !== undefined ? T[lang][k] : T.pt[k]; return typeof v === "function" ? v(...a) : v; };
+  // Marcadores canônicos da skill: o DSL os guarda em português (o estilos.dsl pinta por eles); a tela mostra no idioma.
+  const TAGS_EN = { Dados: "Data", Privacidade: "Privacy", Modelo: "Model", WebBrowser: "Web browser", Janela: "Window",
+                    Barramento: "Bus", Externo: "External", Nuvem: "Cloud" };
+  const nomeTag = tag => lang === "en" ? (TAGS_EN[tag] || tag) : tag === "WebBrowser" ? "Navegador" : tag;
   const plural = (n, k) => n + " " + t(k)[n === 1 ? 0 : 1];
   const rotSt = st => t("status")[st] || st;
   const rotTipo = x => t("tipos")[x] || x;
@@ -1058,7 +1062,7 @@ footer.visivel { display: flex; }
     $("nomes").innerHTML = D.elementos.map(e => `<option value="${esc(e.nome)}">${esc(rotTipo(e.tipo))} · ${esc((containerDe(e) || {}).nome || "")}</option>`).join("");
     $("filtrosStatus").innerHTML = STATUS.map(x => `<label><input type="checkbox" data-status="${x[0]}"${ocultos.has(x[0]) ? "" : " checked"}><span class="bolinha" style="background:var(${x[2]})"></span>${esc(rotSt(x[0]))}<small>${n[x[0]] || 0}</small></label>`).join("");
     $("colorir").innerHTML = `<optgroup label="${esc(t("grupoAtributo"))}">${COLORIR.map(v => `<option value="${v}">${esc(t("colorir")[v])}</option>`).join("")}</optgroup>` +
-      (marcadores.length ? `<optgroup label="${esc(t("grupoMarcador"))}">${marcadores.map(([tag, c]) => `<option value="tag:${esc(tag)}">${esc(tag)} (${c})</option>`).join("")}</optgroup>` : "");
+      (marcadores.length ? `<optgroup label="${esc(t("grupoMarcador"))}">${marcadores.map(([tag, c]) => `<option value="tag:${esc(tag)}">${esc(nomeTag(tag))} (${c})</option>`).join("")}</optgroup>` : "");
     $("colorir").value = colorir;
     if (D.prova) {
       $("blocoProva").hidden = false;
@@ -1189,7 +1193,7 @@ footer.visivel { display: flex; }
         "text-valign": "top", "text-halign": "center", "text-margin-x": 0, "text-margin-y": -6, "color": C.label3, "font-size": 12, "font-weight": 600, "padding": 20, "shape": "round-rectangle" } },
       { selector: "edge", style: { "width": 1, "line-color": C.sepFundo, "target-arrow-color": C.sepFundo, "target-arrow-shape": "triangle", "arrow-scale": 0.8,
         "curve-style": "bezier", "opacity": 0.9, "font-size": 11, "font-family": C.fonte, "color": C.label2f, "text-background-color": C.fundo, "text-background-opacity": 0.92,
-        "text-background-padding": 3, "text-background-shape": "roundrectangle", "text-rotation": "autorotate", "text-wrap": "wrap", "text-max-width": 180,
+        "text-background-padding": 3, "text-background-shape": "roundrectangle", "text-rotation": "autorotate", "text-wrap": "wrap", "text-max-width": () => direcaoAtual === "TB" ? 180 : 96,
         "transition-property": "opacity, line-color, width", "transition-duration": t } },
       { selector: "edge[ordem != '']", style: Object.assign({ "line-color": C.label3, "target-arrow-color": C.label3, "width": 1.4 }, numero) },
       { selector: "edge.resposta", style: { "line-style": "dashed", "line-dash-pattern": [4, 4] } },
@@ -1223,16 +1227,29 @@ footer.visivel { display: flex; }
     if (v.tipo === "dinamica") return "LR";
     return v.elementos && v.elementos.some(id => (E.get(id) || {}).tipo === "Componente") ? "LR" : "TB";
   }
+  let direcaoAtual = "TB";
+  const optsDagre = dir => ({ name: "dagre", rankDir: dir, nodeSep: 28, rankSep: dir === "TB" ? 80 : 110, edgeSep: 12 });
+  // Zoom com que a visão inteira cabe no canvas depois de um layout de teste (sem animação, sem mexer no enquadre).
+  function zoomQueCabe(dir) {
+    cy.layout(Object.assign({ fit: false, animate: false }, optsDagre(dir))).run();
+    const bb = cy.elements(":visible").boundingBox();
+    return Math.min((cy.width() - 80) / Math.max(1, bb.w), (cy.height() - 80) / Math.max(1, bb.h));
+  }
   function rodarLayout(animar) {
     if (!cy) return;
-    const tipo = layoutAuto();
+    let tipo = layoutAuto();
+    if (temDagre && tipo === "LR" && (visaoAtual || {}).tipo === "dinamica" && cy.width() > 0) {
+      const emColunas = zoomQueCabe("LR");
+      if (emColunas < 0.8 && zoomQueCabe("TB") > emColunas) tipo = "TB";
+    }
+    if (tipo !== direcaoAtual) { direcaoAtual = tipo; cy.style().update(); }
     animar = animar && !reduzir();
     let opts;
     if (tipo === "concentric") {
       const dist = distancias(visaoAtual.origem, alcance.prof, alcance.dir);
       opts = { name: "concentric", concentric: n => 100 - (dist.has(n.data("eid")) ? dist.get(n.data("eid")) : 50), levelWidth: () => 1, minNodeSpacing: 30 };
     } else if (temDagre) {
-      opts = { name: "dagre", rankDir: tipo, nodeSep: 28, rankSep: tipo === "TB" ? 80 : 110, edgeSep: 12 };
+      opts = optsDagre(tipo);
     } else {
       opts = { name: "breadthfirst", directed: true, spacingFactor: 1.2 };
     }
@@ -1241,9 +1258,48 @@ footer.visivel { display: flex; }
       if (!cy) return;
       cy.resize();
       const alvo = focoId ? cy.elements(".foco, .vizinho, .caminho") : cy.elements(":visible");
-      cy.fit(alvo.nonempty() ? alvo : cy.elements(":visible"), focoId ? 70 : 40);
+      enquadrarTudo(alvo, focoId ? 70 : 40, false);
     });
     lay.run();
+  }
+  // Enquadre que não deixa nó debaixo das caixas flutuantes (título, ferramentas, legenda): calcula com a margem
+  // normal e, se alguma caixa cobrir um nó, reserva o lado dela (cima ou baixo) e calcula de novo.
+  function caixasFlutuantes() {
+    const base = $("cy").getBoundingClientRect();
+    return ["tituloVisao", "ferramentas", "legendaCaixa"].map(id => $(id)).filter(el => el && el.offsetParent !== null).map(el => {
+      const r = el.getBoundingClientRect();
+      return { x1: r.left - base.left, y1: r.top - base.top, x2: r.right - base.left, y2: r.bottom - base.top };
+    });
+  }
+  function enquadreSeguro(eles, pad) {
+    if (!cy || !eles || eles.empty()) return null;
+    const w = cy.width(), h = cy.height(), bb = eles.boundingBox();
+    if (!(w > 0 && h > 0)) return null;
+    const m = { l: pad, r: pad, t: pad, b: pad };
+    const calc = () => {
+      const lw = Math.max(40, w - m.l - m.r), lh = Math.max(40, h - m.t - m.b);
+      const zoom = Math.max(cy.minZoom(), Math.min(cy.maxZoom(), lw / Math.max(1, bb.w), lh / Math.max(1, bb.h)));
+      return { zoom, pan: { x: m.l + lw / 2 - zoom * (bb.x1 + bb.w / 2), y: m.t + lh / 2 - zoom * (bb.y1 + bb.h / 2) } };
+    };
+    let v = calc();
+    const nos = eles.nodes().filter(n => !n.data("grupo")).map(n => n.boundingBox());
+    const cobre = c => nos.some(b => b.x1 * v.zoom + v.pan.x < c.x2 && b.x2 * v.zoom + v.pan.x > c.x1 &&
+                                     b.y1 * v.zoom + v.pan.y < c.y2 && b.y2 * v.zoom + v.pan.y > c.y1);
+    let mudou = false;
+    caixasFlutuantes().filter(cobre).forEach(c => {
+      mudou = true;
+      if ((c.y1 + c.y2) / 2 < h / 2) m.t = Math.max(m.t, c.y2 + 12); else m.b = Math.max(m.b, h - c.y1 + 12);
+    });
+    if (mudou) v = calc();
+    return v;
+  }
+  function enquadrarTudo(eles, pad, animar) {
+    if (!cy) return;
+    const v = enquadreSeguro(eles && eles.nonempty() ? eles : cy.elements(":visible"), pad == null ? 40 : pad);
+    if (!v) return;
+    cy.stop(true);
+    if (animar) cy.animate({ zoom: v.zoom, pan: v.pan, duration: dur(200), easing: "ease-out-cubic" });
+    else cy.viewport({ zoom: v.zoom, pan: v.pan });
   }
   // Enquadra na parte do canvas que a pessoa vê: no celular, acima da folha do inspetor aberta.
   function enquadrarVisivel(eles, maxZoom) {
@@ -1258,7 +1314,7 @@ footer.visivel { display: flex; }
     cy.stop(true);
     cy.animate({ zoom, pan, duration: dur(200), easing: "ease-out-cubic" });
   }
-  function enquadrar() { if (cy) cy.animate({ fit: { eles: cy.elements(":visible"), padding: 40 }, duration: dur(200), easing: "ease-out-cubic" }); }
+  function enquadrar() { enquadrarTudo(null, 40, true); }
 
   function criarCy(elems) {
     if (cy) cy.destroy();
@@ -1277,7 +1333,7 @@ footer.visivel { display: flex; }
     aplicarFiltros();
     rodarLayout(false);
     cy.resize();
-    cy.fit(cy.elements(":visible"), 40);
+    enquadrarTudo(null, 40, false);
   }
 
   // ------------------------------------------------------------ rotas: #visao, #identificador, #fluxo/<chave>/<n>
@@ -1410,7 +1466,7 @@ footer.visivel { display: flex; }
   function iniciarPercurso(v, n) {
     fluxo = v; passo = -1;
     $("rodape").classList.add("visivel");
-    if (cy) { cy.resize(); cy.fit(cy.elements(":visible"), 40); }
+    if (cy) { cy.resize(); enquadrarTudo(null, 40, false); }
     mostrarPercurso();
     irPasso(Math.max(0, n) - 1, true);
     aplicarDestaque();
@@ -1525,7 +1581,7 @@ footer.visivel { display: flex; }
   }
   function legenda() {
     const p = colorir; let itens;
-    if (p.startsWith("tag:")) itens = [["var(--brand)", t("marcadoComo", p.slice(4))], ["var(--status-fora)", t("semMarcador")]];
+    if (p.startsWith("tag:")) itens = [["var(--brand)", t("marcadoComo", nomeTag(p.slice(4)))], ["var(--status-fora)", t("semMarcador")]];
     else if (p === "status") itens = STATUS.map(x => [`var(${x[2]})`, rotSt(x[0])]).concat([["var(--label-3)", rotSt("Externo")]]);
     else if (p === "area") itens = Object.entries(paletaArea).map(([k, c]) => [c, rotTipo(k)]);
     else if (p === "container") itens = Object.entries(paletaCont).map(([k, c]) => [c, rotTipo(k)]);
@@ -1537,7 +1593,10 @@ footer.visivel { display: flex; }
     if (destaque === "mudou") extra += `<div><span class="anel" style="border-color:var(--warn)"></span>${esc(t("legMudou", curto(MUD.de)))}</div>`;
     $("legenda").innerHTML = itens.map(([c, k]) => `<div><span class="bolinha" style="background:${c}"></span>${esc(k)}</div>`).join("") + extra;
   }
-  function definirColorir(v) { colorir = v; $("colorir").value = v; if (cy) cy.style(estilo()); legenda(); }
+  function definirColorir(v) {
+    colorir = v; $("colorir").value = v; if (cy) cy.style(estilo()); legenda();
+    if (v !== "status" && !estreito()) $("legendaCaixa").open = true;
+  }
 
   // ------------------------------------------------------------ inspetor
   function folha(abrir) { document.body.classList.toggle("com-detalhe", !!abrir); }
@@ -1591,8 +1650,9 @@ footer.visivel { display: flex; }
     if (p.metricas) linhas.push([campo("metricas"), p.metricas.split(/,\s*/).map(m => `<span class="metrica">${esc(m)}</span>`).join("")]);
     Object.keys(p).filter(k => !["status", "area", "codigo", "spec", "guia", "handoff", "observabilidade", "metricas"].includes(k))
       .forEach(k => linhas.push([esc(k[0].toUpperCase() + k.slice(1)), esc(p[k])]));   // chaves do próprio modelo: conteúdo, sem tradução
-    const tags = e.tags.filter(x => !["Element", "Component", "Container", "Software System", "Person"].includes(x));
-    if (tags.length) linhas.push([campo("marcadores"), tags.map(x => `<span class="tag">${esc(x)}</span>`).join("")]);
+    const tags = e.tags.filter(x => !["Element", "Component", "Container", "Software System", "Person"].includes(x) &&
+      !/^Area/.test(x) && !STATUS_CANON[String(x).replace(/\s/g, "").toLowerCase()]);
+    if (tags.length) linhas.push([campo("marcadores"), tags.map(x => `<span class="tag">${esc(nomeTag(x))}</span>`).join("")]);
 
     const relItem = (r, outro, seta) => `<button type="button" class="rel" data-ir="${outro.id}"><b>${seta} ${esc(outro.nome)}</b><div>${esc(r.desc)}${r.tech ? " · " + esc(r.tech) : ""}${r.tags.includes("ForaDoFoco") ? t("foraDoFoco") : ""}</div>${provaHtml(r)}</button>`;
     const relSai = saida.get(id) || [], relEntra = entrada.get(id) || [];
@@ -1756,7 +1816,7 @@ footer.visivel { display: flex; }
   function comandos() {
     const acoes = [];
     COLORIR.forEach(v => acoes.push({ tipo: "Ação", titulo: t("corPor", t("colorir")[v]), fazer: () => definirColorir(v) }));
-    marcadores.forEach(([tag]) => acoes.push({ tipo: "Ação", titulo: t("corPorMarcador", tag), fazer: () => definirColorir("tag:" + tag) }));
+    marcadores.forEach(([tag]) => acoes.push({ tipo: "Ação", titulo: t("corPorMarcador", nomeTag(tag)), fazer: () => definirColorir("tag:" + tag) }));
     acoes.push({ tipo: "Ação", titulo: t("acReorganizar"), fazer: () => rodarLayout(true) });
     acoes.push({ tipo: "Ação", titulo: t("acEnquadrar"), fazer: enquadrar });
     if (MUD) acoes.push({ tipo: "Ação", titulo: t("acMudou", destaque !== "mudou", curto(MUD.de)), fazer: () => definirDestaque("mudou") });
@@ -1873,7 +1933,16 @@ footer.visivel { display: flex; }
 
   lerCores();
   cabecalho();
-  if (estreito()) $("legendaCaixa").open = false;
+  // A legenda começa fechada: aberta, cobria nós do canto de baixo. Quem abre, encontra aberta na próxima visita.
+  (function () {
+    const caixa = $("legendaCaixa");
+    let aberta = false;
+    try { aberta = localStorage.getItem("lodemap-legenda") === "1"; } catch (e) { /* sem localStorage */ }
+    caixa.open = aberta && !estreito();
+    caixa.addEventListener("toggle", () => {
+      try { localStorage.setItem("lodemap-legenda", caixa.open ? "1" : "0"); } catch (e) { /* file:// sem armazenamento */ }
+    });
+  })();
   montarListas();
   legenda();
   rotear(true);

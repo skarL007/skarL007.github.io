@@ -226,6 +226,11 @@ body.lm{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--d
 @media (max-width:860px){.phases{grid-template-columns:1fr}}
 .phases.proof-gate{margin:0 0 clamp(40px,5vw,64px);align-items:center}
 .proof-gate .actions{justify-content:flex-start;margin-top:22px}
+.proof-gate .proof-steps{margin-top:10px}
+.proof-gate .proof-steps li{grid-template-columns:32px 1fr;gap:2px 14px;padding:11px 0}
+.proof-gate .proof-steps .l{width:28px;height:28px}
+.proof-gate .proof-steps b{font-size:15.5px;line-height:1.3}
+.proof-gate .proof-steps span:last-child{font-size:14.5px;line-height:1.45}
 .proof-gate .win video{width:100%;height:auto;aspect-ratio:1084/736;background:var(--card-2)}
 
 .pipe{display:flex;flex-wrap:wrap;align-items:center;gap:8px 0;margin-top:40px;font:400 11.5px/1 var(--mono)}
