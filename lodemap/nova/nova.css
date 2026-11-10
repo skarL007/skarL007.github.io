@@ -326,3 +326,11 @@ h1 .e2{display:block;color:var(--azul-t);margin-top:.14em}
 
 /* itens de grid podem encolher abaixo do conteúdo (evita rolagem horizontal) */
 .cols>*,.dl-row>*,.mini>*,.cols2>*,.hero .grid>*,.stage>*{min-width:0}
+
+/* Evidência medida e mídias pendentes, sem simular capturas. */
+.stage-real{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:24px}
+.stage-real strong{display:block;font:600 clamp(2rem,5vw,3.5rem)/1 var(--disp);margin-top:12px}
+.stage-real p{color:var(--mute);margin-top:8px;font-size:14px}
+.media-pendente{padding:24px;min-height:160px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.media-pendente p{color:var(--mute);max-width:46ch}
+@media(max-width:480px){.stage-real{gap:8px;padding:16px}.stage-real p{font-size:12px}}

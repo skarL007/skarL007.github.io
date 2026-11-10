@@ -407,6 +407,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
 .filtros button[aria-pressed="true"] { background: var(--surface); color: var(--label); box-shadow: var(--shadow-1); }
 .filtros button span { margin-left: 4px; color: var(--label-3); font-variant-numeric: tabular-nums; }
 /* seletor PT | EN da barra (a mesma peça segmentada dos filtros; fica no espaço .lm-extra, fora dos blocos comuns) */
+.lm-idioma[hidden] { display: none; }
 .lm-idioma { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-control); background: var(--surface-2); }
 .lm-idioma button { min-width: 36px; min-height: 32px; padding: 0 var(--space-2); border: 0; border-radius: calc(var(--radius-control) - 2px);
                     background: transparent; color: var(--label-2); font: var(--weight-medium) var(--text-sm) / 1 var(--font-sans); cursor: pointer; }
@@ -522,7 +523,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
     <kbd aria-hidden="true">/</kbd>
     <div class="resultados" id="resultados" role="listbox" aria-label="Resultados da busca" data-i18n-aria="resultados" hidden></div>
   </div>
-  <div class="lm-extra lm-idioma" id="lmIdioma" role="group" aria-label="Idioma" data-i18n-aria="idioma">
+  <div class="lm-extra lm-idioma" id="lmIdioma" hidden role="group" aria-label="Idioma" data-i18n-aria="idioma">
     <button type="button" data-idioma="pt" aria-pressed="true" lang="pt-BR" title="Português" data-i18n-title="idiomaPt">PT</button>
     <button type="button" data-idioma="en" aria-pressed="false" lang="en" title="English" data-i18n-title="idiomaEn">EN</button>
   </div>
@@ -634,6 +635,9 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
   // Todo texto de interface fica aqui. O conteúdo do modelo (nomes, descrições, documentos, ADRs) não é traduzido.
   // Valores com <code> são HTML fixo; o que vem dos dados entra sempre por esc().
   var CHAVE_IDIOMA = "lodemap-idioma";
+  // Lançamento em português: seletor PT | EN escondido e escolha guardada ignorada; o mapa decide e ?lang= funciona.
+  // Para um lançamento em inglês, ponha SELETOR_IDIOMA = true (aqui e no explorador).
+  var SELETOR_IDIOMA = false;
   var TEXTOS = {
     pt: {
       titulo: "Documentação da arquitetura", tituloCom: "Documentação · {0}", arquitetura: "Arquitetura", pular: "Pular para o conteúdo",
@@ -738,7 +742,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
     var q = null, s = null;
     try { q = new URLSearchParams(location.search).get("lang"); } catch (e) { /* navegador antigo */ }
     if (q === "pt" || q === "en") return q;
-    try { s = localStorage.getItem(CHAVE_IDIOMA); } catch (e) { /* file:// sem armazenamento */ }
+    if (SELETOR_IDIOMA) try { s = localStorage.getItem(CHAVE_IDIOMA); } catch (e) { /* file:// sem armazenamento */ }
     if (s === "pt" || s === "en") return s;
     if (D && (D.idioma === "pt" || D.idioma === "en")) return D.idioma;
     return "pt";
@@ -828,6 +832,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
     b.addEventListener("click", function () { trocarIdioma(b.getAttribute("data-idioma")); });
   });
   IDIOMA = idiomaInicial();
+  document.getElementById("lmIdioma").hidden = !SELETOR_IDIOMA;
   aplicarEstatico();
 
   // ------------------------------------------------------------ estado de erro (sem dados)
@@ -868,7 +873,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
 
   // ------------------------------------------------------------ sumário lateral
   function montarLateral() {
-    var h = ['<div class="grupo-nav"><ul class="nav-lista"><li><a class="nav-item" href="#inicio" data-ancora="inicio">' + esc(t("visaoGeral")) + "</a></li></ul></div>"];
+    var h = ['<div class="grupo-nav"><ul class="nav-lista"><li><a class="nav-item" href="#inicio" data-ancora="inicio">' + esc(t("visaoGeral")) + '</a></li><li><a class="nav-item" href="#evolucao" data-ancora="evolucao">Evolução da arquitetura</a></li></ul></div>'];
     ["explicacao", "guia", "referencia"].forEach(function (k) {
       var docs = D.docs.filter(function (d) { return d.secao === k; });
       if (!docs.length) return;
@@ -1044,6 +1049,33 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
       '<a class="sds-btn sds-btn--primary" href="#inicio">' + esc(t("voltar")) + "</a></section>", toc: [] };
   }
 
+  // Relatório calculado pelo script da linha do tempo; sem chamadas de modelo.
+  function paginaEvolucao() {
+    var tempo = window.LODEMAP_LINHA_DO_TEMPO;
+    if (!tempo || !Array.isArray(tempo.versoes)) return {html:'<article><h1>Evolução da arquitetura</h1><p id="evolucaoEstado">'+(erroEvolucao?'Histórico indisponível. Gere a linha do tempo para este mapa.':'Carregando histórico…')+'</p></article>', toc:[]};
+    if (!tempo.versoes.length) return {html:'<article><h1>Evolução da arquitetura</h1><p>Nenhuma versão disponível.</p></article>',toc:[]};
+    var lista = tempo.versoes.slice().reverse().map(function(v) {
+      var r=v.resumo, titulo=esc(v.tag || v.sha || 'Trabalho não commitado');
+      if (!v.dados || !r) return '<section><h2>'+titulo+'</h2><p>Dados indisponíveis para esta versão.</p></section>';
+      var componentes=v.componentes, itens=[];
+      [['adicionados','Entraram'],['removidos','Saíram'],['alterados','Mudaram']].forEach(function(par) {
+        var xs=componentes[par[0]] || []; if(xs.length) itens.push('<li>'+par[1]+' ('+xs.length+'): '+xs.slice(0,8).map(function(x){return esc(x.nome||x.ident);}).join(', ')+(xs.length>8?' e mais '+(xs.length-8):'')+'</li>');
+      });
+      return '<section><h2>'+titulo+'</h2><p>'+esc(v.data||'')+' · '+(v.mudou_idioma?'Tradução · ':'')+r.total+' alterações</p><ul>' +
+        itens.join('')+'<li>Relações: '+r.relacoes_novas+' novas, '+r.relacoes_removidas+' removidas.</li><li>Fluxos: '+r.fluxos_adicionados+' novos, '+r.fluxos_removidos+' removidos, '+r.fluxos_alterados+' alterados.</li></ul>'+
+        (v.registro||[]).map(function(x){return '<p>'+esc(x.mudou)+' — '+esc(x.motivo)+'</p>';}).join('')+'</section>';
+    });
+    return {html:'<article><h1>Evolução da arquitetura</h1><p>Alterações calculadas entre versões do mapa.</p>'+lista.join('')+'</article>',toc:[]};
+  }
+  var carregandoEvolucao = false, erroEvolucao = false;
+  function carregarEvolucao() {
+    if (window.LODEMAP_LINHA_DO_TEMPO || carregandoEvolucao || erroEvolucao) return;
+    carregandoEvolucao=true;
+    function erro(){erroEvolucao=true;carregandoEvolucao=false;var el=document.getElementById('evolucaoEstado');if(el) el.textContent='Histórico indisponível. Gere a linha do tempo para este mapa.';}
+    function inserir(){var s=document.createElement('script');s.src='../explorador/linha-do-tempo.js';s.onload=function(){paginaAtual=null;if(location.hash==='#evolucao')rotear();};s.onerror=erro;document.head.appendChild(s);}
+    if(location.protocol==='file:') inserir(); else fetch('../explorador/linha-do-tempo.js',{method:'HEAD'}).then(function(r){if(r.ok)inserir();else erro();}).catch(erro);
+  }
+
   // ------------------------------------------------------------ roteamento
   var paginaAtual = null, observador = null;
   function rotear() {
@@ -1053,6 +1085,7 @@ mark { background: var(--warn-tint); color: inherit; border-radius: 2px; box-sha
     var p;
     if (base === "inicio") p = paginaInicio();
     else if (base === "decisoes") p = paginaDecisoes();
+    else if (base === "evolucao") { p = paginaEvolucao(); carregarEvolucao(); }
     else if (POR_ANCORA[base]) p = POR_ANCORA[base].tipo === "doc" ? paginaDoc(POR_ANCORA[base].item) : paginaAdr(POR_ANCORA[base].item);
     else { p = paginaErro(hash); base = ""; }
     ativarBarra(base);
