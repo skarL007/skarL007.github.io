@@ -155,7 +155,7 @@ body.lm{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--d
 .head h2 em{font-style:normal;color:var(--acc)}
 .head .lede{margin-top:24px;max-width:62ch;font-size:clamp(16px,1.35vw,19px);color:var(--ink-2)}
 @media (max-width:760px){.head{grid-template-columns:1fr}.idx{flex-direction:row;gap:12px;padding:0}}
-.note{margin-top:32px;max-width:90ch;color:var(--ink-3);font-size:14px;line-height:1.65}
+.lm .note{margin-top:32px;max-width:90ch;color:var(--ink-3);font-size:14px;line-height:1.65}
 .note b{color:var(--ink-2);font-weight:600}
 
 /* revelação ao rolar (classe .rv; synapse.js põe .on) */
@@ -264,7 +264,7 @@ body.lm{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--d
 .stat .src{color:var(--ink-3);font-size:13.5px;line-height:1.55}
 @media (max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:not(:nth-child(3n+1)){padding-left:0;border-left:0}.stat:nth-child(2n){padding-left:24px;border-left:1px solid var(--line)}}
 @media (max-width:560px){.stats{grid-template-columns:1fr}.stat:nth-child(2n){padding-left:0;border-left:0}}
-.audit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:40px}
+.audit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:40px}
 .audit div{padding:20px;border-radius:var(--r-sm);background:var(--card);border:1px solid var(--line)}
 .audit b{display:block;font:600 28px/1 var(--display);letter-spacing:-.03em;margin-bottom:8px}
 .audit span{color:var(--ink-2);font-size:14px}

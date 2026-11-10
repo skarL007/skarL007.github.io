@@ -481,6 +481,8 @@ h2 label { cursor: pointer; color: inherit; font: inherit; }
 .item:hover { background: var(--surface-2); }
 .item.ativo { background: var(--brand-tint); color: var(--label); font-weight: var(--weight-medium); }
 .item.ativo small { color: var(--brand); }
+.item--filho { padding-left: calc(var(--space-2) + 14px); }
+.item--filho span { color: var(--label-2); }
 .item small { flex: none; color: var(--label-3); font-size: var(--text-xs); font-variant-numeric: tabular-nums; }
 .linha { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; margin: var(--space-1) 0; padding: 0 var(--space-2); }
 label { display: flex; gap: var(--space-2); align-items: center; font-size: var(--text-sm); color: var(--label-2); cursor: pointer; }
@@ -1087,7 +1089,16 @@ footer.visivel { display: flex; }
 
   function montarListas() {
     const est = D.visoes.filter(v => v.tipo === "estatica"), din = D.visoes.filter(v => v.tipo === "dinamica");
-    const botao = v => `<button class="item" data-visao="${esc(v.chave)}" title="${esc(v.desc)}"><span>${esc(v.titulo)}</span><small>${v.elementos.length}</small></button>`;
+    // "Container: componentes" seguido de "Container: Área" repetia o mesmo começo cortado em todas as linhas. A
+    // visão que repete o prefixo da anterior mostra só o que vem depois dos dois-pontos, recuada; o nome inteiro
+    // fica na dica.
+    let prefixo = null;
+    const botao = v => {
+      const corte = v.titulo.indexOf(": "), pre = corte > 0 ? v.titulo.slice(0, corte) : null;
+      const filho = pre !== null && pre === prefixo;
+      prefixo = pre;
+      return `<button class="item${filho ? " item--filho" : ""}" data-visao="${esc(v.chave)}" title="${esc(v.titulo + (v.desc ? " \u2014 " + v.desc : ""))}"><span>${esc(filho ? v.titulo.slice(corte + 2) : v.titulo)}</span><small>${v.elementos.length}</small></button>`;
+    };
     $("listaVisoes").innerHTML = `<button class="item" data-visao="__tudo" title="${esc(t("modeloInteiroTitulo"))}"><span>${esc(t("modeloInteiro"))}</span><small>${D.elementos.length}</small></button>` + est.map(botao).join("");
     $("listaFluxos").innerHTML = din.map(v => `<button class="item" data-visao="${esc(v.chave)}" title="${esc(v.desc)}"><span>${esc(v.titulo)}</span><small>${plural(v.fluxo.length, "pPasso")}</small></button>`).join("") ||
       `<div class="vazio" style="padding:0 8px">${t("semFluxos")}</div>`;
@@ -1253,14 +1264,58 @@ footer.visivel { display: flex; }
     } else {
       opts = { name: "breadthfirst", directed: true, spacingFactor: 1.2 };
     }
-    const lay = cy.layout(Object.assign({ fit: false, animate: animar, animationDuration: 200, animationEasing: "ease-out-cubic" }, opts));
+    // Os nós sem ligação ficam fora do dagre (ele os empilharia numa coluna e abriria buracos no grafo ligado) e
+    // vão para uma grade depois que o grafo ligado assenta.
+    const grade = opts.name === "dagre" && (visaoAtual || {}).tipo !== "dinamica" && !focoId ? soltosPorPai() : null;
+    let foraDoLayout = cy.collection();
+    if (grade) grade.forEach(lista => lista.forEach(n => { foraDoLayout = foraDoLayout.union(n); }));
+    const lay = cy.elements().not(foraDoLayout).layout(Object.assign({ fit: false, animate: animar, animationDuration: 200, animationEasing: "ease-out-cubic" }, opts));
     lay.one("layoutstop", () => {
       if (!cy) return;
       cy.resize();
+      if (grade) agruparSoltos(grade, foraDoLayout);
       const alvo = focoId ? cy.elements(".foco, .vizinho, .caminho") : cy.elements(":visible");
       enquadrarTudo(alvo, focoId ? 70 : 40, false);
     });
     lay.run();
+  }
+  // Nó sem nenhuma ligação na visão (biblioteca de módulos independentes): o dagre empilha todos numa coluna só, e
+  // 26 middlewares viram uma tira ilegível. A partir de 4 por pai (cada container tem a sua), eles vão para uma
+  // grade abaixo do grafo ligado, com o número de colunas que deixa a visão inteira caber com o maior zoom.
+  function soltosPorPai() {
+    const porPai = new Map();
+    cy.nodes(":visible").filter(n => !n.data("grupo") && n.connectedEdges(":visible").empty()).forEach(n => {
+      const k = n.parent().nonempty() ? n.parent().id() : "";
+      if (!porPai.has(k)) porPai.set(k, []);
+      porPai.get(k).push(n);
+    });
+    porPai.forEach((lista, pai) => { if (lista.length < 4) porPai.delete(pai); });
+    return porPai.size ? porPai : null;
+  }
+  function agruparSoltos(porPai, foraDoLayout) {
+    const W = Math.max(200, cy.width() - 80), H = Math.max(200, cy.height() - 80), VAO = 56;
+    const ligados = cy.nodes(":visible").filter(n => !n.data("grupo")).not(foraDoLayout);
+    let chao = ligados.nonempty() ? ligados.boundingBox() : null;      // onde cai a grade de um pai sem nó ligado
+    porPai.forEach((lista, pai) => {
+      lista.sort((a, b) => String(a.data("label")).localeCompare(String(b.data("label"))));
+      const irmaos = ligados.filter(n => (n.parent().nonempty() ? n.parent().id() : "") === pai);
+      const cw = Math.max(...lista.map(n => n.outerWidth())) + 28, ch = Math.max(...lista.map(n => n.outerHeight())) + 22;
+      const bb = irmaos.nonempty() ? irmaos.boundingBox() : null;
+      // Empate de zoom (grafo ligado mais largo que a grade): fica a grade mais larga, que é a mais baixa.
+      const opcoes = [];
+      for (let cols = 1; cols <= lista.length; cols++) {
+        const linhas = Math.ceil(lista.length / cols);
+        const w = Math.max(bb ? bb.w : 0, cols * cw), h = (bb ? bb.h + VAO : 0) + linhas * ch;
+        opcoes.push({ cols, zoom: Math.min(W / w, H / h) });
+      }
+      const teto = Math.max(...opcoes.map(o => o.zoom));
+      const melhor = opcoes.filter(o => o.zoom >= teto * 0.99).pop();
+      const base = bb || chao;
+      const x0 = base ? base.x1 : 0, y0 = base ? base.y2 + VAO : 0;
+      lista.forEach((n, i) => n.position({ x: x0 + (i % melhor.cols) * cw + cw / 2, y: y0 + Math.floor(i / melhor.cols) * ch + ch / 2 }));
+      const fim = y0 + Math.ceil(lista.length / melhor.cols) * ch;
+      if (!bb) chao = { x1: x0, y2: fim };
+    });
   }
   // Enquadre que não deixa nó debaixo das caixas flutuantes (título, ferramentas, legenda): calcula com a margem
   // normal e, se alguma caixa cobrir um nó, reserva o lado dela (cima ou baixo) e calcula de novo.

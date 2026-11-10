@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
-<link rel="stylesheet" href="../../assets/lodemap/lodemap.css?v=20261111">
+<link rel="stylesheet" href="../../assets/lodemap/lodemap.css?v=20261113">
 <script defer src="../../assets/synapse/synapse.js"></script>
 <script defer src="../../assets/lodemap/lodemap.js?v=20261108"></script>
 <script type="application/ld+json">
@@ -80,7 +80,7 @@
       <li><b>US$ 1.74</b>full map</li>
       <li><b>US$ 0.47</b>version update</li>
       <li><b>0</b>model calls on a commit with no structural change</li>
-      <li><b>94.5</b>quality gate score</li>
+      <li><b>94.6</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
       <li><b>284</b>tests passing</li>
     </ul>
@@ -89,7 +89,7 @@
       <li><b>US$ 1.74</b>full map</li>
       <li><b>US$ 0.47</b>version update</li>
       <li><b>0</b>model calls on a commit with no structural change</li>
-      <li><b>94.5</b>quality gate score</li>
+      <li><b>94.6</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
       <li><b>284</b>tests passing</li>
     </ul>
@@ -252,7 +252,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <p class="idx"><b>04</b>Proof</p>
       <div>
         <h2 id="h-proof">Only what was measured <em>shows up here.</em></h2>
-        <p class="lede">Every number comes from one run on a public repository: the axios map and the description review on rich. Open the map in the demo and check it yourself.</p>
+        <p class="lede">Every number comes from a public repository: axios (JavaScript), rich (Python) and chi (Go). The axios update was repeated three times. Open the map in the demo and check it yourself.</p>
       </div>
     </div>
     <div class="phases proof-gate rv">
@@ -265,7 +265,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
           <li><span class="l">2</span><b>A script finds what changed ·&nbsp;0&nbsp;tokens</b><span>3 new modules, 16 with a different public surface, 12 new relations.</span></li>
           <li><span class="l">3</span><b>Haiku describes · 26,029&nbsp;tokens,&nbsp;34&nbsp;s</b><span>One call describes the 3 new modules and reviews the 16; 15 stay word for word.</span></li>
           <li><span class="l">4</span><b>Sonnet decides ·&nbsp;US$&nbsp;0.45</b><span>Container, status and the 12 relations, in 19 calls and 129 s.</span></li>
-          <li><span class="l">5</span><b>Scripts regenerate everything ·&nbsp;17&nbsp;s</b><span>The test passes again. Total: at most US$ 0.47.</span></li>
+          <li><span class="l">5</span><b>Scripts regenerate everything ·&nbsp;17&nbsp;s</b><span>The test passes again. Total: at most US$ 0.47. Repeated twice more: US$ 0.36 and US$ 0.29, with the same structure.</span></li>
         </ol>
         <div class="actions">
           <a class="btn btn--acc" href="../../lodemap/demo/explorador/index.html">Open the explorer <span class="arr" aria-hidden="true">→</span></a>
@@ -282,19 +282,21 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     </div>
     <div class="stats">
       <div class="stat rv"><span class="v">72<small>/72</small></span><span class="k">axios modules covered by the map</span><span class="src">The coverage test fails if a module in <code>lib/</code> is left out of the model. The map was built on v1.20.0 (69 modules) and updated to v1.21.1</span></div>
-      <div class="stat rv"><span class="v" data-to="94.5" data-dec="1" data-sep=".">94.5</span><span class="k">Quality gate score of the axios map</span><span class="src">Objective script rubric, 14 criteria; passing bar 72.2</span></div>
+      <div class="stat rv"><span class="v" data-to="94.6" data-dec="1" data-sep=".">94.6</span><span class="k">Quality gate score of the axios map</span><span class="src">Objective script rubric, 14 criteria; passing bar 72.2</span></div>
       <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports between modules that are in the model</span><span class="src">No import in the code was left out of the axios map</span></div>
       <div class="stat rv"><span class="v" data-to="96.9" data-dec="1" data-sep=".">96.9</span><span class="k">Score of the lean description route, on rich</span><span class="src">95% interval: 92.7 to 98.7. It used 64,670 tokens, against 129,385 for a subagent with the same score</span></div>
       <div class="stat rv"><span class="v" data-to="0.9" data-dec="2" data-sep=".">0.90</span><span class="k">Agreement of the chosen area, on axios</span><span class="src">Agreement with the reference. The reference is one Sonnet run, not a human answer key</span></div>
-      <div class="stat rv"><span class="v">284</span><span class="k">Skill tests passing</span><span class="src">Windows, Python 3.12 · 2026-11-09</span></div>
+      <div class="stat rv"><span class="v">415</span><span class="k">Skill tests passing</span><span class="src">Windows and Linux (on Linux, 414 and 1 skipped), Python 3.12 · 2026-11-09</span></div>
     </div>
     <div class="audit">
       <div class="rv"><b>177 of 188</b><span>Model relations with an import in the code that confirms them; the other 11 were added by the modeler</span></div>
-      <div class="rv"><b>14 of 16</b><span>Descriptions kept in a second identical review round (26,660 tokens)</span></div>
+      <div class="rv"><b>14 to 16 of 16</b><span>Descriptions kept word for word across four identical review rounds</span></div>
+      <div class="rv"><b>31 of 31</b><span>Edges the script found in go-chi/chi (Go) that reading the code confirmed; 3 real relations were missed</span></div>
       <div class="rv"><b>2</b><span>Components with no relation at all</span></div>
       <div class="rv weak"><b>0 of 72</b><span>Weak spot: observability. axios is a library, with no logs or metrics</span></div>
+      <div class="rv weak"><b>6 of 35</b><span>Weak spot: sentences from the Haiku call that stated something false on the chi map. The modeler checked the code and fixed all of them; the quality score does not catch this</span></div>
     </div>
-    <p class="note rv">Limits: the reference is one Sonnet run, not a human answer key; only Windows was run end to end; whether the map helps a coding agent was not measured; each number comes from a single run.</p>
+    <p class="note rv">Limits: the reference is one Sonnet run, not a human answer key; scripts, tests and the hook ran on Windows and on Linux, but the model phases ran on Windows only, and macOS was not run; whether the map helps a coding agent was not measured; only the axios update was repeated (three runs), every other number is one run; the quality score measures form, not whether a sentence is true.</p>
   </div>
 </section>
 
@@ -331,13 +333,15 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     <div class="head rv">
       <p class="idx"><b>06</b>Cost</p>
       <div>
-        <h2 id="h-cost">A full map of axios for <em>US$ 1.74.</em> Updating it cost US$ 0.47.</h2>
+        <h2 id="h-cost">A full map of axios for <em>US$ 1.74.</em> Updating it cost US$ 0.29 to 0.47.</h2>
         <p class="lede">Documentation only stays alive if updating is cheap, and free when the structure does not change. The repetitive work goes to scripts, and the model only steps in when the structure changes.</p>
       </div>
     </div>
-    <ul class="bars rv" aria-label="API-equivalent cost of each run measured on axios">
-      <li><span class="lab"><b>Full map</b><span>v1.20.0, 69 modules: 4 Sonnet 5.5 phases and one Haiku 5.5 call</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1.74</span></li>
-      <li><span class="lab"><b>Update v1.20.0 → v1.21.1</b><span>3 new modules, 16 descriptions reviewed and 12 new relations</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:27%"></span></span><span class="val">US$ 0.47</span></li>
+    <ul class="bars rv" aria-label="API-equivalent cost of each run measured on axios and chi">
+      <li><span class="lab"><b>Full map of axios</b><span>v1.20.0, 69 modules: 4 Sonnet 5.5 phases and one Haiku 5.5 call</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:91%"></span></span><span class="val">US$ 1.74</span></li>
+      <li><span class="lab"><b>axios update, v1.20.0 → v1.21.1</b><span>3 new modules, 16 descriptions reviewed and 12 new relations. Three runs: 0.47, 0.36 and 0.29</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:24%"></span></span><span class="val">US$ 0.47</span></li>
+      <li><span class="lab"><b>Full map of chi (Go)</b><span>v5.4.0, 35 modules, with every description checked against the code by the modeler</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1.92</span></li>
+      <li><span class="lab"><b>chi update, v5.4.0 → v5.5.0</b><span>1 new module and 1 description reviewed: the floor of an update that needs the model</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:11%"></span></span><span class="val">US$ 0.22</span></li>
       <li class="me"><span class="lab"><b>Commit with no structural change</b><span>0 model calls; scripts only</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:0%"></span></span><span class="val">US$ 0</span></li>
     </ul>
     <div class="econ">
@@ -345,7 +349,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div class="rv"><span class="ev">US$ 1.71</span><span class="ek">4 modeler phases on Sonnet 5.5</span><p>50 calls, 8.9 min of model time. One more Haiku 5.5 call named and described the 69 modules (54,116 tokens, 66 s) and costs less than US$ 0.03, even charging every token as output. No call went above 100k tokens of context (peak 97k).</p></div>
       <div class="rv"><span class="ev">US$ 0.45</span><span class="ek">the modeler on the update</span><p>19 Sonnet calls, 129 s: it decided the container, the status and the 12 relations. One Haiku call (26,029 tokens, 34 s) described the 3 new modules and reviewed 16.</p></div>
       <div class="rv"><span class="ev">15 of 16</span><span class="ek">reviewed descriptions came out unchanged</span><p>Word for word; 1 changed (the cookies module, which gained Cookie Store API support in that release). No name and no area changed.</p></div>
-      <div class="rv"><span class="ev">63%</span><span class="ek">fewer description reviews, on rich</span><p>Across 5 version pairs, 78 changed files called for 29 reviews, because only a module whose public surface changed is reopened.</p></div>
+      <div class="rv"><span class="ev">59%</span><span class="ek">fewer description reviews, on rich</span><p>Across 5 version pairs, 78 changed files called for 32 reviews, because only a module whose public surface changed is reopened. Reading the diffs left out on rich and axios, 3 of 178 files still hid a change.</p></div>
     </div>
     <div class="phases rv" id="quando">
       <div>
@@ -418,8 +422,8 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div><h2 id="h-limits">What it <em>does not do yet.</em></h2></div>
     </div>
     <ul class="limits">
-      <li class="rv"><b>Linux and macOS not run for real.</b> <code>atualizar.py</code> runs on any OS and finds <code>structurizr.sh</code> and <code>dot</code> on the PATH, but only Windows was run end to end; Linux and macOS passed tests that simulate the platform. The git hook and <code>ver-arquitetura.ps1</code> still need PowerShell.</li>
-      <li class="rv"><b>Relation proof from imports only.</b> AST mode reads Python, JS/TS, Go, Rust, Java, Kotlin, C# and C/C++, with no dependency. Rust macros, reflection and dependency injection are not followed, and precision on the new languages has not been measured yet. For calls, use a CodeGraph index.</li>
+      <li class="rv"><b>macOS not run for real.</b> Scripts, tests, regeneration and the git hook ran end to end on Windows and on Linux (Ubuntu 24.04), with the same generated documents on both. The model phases ran on Windows only. macOS only passed tests that simulate the platform, and <code>ver-arquitetura.ps1</code> needs PowerShell.</li>
+      <li class="rv"><b>Relation proof from imports only.</b> AST mode reads Python, JS/TS, Go, Rust, Java, Kotlin, C# and C/C++, with no dependency. In Go the relation comes from the symbol used (31 edges on chi, all confirmed; method calls and interfaces are missed). Rust macros, reflection and dependency injection are not followed, and Java, Kotlin, C# and C/C++ have no measurement on a real repository yet. For calls, use a CodeGraph index.</li>
       <li class="rv"><b>Terminal only partly in English.</b> Docs, explorer, reader and model labels come out in Portuguese (default) or English, with a PT | EN switch on the pages. In the terminal, the coverage test and the update follow the map language; the installer, the plan and the warnings are still in Portuguese.</li>
       <li class="rv"><b>Advanced diagrams weigh 5.3 MB.</b> <code>mindmap</code>, <code>architecture</code> and formulas use the full Mermaid build, loaded only on a page that has one. Delete the file to save space; the block shows a notice and keeps the text.</li>
       <li class="rv"><b>Model steps send the code</b> they read to Anthropic, through Claude Code. The scripts make no network calls.</li>

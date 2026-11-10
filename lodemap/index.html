@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
-<link rel="stylesheet" href="../assets/lodemap/lodemap.css?v=20261111">
+<link rel="stylesheet" href="../assets/lodemap/lodemap.css?v=20261113">
 <script defer src="../assets/synapse/synapse.js"></script>
 <script defer src="../assets/lodemap/lodemap.js?v=20261108"></script>
 <script type="application/ld+json">
@@ -80,7 +80,7 @@
       <li><b>US$ 1,74</b>mapa completo</li>
       <li><b>US$ 0,47</b>atualização de versão</li>
       <li><b>0</b>chamadas de modelo em commit sem mudança de estrutura</li>
-      <li><b>94,5</b>nota do gate de qualidade</li>
+      <li><b>94,6</b>nota do gate de qualidade</li>
       <li><b>177/177</b>imports do código no modelo</li>
       <li><b>284</b>testes passando</li>
     </ul>
@@ -89,7 +89,7 @@
       <li><b>US$ 1,74</b>mapa completo</li>
       <li><b>US$ 0,47</b>atualização de versão</li>
       <li><b>0</b>chamadas de modelo em commit sem mudança de estrutura</li>
-      <li><b>94,5</b>nota do gate de qualidade</li>
+      <li><b>94,6</b>nota do gate de qualidade</li>
       <li><b>177/177</b>imports do código no modelo</li>
       <li><b>284</b>testes passando</li>
     </ul>
@@ -252,7 +252,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <p class="idx"><b>04</b>Provas</p>
       <div>
         <h2 id="h-provas">Só aparece aqui <em>o que foi medido.</em></h2>
-        <p class="lede">Todo número vem de uma rodada em repositório público: o mapa do axios e a revisão de descrições no rich. Abra o mapa na demo e confira.</p>
+        <p class="lede">Todo número vem de repositório público: axios (JavaScript), rich (Python) e chi (Go). A atualização do axios foi repetida três vezes. Abra o mapa na demo e confira.</p>
       </div>
     </div>
     <div class="phases proof-gate rv">
@@ -265,7 +265,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
           <li><span class="l">2</span><b>Um script acha o que mudou ·&nbsp;0&nbsp;tokens</b><span>3 módulos novos, 16 com superfície pública diferente, 12 relações novas.</span></li>
           <li><span class="l">3</span><b>Haiku descreve · 26.029&nbsp;tokens,&nbsp;34&nbsp;s</b><span>Uma chamada descreve os 3 novos e revisa os 16; 15 ficam palavra por palavra.</span></li>
           <li><span class="l">4</span><b>Sonnet decide ·&nbsp;US$&nbsp;0,45</b><span>Container, status e as 12 relações, em 19 chamadas e 129 s.</span></li>
-          <li><span class="l">5</span><b>Scripts regeneram tudo ·&nbsp;17&nbsp;s</b><span>O teste volta a passar. Total: no máximo US$ 0,47.</span></li>
+          <li><span class="l">5</span><b>Scripts regeneram tudo ·&nbsp;17&nbsp;s</b><span>O teste volta a passar. Total: no máximo US$ 0,47. Repetida mais duas vezes: US$ 0,36 e US$ 0,29, com a mesma estrutura.</span></li>
         </ol>
         <div class="actions">
           <a class="btn btn--acc" href="demo/explorador/index.html">Abrir o explorador <span class="arr" aria-hidden="true">→</span></a>
@@ -282,19 +282,21 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     </div>
     <div class="stats">
       <div class="stat rv"><span class="v">72<small>/72</small></span><span class="k">Módulos do axios cobertos pelo mapa</span><span class="src">O teste de cobertura falha se um módulo de <code>lib/</code> ficar fora do modelo. O mapa foi feito na v1.20.0 (69 módulos) e atualizado para a v1.21.1</span></div>
-      <div class="stat rv"><span class="v" data-to="94.5" data-dec="1">94,5</span><span class="k">Nota do gate de qualidade do mapa do axios</span><span class="src">Rubrica objetiva por script, 14 critérios; mínimo para passar 72,2</span></div>
+      <div class="stat rv"><span class="v" data-to="94.6" data-dec="1">94,6</span><span class="k">Nota do gate de qualidade do mapa do axios</span><span class="src">Rubrica objetiva por script, 14 critérios; mínimo para passar 72,2</span></div>
       <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports entre módulos que estão no modelo</span><span class="src">Nenhum import do código ficou de fora do mapa do axios</span></div>
       <div class="stat rv"><span class="v" data-to="96.9" data-dec="1">96,9</span><span class="k">Nota da rota enxuta de descrições, no rich</span><span class="src">Intervalo de 95%: 92,7 a 98,7. Usou 64.670 tokens, contra 129.385 de um subagente com a mesma nota</span></div>
       <div class="stat rv"><span class="v" data-to="0.9" data-dec="2">0,90</span><span class="k">Concordância da área escolhida, no axios</span><span class="src">Concordância com a referência. A referência é uma rodada de Sonnet, não gabarito humano</span></div>
-      <div class="stat rv"><span class="v">284</span><span class="k">Testes da skill passando</span><span class="src">Windows, Python 3.12 · 09/11/2026</span></div>
+      <div class="stat rv"><span class="v">415</span><span class="k">Testes da skill passando</span><span class="src">Windows e Linux (no Linux, 414 e 1 pulado), Python 3.12 · 09/11/2026</span></div>
     </div>
     <div class="audit">
       <div class="rv"><b>177 de 188</b><span>Relações do modelo com import que as confirma; as outras 11 foram acrescentadas pelo modelador</span></div>
-      <div class="rv"><b>14 de 16</b><span>Descrições mantidas em uma segunda rodada idêntica de revisão (26.660 tokens)</span></div>
+      <div class="rv"><b>14 a 16 de 16</b><span>Descrições mantidas palavra por palavra em quatro rodadas idênticas de revisão</span></div>
+      <div class="rv"><b>31 de 31</b><span>Arestas que o script achou no go-chi/chi (Go) e que a leitura do código confirmou; 3 relações reais ficaram de fora</span></div>
       <div class="rv"><b>2</b><span>Componentes sem relação nenhuma</span></div>
       <div class="rv weak"><b>0 de 72</b><span>Ponto fraco: observabilidade. O axios é uma biblioteca, sem log nem métrica</span></div>
+      <div class="rv weak"><b>6 de 35</b><span>Ponto fraco: frases da chamada de Haiku que afirmavam algo falso no mapa do chi. O modelador conferiu no código e corrigiu todas; a nota de qualidade não pega isso</span></div>
     </div>
-    <p class="note rv">Limites: a referência é uma rodada de Sonnet, não gabarito humano; só o Windows foi rodado de ponta a ponta; não foi medido se o mapa ajuda um agente de código; cada número vem de uma rodada só.</p>
+    <p class="note rv">Limites: a referência é uma rodada de Sonnet, não gabarito humano; scripts, testes e gancho rodaram no Windows e no Linux, mas as fases com modelo só no Windows, e o macOS não foi rodado; não foi medido se o mapa ajuda um agente de código; só a atualização do axios foi repetida (três rodadas), os outros números são de uma rodada; a nota de qualidade mede forma, não se a frase é verdadeira.</p>
   </div>
 </section>
 
@@ -331,13 +333,15 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <div class="head rv">
       <p class="idx"><b>06</b>Custo</p>
       <div>
-        <h2 id="h-custo">Um mapa completo do axios por <em>US$ 1,74.</em> Atualizar custou US$ 0,47.</h2>
+        <h2 id="h-custo">Um mapa completo do axios por <em>US$ 1,74.</em> Atualizar custou de US$ 0,29 a 0,47.</h2>
         <p class="lede">Documentação só continua viva se atualizar for barato, e de graça quando a estrutura não muda. O trabalho repetitivo fica com scripts, e o modelo entra só quando a estrutura muda.</p>
       </div>
     </div>
-    <ul class="bars rv" aria-label="Custo equivalente pela API de cada rodada medida no axios">
-      <li><span class="lab"><b>Mapa completo</b><span>v1.20.0, 69 módulos: 4 fases em Sonnet 5.5 e uma chamada de Haiku 5.5</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1,74</span></li>
-      <li><span class="lab"><b>Atualização v1.20.0 → v1.21.1</b><span>3 módulos novos, 16 descrições revisadas e 12 relações novas</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:27%"></span></span><span class="val">US$ 0,47</span></li>
+    <ul class="bars rv" aria-label="Custo equivalente pela API de cada rodada medida no axios e no chi">
+      <li><span class="lab"><b>Mapa completo do axios</b><span>v1.20.0, 69 módulos: 4 fases em Sonnet 5.5 e uma chamada de Haiku 5.5</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:91%"></span></span><span class="val">US$ 1,74</span></li>
+      <li><span class="lab"><b>Atualização do axios, v1.20.0 → v1.21.1</b><span>3 módulos novos, 16 descrições revisadas e 12 relações novas. Três rodadas: 0,47, 0,36 e 0,29</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:24%"></span></span><span class="val">US$ 0,47</span></li>
+      <li><span class="lab"><b>Mapa completo do chi (Go)</b><span>v5.4.0, 35 módulos, com todas as descrições conferidas no código pelo modelador</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1,92</span></li>
+      <li><span class="lab"><b>Atualização do chi, v5.4.0 → v5.5.0</b><span>1 módulo novo e 1 descrição revisada: o piso de uma atualização com modelo</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:11%"></span></span><span class="val">US$ 0,22</span></li>
       <li class="me"><span class="lab"><b>Commit sem mudança de estrutura</b><span>0 chamadas de modelo; só scripts</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:0%"></span></span><span class="val">US$ 0</span></li>
     </ul>
     <div class="econ">
@@ -345,7 +349,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <div class="rv"><span class="ev">US$ 1,71</span><span class="ek">4 fases do modelador em Sonnet 5.5</span><p>50 chamadas, 8,9 min de modelo. Mais uma chamada de Haiku 5.5 nomeou e descreveu os 69 módulos (54.116 tokens, 66 s) e custa menos de US$ 0,03, mesmo cobrando todos os tokens como saída. Nenhuma chamada passou de 100 mil tokens de contexto (pico 97 mil).</p></div>
       <div class="rv"><span class="ev">US$ 0,45</span><span class="ek">o modelador na atualização</span><p>19 chamadas em Sonnet, 129 s: decidiu container, status e as 12 relações. Uma chamada de Haiku (26.029 tokens, 34 s) descreveu os 3 módulos novos e revisou 16.</p></div>
       <div class="rv"><span class="ev">15 de 16</span><span class="ek">descrições revisadas ficaram iguais</span><p>Palavra por palavra; 1 mudou (o módulo de cookies, que ganhou suporte à Cookie Store API naquela versão). Nenhum nome e nenhuma área mudou.</p></div>
-      <div class="rv"><span class="ev">63%</span><span class="ek">menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 29 revisões, porque só reabre o módulo cuja superfície pública mudou.</p></div>
+      <div class="rv"><span class="ev">59%</span><span class="ek">menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 32 revisões, porque só reabre o módulo cuja superfície pública mudou. Lendo os diffs que ficaram de fora no rich e no axios, 3 de 178 arquivos ainda escondiam mudança.</p></div>
     </div>
     <div class="phases rv" id="quando">
       <div>
@@ -418,8 +422,8 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <div><h2 id="h-limites">O que ele <em>ainda não faz.</em></h2></div>
     </div>
     <ul class="limits">
-      <li class="rv"><b>Linux e macOS sem execução real.</b> O <code>atualizar.py</code> roda em qualquer sistema e acha <code>structurizr.sh</code> e <code>dot</code> pelo PATH, mas só o Windows foi executado de ponta a ponta; Linux e macOS passaram em testes que simulam a plataforma. O gancho do git e o <code>ver-arquitetura.ps1</code> ainda pedem PowerShell.</li>
-      <li class="rv"><b>Prova de relação só por imports.</b> O modo AST lê Python, JS/TS, Go, Rust, Java, Kotlin, C# e C/C++, sem dependência. Macros do Rust, reflection e injeção de dependência não são seguidos, e a precisão nas linguagens novas ainda não foi medida. Para chamadas, use um índice do CodeGraph.</li>
+      <li class="rv"><b>macOS sem execução real.</b> Scripts, testes, regeneração e gancho do git rodaram de ponta a ponta no Windows e no Linux (Ubuntu 24.04), com os mesmos documentos gerados nos dois. As fases com modelo rodaram só no Windows. O macOS passou apenas em testes que simulam a plataforma, e o <code>ver-arquitetura.ps1</code> pede PowerShell.</li>
+      <li class="rv"><b>Prova de relação só por imports.</b> O modo AST lê Python, JS/TS, Go, Rust, Java, Kotlin, C# e C/C++, sem dependência. Em Go a relação sai do símbolo usado (31 arestas no chi, todas confirmadas; chamada de método e interface ficam de fora). Macros do Rust, reflection e injeção de dependência não são seguidos, e Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Para chamadas, use um índice do CodeGraph.</li>
       <li class="rv"><b>Terminal só em parte em inglês.</b> Documentos, explorador, leitor e rótulos do modelo saem em português (padrão) ou inglês, com seletor PT | EN nas páginas. No terminal, o teste de cobertura e a atualização seguem o idioma do mapa; instalador, plano e avisos continuam em português.</li>
       <li class="rv"><b>Diagramas avançados pesam 5,3 MB.</b> <code>mindmap</code>, <code>architecture</code> e fórmulas usam a versão completa do Mermaid, carregada só na página que tem um desses. Apague o arquivo para economizar espaço; o bloco mostra um aviso e mantém o texto.</li>
       <li class="rv"><b>Passos com modelo enviam o código</b> que leem à Anthropic, pelo Claude Code. Os scripts não fazem chamada de rede.</li>
