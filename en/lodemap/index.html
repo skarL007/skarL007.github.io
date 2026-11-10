@@ -286,7 +286,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports between modules that are in the model</span><span class="src">No import in the code was left out of the axios map</span></div>
       <div class="stat rv"><span class="v" data-to="96.9" data-dec="1" data-sep=".">96.9</span><span class="k">Score of the lean description route, on rich</span><span class="src">95% interval: 92.7 to 98.7. It used 64,670 tokens, against 129,385 for a subagent with the same score</span></div>
       <div class="stat rv"><span class="v" data-to="0.9" data-dec="2" data-sep=".">0.90</span><span class="k">Agreement of the chosen area, on axios</span><span class="src">Agreement with the reference. The reference is one Sonnet run, not a human answer key</span></div>
-      <div class="stat rv"><span class="v">415</span><span class="k">Skill tests passing</span><span class="src">Windows and Linux (on Linux, 414 and 1 skipped), Python 3.12 · 2026-11-09</span></div>
+      <div class="stat rv"><span class="v">488</span><span class="k">Skill tests passing</span><span class="src">Windows and Linux (on Linux, 487 and 1 skipped), Python 3.12 · 2026-11-10</span></div>
     </div>
     <div class="audit">
       <div class="rv"><b>177 of 188</b><span>Model relations with an import in the code that confirms them; the other 11 were added by the modeler</span></div>
@@ -294,9 +294,10 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <div class="rv"><b>31 of 31</b><span>Edges the script found in go-chi/chi (Go) that reading the code confirmed; 3 real relations were missed</span></div>
       <div class="rv"><b>2</b><span>Components with no relation at all</span></div>
       <div class="rv weak"><b>0 of 72</b><span>Weak spot: observability. axios is a library, with no logs or metrics</span></div>
-      <div class="rv weak"><b>6 of 35</b><span>Weak spot: sentences from the Haiku call that stated something false on the chi map. The modeler checked the code and fixed all of them; the quality score does not catch this</span></div>
+      <div class="rv weak"><b>5 of 213</b><span>Weak spot: Haiku sentences still false after the truth check (quoted evidence plus a second call that reads the code), by a Sonnet judge on chi and axios. Before the check: 15 of 108. The check costs about 3.7 times the tokens</span></div>
+      <div class="rv weak" style="grid-column:1/-1"><b>0.99</b><span>Median token ratio, with the map vs without, for a Sonnet agent on 16 pre-registered code-navigation tasks (3 runs each). The map did not make it cheaper; accuracy held (recall 0.991 vs 0.977)</span></div>
     </div>
-    <p class="note rv">Limits: the reference is one Sonnet run, not a human answer key; scripts, tests and the hook ran on Windows and on Linux, but the model phases ran on Windows only, and macOS was not run; whether the map helps a coding agent was not measured; only the axios update was repeated (three runs), every other number is one run; the quality score measures form, not whether a sentence is true.</p>
+    <p class="note rv">Limits: the reference is one Sonnet run, not a human answer key; scripts, tests and the hook ran on Windows and on Linux, but the model phases ran on Windows only, and macOS was not run; whether the map makes a coding agent cheaper was measured on two repositories only, with one model; the axios update was repeated three times and the truth check twice per repository, every other number is one run; the quality score measures form, and truth is measured separately by a model judge.</p>
   </div>
 </section>
 
@@ -424,10 +425,10 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     <ul class="limits">
       <li class="rv"><b>macOS not run for real.</b> Scripts, tests, regeneration and the git hook ran end to end on Windows and on Linux (Ubuntu 24.04), with the same generated documents on both. The model phases ran on Windows only. macOS only passed tests that simulate the platform, and <code>ver-arquitetura.ps1</code> needs PowerShell.</li>
       <li class="rv"><b>Relation proof from imports only.</b> AST mode reads Python, JS/TS, Go, Rust, Java, Kotlin, C# and C/C++, with no dependency. In Go the relation comes from the symbol used (31 edges on chi, all confirmed; method calls and interfaces are missed). Rust macros, reflection and dependency injection are not followed, and Java, Kotlin, C# and C/C++ have no measurement on a real repository yet. For calls, use a CodeGraph index.</li>
-      <li class="rv"><b>Terminal only partly in English.</b> Docs, explorer, reader and model labels come out in Portuguese (default) or English, with a PT | EN switch on the pages. In the terminal, the coverage test and the update follow the map language; the installer, the plan and the warnings are still in Portuguese.</li>
+      <li class="rv"><b>Some sentences are still false.</b> With the truth check, 5 of 213 module descriptions were false by a Sonnet judge on chi and axios (before it, 15 of 108). The modeler still confirms them against the code.</li>
       <li class="rv"><b>Advanced diagrams weigh 5.3 MB.</b> <code>mindmap</code>, <code>architecture</code> and formulas use the full Mermaid build, loaded only on a page that has one. Delete the file to save space; the block shows a notice and keeps the text.</li>
       <li class="rv"><b>Model steps send the code</b> they read to Anthropic, through Claude Code. The scripts make no network calls.</li>
-      <li class="rv"><b>Not measured:</b> whether the map makes an agent solve tasks better or cheaper. A study on context files (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) found no overall gain and 20% higher cost; it did not test C4 maps.</li>
+      <li class="rv"><b>The map does not make an agent cheaper.</b> In a pre-registered test (Sonnet, 16 code-navigation tasks on chi and axios, 3 runs each) tokens were the same with and without it (median ratio 0.99) and accuracy held (recall 0.991 vs 0.977). It is a map for people first. A study on context files (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) found no overall gain either.</li>
     </ul>
   </div>
 </section>
@@ -450,7 +451,9 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
       <li class="rv"><span class="tag tag--ok">Done</span><span>Lean scope: map and documentation only. Default agents, safety hooks and telemetry stayed in Synapse.</span></li>
       <li class="rv"><span class="tag tag--ok">Done</span><span>README with cost, limits and security; MIT license, third-party notices and the 0.1.0 CHANGELOG.</span></li>
       <li class="rv"><span class="tag tag--ok">Done</span><span>CI set up for Linux and Windows, Python 3.11 and 3.12.</span></li>
-      <li class="rv"><span class="tag tag--info">Left</span><span>Publish the repository on GitHub and run CI for the first time.</span></li>
+      <li class="rv"><span class="tag tag--ok">Done</span><span>Repository published on GitHub, CI green on CircleCI.</span></li>
+      <li class="rv"><span class="tag tag--ok">Done</span><span>Pre-registered test of an agent with and without the map, and a truth check for descriptions, both measured and published in the repository.</span></li>
+      <li class="rv"><span class="tag tag--ok">Done</span><span>Terminal and <code>--help</code> in English or Portuguese, by environment variable, map language or system locale.</span></li>
       <li class="rv"><span class="tag tag--info">Left</span><span>Example map of a public project inside the repository, with a capture in the README.</span></li>
       <li class="rv"><span class="tag tag--info">Left</span><span>Portable generation pipeline (Linux and macOS) and a quality baseline that does not depend on the first project.</span></li>
       <li class="rv"><span class="tag">Planned</span><span>Public cost campaign: several public repositories, three runs per model, cost taken from billing.</span></li>

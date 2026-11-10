@@ -286,7 +286,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <div class="stat rv"><span class="v">177<small>/177</small></span><span class="k">Imports entre módulos que estão no modelo</span><span class="src">Nenhum import do código ficou de fora do mapa do axios</span></div>
       <div class="stat rv"><span class="v" data-to="96.9" data-dec="1">96,9</span><span class="k">Nota da rota enxuta de descrições, no rich</span><span class="src">Intervalo de 95%: 92,7 a 98,7. Usou 64.670 tokens, contra 129.385 de um subagente com a mesma nota</span></div>
       <div class="stat rv"><span class="v" data-to="0.9" data-dec="2">0,90</span><span class="k">Concordância da área escolhida, no axios</span><span class="src">Concordância com a referência. A referência é uma rodada de Sonnet, não gabarito humano</span></div>
-      <div class="stat rv"><span class="v">415</span><span class="k">Testes da skill passando</span><span class="src">Windows e Linux (no Linux, 414 e 1 pulado), Python 3.12 · 09/11/2026</span></div>
+      <div class="stat rv"><span class="v">488</span><span class="k">Testes da skill passando</span><span class="src">Windows e Linux (no Linux, 487 e 1 pulado), Python 3.12 · 10/11/2026</span></div>
     </div>
     <div class="audit">
       <div class="rv"><b>177 de 188</b><span>Relações do modelo com import que as confirma; as outras 11 foram acrescentadas pelo modelador</span></div>
@@ -294,9 +294,10 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <div class="rv"><b>31 de 31</b><span>Arestas que o script achou no go-chi/chi (Go) e que a leitura do código confirmou; 3 relações reais ficaram de fora</span></div>
       <div class="rv"><b>2</b><span>Componentes sem relação nenhuma</span></div>
       <div class="rv weak"><b>0 de 72</b><span>Ponto fraco: observabilidade. O axios é uma biblioteca, sem log nem métrica</span></div>
-      <div class="rv weak"><b>6 de 35</b><span>Ponto fraco: frases da chamada de Haiku que afirmavam algo falso no mapa do chi. O modelador conferiu no código e corrigiu todas; a nota de qualidade não pega isso</span></div>
+      <div class="rv weak"><b>5 de 213</b><span>Ponto fraco: frases do Haiku ainda falsas depois da conferência (evidência citada e uma segunda chamada que lê o código), segundo um juiz Sonnet no chi e no axios. Antes da conferência: 15 de 108. A conferência custa cerca de 3,7 vezes os tokens</span></div>
+      <div class="rv weak" style="grid-column:1/-1"><b>0,99</b><span>Razão mediana de tokens, com mapa contra sem mapa, de um agente Sonnet em 16 tarefas de navegação no código pré-registradas (3 rodadas cada). O mapa não barateou; o acerto se manteve (recall 0,991 contra 0,977)</span></div>
     </div>
-    <p class="note rv">Limites: a referência é uma rodada de Sonnet, não gabarito humano; scripts, testes e gancho rodaram no Windows e no Linux, mas as fases com modelo só no Windows, e o macOS não foi rodado; não foi medido se o mapa ajuda um agente de código; só a atualização do axios foi repetida (três rodadas), os outros números são de uma rodada; a nota de qualidade mede forma, não se a frase é verdadeira.</p>
+    <p class="note rv">Limites: a referência é uma rodada de Sonnet, não gabarito humano; scripts, testes e gancho rodaram no Windows e no Linux, mas as fases com modelo só no Windows, e o macOS não foi rodado; se o mapa barateia um agente de código foi medido em dois repositórios só, com um modelo; a atualização do axios foi repetida três vezes e a conferência das frases duas por repositório, os outros números são de uma rodada; a nota de qualidade mede forma, e a verdade é medida à parte por um juiz que é um modelo.</p>
   </div>
 </section>
 
@@ -424,10 +425,10 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <ul class="limits">
       <li class="rv"><b>macOS sem execução real.</b> Scripts, testes, regeneração e gancho do git rodaram de ponta a ponta no Windows e no Linux (Ubuntu 24.04), com os mesmos documentos gerados nos dois. As fases com modelo rodaram só no Windows. O macOS passou apenas em testes que simulam a plataforma, e o <code>ver-arquitetura.ps1</code> pede PowerShell.</li>
       <li class="rv"><b>Prova de relação só por imports.</b> O modo AST lê Python, JS/TS, Go, Rust, Java, Kotlin, C# e C/C++, sem dependência. Em Go a relação sai do símbolo usado (31 arestas no chi, todas confirmadas; chamada de método e interface ficam de fora). Macros do Rust, reflection e injeção de dependência não são seguidos, e Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Para chamadas, use um índice do CodeGraph.</li>
-      <li class="rv"><b>Terminal só em parte em inglês.</b> Documentos, explorador, leitor e rótulos do modelo saem em português (padrão) ou inglês, com seletor PT | EN nas páginas. No terminal, o teste de cobertura e a atualização seguem o idioma do mapa; instalador, plano e avisos continuam em português.</li>
+      <li class="rv"><b>Ainda há frases falsas.</b> Com a conferência, 5 de 213 descrições de módulo eram falsas segundo um juiz Sonnet no chi e no axios (antes dela, 15 de 108). O modelador ainda confere cada uma no código.</li>
       <li class="rv"><b>Diagramas avançados pesam 5,3 MB.</b> <code>mindmap</code>, <code>architecture</code> e fórmulas usam a versão completa do Mermaid, carregada só na página que tem um desses. Apague o arquivo para economizar espaço; o bloco mostra um aviso e mantém o texto.</li>
       <li class="rv"><b>Passos com modelo enviam o código</b> que leem à Anthropic, pelo Claude Code. Os scripts não fazem chamada de rede.</li>
-      <li class="rv"><b>Não medido:</b> se o mapa faz um agente resolver tarefas melhor ou mais barato. Um estudo sobre arquivos de contexto (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) não achou ganho geral e viu custo 20% maior; ele não testou mapas C4.</li>
+      <li class="rv"><b>O mapa não deixa um agente mais barato.</b> Num teste pré-registrado (Sonnet, 16 tarefas de navegação no chi e no axios, 3 rodadas cada), os tokens foram os mesmos com e sem ele (razão mediana 0,99) e o acerto se manteve (recall 0,991 contra 0,977). Ele é antes de tudo um mapa para pessoas. Um estudo sobre arquivos de contexto (<a href="https://arxiv.org/abs/2602.11988" rel="noopener">arXiv 2602.11988</a>) também não achou ganho geral.</li>
     </ul>
   </div>
 </section>
@@ -450,7 +451,9 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>Escopo enxuto: só mapa e documentação. Agentes padrão, hooks de segurança e telemetria ficaram no Synapse.</span></li>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>README com custo, limites e segurança; licença MIT, avisos de terceiros e CHANGELOG da 0.1.0.</span></li>
       <li class="rv"><span class="tag tag--ok">Pronto</span><span>CI configurado para Linux e Windows, Python 3.11 e 3.12.</span></li>
-      <li class="rv"><span class="tag tag--info">Falta</span><span>Publicar o repositório no GitHub e rodar o CI pela primeira vez.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Repositório publicado no GitHub, CI verde no CircleCI.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Teste pré-registrado de um agente com e sem o mapa, e conferência de verdade das descrições, os dois medidos e publicados no repositório.</span></li>
+      <li class="rv"><span class="tag tag--ok">Pronto</span><span>Terminal e <code>--help</code> em inglês ou português, por variável de ambiente, idioma do mapa ou locale do sistema.</span></li>
       <li class="rv"><span class="tag tag--info">Falta</span><span>Mapa de exemplo de um projeto público dentro do repositório, com captura no README.</span></li>
       <li class="rv"><span class="tag tag--info">Falta</span><span>Pipeline de geração portátil (Linux e macOS) e baseline de qualidade que não dependa do primeiro projeto.</span></li>
       <li class="rv"><span class="tag">Planejado</span><span>Campanha pública de custo: vários repositórios públicos, três repetições por modelo, custo tirado do faturamento.</span></li>
