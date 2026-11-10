@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lodeward: governança para agentes de código no Claude Code</title>
+<meta name="description" content="Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições só com aprovação e números com origem. Com o que não deu certo à mostra.">
+<meta name="theme-color" content="#f2efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0d" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://skarl007.github.io/lodeward/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/lodeward/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/lodeward/">
+<link rel="alternate" hreflang="x-default" href="https://skarl007.github.io/lodeward/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Lodeward: governança para agentes de código no Claude Code">
+<meta property="og:description" content="O agente trabalha. A regra continua sendo sua. Lição só vale aprovada, número com origem, lacuna à vista. Em validação, com o que deu errado à mostra.">
+<meta property="og:url" content="https://skarl007.github.io/lodeward/">
+<meta property="og:image" content="https://skarl007.github.io/assets/lodeward/og-pt.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lodeward em letras brancas sobre azul, com a frase: O agente trabalha. A regra continua sendo sua.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="../assets/lodeward/lodeward.css?v=20261109e">
+<script>
+(function(){var r=document.documentElement,K="synapse-tema",q=null,s=null;
+try{q=new URLSearchParams(location.search).get("tema")}catch(e){}
+try{s=localStorage.getItem(K)}catch(e){}
+var t=q==="claro"?"light":q==="escuro"?"dark":s;
+if(t==="light"||t==="dark")r.setAttribute("data-theme",t);r.classList.add("js");
+document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("tema");if(!b)return;
+function atual(){return r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
+function rotulo(){var a=atual();b.textContent=a==="light"?b.dataset.escuro:b.dataset.claro;b.setAttribute("aria-label",b.dataset.rotulo+" "+b.textContent)}
+rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"light";r.setAttribute("data-theme",n);try{localStorage.setItem(K,n)}catch(e){}rotulo()})})})();
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Lodeward","url":"https://skarl007.github.io/lodeward/","inLanguage":"pt-BR","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, Linux","description":"Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições em quarentena até a aprovação, contexto arquivado antes da compactação e números com origem. Em validação.","author":{"@type":"Person","name":"Marcelo Machuca","url":"https://skarl007.github.io/"}}
+</script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="barra">
+  <div class="caixa">
+    <a class="marca" href="../#p-syn" aria-label="Lodeward: voltar ao portfólio de Marcelo Machuca">Lodeward</a>
+    <nav class="arquivos" aria-label="Seções">
+      <a href="#faz">o-que-faz.md</a>
+      <a href="#agentes">agentes.html</a>
+      <a href="#medicoes">medicoes.log</a>
+      <a href="#limites">limites.diff</a>
+      <a href="#estado">estado.md</a>
+    </nav>
+    <a class="chave" href="../en/lodeward/" hreflang="en" lang="en" aria-label="English (EN)">EN</a>
+    <button class="chave" id="tema" type="button" data-claro="claro" data-escuro="escuro" data-rotulo="Mudar o tema para" aria-label="Alternar tema">tema</button>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+
+<section class="cobalto heroi" aria-labelledby="h-heroi">
+  <div class="caixa">
+    <svg class="nome" viewBox="0 0 1000 152" role="img" aria-label="Lodeward" preserveAspectRatio="xMidYMid meet">
+      <text x="0" y="146" font-size="200" textLength="1000" lengthAdjust="spacingAndGlyphs">LODEWARD</text>
+    </svg>
+    <p class="corte mono"><span>Governança para agentes de código · Claude Code · em validação</span><span aria-hidden="true">✂ destaque aqui</span></p>
+    <div class="heroi-corpo">
+      <h1 id="h-heroi">O agente trabalha. A regra continua sendo <em>sua.</em></h1>
+      <div>
+        <p class="lide">Lodeward é um servidor MCP com hooks, escrito em Rust. Ele segura o comando destrutivo antes de rodar, deixa em quarentena a lição que o agente aprendeu até você aprovar, arquiva o contexto antes da compactação e mostra cada número com a origem. Quando não há medição, aparece um traço.</p>
+        <p class="aviso">O repositório ainda é privado. Esta página mostra o que foi medido até 09/11/2026, inclusive o que não deu certo.</p>
+      </div>
+    </div>
+    <ul class="canhotos" role="list">
+      <li class="canhoto"><b>3.814</b><span>testes, 0 falhas</span><small>suíte completa em 08/11/2026</small></li>
+      <li class="canhoto"><b>20 de 20</b><span>verificações do ciclo de lições</span><small>quarentena, aprovação, rejeição e recarga</small></li>
+      <li class="canhoto"><b>13 de 13</b><span>comandos destrutivos bloqueados em replay</span><small>com 0 de 24 falsos positivos</small></li>
+    </ul>
+  </div>
+</section>
+
+<section class="secao" aria-labelledby="h-problema">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.01</b>O problema</p>
+    <div>
+      <h2 id="h-problema">Agente de código decide rápido. Difícil é <em>conferir</em> o que ele decidiu.</h2>
+      <ol class="queixas" role="list">
+        <li>Ele roda um comando de shell antes de alguém ler.</li>
+        <li>Ele guarda uma lição que ninguém revisou e passa a segui-la.</li>
+        <li>A conversa é compactada e some o contexto que explicava a decisão.</li>
+        <li>O painel mostra um número e ninguém sabe de onde ele veio.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="secao" id="faz" aria-labelledby="h-faz">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.02</b>O que faz</p>
+    <div>
+      <h2 id="h-faz">Cinco coisas. Cada uma com a <em>prova</em> e com o limite.</h2>
+
+      <article class="ficha sobe" aria-labelledby="f1">
+        <div class="ficha-canhoto">
+          <div><span class="mono num">F.01</span><h3 id="f1">Freio antes da execução</h3></div>
+          <p class="destaque">13 de 13<small>bloqueados em replay</small></p>
+        </div>
+        <dl>
+          <div><dt>O que faz</dt><dd>Inspeciona o comando antes de o agente rodar. Desfaz a ofuscação léxica (aspas, $IFS, base64, hexadecimal), separa os comandos e compara com uma política de padrões destrutivos. O catastrófico é bloqueado e volta como erro para o agente. O destrutivo com escopo pede a sua confirmação.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>Num replay, 13 de 13 comandos destrutivos foram bloqueados, com 0 de 24 falsos positivos. Existe também um corpus congelado de 570 comandos (510 destrutivos e 60 quase destrutivos); a matriz de confusão desse corpus não está publicada.</dd></div>
+          <div class="limite"><dt>Limite</dt><dd>É análise léxica, não um parser de shell. A rodada ao vivo de segurança foi abortada nas duas tentativas registradas, por falha de isolamento. Bloquear comando destrutivo não é exclusivo daqui: <a href="https://github.com/Dicklesworthstone/destructive_command_guard" rel="noopener">Destructive Command Guard</a> e <a href="https://github.com/kenryu42/claude-code-safety-net" rel="noopener">Claude Code Safety Net</a> fazem o mesmo trabalho.</dd></div>
+        </dl>
+      </article>
+
+      <article class="ficha sobe" aria-labelledby="f2">
+        <div class="ficha-canhoto">
+          <div><span class="mono num">F.02</span><h3 id="f2">Lição só vale depois que você aprova</h3></div>
+          <p class="destaque">20 de 20<small>verificações do ciclo de lições</small></p>
+        </div>
+        <dl>
+          <div><dt>O que faz</dt><dd>O que o agente propõe como lição entra em quarentena. Lição pendente não aparece na leitura. Aprovar não aplica: aplicar é outro passo, e desfazer restaura os bytes e o SHA-256 de antes.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>20 verificações do ciclo de lições e 17 do ciclo de propostas passaram no binário instalado, uma versão anterior à atual; ainda não foram repetidas no código de hoje. Em 12 pares de teste, o modelo foi de 12 abstenções para 12 aplicações exatas de regras aprovadas, num ambiente de teste com isolamento parcial.</dd></div>
+          <div class="limite"><dt>Limite</dt><dd>Das 48 propostas geradas pelo revisor automático, nenhuma foi aplicada, e 340 de 377 execuções pararam no teto diário. O mecanismo funciona. Que ele melhore o agente, não foi demonstrado.<span class="nota">Não encontramos outra ferramenta com este fluxo de aprovação de lições.</span></dd></div>
+        </dl>
+      </article>
+
+      <article class="ficha sobe" aria-labelledby="f3">
+        <div class="ficha-canhoto">
+          <div><span class="mono num">F.03</span><h3 id="f3">Contexto arquivado antes da compactação</h3></div>
+          <p class="destaque"><span aria-hidden="true">—</span><small>economia ainda não medida</small></p>
+        </div>
+        <dl>
+          <div><dt>O que faz</dt><dd>Um hook grava o contexto no momento em que a conversa vai ser compactada, para consulta depois.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>Os testes de ataque ao arquivo fazem parte da suíte. Dois ataques conhecidos seguem abertos e estão marcados como ignorados.</dd></div>
+          <div class="limite"><dt>Limite</dt><dd>A comparação de economia com e sem o arquivo ainda não rodou. É o que falta medir antes de abrir o código.</dd></div>
+        </dl>
+      </article>
+
+      <article class="ficha sobe" aria-labelledby="f4">
+        <div class="ficha-canhoto">
+          <div><span class="mono num">F.04</span><h3 id="f4">Número com origem, lacuna à vista</h3></div>
+          <p class="destaque">0<small>ocorrências em 291 arquivos do motor, em 09/11/2026</small></p>
+        </div>
+        <dl>
+          <div><dt>O que faz</dt><dd>Cada número que o servidor, a linha de comando ou a página mostram vem de uma medição, de uma estimativa rotulada como estimativa ou de uma sonda com horário. Sem medição, aparece um traço. Evento perdido aparece como lacuna.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>Um verificador procura no código de produção os números inventados já conhecidos e reprova se achar. Em 09/11/2026: 0 ocorrências em 291 arquivos do motor.</dd></div>
+          <div class="limite"><dt>Limite</dt><dd>Toda contagem de tokens aqui é estimativa (bytes ÷ 4), não contagem de tokenizador, e nunca vira custo.</dd></div>
+        </dl>
+      </article>
+
+      <article class="ficha sobe" aria-labelledby="f5">
+        <div class="ficha-canhoto">
+          <div><span class="mono num">F.05</span><h3 id="f5">Página Agentes</h3></div>
+          <p class="mono"><a href="#agentes">ver as telas ↓</a></p>
+        </div>
+        <dl>
+          <div><dt>O que faz</dt><dd>O workflow dos agentes como grafo, a matriz de quem pode o quê (modelo, esforço, janela, permissão, ferramentas) e um editor para criar, conectar, editar, remover e desfazer.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>As capturas abaixo são da página rodando, feitas em novembro de 2026.</dd></div>
+          <div class="limite"><dt>Limite</dt><dd>Roda localmente e ainda está em um repositório separado.</dd></div>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="secao faixa" id="agentes" aria-labelledby="h-agentes">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.03</b>Página Agentes</p>
+    <div>
+      <h2 id="h-agentes">Quem faz o quê, <em>e com que permissão.</em></h2>
+      <div class="telas">
+        <figure>
+          <a href="../assets/shots/lodeward/workflow-1440-dark.webp">
+            <picture>
+              <source media="(max-width:560px)" srcset="../assets/shots/lodeward/workflow-375-dark.webp" width="375" height="800">
+              <img src="../assets/shots/lodeward/workflow-1440-dark.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Página Agentes no tema escuro: o workflow em quatro faixas, entrada e contexto, execução, prova e revisão, memória e observabilidade, com cada passo como um cartão ligado por linhas e um ponto colorido de estado. No topo, a busca, os botões Novo e Desfazer e as abas Workflow e Matriz.">
+            </picture>
+          </a>
+          <figcaption>Workflow: entrada e contexto, execução, prova e revisão, memória e observabilidade.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/shots/lodeward/matriz-1440-dark.webp"><img src="../assets/shots/lodeward/matriz-1440-dark.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Aba Matriz: tabela com uma linha por agente (sessão principal, explorador, arquiteto, implementador, testador, revisores) e colunas de modelo, esforço, janela, turnos, permissão, ferramentas, servidores MCP, skills e tamanho estimado do prompt. Valores herdados aparecem em itálico."></a>
+          <figcaption>Matriz: a configuração efetiva de cada agente. O tamanho do prompt é estimado por bytes ÷ 4.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/shots/lodeward/ficha-implementador-1440.webp"><img src="../assets/shots/lodeward/ficha-implementador-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Ficha do agente Implementador aberta num painel à direita do workflow, na aba Resumo: descrição, modelo, esforço, janela, tamanho estimado do prompt, estado, decisão de origem, hipótese e as relações de entrada e saída no workflow. Os botões Editar e Fechar a ficha ficam no alto."></a>
+          <figcaption>Ficha de um agente, aberta em leitura.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/shots/lodeward/relacoes-edicao-1440.webp"><img src="../assets/shots/lodeward/relacoes-edicao-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Painel de edição do agente Implementador, na aba Relações: três blocos, Recebe de, Entrega para e Retorna a, cada um com os passos ligados, um campo de busca e o botão Adicionar. Embaixo, Remover, Voltar à leitura e Salvar. No grafo, as ligações do passo aparecem destacadas."></a>
+          <figcaption>Edição das relações entre passos do workflow.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/shots/lodeward/editando-resumo-1440.webp"><img src="../assets/shots/lodeward/editando-resumo-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Edição do resumo do agente Implementador: campos de rótulo, fase e grupo, estado, sobre a janela e hipótese, e a lista de skills do workflow. Embaixo, o aviso de que tudo está salvo e os botões Remover, Voltar à leitura e Salvar."></a>
+          <figcaption>Edição do resumo de um agente.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/shots/lodeward/execucao-1440.webp"><img src="../assets/shots/lodeward/execucao-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Aba Execução da ficha do Implementador: contagem de execuções, data da última, duração mediana, chamadas de ferramenta, execuções que terminaram em erro e compactações, com a nota de que são contagens e tempos, nunca custo."></a>
+          <figcaption>Aba de execução.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao cobalto" id="medicoes" aria-labelledby="h-medicoes">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.04</b>Medições</p>
+    <div>
+      <h2 id="h-medicoes">Só aparece aqui o que foi medido. <em>Inclusive o que deu errado.</em></h2>
+      <div class="cupom">
+        <p class="cupom-topo"><span>Lodeward · medições</span><span>8 perguntas · até 09/11/2026</span></p>
+
+        <div class="item">
+          <h3>Usa menos contexto por tarefa?</h3>
+          <p class="valor">0,8605<small>razão · IC 95% de 0,6978 a 0,8722 · 200 pares</small></p>
+          <p class="leitura">Sim, naquele protocolo, em 21/10/2026. Duas famílias de tarefa ficaram acima de 1. Não foi repetido no código atual.</p>
+          <span class="selo ok">Demonstrado</span>
+        </div>
+        <div class="item">
+          <h3>Injeta menos no prompt?</h3>
+          <p class="valor">372,9 → 43,6<small>tokens estimados por mensagem · 1.157 mensagens reais</small></p>
+          <p class="leitura">Sim, em replay. Mede só o hook do próprio projeto. A medição em uso real não está registrada em arquivo.</p>
+          <span class="selo replay">Em replay</span>
+        </div>
+        <div class="item">
+          <h3>Bloqueia o comando destrutivo?</h3>
+          <p class="valor">13 de 13<small>bloqueados · 0 de 24 falsos positivos</small></p>
+          <p class="leitura">Sim, em replay. A rodada ao vivo foi abortada duas vezes.</p>
+          <span class="selo replay">Em replay</span>
+        </div>
+        <div class="item">
+          <h3>A lição aprovada é aplicada?</h3>
+          <p class="valor">12 de 12<small>depois · 12 abstenções antes</small></p>
+          <p class="leitura">Sim, em 12 pares. Mostra uso da regra, não melhora geral.</p>
+          <span class="selo ok">Demonstrado</span>
+        </div>
+        <div class="item">
+          <h3>Inicia rápido?</h3>
+          <p class="valor">10,494 ms<small>mediana em 20 processos, no binário instalado</small></p>
+          <p class="leitura">Dentro do limite de 2 s. Acima da meta antiga de 10 ms.</p>
+          <span class="selo parcial">Parcial</span>
+        </div>
+        <div class="item">
+          <h3>Recupera melhor que o BM25?</h3>
+          <p class="valor">457 contra 456<small>em 470 consultas</small></p>
+          <p class="leitura">Empate.</p>
+          <span class="selo empate">Empate</span>
+        </div>
+        <div class="item">
+          <h3>Economiza em sessão longa?</h3>
+          <p class="valor">1,2133<small>razão · IC 95% de 1,1039 a 1,3397 · 45 pares</small></p>
+          <p class="leitura">Não. Gastou cerca de 21% a mais. A qualidade não caiu.</p>
+          <span class="selo nao">Não demonstrado</span>
+        </div>
+        <div class="item">
+          <h3>Responde tão bem só com os 5 melhores trechos?</h3>
+          <p class="valor">30 de 40<small>contra 40 de 40 com o contexto completo</small></p>
+          <p class="leitura">Não. Dez abstenções incorretas; nenhuma resposta inventada nesta amostra.</p>
+          <span class="selo nao">Não demonstrado</span>
+        </div>
+
+        <div class="total" role="group" aria-label="Contagem dos selos">
+          <div><span>Demonstrado</span><b>2</b></div>
+          <div><span>Em replay</span><b>2</b></div>
+          <div><span>Parcial</span><b>1</b></div>
+          <div><span>Empate</span><b>1</b></div>
+          <div><span>Não demonstrado</span><b>2</b></div>
+        </div>
+        <p class="rodape-cupom">Cada intervalo pertence ao protocolo da sua linha. As linhas não se somam numa porcentagem geral de economia. Tokens estimados são bytes ÷ 4, não contagem de tokenizador. As duas linhas que dependem de resposta de modelo (lição aprovada e 5 melhores trechos) rodaram num ambiente de teste com isolamento parcial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao" id="limites" aria-labelledby="h-limites">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.05</b>Limites</p>
+    <div>
+      <h2 id="h-limites">O que o Lodeward <em>não é.</em></h2>
+      <ul class="diff" role="list">
+        <li class="menos">Não é sandbox. O freio é um portão de permissão: comando que a análise léxica não reconhece passa.</li>
+        <li class="menos">Não demonstrou recuperação melhor que o BM25 nem economia em sessão longa.</li>
+        <li class="menos">A contenção em Linux (seccomp e cpuset) tem testes automatizados e três riscos residuais aceitos. Não há medição publicada.</li>
+        <li class="menos">Ninguém de fora testou: o repositório ainda é privado.</li>
+        <li class="menos">Não mostra dinheiro. Nenhuma tela converte tokens em custo, de propósito.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="secao" id="estado" aria-labelledby="h-estado">
+  <div class="caixa grade">
+    <p class="rotulo mono"><b>S.06</b>Estado</p>
+    <div>
+      <h2 id="h-estado">O que está pronto e o que <em>falta.</em></h2>
+      <ol class="regua" role="list" aria-label="Régua de avaliação do projeto, de N0 a N5. Nível atual: N1, protótipo.">
+        <li><b>N0</b><span>Conceito</span></li>
+        <li class="aqui" aria-current="true"><b>N1</b>Protótipo</li>
+        <li><b>N2</b><span>Promissor</span></li>
+        <li><b>N3</b><span>Promissor validado</span></li>
+        <li><b>N4</b><span>Uso próprio diário</span></li>
+        <li><b>N5</b><span>Uso público</span></li>
+      </ol>
+      <p class="frase">Pela régua de avaliação que o próprio projeto escreveu antes de medir, o nível formal hoje é o de protótipo. Dos oito critérios, só a instalação limpa e reprodutível passou inteira.</p>
+
+      <p class="mono diff-titulo">Pronto</p>
+      <ul class="diff" role="list">
+        <li class="mais">Suíte Rust verde em 08/11/2026: 3.814 testes, 0 falhas. Depois dela só mudou um script de medição.</li>
+        <li class="mais">Instalação limpa a partir do código, com diagnóstico em JSON válido.</li>
+        <li class="mais">Ciclo de lições e de propostas, com quarentena, aprovação e desfazer.</li>
+        <li class="mais">Página Agentes com editor.</li>
+      </ul>
+
+      <p class="mono diff-titulo">Falta para abrir o código</p>
+      <ul class="diff" role="list">
+        <li class="menos">Fechar a régua: testes da interface, prova de segurança com credencial real e revisão adversarial.</li>
+        <li class="menos">A comparação A/B da compactação.</li>
+        <li class="menos">Uma rodada ao vivo de segurança que chegue ao fim.</li>
+        <li class="menos">Repositório público novo, já com o nome Lodeward.</li>
+      </ul>
+      <p class="nome-antigo">O projeto se chamava SynapseEngine. O código ainda usa esse nome.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cobalto fim" aria-labelledby="h-fim">
+  <div class="caixa">
+    <h2 id="h-fim">Quer saber quando o código abrir?</h2>
+    <a class="acao" href="https://www.linkedin.com/in/marcelo-machuca-ia/" rel="noopener">Acompanhar no LinkedIn</a>
+    <p class="irma"><span class="mono">Da mesma família</span><br><a href="../lodemap/">Lodemap</a>: o mapa de arquitetura do repositório, conferido por teste.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="pe">
+  <div class="caixa"><span>Lodeward · página de projeto · 09/11/2026</span><a href="../#p-syn">← portfólio de Marcelo Machuca</a></div>
+</footer>
+</body>
+</html>
