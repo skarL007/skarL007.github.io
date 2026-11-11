@@ -76,8 +76,8 @@
   <div class="ticker-track">
     <ul>
       <li><b>72/72</b>axios modules in the map</li>
-      <li><b>US$ 1.74</b>full map</li>
-      <li><b>US$ 0.47</b>version update</li>
+      <li><b>51</b>model calls for a full map</li>
+      <li><b>20</b>model calls for a version update</li>
       <li><b>0</b>model calls on a commit with no structural change</li>
       <li><b>94.6</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
@@ -85,8 +85,8 @@
     </ul>
     <ul aria-hidden="true">
       <li><b>72/72</b>axios modules in the map</li>
-      <li><b>US$ 1.74</b>full map</li>
-      <li><b>US$ 0.47</b>version update</li>
+      <li><b>51</b>model calls for a full map</li>
+      <li><b>20</b>model calls for a version update</li>
       <li><b>0</b>model calls on a commit with no structural change</li>
       <li><b>94.6</b>quality gate score</li>
       <li><b>177/177</b>code imports in the model</li>
@@ -263,8 +263,8 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
           <li><span class="l">1</span><b>The coverage test fails</b><span>It names the 3 new files that have no component.</span></li>
           <li><span class="l">2</span><b>A script finds what changed ·&nbsp;0&nbsp;tokens</b><span>3 new modules, 16 with a different public surface, 12 new relations.</span></li>
           <li><span class="l">3</span><b>Haiku describes · 26,029&nbsp;tokens,&nbsp;34&nbsp;s</b><span>One call describes the 3 new modules and reviews the 16; 15 stay word for word.</span></li>
-          <li><span class="l">4</span><b>Sonnet decides ·&nbsp;US$&nbsp;0.45</b><span>Container, status and the 12 relations, in 19 calls and 129 s.</span></li>
-          <li><span class="l">5</span><b>Scripts regenerate everything ·&nbsp;17&nbsp;s</b><span>The test passes again. Total: at most US$ 0.47. Repeated twice more: US$ 0.36 and US$ 0.29, with the same structure.</span></li>
+          <li><span class="l">4</span><b>Sonnet decides ·&nbsp;19&nbsp;calls</b><span>Container, status and the 12 relations, in 19 calls and 129 s.</span></li>
+          <li><span class="l">5</span><b>Scripts regenerate everything ·&nbsp;17&nbsp;s</b><span>The test passes again. Total: 20 model calls. Repeated twice more: 14 and 10 calls, with the same structure.</span></li>
         </ol>
         <div class="actions">
           <a class="btn btn--acc" href="../../lodemap/demo/explorador/index.html">Open the explorer <span class="arr" aria-hidden="true">→</span></a>
@@ -318,7 +318,7 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
           <tr><td>Where it lives</td><td>On the vendor's platform</td><td>In your git, in Structurizr DSL (C4 standard), reviewable in a pull request</td></tr>
           <tr><td>Updates</td><td>Code Wiki regenerates the docs after each change <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>A script decides for zero tokens: regenerate with scripts, defer with a deadline, or call the model once for everything that changed in the structure</td></tr>
           <tr><td>Coverage</td><td>On large repositories DeepWiki may leave folders out; you can list up to 30 pages (80 on Enterprise) in <code>.devin/wiki.json</code> <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>A test fails if any module is left out of the map (72 of 72 on the axios map)</td></tr>
-          <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>US$ 1.74 for a full axios map and US$ 0.47 to update it from one version to the next, in API-equivalent cost (measured once, 2026-11-09); a commit with no structural change makes no model call</td></tr>
+          <tr><td>Cost</td><td>DeepWiki: low tier free; medium 5 to 10 ACUs and high 20 to 40 ACUs per wiki <a href="https://docs.devin.ai/work-with-devin/deepwiki" rel="noopener">[2]</a></td><td>51 model calls (about 10 min) for a full axios map and 20 to update it from one version to the next (measured once, 2026-11-09); a commit with no structural change makes no model call</td></tr>
           <tr><td>Private repository</td><td>Code Wiki announced a Gemini CLI extension, with a waitlist on 2025-11-13 <a href="https://developers.googleblog.com/introducing-code-wiki-accelerating-your-code-understanding/" rel="noopener">[1]</a></td><td>Scripts run on your machine; model steps send the code they read to Anthropic, through the Claude Code you already use</td></tr>
           <tr><td>What they do and we don't</td><td>Chat over the code and zero install</td><td>No built-in chat: your agent asks the questions, using the map</td></tr>
         </tbody>
@@ -333,21 +333,21 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     <div class="head rv">
       <p class="idx"><b>06</b>Cost</p>
       <div>
-        <h2 id="h-cost">A full map of axios for <em>US$ 1.74.</em> Updating it cost US$ 0.29 to 0.47.</h2>
+        <h2 id="h-cost">A full map of axios in <em>51 model calls.</em> Updating it took 10 to 20.</h2>
         <p class="lede">Documentation only stays alive if updating is cheap, and free when the structure does not change. The repetitive work goes to scripts, and the model only steps in when the structure changes.</p>
       </div>
     </div>
-    <ul class="bars rv" aria-label="API-equivalent cost of each run measured on axios and chi">
-      <li><span class="lab"><b>Full map of axios</b><span>v1.20.0, 69 modules: 4 Sonnet 5.5 phases and one Haiku 5.5 call</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:91%"></span></span><span class="val">US$ 1.74</span></li>
-      <li><span class="lab"><b>axios update, v1.20.0 → v1.21.1</b><span>3 new modules, 16 descriptions reviewed and 12 new relations. Three runs: 0.47, 0.36 and 0.29</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:24%"></span></span><span class="val">US$ 0.47</span></li>
-      <li><span class="lab"><b>Full map of chi (Go)</b><span>v5.4.0, 35 modules, with every description checked against the code by the modeler</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">US$ 1.92</span></li>
-      <li><span class="lab"><b>chi update, v5.4.0 → v5.5.0</b><span>1 new module and 1 description reviewed: the floor of an update that needs the model</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:11%"></span></span><span class="val">US$ 0.22</span></li>
-      <li class="me"><span class="lab"><b>Commit with no structural change</b><span>0 model calls; scripts only</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:0%"></span></span><span class="val">US$ 0</span></li>
+    <ul class="bars rv" aria-label="Model calls in each run measured on axios and chi">
+      <li><span class="lab"><b>Full map of axios</b><span>v1.20.0, 69 modules: 4 Sonnet 5.5 phases and one Haiku 5.5 call</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:76%"></span></span><span class="val">51 calls</span></li>
+      <li><span class="lab"><b>axios update, v1.20.0 → v1.21.1</b><span>3 new modules, 16 descriptions reviewed and 12 new relations. Three runs: 20, 14 and 10 calls</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:30%"></span></span><span class="val">20 calls</span></li>
+      <li><span class="lab"><b>Full map of chi (Go)</b><span>v5.4.0, 35 modules, with every description checked against the code by the modeler</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:100%"></span></span><span class="val">67 calls</span></li>
+      <li><span class="lab"><b>chi update, v5.4.0 → v5.5.0</b><span>1 new module and 1 description reviewed: the floor of an update that needs the model</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:12%"></span></span><span class="val">8 calls</span></li>
+      <li class="me"><span class="lab"><b>Commit with no structural change</b><span>0 model calls; scripts only</span></span><span class="track" aria-hidden="true"><span class="fill" style="--w:0%"></span></span><span class="val">0 calls</span></li>
     </ul>
     <div class="econ">
       <div class="zero rv"><span class="ev">0</span><span class="ek">model calls on a commit with no structural change</span><p>Scripts regenerate the map, the reader and the documents: 17 s on axios.</p></div>
-      <div class="rv"><span class="ev">US$ 1.71</span><span class="ek">4 modeler phases on Sonnet 5.5</span><p>50 calls, 8.9 min of model time. One more Haiku 5.5 call named and described the 69 modules (54,116 tokens, 66 s) and costs less than US$ 0.03, even charging every token as output. No call went above 100k tokens of context (peak 97k).</p></div>
-      <div class="rv"><span class="ev">US$ 0.45</span><span class="ek">the modeler on the update</span><p>19 Sonnet calls, 129 s: it decided the container, the status and the 12 relations. One Haiku call (26,029 tokens, 34 s) described the 3 new modules and reviewed 16.</p></div>
+      <div class="rv"><span class="ev">50</span><span class="ek">Sonnet 5.5 calls in 4 modeler phases</span><p>8.9 min of model time. One more Haiku 5.5 call named and described the 69 modules (54,116 tokens, 66 s). No call went above 100k tokens of context (peak 97k).</p></div>
+      <div class="rv"><span class="ev">19</span><span class="ek">Sonnet calls on the update</span><p>129 s of model time: it decided the container, the status and the 12 relations. One Haiku call (26,029 tokens, 34 s) described the 3 new modules and reviewed 16.</p></div>
       <div class="rv"><span class="ev">15 of 16</span><span class="ek">reviewed descriptions came out unchanged</span><p>Word for word; 1 changed (the cookies module, which gained Cookie Store API support in that release). No name and no area changed.</p></div>
       <div class="rv"><span class="ev">59%</span><span class="ek">fewer description reviews, on rich</span><p>Across 5 version pairs, 78 changed files called for 32 reviews, because only a module whose public surface changed is reopened. Reading the diffs left out on rich and axios, 3 of 178 files still hid a change.</p></div>
     </div>
@@ -370,12 +370,9 @@ router -> queue <span class="s">"Publishes the task"</span></pre>
     </div>
     <details class="method rv">
       <summary>How these numbers were calculated</summary>
-      <p>Tokens come from the agents' logs, deduplicated by message, multiplied by the official API price
-        (platform.claude.com/docs/en/about-claude/pricing, checked on 2026-11-08). Sonnet 5.5: US$ 2 per million input tokens,
-        US$ 10 output, US$ 0.10 cache read and US$ 4 for the 1-hour cache write. Haiku 5.5 up to 100k prompt tokens:
-        US$ 0.10 input and US$ 0.50 output.</p>
-      <p>The runs used a Claude Code subscription, so the figure is the API-equivalent cost, not an invoice. The session that
-        orchestrated the agents is left out. Each number comes from a single run (measured on 2026-11-09).</p>
+      <p>Calls, tokens and model time come from the agents' logs, deduplicated by message. The runs used a Claude Code
+        subscription; the session that orchestrated the agents is left out. Each number comes from a single run
+        (measured on 2026-11-09), except the axios update, which ran three times.</p>
     </details>
   </div>
 </section>
