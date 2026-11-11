@@ -12,7 +12,6 @@ html{scroll-behavior:smooth;background:var(--bg);scroll-padding-top:calc(var(--t
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-variant-numeric:tabular-nums}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 5px var(--hi)}
-.inv :focus-visible{outline-color:var(--bg)}
 .skip{position:absolute;left:-999px;top:8px;background:var(--hi);color:#000;padding:8px 14px;z-index:99;font-weight:600}.skip:focus{left:8px}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wrap{width:min(1320px,100% - 56px);margin-inline:auto}
@@ -132,10 +131,7 @@ h1 span{background:linear-gradient(var(--hi),var(--hi)) 0 88%/100% .32em no-repe
 .code .c{color:var(--mute)}.code .k{font-weight:700}.code .s{background:color-mix(in srgb,var(--hi) 55%,transparent);color:var(--ink)}
 
 /* FIG 04: faixa invertida */
-.inv{position:relative;z-index:2;background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,150px) 0;margin-top:clamp(64px,9vw,128px);scroll-margin-top:0}
-.inv .lab,.inv .leg .t,.inv .leg p{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
-.inv .cols{border-top-color:var(--bg)}
-.inv .lede,.inv .fn{color:color-mix(in srgb,var(--bg) 78%,var(--ink))}
+.inv{position:relative;z-index:2;background:var(--bg);color:var(--ink);padding:clamp(72px,10vw,150px) 0;margin-top:clamp(64px,9vw,128px);scroll-margin-top:0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
 .inv h2{font-size:clamp(40px,7vw,116px);line-height:1;max-width:15ch}
 .inv h2 span{background:var(--hi);color:#000;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .rows{margin-top:clamp(36px,5vw,72px);border-top:1px solid var(--bg)}
@@ -145,9 +141,7 @@ h1 span{background:linear-gradient(var(--hi),var(--hi)) 0 88%/100% .32em no-repe
 .row .d{grid-column:8/13;font-size:15px;color:color-mix(in srgb,var(--bg) 80%,var(--ink))}
 .row .d b{display:block;color:var(--bg);font:600 11px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
 .row .v em{font-style:normal;background:var(--hi);color:#000;padding:0 .06em}
-.inv .shot{border-color:var(--bg);background:var(--bg);margin-top:clamp(32px,4vw,56px);color:var(--ink)}
-.inv .shot figcaption{color:var(--mute)}
-.inv code{background:color-mix(in srgb,var(--bg) 16%,transparent)}
+.inv .shot{margin-top:clamp(32px,4vw,56px)}
 
 /* FIG 05 */
 .cmp{width:100%;border-collapse:collapse;font-size:15px;line-height:1.45}
@@ -276,3 +270,9 @@ html:not(.js) .stage{padding-top:var(--top)}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) h1 span,:root:not([data-theme=light]) .i2h span{background:var(--hi);color:#000;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}}
 /* celular: o campo esmaece antes da faixa de texto, sem corte seco nas relações */
 @media (max-width:900px){.map{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - var(--band) - 28px),transparent calc(100% - var(--band) + 2px));mask-image:linear-gradient(to bottom,#000 calc(100% - var(--band) - 28px),transparent calc(100% - var(--band) + 2px))}}
+
+/* vídeo de lançamento: 16:9 na tela larga, 9:16 no celular (só o visível baixa, preload=none) */
+.vid{margin:clamp(32px,4vw,56px) 0 0}
+.vid video{display:block;width:100%;height:auto;background:#000}
+.vid .v916{display:none;max-width:420px;margin-inline:auto}
+@media (max-width:700px){.vid .v169{display:none}.vid .v916{display:block}}
