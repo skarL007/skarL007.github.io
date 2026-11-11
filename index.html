@@ -142,7 +142,7 @@
         <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">público</span></a></li>
         <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">privado</span></a></li>
         <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">público</span></a></li>
-        <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Nexo Assist</span><span class="s">público</span></a></li>
+        <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Farol Desk</span><span class="s">público</span></a></li>
       </ol>
     </div>
   </div>
@@ -225,18 +225,18 @@
   </div>
   <div class="stop l" data-stop>
     <article class="sheet big rv" id="p-nexo" data-build="6" data-mod="6" aria-labelledby="t-nexo">
-      <header class="sh-head"><b>M-07</b><span>público</span><span>desafio técnico</span><span class="sh-r"><span data-n="commits">176</span> commits</span></header>
-      <h3 class="sh-title" id="t-nexo">Nexo Assist</h3>
+      <header class="sh-head"><b>M-07</b><span>público</span><span>desafio técnico</span><span>antes Nexo Assist</span><span class="sh-r"><span data-n="commits">176</span> commits</span></header>
+      <h3 class="sh-title" id="t-nexo">Farol Desk</h3>
       <p class="sh-stack">Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + Turso · React 19 · Redux Toolkit</p>
       <p class="sh-lede">Agente de service desk de TI, feito para o desafio técnico de um processo seletivo. Cada resposta mostra o que ele entendeu, o que fez e por quê.</p>
       <div class="chain" role="group" aria-label="Os dois lados do atendimento"><span>chat do funcionário</span><i aria-hidden="true">→</i><span>agente Mastra · 11 tools</span><i aria-hidden="true">→</i><span>console do analista</span></div>
       <p>O funcionário conversa com o agente, que tenta resolver pela central de ajuda com busca híbrida e pergunta “Isso resolveu?”. Quando não resolve, ele monta o chamado para a pessoa confirmar, avisa se o prazo está em risco e percebe quando várias pessoas relatam o mesmo problema.</p>
       <p>Do outro lado, o analista acompanha as conversas em tempo real (SSE), com o relatório da conversa, uma sugestão de resposta e os indicadores. O trace e a telemetria no console dizem qual modelo respondeu e por quê.</p>
       <p>As regras do service desk (prioridade, prazo, confirmação, privacidade) ficam em código testado, e o código decide quais tools o modelo pode usar em cada passo. O modelo escolhido foi conferido depois num benchmark com 7 modelos, com custo real medido, e trocado de novo em 02/11 por medição: DeepSeek-V4-Flash, 36/36 nos evals, com teto de gasto por dia.</p>
-      <figure class="shot"><a href="nexo-assist/"><img src="assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" width="1600" height="900" loading="lazy" decoding="async" alt="Abertura do vídeo Nexo Assist. Um dia de suporte de TI, do jeito que as pessoas escrevem."></a><figcaption><b>Do vídeo de demo do repositório</b> · 4:49 · fotos do monitor e da impressora, leitura de imagem em 3D e atendimento humano</figcaption></figure>
+      <figure class="shot"><a href="farol-desk/"><img src="assets/shots/farol-03-console-fila-960.webp" srcset="assets/shots/farol-03-console-fila-960.webp 960w, assets/shots/farol-03-console-fila-1600.webp 1600w" sizes="(max-width: 760px) 100vw, 600px" width="960" height="600" loading="lazy" decoding="async" alt="Console do analista no Farol Desk: a fila de conversas com os sinais de cada uma, a conversa transferida com o resumo do caso e os chamados da pessoa."></a><figcaption><b>Do app</b> · o console do analista, com a fila e a conversa</figcaption></figure>
       <dl class="ev"><div><dt>testes unitários</dt><dd data-n="unitTests">563</dd></div><div><dt>testes E2E</dt><dd data-n="e2eTests">48</dd></div><div><dt>evals</dt><dd class="sm"><span data-n="evals">35/36</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
       <p class="sh-fact">busca híbrida 84% → 94% · funcionário simulado pass^1 <span data-n="simPass1Before">0,72</span> → <span data-n="simPass1">0,93</span> · imagem Docker de 486 MB, 25/25 na prova de fumaça · CI no CircleCI e CD com Komodo puxando do Docker Hub, rodando</p>
-      <p class="sh-links"><a class="lnk" href="nexo-assist/">Ver o estudo de caso →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Usar a demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repositório ↗</a><a class="lnk" href="nexo-assist/#video">Ver o vídeo de demo →</a></p>
+      <p class="sh-links"><a class="lnk" href="farol-desk/">Ver o estudo de caso →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Usar a demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repositório ↗</a><a class="lnk" href="farol-desk/#video">Ver o vídeo de demo →</a></p>
     </article>
   </div>
 </section>
@@ -279,7 +279,7 @@
         <li><time datetime="2026-10-05">05 out 2026</time><p><b>Sublinhe</b>, MVP fechado.</p></li>
         <li><time datetime="2026-10-27">27 out 2026</time><p><b>LumenAI SDK</b>, revisão profunda: spans OpenInference cobrados, flush real, demo reproduzível e dashboard.</p></li>
         <li><time datetime="2026-10-27">27 out 2026</time><p><b>Axon Voice</b>, nova versão: respostas com fontes, grafo de conhecimento e orbe sempre visível.</p></li>
-        <li><time datetime="2026-10-28">28 out 2026</time><p><b>Nexo Assist</b>, agente de service desk de TI, entregue como desafio técnico.</p></li>
+        <li><time datetime="2026-10-28">28 out 2026</time><p><b>Farol Desk</b> (então Nexo Assist), agente de service desk de TI, entregue como desafio técnico.</p></li>
         <li class="next"><span class="tm">próximo</span><p>Faculdade de tecnologia e a primeira oportunidade no mercado.</p></li>
       </ol>
     </div>

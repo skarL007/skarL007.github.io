@@ -1,18 +1,24 @@
-/* Nexo Assist: the numbers that still change.
+/* Farol Desk (the project was called Nexo Assist until 11 Nov 2026): the numbers that still change.
  *
  * ============ EDIT HERE ============
- * One place for the volatile numbers of the Nexo Assist card (index pages)
- * and the case study (nexo-assist/ pages), in both languages. Every element
+ * One place for the volatile numbers of the Farol Desk card (index pages)
+ * and the case study (farol-desk/ pages), in both languages. Every element
  * with data-n="<key>" is filled from this block when the page loads; the text
  * already in the HTML is only the fallback for visitors without JavaScript.
- * Sources (nexo-assist, 94eaf07): README.md ("Como garanti a qualidade"),
- * docs/validacao/README.md, docs/validacao/SIMULACAO.md, docs/validacao/RED-TEAM.md,
- * and `git rev-list --count 94eaf07` for the commits.
+ * The file, the global (NEXO_NUMBERS) and the repository keep the old name.
+ * Sources: the project is now called Farol Desk; its repository is still skarL007/nexo-assist.
+ *   - unitTests, e2eTests and asOf: docs/validacao/REVISAO-2026-11-11.md (review of 11 Nov 2026)
+ *     and README.md ("Como garanti a qualidade").
+ *   - everything else is still the 3 Nov round (nexo-assist, 94eaf07): README.md,
+ *     docs/validacao/README.md, docs/validacao/SIMULACAO.md, docs/validacao/RED-TEAM.md,
+ *     and `git rev-list --count 94eaf07` for the commits.
+ * asOf dates the unit and E2E tests only. The case study writes the date of the eval round
+ * by hand (search for "farol:eval-date" in farol-desk/index.html and en/farol-desk/index.html).
  */
 window.NEXO_NUMBERS = {
-  asOf: '2026-11-03',        // date of the round the numbers come from (YYYY-MM-DD)
+  asOf: '2026-11-11',        // date of the unit and E2E test run (YYYY-MM-DD); the evals below are from 3 Nov
   commits: 176,              // git rev-list --count 94eaf07
-  unitTests: 563,            // npm test (Vitest, 77 files)
+  unitTests: 573,            // npm test (Vitest, 77 files), review of 11 Nov
   e2eTests: 48,              // npm run test:e2e (Playwright)
   evalsPassed: 35,           // npm run eval, full suite (8 attacks, 6 simulation findings, 2 diagnostic checks)
   evalsTotal: 36,            // 3 Nov, with deepinfra/deepseek-ai/DeepSeek-V4-Flash (the production model since 2 Nov), US$ 0.07

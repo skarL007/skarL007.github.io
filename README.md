@@ -37,12 +37,16 @@ en/index.html       English page
 assets/site.css     shared styles
 assets/site.js      shared script; every string it writes is in the TX table at the top
 assets/shots/       project screenshots (replace a file to update it; keep the name)
-assets/og.jpg       social preview image, 1200x630 (assets/og.png is the old one, kept only while en/index.html still points to it)
-nexo-assist/        Nexo Assist case study, Portuguese (en/nexo-assist/ is the English one)
+assets/og.jpg       social preview image, 1200x630
+farol-desk/         Farol Desk case study, Portuguese (en/farol-desk/ is the English one); the project was Nexo Assist until 11 Nov 2026
+nexo-assist/        the old address of that case study: a page that only redirects to farol-desk/ (so does en/nexo-assist/)
+assets/farol.css    Farol Desk case-study styles, on top of site.css (which it uses for the header and footer only)
+assets/farol.js     Farol Desk case-study script: menu, current section, "por quê?" panels, video chapters, fade on scroll
+tools/farol-shots.py  build tool, not part of the site: regenerates assets/shots/farol-* from the captures in the Farol Desk repository
 assets/case.css     case-study styles, on top of site.css
 assets/case.js      case-study script: the 3D architecture and its 2D plan; strings in the TX table at the top
-assets/nexo-numbers.js  the Nexo Assist numbers that still change (tests, evals, simulation, commits)
-assets/video/       the Nexo Assist demo video (a lighter encode of docs/demo/nexo-assist-demo.mp4 in that repo)
+assets/nexo-numbers.js  the Farol Desk numbers that still change (tests, evals, simulation, commits); the file keeps the old name
+assets/video/       the Farol Desk demo video, recorded under the old name (a lighter encode of docs/demo/nexo-assist-demo.mp4 in that repo)
 404.html            not-found page
 lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-sdk)
 ```
@@ -53,13 +57,19 @@ lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-
 SDK. To update it, copy those files again. The LumenAI card links to the live demo on Vercel
 (<https://lumen-ai-sdk-demo.vercel.app>); this copy is the recorded fallback.
 
-## Updating the Nexo Assist numbers
+## Updating the Farol Desk numbers and screenshots
 
 The card on both home pages and the case study read the numbers that still change from one block at
 the top of `assets/nexo-numbers.js`. Edit that block; every element with `data-n` is filled from it
 on load, and the 3D module height follows `commits`. The numbers written in the HTML are only the
-fallback for visitors without JavaScript. The case study's "Still open" list is prose, so it is
-edited in both pages, between the `nexo:open-items` comments.
+fallback for visitors without JavaScript. `asOf` dates the unit and E2E tests; the date of the eval
+round is written by hand in both case-study pages, next to the `farol:eval-date` comments. The case
+study's "Still open" list is prose, so it is edited in both pages, between the `nexo:open-items`
+comments.
+
+The screenshots come from `docs/capturas/` in the Farol Desk repository (still named `nexo-assist`).
+After the captures change, run `python tools/farol-shots.py` (it expects that repository next to
+this one; `--src` points elsewhere). The file names stay the same, so the pages need no edit.
 
 ## Run it locally
 

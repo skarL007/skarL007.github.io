@@ -17,12 +17,12 @@
 <meta property="og:url" content="https://skarl007.github.io/en/">
 <meta property="og:title" content="Marcelo Machuca · AI Solutions Developer">
 <meta property="og:description" content="I design AI systems and direct the agents that write the code. My job is the architecture, the limits and the proof.">
-<meta property="og:image" content="https://skarl007.github.io/assets/og.png">
+<meta property="og:image" content="https://skarl007.github.io/assets/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A 3D technical blueprint with the seven project modules, Nexo Assist among them, raised by the agents, next to the name and role">
+<meta property="og:image:alt" content="A 3D technical blueprint with the seven project modules, Farol Desk among them, raised by the agents, next to the name and role">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://skarl007.github.io/assets/og.png">
+<meta name="twitter:image" content="https://skarl007.github.io/assets/og.jpg">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,7 +114,7 @@
         <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">public</span></a></li>
         <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">private</span></a></li>
         <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">public</span></a></li>
-        <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Nexo Assist</span><span class="s">public</span></a></li>
+        <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Farol Desk</span><span class="s">public</span></a></li>
       </ol>
     </div>
   </div>
@@ -201,18 +201,18 @@
   </div>
   <div class="stop l" data-stop>
     <article class="sheet big rv" id="p-nexo" data-build="6" data-mod="6" aria-labelledby="t-nexo">
-      <header class="sh-head"><b>M-07</b><span>public</span><span>technical challenge</span><span class="sh-r"><span data-n="commits">176</span> commits</span></header>
-      <h3 class="sh-title" id="t-nexo">Nexo Assist</h3>
+      <header class="sh-head"><b>M-07</b><span>public</span><span>technical challenge</span><span>formerly Nexo Assist</span><span class="sh-r"><span data-n="commits">176</span> commits</span></header>
+      <h3 class="sh-title" id="t-nexo">Farol Desk</h3>
       <p class="sh-stack">Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + Turso · React 19 · Redux Toolkit</p>
       <p class="sh-lede">An IT service-desk agent, built for the technical challenge of a hiring process. Every answer shows what it understood, what it did and why.</p>
       <div class="chain" role="group" aria-label="The two sides of the service desk"><span>employee chat</span><i aria-hidden="true">→</i><span>Mastra agent · 11 tools</span><i aria-hidden="true">→</i><span>analyst console</span></div>
       <p>The employee talks to the agent, which tries to solve the issue through the help center with hybrid search and asks “Did this solve it?”. When it doesn't, it drafts the ticket for the person to confirm, warns when the deadline is at risk and notices when several people report the same problem.</p>
       <p>On the other side, the analyst follows conversations in real time (SSE), with a conversation report, a suggested reply and the indicators. The trace and the console telemetry say which model answered and why.</p>
       <p>The service-desk rules (priority, deadlines, confirmation, privacy) live in tested code, and code decides which tools the model may use at each step. The chosen model was later checked in a benchmark of 7 models, with real cost measured, and switched again on 2 Nov after measuring: DeepSeek-V4-Flash, 36/36 in the evals, with a daily spend cap.</p>
-      <figure class="shot"><a href="nexo-assist/"><img src="../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" width="1600" height="900" loading="lazy" decoding="async" alt="Nexo Assist video opening, in Portuguese. A day in IT support, in the words people use."></a><figcaption><b>From the repository's demo video</b> · 4:49 · monitor and printer photos, a 3D view of image analysis and a live analyst handoff</figcaption></figure>
+      <figure class="shot"><a href="farol-desk/"><img src="../assets/shots/farol-03-console-fila-960.webp" srcset="../assets/shots/farol-03-console-fila-960.webp 960w, ../assets/shots/farol-03-console-fila-1600.webp 1600w" sizes="(max-width: 760px) 100vw, 600px" width="960" height="600" loading="lazy" decoding="async" alt="The analyst console in Farol Desk, in Portuguese: the conversation queue with each one&#39;s signals, the handed-off conversation with the case summary, and the person&#39;s tickets."></a><figcaption><b>From the app</b> · the analyst console, with the queue and the conversation (in Portuguese)</figcaption></figure>
       <dl class="ev"><div><dt>unit tests</dt><dd data-n="unitTests">563</dd></div><div><dt>E2E tests</dt><dd data-n="e2eTests">48</dd></div><div><dt>evals</dt><dd class="sm"><span data-n="evals">35/36</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
       <p class="sh-fact">hybrid search 84% → 94% · simulated employee pass^1 <span data-n="simPass1Before">0.72</span> → <span data-n="simPass1">0.93</span> · 486 MB Docker image, 25/25 on the smoke test · CI on CircleCI and CD with Komodo pulling from Docker Hub, running</p>
-      <p class="sh-links"><a class="lnk" href="nexo-assist/">Read the case study →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="nexo-assist/#video">Watch the demo video →</a></p>
+      <p class="sh-links"><a class="lnk" href="farol-desk/">Read the case study →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="farol-desk/#video">Watch the demo video →</a></p>
     </article>
   </div>
 </section>
@@ -255,7 +255,7 @@
         <li><time datetime="2026-10-05">05 Oct 2026</time><p><b>Sublinhe</b>, MVP closed.</p></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>LumenAI SDK</b>, deep review: billed OpenInference spans, a proper flush, a reproducible demo and a dashboard.</p></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>Axon Voice</b>, new version: answers with sources, a knowledge graph and an always-on-top orb.</p></li>
-        <li><time datetime="2026-10-28">28 Oct 2026</time><p><b>Nexo Assist</b>, an IT service-desk agent, delivered as a technical challenge.</p></li>
+        <li><time datetime="2026-10-28">28 Oct 2026</time><p><b>Farol Desk</b> (then Nexo Assist), an IT service-desk agent, delivered as a technical challenge.</p></li>
         <li class="next"><span class="tm">next</span><p>A degree in technology and my first opportunity in the industry.</p></li>
       </ol>
     </div>

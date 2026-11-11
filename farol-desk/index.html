@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="pt-BR" class="fd">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Farol Desk · estudo de caso · Marcelo Machuca</title>
+<meta name="description" content="Estudo de caso do Farol Desk (antes Nexo Assist), um agente de service desk de TI feito para um desafio técnico: produto, decisões, provas com a fonte e a revisão de 11/11/2026.">
+<meta name="theme-color" content="#f5f5f7">
+<link rel="canonical" href="https://skarl007.github.io/farol-desk/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/farol-desk/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/farol-desk/">
+<link rel="alternate" hreflang="x-default" href="https://skarl007.github.io/farol-desk/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Marcelo Machuca">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://skarl007.github.io/farol-desk/">
+<meta property="og:title" content="Farol Desk · estudo de caso">
+<meta property="og:description" content="Um agente de service desk de TI em que cada resposta mostra o que ele entendeu, o que fez e por quê. Produto, decisões e provas.">
+<meta property="og:image" content="https://skarl007.github.io/assets/shots/farol-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Farol Desk, o agente de service desk de TI da empresa fictícia Nexo, com a marca do farol">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://skarl007.github.io/assets/shots/farol-og.jpg">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/farol.css">
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<svg class="fd-sprite" aria-hidden="true" focusable="false"><symbol id="fd-mark" viewBox="0 0 24 24"><path d="M13.2 8.4 22 4.4v8z" opacity=".5"/><path d="M7.6 6.7 10.5 3.6l2.9 3.1z"/><rect x="8.5" y="7.3" width="4" height="2.7" rx=".5"/><path d="M8.8 10.8h3.4l1.1 8.6H7.7z"/><rect x="6.2" y="19.8" width="8.6" height="1.6" rx=".6"/></symbol></svg>
+
+<header class="hdr">
+  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>Desenvolvedor de Soluções em IA</small></a>
+  <nav id="nav" class="nav" aria-label="Seções do estudo de caso">
+    <a href="#produto"><i aria-hidden="true">01</i>Produto</a>
+    <a href="#arquitetura"><i aria-hidden="true">02</i>Por dentro</a>
+    <a href="#decisoes"><i aria-hidden="true">03</i>Decisões</a>
+    <a href="#provas"><i aria-hidden="true">04</i>Provas</a>
+    <a href="#revisao"><i aria-hidden="true">05</i>Revisão</a>
+    <a href="#video"><i aria-hidden="true">06</i>Vídeo</a>
+    <a href="#aberto"><i aria-hidden="true">07</i>Em aberto</a>
+  </nav>
+  <div class="hdr-tools">
+    <a class="tgl lang" href="../en/farol-desk/" hreflang="en" lang="en" aria-label="English version">EN</a>
+    <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main id="conteudo" class="fd-main" tabindex="-1">
+
+<aside class="fd-ribbon" aria-label="Sobre o nome do projeto">
+  <div class="fd-wrap"><p>Até <b>11/11/2026</b> este projeto se chamava <b>Nexo Assist</b>; o repositório e a URL da demo mantêm o nome antigo. A Nexo continua sendo a empresa fictícia da demonstração.</p></div>
+</aside>
+
+<section class="fd-hero" aria-labelledby="h-farol">
+  <div class="fd-wrap">
+    <p class="fd-back"><a href="../#p-nexo">← Portfólio · M-07</a></p>
+    <div class="fd-hero-in">
+      <span class="fd-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><use href="#fd-mark"/></svg></span>
+      <p class="fd-eyebrow">Estudo de caso · service desk de TI</p>
+      <h1 class="fd-title" id="h-farol">Farol Desk</h1>
+      <p class="fd-tag">Um agente de service desk de TI em que cada resposta mostra o que ele entendeu, o que fez e por quê.</p>
+      <p class="fd-lede">O funcionário descreve o problema com as próprias palavras. O agente consulta os chamados dele, busca na central de ajuda, abre ou complementa um chamado depois da confirmação e chama um analista quando precisa. Feito como desafio técnico de um processo seletivo.</p>
+      <div class="fd-cta">
+        <a class="fd-btn fd-btn-fill" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Usar a demo ↗</a>
+        <a class="fd-btn fd-btn-line" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Código ↗</a>
+        <a class="fd-tlink" href="#video">Vídeo de 4:49 ›</a>
+      </div>
+      <p class="fd-demo">Demo pública: entre com um clique como <b>Ana</b> (funcionária) ou <b>Rafael</b> (analista), com dados fictícios. Até 100 mensagens por dia, somando todos os visitantes.</p>
+    </div>
+    <figure class="fd-frame fd-hero-shot">
+      <a href="../assets/shots/farol-03-console-fila-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/farol-03-console-fila-960.webp" srcset="../assets/shots/farol-03-console-fila-960.webp 960w, ../assets/shots/farol-03-console-fila-1600.webp 1600w" sizes="(max-width: 1100px) 100vw, 1040px" width="960" height="600" decoding="async" fetchpriority="high" alt="Console do analista no Farol Desk: a fila de conversas com os sinais de cada uma, a conversa transferida com o resumo do caso e os chamados da pessoa."></a>
+      <figcaption>Do app · o console do analista, com a fila e a conversa</figcaption>
+    </figure>
+    <dl class="fd-keys">
+      <div><dt>testes unitários, sem LLM</dt><dd data-n="unitTests">573</dd></div>
+      <div><dt>testes E2E contra o build de produção</dt><dd data-n="e2eTests">48</dd></div>
+      <div><dt>evals com o modelo real</dt><dd data-n="evals">35/36</dd></div>
+      <div><dt>red team, mapeado ao OWASP</dt><dd data-n="redTeam">21/21</dd></div>
+    </dl>
+    <!-- farol:eval-date · the eval round is dated by hand here and in #provas; asOf (nexo-numbers.js) dates the unit and E2E tests -->
+    <p class="fd-keys-src">Testes de <span data-n="asOf">11 nov 2026</span> · evals de 03 nov 2026 · cada número com a fonte em <a href="#provas">Provas</a></p>
+  </div>
+</section>
+
+<section id="em-60s" class="fd-sec" aria-labelledby="h-60">
+  <div class="fd-wrap fd-60">
+    <div>
+      <h2 class="fd-h2" id="h-60">Farol Desk em 60 segundos</h2>
+      <p class="fd-big"><strong>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem:</strong> chamados sem contexto, duplicados e com prioridade errada.</p>
+      <dl class="fd-qa">
+        <div><dt>O que o agente faz</dt><dd>Conversa com o funcionário, busca na central de ajuda, abre ou complementa o chamado depois da confirmação e chama um analista quando precisa. Cada resposta mostra o que ele fez e por quê.</dd></div>
+        <div><dt>A prova</dt><dd><span data-n="evals">35/36</span> evals com o modelo real, <span data-n="redTeam">21/21</span> no red team e <span data-n="unitTests">573</span> testes sem LLM, cada número com a fonte no repositório.</dd></div>
+        <div><dt>Ver funcionando</dt><dd><a href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Demo pública ↗</a>, com um clique como Ana ou Rafael, ou o <a href="#video">vídeo de 4:49</a>, gravado antes da troca de marca.</dd></div>
+      </dl>
+    </div>
+    <dl class="fd-sheet" aria-label="Ficha do projeto">
+      <div><dt>Meu papel</dt><dd>Arquitetura, regras, critérios de aceite e provas. Agentes de código escreveram o código, em incrementos pequenos e verificados.</dd></div>
+      <div><dt>Entregue</dt><dd>28 out 2026 · <span data-n="commits">176</span> commits</dd></div>
+      <div><dt>Stack</dt><dd>TypeScript estrito · Next.js 16 · Mastra · DeepSeek-V4-Flash (DeepInfra) · Drizzle + libSQL/Turso · Redux Toolkit · Vitest · Playwright</dd></div>
+      <div><dt>Código</dt><dd>Público no GitHub, com specs, relatórios de validação e o vídeo de demo.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="desafio" class="fd-sec" aria-labelledby="h-desafio">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick">O pedido</p>
+      <h2 class="fd-h2" id="h-desafio" tabindex="-1">O que foi pedido</h2>
+    </header>
+    <div class="fd-ask">
+      <div>
+        <p>Uma empresa fictícia de cerca de 2.000 funcionários tem a TI afogada em triagem: chamados sem contexto, duplicados, com prioridade errada, e dúvidas simples esperando na fila.</p>
+        <p>O processo seletivo pediu um agente num chat (o Nexo Assist do enunciado, hoje Farol Desk) que tira dúvidas pela central de ajuda, consulta e abre chamados, e passa a conversa para um analista quando precisa. Do outro lado, um console para o analista assumir a conversa com o agente pausado, devolver ou encerrar.</p>
+        <p class="fd-pull">A parte que o próprio enunciado chama de mais importante: dar para entender, em cada resposta, o que o agente fez e por quê.</p>
+      </div>
+      <div>
+        <h3 class="fd-eyebrow">Requisitos</h3>
+        <ul class="fd-check">
+          <li>TypeScript com tipagem estrita; Mastra como framework do agente; qualquer LLM, com a escolha explicada.</li>
+          <li>Regras do service desk: prioridade por impacto e urgência, prazos em horas úteis, sem duplicidade, reabertura em até 7 dias.</li>
+          <li>Um serviço de chamados simulado, separado do agente, imitando um legado que às vezes cai.</li>
+          <li>Conversas, chamados e o estado de cada conversa sobrevivendo a um restart.</li>
+          <li>Segurança e privacidade (chamado de uma pessoa nunca aparece para outra) e custo por conversa sob controle.</li>
+          <li>Rodar localmente com poucos comandos, seguindo o protótipo de telas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="produto" class="fd-sec" aria-labelledby="h-produto">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>01</b>O produto</p>
+      <h2 class="fd-h2" id="h-produto" tabindex="-1">Dois lados do atendimento</h2>
+      <p class="fd-intro">Capturas do app com a marca nova e dados fictícios.</p>
+    </header>
+
+    <div class="fd-row">
+      <figure class="fd-frame">
+        <a href="../assets/shots/farol-08-rascunho-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/farol-08-rascunho-960.webp" srcset="../assets/shots/farol-08-rascunho-960.webp 960w, ../assets/shots/farol-08-rascunho-1600.webp 1600w" sizes="(max-width: 1000px) 100vw, 620px" width="960" height="600" loading="lazy" decoding="async" alt="Tela de atendimento do Farol Desk: a funcionária conta que o monitor não liga e tem reunião às 15h; o agente responde com o rascunho de um chamado de hardware, prioridade alta, com os botões Confirmar, Alterar detalhes e Cancelar."></a>
+        <figcaption>Do app · o rascunho de chamado, antes de a funcionária confirmar</figcaption>
+      </figure>
+      <div class="fd-copy">
+        <p class="fd-eyebrow">Para o funcionário</p>
+        <h3 class="fd-h3">Resolver sem fila</h3>
+        <ul class="fd-list">
+          <li>Escreve do jeito dele. O agente busca na central de ajuda e pergunta <b>“Isso resolveu?”</b>; a resposta entra no indicador de resolução.</li>
+          <li>Acha o chamado sem o número e avisa quando o <b>prazo está em risco</b> (75% do prazo útil), com a conta explicada.</li>
+          <li>Monta um <b>rascunho</b> com prioridade e prazo calculados em código. Nada é criado antes de a pessoa confirmar; “Alterar detalhes” recalcula no servidor.</li>
+          <li>Quando três ou mais pessoas relatam o mesmo problema em 4 horas úteis, sobe o impacto para “equipe” sem revelar quem relatou.</li>
+          <li>Frustração alta faz aparecer o botão “Falar com um analista”. Pedido explícito, caso crítico, prazo vencido ou dúvida que persiste transferem a conversa.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fd-lit" id="por-que">
+      <div>
+        <p class="fd-eyebrow"><span class="fd-pill">por quê?</span></p>
+        <h3 class="fd-h3">Cada resposta abre o seu <em>porquê</em></h3>
+        <p>O primeiro passo do modelo é forçado a registrar o entendimento, com a tool <code>recordUnderstanding</code>; é daí que sai o painel. Qualquer decisão pode ser auditada na própria interface e no console do analista.</p>
+        <p>O painel <b>“por quê?”</b> de cada resposta mostra:</p>
+        <ul class="fd-chips" aria-label="O que o painel mostra">
+          <li>intenção</li><li>confiança</li><li>motivo</li><li>tools, com entrada e saída</li><li>regras que agiram</li><li>modelo</li><li>tokens</li><li>tempo</li>
+        </ul>
+      </div>
+      <figure>
+        <a href="../assets/shots/farol-04-decisao-e-telemetria-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/farol-04-decisao-e-telemetria-960.webp" width="592" height="747" loading="lazy" decoding="async" alt="Painel “por quê?” aberto numa resposta do agente: o que ele entendeu, a intenção, a confiança, o motivo, as ações que fez, as regras do sistema que agiram e a telemetria do turno."></a>
+        <figcaption>Do app · o “por quê?” de uma resposta, com a telemetria</figcaption>
+      </figure>
+    </div>
+
+    <div class="fd-row fd-rev">
+      <figure class="fd-frame">
+        <a href="../assets/shots/farol-05-relatorio-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/farol-05-relatorio-960.webp" srcset="../assets/shots/farol-05-relatorio-960.webp 960w, ../assets/shots/farol-05-relatorio-1600.webp 1600w" sizes="(max-width: 1000px) 100vw, 620px" width="960" height="600" loading="lazy" decoding="async" alt="Relatório da conversa aberto no console do analista: o que a pessoa precisa, o que o agente já fez e o que está pendente."></a>
+        <figcaption>Do app · o relatório da conversa no console</figcaption>
+      </figure>
+      <div class="fd-copy">
+        <p class="fd-eyebrow">Para o analista</p>
+        <h3 class="fd-h3">Chegar com contexto</h3>
+        <ul class="fd-list">
+          <li>Uma <b>fila</b> com sinais: frustração alta, possível incidente em massa, motivo da transferência.</li>
+          <li>O <b>relatório da conversa</b>: o que a pessoa precisa, o que o agente já fez e o que está pendente. É montado do histórico e dos traces, sem chamar o modelo.</li>
+          <li>Assume a conversa com o agente pausado, devolve ou encerra. O banco só aceita a mudança se o estado ainda for o esperado, então analista e agente não se atropelam.</li>
+          <li><b>“Sugerir resposta”</b>: o modelo escreve, o analista revisa antes de enviar.</li>
+          <li>Tudo em <b>tempo real</b> pelo stream SSE, com o polling como reserva. Quando o analista assume uma conversa que estava com o agente, o chat da pessoa muda na hora.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fd-feature">
+      <p class="fd-eyebrow">Indicadores</p>
+      <h3 class="fd-h3">Indicadores honestos</h3>
+      <p>Resolução confirmada separada da presumida, sem contar chamado aberto nem quem voltou com o mesmo problema, e as lacunas da central com dados pessoais mascarados.</p>
+      <figure class="fd-frame">
+        <a href="../assets/shots/farol-06-indicadores-1600.webp" target="_blank" rel="noopener"><img src="../assets/shots/farol-06-indicadores-960.webp" srcset="../assets/shots/farol-06-indicadores-960.webp 960w, ../assets/shots/farol-06-indicadores-1600.webp 1600w" sizes="(max-width: 1100px) 100vw, 1040px" width="960" height="600" loading="lazy" decoding="async" alt="Tela de indicadores do Farol Desk: resolução pelo agente, tempo de resposta, custo estimado e a resolução separada em confirmadas, presumidas e as demais situações."></a>
+        <figcaption>Do app · indicadores calculados do banco</figcaption>
+      </figure>
+    </div>
+
+    <div class="fd-photo" id="hardware">
+      <figure class="fd-frame">
+        <img src="../assets/shots/nexo-impressora.webp" width="1450" height="965" loading="lazy" decoding="async" alt="Mãos seguram uma folha amassada dentro de uma impressora aberta.">
+        <figcaption>Foto do equipamento · <a href="https://freeimageslive.co.uk/free_stock_image/printer-problem-jpg">Freeing up a paper jam</a>, gratuit / FreeImagesLive · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · redimensionada</figcaption>
+      </figure>
+      <div>
+        <p class="fd-eyebrow">Foto do problema</p>
+        <h3 class="fd-h3">Da foto ao analista</h3>
+        <p>A pessoa manda uma <b>foto ou captura de tela</b> do problema. Um modelo de visão barato descreve a imagem, e o agente recebe só a descrição, tratada como dado e nunca como instrução. A imagem só aparece para a pessoa e para os analistas.</p>
+        <p><b>Teste de 03/11.</b> Na demo local, Ana anexou uma foto de uma impressora aberta. O agente leu o papel amassado, perguntou se havia uma mensagem no painel e sugeriu conferir a energia. A sugestão sobre o cabo foi genérica para o problema visível. Ana preferiu não mexer na máquina aberta e pediu ajuda. A conversa passou para a fila do analista. O teste terminou nesse ponto, com o reparo em aberto.</p>
+        <p class="fd-links"><a href="../assets/shots/nexo-impressora-atendimento.webp" target="_blank" rel="noopener">Ver a resposta real no chat ↗</a></p>
+        <p class="fd-fine">A captura da resposta é de antes da troca de marca e mostra o visual antigo.</p>
+      </div>
+    </div>
+
+    <div class="fd-flow" id="fluxo-imagem">
+      <h4 class="fd-h4">Como a foto vira texto</h4>
+      <figure class="fd-frame">
+        <video controls loop muted playsinline preload="none" width="1696" height="486" poster="../assets/shots/nexo-visao-3d.webp" aria-label="Como a foto vira texto, em animação"><source src="../assets/video/nexo-visao-3d.mp4" type="video/mp4"></video>
+        <figcaption>O modelo de visão lê a foto. O agente recebe a descrição como dado da conversa. A animação é de antes da troca de marca e ainda leva o nome Nexo Assist.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="arquitetura" class="fd-sec" aria-labelledby="h-arq">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>02</b>Por dentro</p>
+      <h2 class="fd-h2" id="h-arq" tabindex="-1">A planta do sistema</h2>
+      <p class="fd-intro">A mesma estrutura do <code>src/</code> do repositório.</p>
+    </header>
+    <div class="fd-arch">
+      <figure class="fd-layers">
+        <div class="fd-layer">
+          <span>app/ · agent/ · infrastructure/</span>
+          <small>páginas e rotas, o agente Mastra, banco e repositórios</small>
+          <div class="fd-layer">
+            <span>application/</span>
+            <small>casos de uso e portas</small>
+            <div class="fd-layer">
+              <span>domain/</span>
+              <small>regras puras do service desk: sem banco, sem rede, sem framework</small>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>As dependências só apontam para dentro.</b> O domínio não conhece Next, Mastra nem banco.</figcaption>
+      </figure>
+      <ol class="fd-steps">
+        <li><span aria-hidden="true">01</span><div><h3 class="fd-h4">Camadas</h3><p>DDD enxuto. As dependências só apontam para dentro: <code>app/</code>, <code>agent/</code> e <code>infrastructure/</code> dependem de <code>application/</code>, que depende de <code>domain/</code>. O domínio não conhece Next, Mastra nem banco, então prioridade, prazo e reabertura são testados sem mock. A infraestrutura implementa as portas da aplicação, e um único arquivo liga as peças (<code>container.ts</code>).</p></div></li>
+        <li><span aria-hidden="true">02</span><div><h3 class="fd-h4">Agente e modelo</h3><p>Um agente Mastra com 11 tools. O primeiro passo é forçado a registrar o entendimento (intenção, confiança e motivo), e o código decide quais tools existem em cada passo. O modelo é o DeepSeek-V4-Flash, pela DeepInfra, com teto de gasto por dia e no total: quando o teto acaba, o chat avisa em vez de gastar. O trace e a telemetria no console do analista dizem qual modelo respondeu.</p>
+          <ul class="fd-tools" aria-label="As 11 tools do agente">
+            <li class="fd-on">recordUnderstanding</li><li>searchHelpCenter</li><li>askDiagnosticCheck</li><li>listMyTickets</li><li>getTicket</li><li>draftNewTicket</li><li>draftTicketUpdate</li><li>confirmDraft</li><li>cancelDraft</li><li>offerQuickReplies</li><li>transferToAnalyst</li>
+          </ul></div></li>
+        <li><span aria-hidden="true">03</span><div><h3 class="fd-h4">Dados</h3><p>Drizzle sobre libSQL: SQLite no desenvolvimento, Turso no deploy. Conversas, mensagens com o trace, rascunhos e chamados sobrevivem a um restart. O sistema de chamados legado é simulado por um decorator que falha em 15% das chamadas; o serviço tenta de novo sem duplicar. Os embeddings da busca ficam em cache no banco.</p></div></li>
+        <li><span aria-hidden="true">04</span><div><h3 class="fd-h4">Tempo real</h3><p>O chat recebe cada turno em NDJSON: passos, cards e texto. O console do analista, e o chat enquanto um analista atende, abrem um stream SSE. O servidor confere uma assinatura barata do banco a cada 1 s e avisa quando algo muda. Se o stream cai, a tela volta ao polling sozinha.</p></div></li>
+        <li><span aria-hidden="true">05</span><div><h3 class="fd-h4">Opcionais</h3><p>Telemetria OpenTelemetry com as convenções GenAI, pronta para o Langfuse, e SSO OpenID Connect (PKCE, state, nonce, JWKS). Os dois vêm desligados e foram testados contra servidores locais que seguem os protocolos, não contra Langfuse, Entra ID ou Okta de verdade.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="fd-sub" id="entrega">
+      <p class="fd-eyebrow">Entrega</p>
+      <h3 class="fd-h3" id="h-entrega" tabindex="-1">Do commit ao ar</h3>
+      <div class="fd-ship">
+        <article>
+          <h4 class="fd-h4">Vercel, em produção</h4>
+          <p>O app está no ar na Vercel, com o banco no Turso, como demo pública desde 29 out 2026. O custo fica preso em código: até 100 mensagens por dia somando todos os visitantes, limites por pessoa e um teto total, todos reservados no banco antes de chamar o modelo. A porta de acesso por link continua no código: sem a chave <code>PUBLIC_DEMO</code>, a Vercel volta a exigir o link.</p>
+          <p>A publicação sai de um <code>git archive</code> do último commit, então nada fora do git sobe.</p>
+          <div class="fd-pipe" role="group" aria-label="Caminho da produção"><span>git · main</span><i aria-hidden="true">→</i><span>deploy-prod.ps1</span><i aria-hidden="true">→</i><span>Vercel + Turso</span><b>no ar</b></div>
+        </article>
+        <article>
+          <h4 class="fd-h4">Docker, CircleCI e Komodo</h4>
+          <p>A imagem Docker (Node 24, sem root, banco num volume) tem 486 MB e passou nas 25 checagens da prova de fumaça: migra, cria os dados de exemplo, faz login real, confere permissões e reinicia sem perder dados.</p>
+          <p>O CircleCI roda tipos, lint, testes, E2E e a mesma prova de fumaça, e publica a imagem no Docker Hub. O Komodo confere o digest da <code>latest</code> a cada 10 minutos e faz o redeploy. Esse caminho roda desde 29 out 2026: a cada push no <code>main</code> com o CI verde, o Komodo puxa a imagem nova em 10 a 20 minutos. O CI nunca publica na Vercel.</p>
+          <div class="fd-pipe" role="group" aria-label="Caminho da imagem"><span>git · main</span><i aria-hidden="true">→</i><span>CircleCI</span><i aria-hidden="true">→</i><span>Docker Hub</span><i aria-hidden="true">→</i><span>Komodo</span><b>rodando</b></div>
+          <p class="fd-fine">Na primeira execução, em 28 out 2026, o CircleCI pegou um erro que a máquina local escondia: o tipo <code>LayoutProps</code> que o Next 16 gera em <code>.next/</code> não existe num clone limpo. A correção foi rodar <code>next typegen</code> antes do <code>tsc</code>. A imagem está no <a href="https://hub.docker.com/r/skarl007/nexo-assist" target="_blank" rel="noopener">Docker Hub</a>, e o Komodo a roda só na minha máquina, em <code>127.0.0.1:3300</code>.</p>
+        </article>
+      </div>
+    </div>
+    <p class="fd-src">Fonte: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/specs/04-arquitetura.md" target="_blank" rel="noopener">docs/specs/04-arquitetura.md</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/src/agent/tools/index.ts" target="_blank" rel="noopener">src/agent/tools/index.ts</a> · <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a></p>
+  </div>
+</section>
+
+<section id="decisoes" class="fd-sec" aria-labelledby="h-dec">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>03</b>Decisões</p>
+      <h2 class="fd-h2" id="h-dec" tabindex="-1">O que escolhi, e <em>por quê</em></h2>
+      <p class="fd-intro">Como no produto, cada decisão tem um “por quê?”: ele abre o que eu entendi, o que fiz e que regras ficaram.</p>
+    </header>
+    <div class="fd-dec-bar"><button type="button" class="fd-all" data-open="Abrir todos os porquês" data-close="Fechar todos os porquês" hidden>Abrir todos os porquês</button></div>
+
+    <article class="fd-d" id="d-modelo">
+      <p class="fd-d-n">D-01<small>modelo</small></p>
+      <div>
+        <h3 class="fd-h3">Do Gemini ao GPT-6 Luna e ao DeepSeek, decidido por medição</h3>
+        <p class="fd-answer">O modelo de produção é o DeepSeek-V4-Flash, pela DeepInfra, desde 02/11. Cada troca só aconteceu depois de medir o candidato nos evals.</p>
+        <p class="fd-fact">7 modelos · 24 conversas por modelo · Luna 26× mais barato, mesma qualidade · desde 02/11, DeepSeek-V4-Flash: 36/36 por US$ 0,07</p>
+        <details class="fd-why" open>
+          <summary>por quê?</summary>
+          <dl class="fd-trace">
+            <div><dt>Entendi</dt><dd><p>Escolhi o Gemini pelo tool calling confiável (inclusive a tool forçada no primeiro passo, base do painel “por quê?”), pela latência baixa com o raciocínio no mínimo e por custar perto de 1 centavo de dólar por resposta. Era uma escolha qualitativa.</p></dd></div>
+            <div><dt>Fiz</dt><dd><p>Troquei a escolha qualitativa por dados: rodei o agente de produção com 7 modelos, medindo efetividade, qualidade (G-Eval com 2 juízes), latência e custo real, com um teto de US$ 1,80. O GPT-6 Luna empatou com o Gemini dentro dos intervalos de confiança e custou 26 vezes menos.</p><p>Mantive o Gemini enquanto ele tinha saldo. Quando os créditos do Google acabaram, em 29/10, troquei pelo Luna com uma variável de ambiente, depois de confirmá-lo nos evals: 36/36.</p><p>Em 02/11 o saldo do OpenRouter acabou e a demo pública ficou sem modelo. Troquei para o DeepSeek-V4-Flash, pela DeepInfra, de novo depois de medir: 36/36 nos evals por US$ 0,07 a rodada inteira.</p></dd></div>
+            <div><dt>Regras que ficaram</dt><dd><p>Junto veio um livro-caixa de gasto, com teto por dia e no total, para US$ 3 durarem pelo menos três semanas. Quando o teto acaba, o chat avisa em vez de gastar.</p></dd></div>
+          </dl>
+        </details>
+        <p class="fd-links"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/benchmark/RELATORIO.md" target="_blank" rel="noopener">Relatório do benchmark ↗</a></p>
+      </div>
+    </article>
+
+    <article class="fd-d" id="d-busca">
+      <p class="fd-d-n">D-02<small>busca</small></p>
+      <div>
+        <h3 class="fd-h3">Busca que sabe quando o artigo não se aplica</h3>
+        <p class="fd-answer">A central de ajuda é buscada por sentido (embeddings) e por palavras-chave, e um modelo barato diz se o artigo achado se aplica. Sem artigo que se aplique, é melhor perguntar do que responder errado.</p>
+        <p class="fd-fact">81 perguntas: 56 → 78 certas · artigo errado: 22 → 0 · congeladas: 9/18 → 18/18 · US$ 0,00025 por busca · sem o avaliador, volta à margem</p>
+        <details class="fd-why">
+          <summary>por quê?</summary>
+          <dl class="fd-trace">
+            <div><dt>Entendi</dt><dd><p>Um artigo parecido leva o agente a responder errado, e é melhor perguntar.</p><p>Com os artigos de diagnóstico apareceu o limite do embedding: ele acha o assunto, mas não sabe se o artigo se aplica. “Queria um teclado sem fio” caía no artigo de conserto, e “ventilador fazendo barulho” recebia “Computador não liga”.</p></dd></div>
+            <div><dt>Fiz</dt><dd><p>Medi em 50 perguntas escritas como um funcionário escreveria, incluindo perguntas sem artigo certo. Um conjunto de 17 foi escrito só depois da escolha, para conferir que ela não foi decorada. Nele o acerto geral empatou, e o relatório diz isso.</p><p>A busca virou duas etapas, como no Corrective RAG: a híbrida traz 5 candidatos e um modelo barato diz qual se aplica, qual talvez ou nenhum. Antes de corrigir, escrevi 18 perguntas de pedido × defeito × fora da central e congelei num commit. Comparei rerankers, limiares e juiz com o catálogo inteiro.</p></dd></div>
+            <div><dt>Regras que ficaram</dt><dd><p>O limiar só funcionava num valor exato, então ficou a decisão categórica: aplica, talvez ou nenhum. Sem o avaliador, a busca volta à margem: quando o primeiro resultado não se destaca do segundo, ela não devolve nada.</p></dd></div>
+          </dl>
+        </details>
+        <p class="fd-links"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">BUSCA.md ↗</a><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/pesquisa/BUSCA-APLICABILIDADE.md" target="_blank" rel="noopener">pesquisa ↗</a></p>
+      </div>
+    </article>
+
+    <article class="fd-d" id="d-garantias">
+      <p class="fd-d-n">D-03<small>garantias</small></p>
+      <div>
+        <h3 class="fd-h3">Regras em código, não no prompt</h3>
+        <p class="fd-answer">O modelo decide o que fazer. O que precisa ser garantido fica em código testado, e o prompt cuida só do jeito de conversar.</p>
+        <p class="fd-fact">step-policy.ts · domain/priority.ts · domain/business-time.ts · draft-service.ts</p>
+        <details class="fd-why">
+          <summary>por quê?</summary>
+          <dl class="fd-trace">
+            <div><dt>Entendi</dt><dd><p>Um texto malicioso pode mudar o que o modelo quer fazer, e um prompt mal interpretado não pode quebrar uma regra do service desk.</p></dd></div>
+            <div><dt>Fiz</dt><dd><p>Quais tools existem em cada passo é decidido em código, no padrão action-selector: o modelo só escolhe entre elas. O texto malicioso muda o que ele quer fazer, mas não o que ele consegue fazer.</p></dd></div>
+            <div><dt>Regras que ficaram</dt><dd><p>Prioridade pela matriz impacto × urgência, prazo em horas úteis, confirmação obrigatória e atômica, reabertura só até 7 dias, identidade vinda do cookie assinado e nunca de um argumento do modelo.</p></dd></div>
+          </dl>
+        </details>
+        <p class="fd-links"><a href="https://github.com/skarL007/nexo-assist#o-que-é-garantido-em-código-não-depende-do-prompt" target="_blank" rel="noopener">Tabela de garantias no README ↗</a></p>
+      </div>
+    </article>
+
+    <article class="fd-d" id="d-medicao">
+      <p class="fd-d-n">D-04<small>medição</small></p>
+      <div>
+        <h3 class="fd-h3">Evals honestos</h3>
+        <p class="fd-answer">Os evals conferem o estado do banco, não só o texto da resposta, e o resultado é publicado como deu, mesmo quando é baixo.</p>
+        <p class="fd-fact">banco conferido · ataques × 3 · falha do provedor separada · pass^1 0,72 → 0,93 e pass^3 0,50 → 0,80 depois das correções</p>
+        <details class="fd-why">
+          <summary>por quê?</summary>
+          <dl class="fd-trace">
+            <div><dt>Entendi</dt><dd><p>Quando o Gemini devolvia 503 dentro do stream, um ataque podia “passar” sem o modelo ter respondido. E havia falhas que os evals de casos fixos não pegavam.</p></dd></div>
+            <div><dt>Fiz</dt><dd><p>Criei o funcionário simulado (pass^k, como no τ-bench): um modelo faz o papel do funcionário. Na primeira rodada ele achou quatro defeitos de verdade, como abrir chamado a partir de uma resposta rápida que não era um “sim”. Cada um virou regra em código com teste, não um ajuste no prompt, e a rodada seguinte foi medida do mesmo jeito.</p></dd></div>
+            <div><dt>Regras que ficaram</dt><dd><p>Cada ataque roda 3 vezes, e passar 1 vez em 3 conta como falha. Falha do provedor conta à parte. O funcionário simulado é publicado com o resultado que deu, mesmo quando é baixo.</p></dd></div>
+          </dl>
+        </details>
+        <p class="fd-links"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/validacao ↗</a></p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="provas" class="fd-sec" aria-labelledby="h-provas">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>04</b>Provas</p>
+      <h2 class="fd-h2" id="h-provas" tabindex="-1">Os números, com a fonte</h2>
+      <p class="fd-intro">Testes de unidade e E2E rodam sem LLM. O que depende do modelo roda com o modelo de verdade e tem um relatório com pergunta, método, números e limites.</p>
+    </header>
+    <!-- farol:eval-date · same hand-written eval date as in the hero -->
+    <p class="fd-asof">Testes unitários e E2E de <span data-n="asOf">11 nov 2026</span>. Evals de 03 nov 2026. O benchmark e as simulações têm datas próprias.</p>
+    <dl class="fd-ledger">
+      <div class="fd-p fd-live"><dt>testes unitários</dt><dd class="n"><span data-n="unitTests">573</span></dd><dd class="d">Vitest, sem LLM: prazos, prioridade, estados da conversa, privacidade, duplicidade, CSRF, OIDC contra token forjado, pass^k. Eram 563 antes da revisão de 11/11.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm test</a></dd></div>
+      <div class="fd-p fd-live"><dt>testes E2E</dt><dd class="n"><span data-n="e2eTests">48</span></dd><dd class="d">Playwright contra o build de produção, sem LLM: login e SSO, transferência, relatório, indicadores, tempo real, imagem anexada, erros.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist#como-garanti-a-qualidade-das-decisões" target="_blank" rel="noopener">README · npm run test:e2e</a></dd></div>
+      <div class="fd-p fd-live"><dt>evals com o modelo real</dt><dd class="n"><span data-n="evals">35/36</span></dd><dd class="d">Intenção, tools esperadas e proibidas, transferência, caso crítico e vazamento de dados. Dentro deles, <span data-n="attacks">8/8</span> ataques, 6 cenários tirados das falhas do funcionário simulado e 2 de verificações de diagnóstico. Em 03/11, o DeepSeek-V4-Flash passou em 35 dos 36 cenários por US$ 0,07. No incidente do ponto, perguntou se havia alternativa e não entregou o rascunho. Na rodada de 02/11 exibida no vídeo, passou nos 36.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>README.md</a></dd></div>
+      <div class="fd-p fd-live"><dt>red team, mapeado ao OWASP</dt><dd class="n"><span data-n="redTeam">21/21</span></dd><dd class="d">7 ataques × 3: injeção, vazamento, ação sem confirmação, prompt do sistema, desvio. Injeção indireta por um artigo da central: 3/3.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/RED-TEAM.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>RED-TEAM.md</a></dd></div>
+      <div class="fd-p fd-live"><dt>funcionário simulado</dt><dd class="n"><span data-n="simPass1">0,93</span> <small>pass^1 · antes <span data-n="simPass1Before">0,72</span></small></dd><dd class="d">Um modelo faz o papel do funcionário, com fatos que só conta se perguntarem. Três rodadas em 30/10, ainda com o Gemini: 0,72 / 0,50 → 0,93 / 0,80 → 0,93 / 0,80, a terceira com uma persona repetida depois de corrigida. Com 10 personas × 3, <span data-n="simRuns">28/30</span> conversas certas; pass^3 <span data-n="simPass3Before">0,50</span> → <span data-n="simPass3">0,80</span> (<span data-n="simPersonas">8/10</span> personas certas nas 3 execuções). A primeira rodada achou defeitos reais no agente, corrigidos com regras em código e testes, não com ajustes no prompt.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/SIMULACAO.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>SIMULACAO.md</a></dd></div>
+      <div class="fd-p"><dt>busca na central</dt><dd class="n">56 → 78 <small>de 81 · 0 artigo errado</small></dd><dd class="d">Palavras-chave contra híbrida com avaliador de relevância, em quatro conjuntos; 18 perguntas de pedido × defeito × fora da central congeladas antes da correção: 9/18 → 18/18.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/BUSCA.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>BUSCA.md</a></dd></div>
+      <div class="fd-p"><dt>SSE contra polling</dt><dd class="n">263–580 <small>ms</small></dd><dd class="d">Mediana com o stream, contra 1.505–1.684 ms no polling antigo. O teste E2E falha se o p95 passar de 2 s.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/TEMPO-REAL.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>TEMPO-REAL.md</a></dd></div>
+      <div class="fd-p"><dt>sugestão de resposta</dt><dd class="n">9/9</dd><dd class="d">3 conversas × 3, sem número nem ação inventados no rascunho para o analista.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/README.md" target="_blank" rel="noopener">docs/<wbr>validacao/<wbr>README.md</a></dd></div>
+      <div class="fd-p"><dt>revisões de segurança</dt><dd class="n">5</dd><dd class="d">Antes e depois do deploy, 42 verificações de fora contra a produção e uma rodada com skills de auditoria de terceiros. Em 02/11, uma auditoria externa apontou 6 riscos (login de demonstração ativo junto com o SSO, e-mail não verificado, resposta depois da transferência, chamado duplicado, teto diário e conversa duplicada), todos corrigidos com testes. <code>npm audit</code> sem vulnerabilidades. A revisão do anexo de imagem, de 11/11, está na <a href="#revisao">seção seguinte</a>.</dd><dd class="s" data-label="Fonte"><a href="https://github.com/skarL007/nexo-assist/blob/main/docs/DEPLOY.md#histórico-das-revisões-de-segurança" target="_blank" rel="noopener">docs/<wbr>DEPLOY.md</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="revisao" class="fd-sec" aria-labelledby="h-revisao">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>05</b><span class="fd-new">Novo · 11 nov 2026</span></p>
+      <h2 class="fd-h2" id="h-revisao" tabindex="-1">Revisão e troca de marca</h2>
+      <p class="fd-intro">Em 11/11 o projeto passou a se chamar Farol Desk e ganhou um visual novo. Só a marca mudou: o repositório, a URL da demo e a imagem Docker mantêm o nome antigo, para os links já enviados continuarem funcionando. No mesmo dia, uma revisão conferiu o app de ponta a ponta.</p>
+    </header>
+
+    <ol class="fd-tl" aria-label="Do Nexo Assist ao Farol Desk">
+      <li><time datetime="2026-10-28">28 out 2026</time><p>Entregue como desafio técnico, com o nome Nexo Assist.</p></li>
+      <li><time datetime="2026-10-29">29 out 2026</time><p>Demo aberta ao público na Vercel. A entrega por imagem (CircleCI → Docker Hub → Komodo) começa a rodar.</p></li>
+      <li><time datetime="2026-11-02">02 nov 2026</time><p>DeepSeek-V4-Flash em produção, com teto de gasto. Auditoria externa: 6 riscos, corrigidos com testes.</p></li>
+      <li><time datetime="2026-11-03">03 nov 2026</time><p>Anexo de imagem em produção. Evals: 35/36.</p></li>
+      <li class="fd-now"><time datetime="2026-11-11">11 nov 2026</time><p>Revisão de ponta a ponta e o nome novo: Farol Desk.</p></li>
+    </ol>
+
+    <blockquote class="fd-q"><small>A pergunta da revisão</small>O app funciona de ponta a ponta com a marca nova, e o que uma revisão de segurança do anexo de imagem, no ar desde 03/11, encontra?</blockquote>
+
+    <div class="fd-two">
+      <div>
+        <h3 class="fd-h3">O que foi conferido</h3>
+        <dl class="fd-checks">
+          <div><dt>npm run typecheck · npm run lint</dt><dd>Limpos.</dd></div>
+          <div><dt>npm test</dt><dd><b>573</b> testes em 77 arquivos (eram 563).</dd></div>
+          <div><dt>npm run test:e2e</dt><dd><b>48/48</b> contra o build de produção.</dd></div>
+          <div><dt>demo pública · node scripts/checar-demo.mjs</dt><dd>Login, API da conversa e estudo de caso respondendo.</dd></div>
+          <div><dt>fluxo real no navegador, com o DeepSeek-V4-Flash</dt><dd>VPN erro 809 → artigo certo e pergunta de Windows 10 ou 11 → impacto e urgência → rascunho com prioridade Alta e o prazo comparado com a reunião das 15h → transferência → console do analista com o resumo. Sem erro no console do navegador.</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3 class="fd-h3">Três defeitos, encontrados e corrigidos</h3>
+        <ol class="fd-fixes">
+          <li><b>O E2E não subia nesta máquina.</b>O provedor OIDC de teste usava a porta 3200, que é a porta padrão do Grafana Tempo; com a pilha de observabilidade rodando no WSL, o <code>listen</code> falhava com <code>EADDRINUSE</code> sem nada aparecer no <code>netstat</code> do Windows. As portas do E2E agora são configuráveis (<code>E2E_PORT</code>, <code>E2E_IDP_PORT</code>) e o padrão do provedor mudou para 3210.</li>
+          <li><b>A sugestão de resposta do analista furava o teto de gasto.</b>Ela chamava o modelo sem passar pelo teto em dólares e sem registrar o custo. Agora confere o teto antes e registra pelos tokens (dois testes novos).</li>
+          <li><b>Botão ambíguo no diagnóstico.</b>“Já estava assim”, diante de uma pergunta de sim ou não, não dizia se a verificação estava certa ou errada. Virou “Já estava certo”; o rótulo antigo continua aceito nas conversas gravadas.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="fd-sec3">
+      <h3 class="fd-h3">Revisão de segurança do anexo de imagem</h3>
+      <p>Feita por um revisor separado, só com leitura, sobre o código do anexo de imagem, que já estava em produção desde 03/11. Nada crítico, mas o achado alto valia para a demo pública até esta correção.</p>
+      <p><b>O que estava correto:</b> controle de acesso da imagem (dona da conversa e analista do mesmo espaço; qualquer outro recebe o mesmo 404), tipo conferido pelos primeiros bytes, a descrição da imagem entra no histórico marcada como dado não confiável e não consegue confirmar um chamado, nenhum segredo em código ou em resposta de erro, migração 0009 aditiva.</p>
+      <div class="fd-tablebox"><table class="fd-table">
+        <caption>Achados: 1 alto, 2 médios e 4 baixos</caption>
+        <thead><tr><th scope="col">Severidade</th><th scope="col">Achado</th><th scope="col">Correção</th></tr></thead>
+        <tbody>
+          <tr><td><span class="fd-sev fd-hi">Alta</span></td><td data-label="Achado">O limite de imagens era só por conversa. Na demo pública, abrir conversas novas zerava a conta e dava para encher o banco (até 1 MB por mensagem).</td><td data-label="Correção">Dois contadores atômicos conferidos antes de gravar: 10 imagens por pessoa no dia e <code>DAILY_SCREENSHOT_LIMIT</code> no total do dia (padrão 100). Três testes novos.</td></tr>
+          <tr><td><span class="fd-sev fd-md">Média</span></td><td data-label="Achado">O corpo do pedido era lido inteiro antes de o schema reclamar do tamanho. Fora da Vercel, um POST de centenas de MB esgotaria a memória.</td><td data-label="Correção"><code>parseBody</code> lê contando os bytes e responde 413 ao passar do teto (100 KB nas rotas comuns, 1,45 MB no chat). Três testes novos.</td></tr>
+          <tr><td><span class="fd-sev fd-md">Média</span></td><td data-label="Achado">A imagem ficava gravada mesmo quando o turno era recusado depois por outro teto.</td><td data-label="Correção">Não mudou a ordem (a mensagem recusada também fica gravada, por desenho), mas o armazenamento agora tem teto diário, conferido antes de gravar.</td></tr>
+          <tr><td><span class="fd-sev">Baixa</span></td><td data-label="Achado">A imagem ficava 1 hora no cache do navegador, sem conferir a sessão.</td><td data-label="Correção"><code>Cache-Control: private, no-cache</code> e CSP <code>sandbox</code> na resposta da imagem.</td></tr>
+          <tr><td><span class="fd-sev">Baixa</span></td><td data-label="Achado">A mensagem de erro do provedor de visão ia para o passo que o funcionário lê.</td><td data-label="Correção">Motivo fixo na conversa; a mensagem crua só no registro do servidor.</td></tr>
+          <tr><td><span class="fd-sev">Baixa</span></td><td data-label="Achado">Leitura de imagem que falha não entrava no livro-caixa.</td><td data-label="Correção">Entra por estimativa (US$ 0,0002).</td></tr>
+          <tr><td><span class="fd-sev">Baixa</span></td><td data-label="Achado">Dois pedidos simultâneos podiam passar da cota de 5 por conversa.</td><td data-label="Correção">Limitado pelos contadores atômicos do dia; a cota por conversa continua por contagem.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="fd-limits">
+        <h3 class="fd-h4">Limites desta revisão</h3>
+        <ul>
+          <li>A leitura de imagem não foi exercitada com o modelo real nesta rodada (só pelos testes com dublê e pelo E2E, que não chama o modelo).</li>
+          <li>O limite de corpo da plataforma (Vercel) não foi medido; o do app foi testado em unidade.</li>
+          <li>Os embeddings e o avaliador de relevância continuam fora do livro-caixa (menos de US$ 0,001 por conversa).</li>
+        </ul>
+      </div>
+      <p class="fd-src">Fonte: <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/validacao/REVISAO-2026-11-11.md" target="_blank" rel="noopener">docs/validacao/REVISAO-2026-11-11.md</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="video" class="fd-sec" aria-labelledby="h-video">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>06</b>Vídeo de demo</p>
+      <h2 class="fd-h2" id="h-video" tabindex="-1">Da conversa ao chamado, e do chamado ao analista</h2>
+      <p class="fd-intro">Carla envia a foto do monitor apagado e encontra o cabo HDMI solto ao seguir as verificações. Em outro atendimento, Ana envia a foto de uma impressora com papel preso e pede um analista. Depois, uma falha no sistema de ponto vira chamado. O vídeo dura 4:49. As cenas do monitor e do ponto foram gravadas em 02/11, e o atendimento da impressora foi testado em 03/11. A animação 3D mostra como a imagem vira texto para o agente.</p>
+    </header>
+    <p class="fd-callout"><b>Gravado antes da troca de marca.</b> O vídeo mostra o nome e o visual antigos (“Nexo Assist”) e o botão “Já estava assim”, que em 11/11 virou “Já estava certo”. Os números exibidos nele vêm das medições de 02/11.</p>
+    <figure class="fd-video">
+      <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" aria-label="Vídeo de demonstração, gravado quando o projeto se chamava Nexo Assist: 4 minutos e 49 segundos, com narração em português e trilha instrumental suave">
+        <source src="../assets/video/nexo-assist-demo.mp4?v=piano-inicio" type="video/mp4">
+        <track kind="chapters" srclang="pt" label="Capítulos" src="../assets/video/nexo-assist-demo.chapters.pt.vtt?v=hardware3d-mix2" default>
+      </video>
+      <figcaption>H.264 · 1920×1080 · 60 fps · 48,6 MB · só toca quando você der play · narração com voz sintética (Fish Audio) · piano elétrico, baixo e acordes suaves · também no <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repositório ↗</a></figcaption>
+    </figure>
+    <ol class="fd-chaps" aria-label="Capítulos do vídeo">
+      <li><button type="button" data-t="0.000"><time>0:00</time>Abertura</button></li>
+      <li><button type="button" data-t="6.000"><time>0:06</time>Gancho: a foto do monitor apagado</button></li>
+      <li><button type="button" data-t="25.900"><time>0:25</time>O problema</button></li>
+      <li><button type="button" data-t="40.900"><time>0:40</time>Ela resolve sozinha: foto, verificações e &quot;Isso resolveu?&quot;</button></li>
+      <li><button type="button" data-t="78.200"><time>1:18</time>Impressora com papel preso</button></li>
+      <li><button type="button" data-t="94.200"><time>1:34</time>Quando precisa de chamado: ponto e incidente em massa</button></li>
+      <li><button type="button" data-t="140.767"><time>2:20</time>Do outro lado: relatório, foto e tempo real</button></li>
+      <li><button type="button" data-t="184.050"><time>3:04</time>Por dentro do turno e indicadores</button></li>
+      <li><button type="button" data-t="209.867"><time>3:29</time>Quatro decisões: busca, modelo, imagem e segurança</button></li>
+      <li><button type="button" data-t="269.867"><time>4:29</time>Provas</button></li>
+      <li><button type="button" data-t="281.867"><time>4:41</time>Chamada</button></li>
+    </ol>
+  </div>
+</section>
+
+<section id="aberto" class="fd-sec" aria-labelledby="h-aberto">
+  <div class="fd-wrap">
+    <header class="fd-head">
+      <p class="fd-kick"><b>07</b>Em aberto</p>
+      <h2 class="fd-h2" id="h-aberto" tabindex="-1">O que ainda falta</h2>
+    </header>
+    <!-- nexo:open-items · update this list when the agent fixes land (PT and EN) -->
+    <ul class="fd-open">
+      <li><b>O que apareceu na gravação</b><p>O chamado do ponto exigiu seis turnos de perguntas, e o resumo da transferência incluiu um detalhe que Carla não informou. O terceiro ponto, o botão “Já estava assim”, foi corrigido em 11/11.</p></li>
+      <li><b>O que o funcionário simulado pegou</b><p>Todos os defeitos das três rodadas viraram regra em código, com testes: confirmação só explícita (e um “Sim, é esse mesmo” que só identifica o chamado não reabre nada), problema diferente vira chamado novo, Outlook entra como E-mail, analista só com motivo (prazo que não atende, chamado vencido ou frustração) e a pergunta sobre alternativa antes da prioridade. Repetidos depois das correções de 29 out, <code>senha-sap</code> e <code>vpn-reuniao</code> passaram 3 de 3, e a reabertura nos evals também. O que fica é a variação do próprio modelo: na suíte completa de 29 out, um cenário de incidente em massa falhou uma vez e passou 3 de 3 repetido.</p></li>
+      <li><b>Limites da revisão de 11/11</b><p>A leitura de imagem não foi exercitada com o modelo real nessa rodada, só pelos testes com dublê e pelo E2E, que não chama o modelo. O limite de corpo da plataforma (Vercel) não foi medido; o do app foi testado em unidade.</p></li>
+      <li><b>Entrega por imagem só local</b><p>O caminho CircleCI → Docker Hub → Komodo roda, mas o Komodo fica na minha máquina, só em loopback: prova a entrega por imagem, não é um segundo ambiente público. A produção continua na Vercel, publicada à mão.</p></li>
+      <li><b>Amostra pequena</b><p>10 personas × 3 execuções é pouco para cravar uma taxa. Os números mostram a direção, não uma garantia.</p></li>
+      <li><b>Teto de gasto</b><p>A demo pública tem US$ 0,07 por dia para o modelo. Quando acaba, o chat avisa e volta no dia seguinte, sem modelo de reserva. Um atendimento resolvido sem analista custa cerca de US$ 0,005 em modelo. Desde 11/11 a sugestão de resposta passa pelo teto e registra o custo; os embeddings e o avaliador de relevância continuam fora do livro-caixa, com menos de US$ 0,001 por conversa (<a href="https://github.com/skarL007/nexo-assist/blob/main/docs/CUSTOS.md" target="_blank" rel="noopener">relatório de custos ↗</a>, <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/ESCALA.md" target="_blank" rel="noopener">plano de escala ↗</a>).</p></li>
+      <li><b>Chamadas repetidas</b><p>A telemetria mostrou o modelo chamando a tool de entendimento várias vezes em paralelo no primeiro passo. Só a primeira vale, mas as outras gastam tokens.</p></li>
+      <li><b>Evals fora do CI</b><p>Rodam à mão porque chamam o modelo real. O próximo passo é rodá-los no CI com um limiar mínimo.</p></li>
+      <li><b>Serviços de verdade</b><p>O SSO só foi testado contra um provedor falso, e a telemetria contra um coletor local. Sair não revoga o JWT no servidor, e o console precisa de tela larga.</p></li>
+      <li><b>Material com a marca antiga</b><p>O vídeo de demo, a animação da leitura de imagem e a captura do teste da impressora são de antes de 11/11 e ainda mostram o nome Nexo Assist.</p></li>
+    </ul>
+    <!-- /nexo:open-items -->
+  </div>
+</section>
+
+<section class="fd-end" aria-label="Próximos passos">
+  <div class="fd-wrap">
+    <p class="fd-end-t">Abra a demo e clique em <em>“por quê?”</em>.</p>
+    <div class="fd-cta">
+      <a class="fd-btn fd-btn-fill" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Usar a demo ↗</a>
+      <a class="fd-btn fd-btn-line" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Ver o repositório ↗</a>
+      <a class="fd-btn fd-btn-line" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Contato pelo LinkedIn ↗</a>
+      <a class="fd-tlink" href="../#p-nexo">← Voltar ao portfólio</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <p class="foot-id">Marcelo Machuca · Desenvolvedor de Soluções em IA · Brasil</p>
+  <p class="foot-src">Este site foi feito do mesmo jeito: eu dirigi e agentes de IA escreveram o código. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Código-fonte ↗</a> · <a href="../en/farol-desk/" hreflang="en" lang="en">English version</a></p>
+</footer>
+
+<script src="../assets/nexo-numbers.js" defer></script>
+<script src="../assets/farol.js" defer></script>
+<script data-goatcounter="https://skarl007.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
