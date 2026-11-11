@@ -71,7 +71,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/adapters/http.js",
       "git": {
         "commits_30_dias": 1,
-        "commits_90_dias": 3,
+        "commits_90_dias": 2,
         "ultima_mudanca": "2026-10-13T19:17:27+02:00"
       },
       "id": "24",
@@ -102,7 +102,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/adapters/xhr.js",
       "git": {
         "commits_30_dias": 2,
-        "commits_90_dias": 3,
+        "commits_90_dias": 2,
         "ultima_mudanca": "2026-10-15T18:03:58+02:00"
       },
       "id": "25",
@@ -487,8 +487,8 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/core/Axios.js",
       "git": {
-        "commits_30_dias": 2,
-        "commits_90_dias": 6,
+        "commits_30_dias": 1,
+        "commits_90_dias": 5,
         "ultima_mudanca": "2026-10-13T19:05:15+02:00"
       },
       "id": "13",
@@ -684,7 +684,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/core/InterceptorManager.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 2,
+        "commits_90_dias": 1,
         "ultima_mudanca": "2026-10-09T18:26:58+02:00"
       },
       "id": "14",
@@ -713,7 +713,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/core/mergeConfig.js",
       "git": {
         "commits_30_dias": 1,
-        "commits_90_dias": 3,
+        "commits_90_dias": 2,
         "ultima_mudanca": "2026-10-13T20:41:05+02:00"
       },
       "id": "17",
@@ -744,7 +744,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/core/methodList.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 1,
+        "commits_90_dias": 0,
         "ultima_mudanca": "2026-08-13T20:14:45+02:00"
       },
       "id": "10",
@@ -860,7 +860,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/defaults/index.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 1,
+        "commits_90_dias": 0,
         "ultima_mudanca": "2026-08-13T20:14:45+02:00"
       },
       "id": "11",
@@ -1625,7 +1625,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/progressEventReducer.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 1,
+        "commits_90_dias": 0,
         "ultima_mudanca": "2026-08-13T20:05:22+02:00"
       },
       "id": "53",
@@ -1826,7 +1826,7 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/throttle.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 1,
+        "commits_90_dias": 0,
         "ultima_mudanca": "2026-08-13T20:05:22+02:00"
       },
       "id": "55",
@@ -2118,7 +2118,7 @@ window.LODEMAP_EVIDENCIAS = {
   "referencia": {
     "arvore_de_trabalho": "nao_verificada",
     "commit": "3dbe82c1dfb22d6d45d954aba48664a7e2363277",
-    "data": "2026-11-10",
+    "data": "2026-11-11",
     "mapa": "docs/architecture/structurizr",
     "repositorio": "axios-pagina-v1211"
   },
