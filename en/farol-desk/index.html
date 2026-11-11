@@ -302,12 +302,12 @@
       <div>
         <h3 class="fd-h3">From Gemini to GPT-6 Luna and DeepSeek, decided by measurement</h3>
         <p class="fd-answer">The production model has been DeepSeek-V4-Flash, through DeepInfra, since 2 Nov. Each switch only happened after measuring the candidate in the evals.</p>
-        <p class="fd-fact">7 models · 24 conversations per model · Luna 26× cheaper, same quality · since 2 Nov, DeepSeek-V4-Flash: 36/36 for US$ 0.07</p>
+        <p class="fd-fact">7 models · 24 conversations per model · Luna 26× cheaper, same quality · since 2 Nov, DeepSeek-V4-Flash: 35/36 in the 3 Nov evals, for US$ 0.07</p>
         <details class="fd-why" open>
           <summary>why?</summary>
           <dl class="fd-trace">
             <div><dt>Understood</dt><dd><p>I picked Gemini for reliable tool calling (including the tool forced on the first step, which the “why?” panel depends on), low latency with reasoning set to minimal, and a cost of about one US cent per answer. It was a qualitative choice.</p></dd></div>
-            <div><dt>Did</dt><dd><p>I replaced the qualitative choice with data: I ran the production agent with 7 models, measuring effectiveness, quality (G-Eval with 2 judges), latency and real cost, under a US$ 1.80 cap. GPT-6 Luna tied with Gemini within the confidence intervals and cost 26 times less.</p><p>I kept Gemini while it had credit. When the Google credits ran out, on 29 Oct, I switched to Luna with one environment variable, after confirming it in the evals: 36/36.</p><p>On 2 Nov the OpenRouter credit ran out and the public demo was left without a model. I switched to DeepSeek-V4-Flash, through DeepInfra, again after measuring: 36/36 in the evals for US$ 0.07 for the whole run.</p></dd></div>
+            <div><dt>Did</dt><dd><p>I replaced the qualitative choice with data: I ran the production agent with 7 models, measuring effectiveness, quality (G-Eval with 2 judges), latency and real cost, under a US$ 1.80 cap. GPT-6 Luna tied with Gemini within the confidence intervals and cost 26 times less.</p><p>I kept Gemini while it had credit. When the Google credits ran out, on 29 Oct, I switched to Luna with one environment variable, after confirming it in the evals of that time.</p><p>On 2 Nov the OpenRouter credit ran out and the public demo was left without a model. I switched to DeepSeek-V4-Flash, through DeepInfra, again after measuring: 35 of 36 in the 3 Nov eval round, for US$ 0.07 for the whole run.</p></dd></div>
             <div><dt>Rules that stayed</dt><dd><p>With it came a spend ledger, with a daily and a total cap, so US$ 3 lasts at least three weeks. When the cap runs out, the chat says so instead of spending.</p></dd></div>
           </dl>
         </details>
@@ -472,11 +472,11 @@
     </header>
     <p class="fd-callout"><b>Recorded before the rename.</b> The video shows the old name and look (“Nexo Assist”) and the “Já estava assim” button, which became “Já estava certo” on 11 Nov. The numbers shown in it come from the 2 Nov measurements.</p>
     <figure class="fd-video">
-      <video id="demo" controls playsinline preload="none" width="1920" height="1080" poster="../../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" aria-label="Demo video, recorded when the project was called Nexo Assist: 4 minutes 49 seconds, with Portuguese narration and a quiet instrumental score">
-        <source src="../../assets/video/nexo-assist-demo.mp4?v=piano-inicio" type="video/mp4">
+      <video id="demo" controls playsinline preload="none" width="1280" height="720" poster="../../assets/shots/nexo-poster-1600.webp?v=hardware3d-mix2" aria-label="Demo video, recorded when the project was called Nexo Assist: 4 minutes 49 seconds, with Portuguese narration and a quiet instrumental score">
+        <source src="../../assets/video/farol-desk-demo-720.mp4" type="video/mp4">
         <track kind="chapters" srclang="en" label="Chapters" src="../../assets/video/nexo-assist-demo.chapters.en.vtt?v=hardware3d-mix2" default>
       </video>
-      <figcaption>H.264 · 1920×1080 · 60 fps · 48.6 MB · plays only when you press play · Portuguese narration with a synthetic voice (Fish Audio) · original electric piano, bass and soft chords · also in the <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repository ↗</a></figcaption>
+      <figcaption>H.264 · 1280×720 · 60 fps · 28 MB · plays only when you press play · Portuguese narration with a synthetic voice (Fish Audio) · original electric piano, bass and soft chords · original 1080p in the <a href="https://github.com/skarL007/nexo-assist/blob/main/docs/demo/nexo-assist-demo.mp4" target="_blank" rel="noopener">repository ↗</a></figcaption>
     </figure>
     <ol class="fd-chaps" aria-label="Video chapters">
       <li><button type="button" data-t="0.000"><time>0:00</time>Opening</button></li>
@@ -535,7 +535,7 @@
   <p class="foot-src">This site was built the same way: I directed and AI agents wrote the code. <a href="https://github.com/skarL007/skarL007.github.io" target="_blank" rel="noopener">Source code ↗</a> · <a href="../../farol-desk/" hreflang="pt-BR" lang="pt-BR">Versão em português</a></p>
 </footer>
 
-<script src="../../assets/nexo-numbers.js" defer></script>
+<script src="../../assets/nexo-numbers.js?v=20261111" defer></script>
 <script src="../../assets/farol.js" defer></script>
 <script data-goatcounter="https://skarl007.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

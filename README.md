@@ -46,7 +46,7 @@ tools/farol-shots.py  build tool, not part of the site: regenerates assets/shots
 assets/case.css     case-study styles, on top of site.css
 assets/case.js      case-study script: the 3D architecture and its 2D plan; strings in the TX table at the top
 assets/nexo-numbers.js  the Farol Desk numbers that still change (tests, evals, simulation, commits); the file keeps the old name
-assets/video/       the Farol Desk demo video, recorded under the old name (a lighter encode of docs/demo/nexo-assist-demo.mp4 in that repo)
+assets/video/       the Farol Desk demo video, recorded under the old name (farol-desk-demo-720.mp4 is a 720p encode of docs/demo/nexo-assist-demo.mp4 in that repo)
 404.html            not-found page
 lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-sdk)
 aulo/               Aulô case study, Portuguese (en/aulo/ is the English one); a project in progress with a private repository, it replaced the old Axon Voice page

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Marcelo Machuca · AI Solutions Developer</title>
-<meta name="description" content="Marcelo Machuca, AI Solutions Developer. I design AI systems and direct the agents that write the code. I come from medicine and I am open to first opportunities.">
+<meta name="description" content="Marcelo Machuca, AI Solutions Developer. I design AI systems and direct the agents that write the code. I come from medicine and I am open to roles.">
 <meta name="theme-color" content="#050B16">
 <link rel="canonical" href="https://skarl007.github.io/en/">
 <link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/">
@@ -76,12 +76,38 @@
         <a class="btn btn-solid" href="#projetos">See projects</a>
         <a class="btn" href="https://github.com/skarL007" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
-      <p class="meta hv"><span class="dot" aria-hidden="true"></span>Brazil · open to first opportunities</p>
+      <p class="meta hv"><span class="dot" aria-hidden="true"></span>Brazil · open to roles</p>
       <ul class="legend hv" aria-label="How to read the plan">
         <li><i class="lg-line" aria-hidden="true"></i>Light line: what I design</li>
         <li><i class="lg-agent" aria-hidden="true"></i>Orange: the agents that build</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section id="provas" class="chap proof" aria-labelledby="h-provas">
+  <div class="proof-in">
+    <h2 class="proof-h" id="h-provas">Three proofs you can check</h2>
+    <ul class="proof-grid">
+      <li class="proof-card">
+        <p class="pc-k">M-01 · public · PyPI</p>
+        <h3 class="pc-t"><a href="#p-lumen">LumenAI SDK</a></h3>
+        <p class="pc-v"><b>Zero difference</b> against the real OpenRouter bill, on 6 real calls.</p>
+        <p class="pc-l"><a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">See the table ↗</a><a class="lnk" href="#p-lumen">See the project ↓</a></p>
+      </li>
+      <li class="proof-card">
+        <p class="pc-k">M-07 · public · technical challenge</p>
+        <h3 class="pc-t"><a href="farol-desk/">Farol Desk</a></h3>
+        <p class="pc-v"><b data-n="unitTests">573</b> unit tests, <b data-n="e2eTests">48</b> E2E and evals <b data-n="evals">35/36</b> (evals of 3 Nov).</p>
+        <p class="pc-l"><a class="lnk" href="farol-desk/">See the project →</a></p>
+      </li>
+      <li class="proof-card">
+        <p class="pc-k">Lodemap · open source · MIT</p>
+        <h3 class="pc-t"><a href="../lodemap/" hreflang="pt-BR">Lodemap</a></h3>
+        <p class="pc-v"><b>72 of 72</b> axios modules on the map, checked by a structural test.</p>
+        <p class="pc-l"><a class="lnk" href="../lodemap/demo/" hreflang="pt-BR">Open the demo (in Portuguese) →</a><a class="lnk" href="https://github.com/skarL007/lodemap" target="_blank" rel="noopener">Code ↗</a></p>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -209,9 +235,9 @@
       <div class="chain" role="group" aria-label="The two sides of the service desk"><span>employee chat</span><i aria-hidden="true">→</i><span>Mastra agent · 11 tools</span><i aria-hidden="true">→</i><span>analyst console</span></div>
       <p>The employee talks to the agent, which tries to solve the issue through the help center with hybrid search and asks “Did this solve it?”. When it doesn't, it drafts the ticket for the person to confirm, warns when the deadline is at risk and notices when several people report the same problem.</p>
       <p>On the other side, the analyst follows conversations in real time (SSE), with a conversation report, a suggested reply and the indicators. The trace and the console telemetry say which model answered and why.</p>
-      <p>The service-desk rules (priority, deadlines, confirmation, privacy) live in tested code, and code decides which tools the model may use at each step. The chosen model was later checked in a benchmark of 7 models, with real cost measured, and switched again on 2 Nov after measuring: DeepSeek-V4-Flash, 36/36 in the evals, with a daily spend cap.</p>
+      <p>The service-desk rules (priority, deadlines, confirmation, privacy) live in tested code, and code decides which tools the model may use at each step. The chosen model was later checked in a benchmark of 7 models, with real cost measured, and switched again on 2 Nov after measuring: DeepSeek-V4-Flash, 35/36 in the 3 Nov eval round, with a daily spend cap.</p>
       <figure class="shot"><a href="farol-desk/"><img src="../assets/shots/farol-03-console-fila-960.webp" srcset="../assets/shots/farol-03-console-fila-960.webp 960w, ../assets/shots/farol-03-console-fila-1600.webp 1600w" sizes="(max-width: 760px) 100vw, 600px" width="960" height="600" loading="lazy" decoding="async" alt="The analyst console in Farol Desk, in Portuguese: the conversation queue with each one&#39;s signals, the handed-off conversation with the case summary, and the person&#39;s tickets."></a><figcaption><b>From the app</b> · the analyst console, with the queue and the conversation (in Portuguese)</figcaption></figure>
-      <dl class="ev"><div><dt>unit tests</dt><dd data-n="unitTests">563</dd></div><div><dt>E2E tests</dt><dd data-n="e2eTests">48</dd></div><div><dt>evals</dt><dd class="sm"><span data-n="evals">35/36</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
+      <dl class="ev"><div><dt>unit tests</dt><dd data-n="unitTests">573</dd></div><div><dt>E2E tests</dt><dd data-n="e2eTests">48</dd></div><div><dt>evals (3 Nov)</dt><dd class="sm"><span data-n="evals">35/36</span> · red team <span data-n="redTeam">21/21</span></dd></div></dl>
       <p class="sh-fact">hybrid search 84% → 94% · simulated employee pass^1 <span data-n="simPass1Before">0.72</span> → <span data-n="simPass1">0.93</span> · 486 MB Docker image, 25/25 on the smoke test · CI on CircleCI and CD with Komodo pulling from Docker Hub, running</p>
       <p class="sh-links"><a class="lnk" href="farol-desk/">Read the case study →</a><a class="lnk" href="https://nexo-assist-puce.vercel.app" target="_blank" rel="noopener">Try the demo ↗</a><a class="lnk" href="https://github.com/skarL007/nexo-assist" target="_blank" rel="noopener">Repository ↗</a><a class="lnk" href="farol-desk/#video">Watch the demo video →</a></p>
     </article>
@@ -269,7 +295,7 @@
     <div class="sheet big rv">
       <p class="callout"><span class="cn">A-06</span><span class="ct">Contact</span></p>
       <h2 class="h-xl" id="h-contato" tabindex="-1">Contact</h2>
-      <p class="sh-lede">Brazil · open to first opportunities.</p>
+      <p class="sh-lede">Brazil · open to roles.</p>
       <ul class="contact">
         <li><a href="https://github.com/skarL007" target="_blank" rel="noopener"><span class="c-k">GitHub</span><span class="c-v">github.com/skarL007 ↗</span></a></li>
         <li><a href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener"><span class="c-k">LinkedIn</span><span class="c-v">in/marcelo-machuca-ia ↗</span></a></li>
@@ -289,7 +315,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="../assets/nexo-numbers.js" defer></script>
+<script src="../assets/nexo-numbers.js?v=20261111" defer></script>
 <script src="../assets/motion.js" defer></script>
 <script type="module" src="../assets/site.js"></script>
 <script src="../assets/sfx.js" defer></script>

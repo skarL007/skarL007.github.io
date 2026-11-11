@@ -216,7 +216,7 @@ html{scroll-padding-top:60px}
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){--papel:#fff;--tinta:#000;--fraco:#444;--azul:#000;--carimbo:#000;--linha:#999;--faixa:#fff;--sobre-faixa:#000;color-scheme:light}
   body{background:#fff}
   .telas a{background:none;border-color:#000}
-  .barra{position:static}.arquivos,.chave,.pular{display:none}
+  .barra{position:static}.arquivos,.chave,.voltar,.pular{display:none}
   .cobalto,.faixa{background:none;color:#000}
   .canhotos,.canhoto,.irma{border-color:#000}
   .cupom{box-shadow:none;border:1px solid #000}.cupom::before,.cupom::after{display:none}
@@ -234,3 +234,7 @@ html{scroll-padding-top:60px}
     @keyframes carimba{from{opacity:0;scale:1.7}to{opacity:1;scale:1}}
   }}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.telas img{transition:none}}
+/* retorno discreto ao portfólio, alvo de 44 px */
+.voltar{font:500 12px/1 var(--mono);text-decoration:none;white-space:nowrap;color:var(--fraco);min-height:44px;display:inline-flex;align-items:center;padding:0 6px}
+.voltar:hover{color:var(--tinta);text-decoration:underline}
+@media (max-width:699px){.barra .caixa{column-gap:8px}.marca{margin-right:0}.voltar{margin-right:auto;padding:0 2px}}

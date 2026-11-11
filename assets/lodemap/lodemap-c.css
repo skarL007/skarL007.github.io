@@ -28,6 +28,9 @@ code{font:500 max(.86em,12px) var(--mono);background:color-mix(in srgb,var(--ink
 .top .wrap{height:100%;display:flex;align-items:center;gap:22px}
 .logo{min-height:44px;font:700 22px/1 var(--disp);font-variation-settings:"wdth" 85;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:9px;flex:none}
 .logo i{width:10px;height:10px;background:var(--hi);border:1.5px solid var(--ink);border-radius:50%}
+.back{font:500 12px/1 var(--sans);letter-spacing:.08em;text-decoration:none;color:var(--ink);min-height:44px;min-width:44px;display:inline-flex;align-items:center;padding:12px 4px;flex:none;white-space:nowrap;opacity:.88}
+.back:hover{background:var(--hi);color:#000;opacity:1}
+@media (max-width:359px){.top nav a[href="demo/explorador/"]{display:none}}
 .read{display:flex;gap:16px;white-space:nowrap}.read b{font-weight:600;color:var(--ink)}
 .top nav{display:flex;gap:4px 14px;margin-left:auto;align-items:center}
 .top nav a,.tbtn{font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:12px 4px;color:var(--ink);min-height:44px;display:inline-flex;align-items:center}
@@ -249,8 +252,8 @@ html:not(.js) .run{display:none}
 }
 @media (max-width:480px){
   .wrap{width:calc(100% - 32px)}.grid div{width:calc(100% - 32px)}body{font-size:16px}
-  .p0-r{font-size:13.5px}.btn{padding:11px 14px;font-size:12px}
-  .top .wrap{gap:8px}.logo{font-size:20px}.tbtn{padding:9px 8px;letter-spacing:.08em;white-space:nowrap}.top nav{gap:2px}.top nav a[href="#video"]{display:none}.top nav a:not(.fn){letter-spacing:.1em}
+  .p0-r{font-size:13.5px}.btn{padding:11px 14px;font-size:12px;min-height:44px}
+  .top .wrap{gap:8px}.logo{font-size:20px}.tbtn{padding:9px 8px;letter-spacing:.08em;white-space:nowrap}.top nav{gap:2px}.top nav a[href="#video"]{display:none}.top nav a[href^="https://github.com"]{display:none}.top nav a:not(.fn){letter-spacing:.1em}
   .consent{grid-template-columns:minmax(0,1fr)}.consent li+li{padding-left:0;border-left:0;margin-top:14px}
   .pains{grid-template-columns:minmax(0,1fr)}.pains li+li{padding-left:0;border-left:0;margin-top:14px}
   .diff li{grid-template-columns:44px minmax(0,1fr)}
@@ -304,5 +307,5 @@ html:not(.js) .stage{padding-top:var(--top)}
   .vh-k{margin:12px 0 8px}
   .vhero .vid{max-width:none}
   .vhero .vid .v916{width:min(100%,calc((100svh - 290px) * 9 / 16));max-width:none}
-  .vh-b{order:5;margin-top:20px}
+  .vh-b{margin-top:14px}
 }

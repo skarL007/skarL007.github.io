@@ -386,6 +386,9 @@ main{position:relative;z-index:2}
   :root:not(.mode-2d) #metodo>.stop:first-child{min-height:44vh;padding-block:40px 16px}
   :root:not(.mode-2d) .steps .stop{min-height:34vh;padding-block:36px}
   :root:not(.mode-2d) #projetos>.stop:first-child{min-height:72vh;padding-block:64px}
+  /* the proof strip title must sit inside the first screen (1440x900, 1366x768): the hero is 150px shorter than the viewport */
+  :root:not(.mode-2d) .hero .stop{min-height:calc(100vh - 150px);min-height:calc(100svh - 150px);padding-top:calc(var(--hdr) + 24px);padding-bottom:4vh}
+  :root:not(.mode-2d) .hero .name{font-size:clamp(58px,min(11vw,17vh),184px)}
 }
 @media (max-width:760px){
   :root:not(.mode-2d) #metodo>.stop:first-child{min-height:0;padding-block:28px 8px}
