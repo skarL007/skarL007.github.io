@@ -94,7 +94,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
           <text class="g-note" x="8" y="596">no fluxo, de cima para baixo.</text>
         </g>
       </svg>
-      <figcaption class="ffoot" id="hg-cap">8 componentes e 7 relações do mapa do axios em português, todos do fluxo “ciclo de vida da requisição (Node.js)”, que na demo tem 13 passos.</figcaption>
+      <figcaption class="ffoot" id="hg-cap">8 componentes e 7 relações do mapa do axios em português, todos do fluxo “ciclo de vida da requisição (Node.js)”, que na demo tem 14 passos.</figcaption>
     </figure>
   </div>
 </section>
@@ -132,19 +132,19 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
   <div class="wrap cols">
     <div class="leg"><b>Fig. <em>02</em></b><span class="t">Linha do tempo</span><p>Histórico calculado a partir das versões do mapa no git.</p></div>
     <div>
-      <span class="sel">Replay em validação</span>
+      <span class="sel">5 releases auditadas · axios v1.17 a v1.21.1</span>
       <h2 id="h-02">Veja o que entrou, saiu e mudou em cada versão.</h2>
-      <p class="lede">A linha do tempo compara os identificadores estáveis do mapa entre versões. No explorador, selecione uma visão histórica, toque a evolução e consulte o histórico de um componente. O leitor reúne as mudanças de cada versão.</p>
+      <p class="lede">A linha do tempo compara os identificadores estáveis do mapa entre cinco releases auditadas. No explorador, selecione uma visão histórica, toque a evolução e consulte o histórico de um componente. O leitor reúne as mudanças de cada versão.</p>
       <div class="tl body">
         <div class="fhead"><span>axios · comparação registrada</span><span>v1.20.0 → v1.21.1</span></div>
         <div class="stage-real">
           <div><span class="lab">Componentes</span><strong>3</strong><p>entraram no mapa</p></div>
-          <div><span class="lab">Descrição</span><strong>1</strong><p>alterada</p></div>
+          <div><span class="lab">Mudaram</span><strong>18</strong><p>componentes alterados</p></div>
           <div><span class="lab">Relações</span><strong>12</strong><p>novas</p></div>
         </div>
-        <p class="ffoot">Comparação calculada do histórico real da demo: <code>linha-do-tempo.json</code>, commits <code>8ee0448</code> e <code>27a5868</code>. A gravação em português e o replay de releases estão em validação.</p>
+        <p class="ffoot">Comparação calculada do histórico real da demo: <code>linha-do-tempo.json</code>, commits <code>1c17226</code> e <code>3dbe82c</code>. A gravação em português está em validação.</p>
       </div>
-      <p class="ausente">A captura da linha do tempo em português entra após a validação do replay. Este bloco apresenta contagens; não é uma gravação da interface.</p>
+      <p class="ausente">A captura da linha do tempo em português ainda não foi refeita para as cinco releases. Este bloco apresenta contagens; não é uma gravação da interface.</p>
     </div>
   </div>
 </section>
@@ -246,7 +246,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
           <tr><th scope="row">Para quem</th><td class="us" data-l="Lodemap">Pessoas e agentes que precisam entender a arquitetura do repositório</td><td data-l="CodeGraph">Agentes de código que consultam símbolos, chamadas e impacto</td><td data-l="Graphiti">Agentes que precisam de memória de longo prazo</td></tr>
           <tr><th scope="row">Responde</th><td class="us" data-l="Lodemap">Quem conversa com quem, por onde passa cada fluxo, o status declarado e o que mudou</td><td data-l="CodeGraph">Onde está um símbolo, quem o chama e o que uma edição afeta</td><td data-l="Graphiti">O que o agente sabe e desde quando cada fato vale</td></tr>
           <tr><th scope="row">Mantido por</th><td class="us" data-l="Lodemap">Scripts geram as páginas; testes apontam módulos fora do mapa; a modelagem depende das mudanças e decisões do projeto</td><td data-l="CodeGraph">Índice atualizado pelo observador de arquivos</td><td data-l="Graphiti">Episódios gravados pelo agente e extraídos por modelo</td></tr>
-          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; replay da demo em validação (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
+          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; cinco releases auditadas na demo (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
         </tbody>
       </table>
       <p class="fn">As colunas CodeGraph e Graphiti resumem a descrição que cada ferramenta publica em seu servidor MCP, lida em 10/11/2026; confira nos projetos antes de decidir. A coluna Lodemap vem da página atual.</p>
@@ -320,7 +320,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Economia de tokens para agentes: não demonstrada.</b><span>Num teste pré-registrado (Sonnet, 16 tarefas de navegação no chi e no axios, 3 rodadas cada), os tokens foram os mesmos com e sem o mapa: razão mediana 0,99. O acerto se manteve (recall 0,991 contra 0,977). Ele é antes de tudo um mapa para pessoas.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ganho de entendimento para pessoas: não medido ainda.</b><span>Ainda não há medição com leitores.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Telemetria em execução: fora do escopo.</b><span>O modo Saúde reúne evidências estáticas e relatórios disponíveis. Ele não observa o sistema em execução; a árvore de trabalho não é verificada.</span></div></li>
-        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Replay e mídias em português: em validação.</b><span>A linha do tempo e o modo Saúde estão implementados; a demonstração final ainda está sendo conferida.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Mídias em português: em validação.</b><span>O replay de cinco releases está na demo; as capturas e a gravação em português ainda não foram refeitas.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>macOS sem execução real.</b><span>Scripts, testes, regeneração e gancho rodaram no Windows e no Linux (Ubuntu 24.04). As fases com modelo, só no Windows.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ainda há frases falsas.</b><span>Com a conferência, 5 de 213 descrições de módulo eram falsas segundo um juiz Sonnet no chi e no axios (antes dela, 15 de 108). A conferência custa cerca de 3,7 vezes os tokens.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Prova de relação só por imports.</b><span>Macros do Rust, reflection e injeção de dependência não são seguidos. Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Passos com modelo enviam à Anthropic o código que leem, pelo Claude Code.</span></div></li>

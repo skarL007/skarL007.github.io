@@ -15,7 +15,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-06-17T20:33:40+02:00"
       },
-      "id": "20",
+      "id": "22",
       "ident": "adaptersAdapters",
       "junit": {
         "estado": "ausente",
@@ -41,10 +41,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/adapters/fetch.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-14T20:34:35+02:00"
+        "commits_90_dias": 3,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
       },
-      "id": "21",
+      "id": "23",
       "ident": "adaptersFetch",
       "junit": {
         "estado": "ausente",
@@ -53,7 +53,8 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/unit/adapters/fetch.test.js"
+          "tests/unit/adapters/fetch.test.js",
+          "tests/unit/adapters/runtimeConsistency.test.js"
         ],
         "estado": "medido"
       }
@@ -69,11 +70,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/adapters/http.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-15T19:59:35+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 3,
+        "ultima_mudanca": "2026-10-13T19:17:27+02:00"
       },
-      "id": "22",
+      "id": "24",
       "ident": "adaptersHttp",
       "junit": {
         "estado": "ausente",
@@ -82,7 +83,9 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/unit/adapters/http.test.js"
+          "tests/unit/adapters/directAgent.test.js",
+          "tests/unit/adapters/http.test.js",
+          "tests/unit/adapters/routingConsistency.test.js"
         ],
         "estado": "medido"
       }
@@ -98,11 +101,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/adapters/xhr.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-17T20:33:40+02:00"
+        "commits_30_dias": 2,
+        "commits_90_dias": 3,
+        "ultima_mudanca": "2026-10-15T18:03:58+02:00"
       },
-      "id": "23",
+      "id": "25",
       "ident": "adaptersXhr",
       "junit": {
         "estado": "ausente",
@@ -129,7 +132,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "68",
+      "id": "73",
       "ident": "browserIndex",
       "junit": {
         "estado": "ausente",
@@ -156,7 +159,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "52",
+      "id": "57",
       "ident": "cancelCancelToken",
       "junit": {
         "estado": "ausente",
@@ -185,7 +188,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2025-11-11T19:06:10+02:00"
       },
-      "id": "53",
+      "id": "58",
       "ident": "cancelCanceledError",
       "junit": {
         "estado": "ausente",
@@ -216,7 +219,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2022-06-18T11:19:27+02:00"
       },
-      "id": "54",
+      "id": "59",
       "ident": "cancelIsCancel",
       "junit": {
         "estado": "ausente",
@@ -245,7 +248,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "65",
+      "id": "70",
       "ident": "classesBlob",
       "junit": {
         "estado": "ausente",
@@ -272,7 +275,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-06-25T20:59:20+02:00"
       },
-      "id": "71",
+      "id": "76",
       "ident": "classesBuffer",
       "junit": {
         "estado": "ausente",
@@ -299,7 +302,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2023-01-31T01:10:39+02:00"
       },
-      "id": "59",
+      "id": "64",
       "ident": "classesFormData",
       "junit": {
         "estado": "ausente",
@@ -326,7 +329,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2023-02-13T20:03:14+02:00"
       },
-      "id": "66",
+      "id": "71",
       "ident": "classesFormData2",
       "junit": {
         "estado": "ausente",
@@ -353,7 +356,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2022-06-18T11:19:27+02:00"
       },
-      "id": "72",
+      "id": "77",
       "ident": "classesFormData3",
       "junit": {
         "estado": "ausente",
@@ -380,7 +383,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2022-06-18T11:19:27+02:00"
       },
-      "id": "67",
+      "id": "72",
       "ident": "classesURLSearchParams",
       "junit": {
         "estado": "ausente",
@@ -407,7 +410,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2022-06-18T11:19:27+02:00"
       },
-      "id": "73",
+      "id": "78",
       "ident": "classesURLSearchParams2",
       "junit": {
         "estado": "ausente",
@@ -434,8 +437,35 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "69",
+      "id": "74",
       "ident": "commonUtils",
+      "junit": {
+        "estado": "ausente",
+        "falhas": [],
+        "relatorio": null
+      },
+      "testes": {
+        "arquivos": [],
+        "estado": "medido"
+      }
+    },
+    "coreAssertParamsAcyclic": {
+      "arquivos": [
+        "lib/core/assertParamsAcyclic.js"
+      ],
+      "cobertura": {
+        "arquivos": [],
+        "estado": "ausente",
+        "relatorio": null
+      },
+      "codigo": "lib/core/assertParamsAcyclic.js",
+      "git": {
+        "commits_30_dias": 0,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
+      },
+      "id": "15",
+      "ident": "coreAssertParamsAcyclic",
       "junit": {
         "estado": "ausente",
         "falhas": [],
@@ -457,11 +487,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/core/Axios.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-16T20:16:54+02:00"
+        "commits_30_dias": 2,
+        "commits_90_dias": 6,
+        "ultima_mudanca": "2026-10-13T19:05:15+02:00"
       },
-      "id": "12",
+      "id": "13",
       "ident": "coreAxios",
       "junit": {
         "estado": "ausente",
@@ -487,10 +517,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/core/AxiosError.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-13T20:56:04+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-09T18:54:12+02:00"
       },
-      "id": "55",
+      "id": "60",
       "ident": "coreAxiosError",
       "junit": {
         "estado": "ausente",
@@ -499,6 +529,7 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
+          "tests/browser/errorStack.browser.test.js",
           "tests/browser/requests.browser.test.js",
           "tests/browser/settle.browser.test.js",
           "tests/browser/transform.browser.test.js",
@@ -508,6 +539,7 @@ window.LODEMAP_EVIDENCIAS = {
           "tests/unit/adapters/adapters.test.js",
           "tests/unit/adapters/fetch.test.js",
           "tests/unit/adapters/http.test.js",
+          "tests/unit/core/Axios.test.js",
           "tests/unit/core/AxiosError.test.js",
           "tests/unit/core/buildFullPath.test.js",
           "tests/unit/core/dispatchRequest.test.js",
@@ -531,11 +563,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/core/AxiosHeaders.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-13T10:17:44+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-15T18:04:16+02:00"
       },
-      "id": "27",
+      "id": "29",
       "ident": "coreAxiosHeaders",
       "junit": {
         "estado": "ausente",
@@ -545,6 +577,7 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/browser/defaults.browser.test.js",
+          "tests/unit/axios.test.js",
           "tests/unit/axiosHeaders.test.js",
           "tests/unit/prototypePollution.test.js",
           "tests/unit/core/AxiosError.test.js"
@@ -565,9 +598,9 @@ window.LODEMAP_EVIDENCIAS = {
       "git": {
         "commits_30_dias": 0,
         "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-28T21:48:08+02:00"
+        "ultima_mudanca": "2026-07-30T08:24:04+02:00"
       },
-      "id": "28",
+      "id": "30",
       "ident": "coreBuildFullPath",
       "junit": {
         "estado": "ausente",
@@ -577,6 +610,35 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/unit/core/buildFullPath.test.js"
+        ],
+        "estado": "medido"
+      }
+    },
+    "coreCreateMultipartBody": {
+      "arquivos": [
+        "lib/core/createMultipartBody.js"
+      ],
+      "cobertura": {
+        "arquivos": [],
+        "estado": "ausente",
+        "relatorio": null
+      },
+      "codigo": "lib/core/createMultipartBody.js",
+      "git": {
+        "commits_30_dias": 0,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
+      },
+      "id": "41",
+      "ident": "coreCreateMultipartBody",
+      "junit": {
+        "estado": "ausente",
+        "falhas": [],
+        "relatorio": null
+      },
+      "testes": {
+        "arquivos": [
+          "tests/setup/formBodyLengthCases.js"
         ],
         "estado": "medido"
       }
@@ -592,11 +654,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/core/dispatchRequest.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-05-10T08:56:26+02:00"
+        "commits_30_dias": 2,
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-11-02T13:15:06+02:00"
       },
-      "id": "14",
+      "id": "16",
       "ident": "coreDispatchRequest",
       "junit": {
         "estado": "ausente",
@@ -622,10 +684,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/core/InterceptorManager.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-02-14T16:59:48+02:00"
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-09T18:26:58+02:00"
       },
-      "id": "13",
+      "id": "14",
       "ident": "coreInterceptorManager",
       "junit": {
         "estado": "ausente",
@@ -633,7 +695,9 @@ window.LODEMAP_EVIDENCIAS = {
         "relatorio": null
       },
       "testes": {
-        "arquivos": [],
+        "arquivos": [
+          "tests/unit/core/InterceptorManager.test.js"
+        ],
         "estado": "medido"
       }
     },
@@ -648,11 +712,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/core/mergeConfig.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-01T20:27:32+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 3,
+        "ultima_mudanca": "2026-10-13T20:41:05+02:00"
       },
-      "id": "15",
+      "id": "17",
       "ident": "coreMergeConfig",
       "junit": {
         "estado": "ausente",
@@ -662,7 +726,37 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/unit/prototypePollution.test.js",
-          "tests/unit/core/mergeConfig.test.js"
+          "tests/unit/core/mergeConfig.test.js",
+          "tests/unit/core/paramsMerge.test.js"
+        ],
+        "estado": "medido"
+      }
+    },
+    "coreMethodList": {
+      "arquivos": [
+        "lib/core/methodList.js"
+      ],
+      "cobertura": {
+        "arquivos": [],
+        "estado": "ausente",
+        "relatorio": null
+      },
+      "codigo": "lib/core/methodList.js",
+      "git": {
+        "commits_30_dias": 0,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-08-13T20:14:45+02:00"
+      },
+      "id": "10",
+      "ident": "coreMethodList",
+      "junit": {
+        "estado": "ausente",
+        "falhas": [],
+        "relatorio": null
+      },
+      "testes": {
+        "arquivos": [
+          "tests/unit/axios.test.js"
         ],
         "estado": "medido"
       }
@@ -682,7 +776,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-07-15T19:59:35+02:00"
       },
-      "id": "29",
+      "id": "31",
       "ident": "coreSetFormDataHeaders",
       "junit": {
         "estado": "ausente",
@@ -709,7 +803,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-05-01T19:24:28+02:00"
       },
-      "id": "16",
+      "id": "18",
       "ident": "coreSettle",
       "junit": {
         "estado": "ausente",
@@ -739,7 +833,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2025-11-12T21:11:56+02:00"
       },
-      "id": "17",
+      "id": "19",
       "ident": "coreTransformData",
       "junit": {
         "estado": "ausente",
@@ -766,10 +860,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/defaults/index.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-04-28T14:28:30+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-08-13T20:14:45+02:00"
       },
-      "id": "10",
+      "id": "11",
       "ident": "defaultsIndex",
       "junit": {
         "estado": "ausente",
@@ -779,6 +873,7 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/browser/defaults.browser.test.js",
+          "tests/unit/axios.test.js",
           "tests/unit/prototypePollution.test.js",
           "tests/unit/transformResponse.test.js",
           "tests/unit/core/dispatchRequest.test.js",
@@ -798,11 +893,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/defaults/transitional.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-03T20:09:05+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-13T19:05:15+02:00"
       },
-      "id": "11",
+      "id": "12",
       "ident": "defaultsTransitional",
       "junit": {
         "estado": "ausente",
@@ -825,11 +920,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/env/data.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-22T19:26:22+02:00"
+        "commits_30_dias": 2,
+        "commits_90_dias": 3,
+        "ultima_mudanca": "2026-11-09T13:04:29+02:00"
       },
-      "id": "60",
+      "id": "65",
       "ident": "envData",
       "junit": {
         "estado": "ausente",
@@ -855,10 +950,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/AxiosTransformStream.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-02-14T16:59:48+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
       },
-      "id": "45",
+      "id": "50",
       "ident": "helpersAxiosTransformStream",
       "junit": {
         "estado": "ausente",
@@ -866,7 +961,10 @@ window.LODEMAP_EVIDENCIAS = {
         "relatorio": null
       },
       "testes": {
-        "arquivos": [],
+        "arquivos": [
+          "tests/unit/adapters/runtimeConsistency.test.js",
+          "tests/unit/helpers/AxiosTransformStream.test.js"
+        ],
         "estado": "medido"
       }
     },
@@ -885,7 +983,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-06-18T21:20:06+02:00"
       },
-      "id": "38",
+      "id": "42",
       "ident": "helpersAxiosURLSearchParams",
       "junit": {
         "estado": "ausente",
@@ -915,7 +1013,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2025-10-09T09:43:07+02:00"
       },
-      "id": "61",
+      "id": "66",
       "ident": "helpersBind",
       "junit": {
         "estado": "ausente",
@@ -944,7 +1042,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-06-17T20:33:40+02:00"
       },
-      "id": "30",
+      "id": "32",
       "ident": "helpersBuildURL",
       "junit": {
         "estado": "ausente",
@@ -953,7 +1051,9 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/unit/helpers/buildURL.test.js"
+          "tests/unit/core/paramsMerge.test.js",
+          "tests/unit/helpers/buildURL.test.js",
+          "tests/unit/helpers/requestConsistency.test.js"
         ],
         "estado": "medido"
       }
@@ -973,7 +1073,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "25",
+      "id": "27",
       "ident": "helpersCallbackify",
       "junit": {
         "estado": "ausente",
@@ -1000,7 +1100,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-07-01T19:38:47+02:00"
       },
-      "id": "31",
+      "id": "33",
       "ident": "helpersCombineURLs",
       "junit": {
         "estado": "ausente",
@@ -1026,10 +1126,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/composeSignals.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-29T19:36:20+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
       },
-      "id": "57",
+      "id": "62",
       "ident": "helpersComposeSignals",
       "junit": {
         "estado": "ausente",
@@ -1039,6 +1139,7 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/unit/composeSignals.test.js",
+          "tests/unit/adapters/runtimeConsistency.test.js",
           "tests/unit/helpers/composeSignals.test.js"
         ],
         "estado": "medido"
@@ -1055,11 +1156,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/helpers/cookies.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-17T20:33:40+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-13T20:06:56+02:00"
       },
-      "id": "32",
+      "id": "34",
       "ident": "helpersCookies",
       "junit": {
         "estado": "ausente",
@@ -1069,7 +1170,9 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/browser/cookies.browser.test.js",
-          "tests/browser/xsrf.browser.test.js"
+          "tests/browser/xsrf.browser.test.js",
+          "tests/browser/xsrfCookieStore.browser.test.js",
+          "tests/unit/helpers/cookies.test.js"
         ],
         "estado": "medido"
       }
@@ -1089,7 +1192,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "62",
+      "id": "67",
       "ident": "helpersDeprecatedMethod",
       "junit": {
         "estado": "ausente",
@@ -1113,10 +1216,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/estimateDataURLDecodedBytes.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-14T14:46:14+02:00"
+        "commits_90_dias": 4,
+        "ultima_mudanca": "2026-10-06T16:59:02+02:00"
       },
-      "id": "39",
+      "id": "43",
       "ident": "helpersEstimateDataURLDecodedBytes",
       "junit": {
         "estado": "ausente",
@@ -1125,7 +1228,39 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/unit/estimateDataURLDecodedBytes.test.js"
+          "tests/setup/formBodyLengthCases.js",
+          "tests/unit/estimateDataURLDecodedBytes.test.js",
+          "tests/unit/adapters/bodyLength.test.js",
+          "tests/unit/adapters/runtimeConsistency.test.js"
+        ],
+        "estado": "medido"
+      }
+    },
+    "helpersFormDataToBlob": {
+      "arquivos": [
+        "lib/helpers/formDataToBlob.js"
+      ],
+      "cobertura": {
+        "arquivos": [],
+        "estado": "ausente",
+        "relatorio": null
+      },
+      "codigo": "lib/helpers/formDataToBlob.js",
+      "git": {
+        "commits_30_dias": 0,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
+      },
+      "id": "44",
+      "ident": "helpersFormDataToBlob",
+      "junit": {
+        "estado": "ausente",
+        "falhas": [],
+        "relatorio": null
+      },
+      "testes": {
+        "arquivos": [
+          "tests/setup/formBodyLengthCases.js"
         ],
         "estado": "medido"
       }
@@ -1142,10 +1277,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/formDataToJSON.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-25T20:37:07+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
       },
-      "id": "40",
+      "id": "45",
       "ident": "helpersFormDataToJSON",
       "junit": {
         "estado": "ausente",
@@ -1154,7 +1289,9 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/unit/helpers/formDataToJSON.test.js"
+          "tests/unit/helpers/formDataToJSON.test.js",
+          "tests/unit/helpers/indexedFormFields.test.js",
+          "tests/unit/helpers/requestConsistency.test.js"
         ],
         "estado": "medido"
       }
@@ -1174,7 +1311,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-05-26T21:09:03+02:00"
       },
-      "id": "47",
+      "id": "52",
       "ident": "helpersFormDataToStream",
       "junit": {
         "estado": "ausente",
@@ -1200,10 +1337,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/fromDataURI.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-17T20:33:40+02:00"
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-06T16:59:02+02:00"
       },
-      "id": "41",
+      "id": "46",
       "ident": "helpersFromDataURI",
       "junit": {
         "estado": "ausente",
@@ -1228,11 +1365,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/helpers/Http2Sessions.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-05-22T19:59:46+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-13T20:42:36+02:00"
       },
-      "id": "24",
+      "id": "26",
       "ident": "helpersHttp2Sessions",
       "junit": {
         "estado": "ausente",
@@ -1259,9 +1396,9 @@ window.LODEMAP_EVIDENCIAS = {
       "git": {
         "commits_30_dias": 0,
         "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-15T20:32:20+02:00"
+        "ultima_mudanca": "2026-08-04T20:47:16+02:00"
       },
-      "id": "56",
+      "id": "61",
       "ident": "helpersHttpStatusCode",
       "junit": {
         "estado": "ausente",
@@ -1290,7 +1427,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "33",
+      "id": "35",
       "ident": "helpersIsAbsoluteURL",
       "junit": {
         "estado": "ausente",
@@ -1319,7 +1456,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "58",
+      "id": "63",
       "ident": "helpersIsAxiosError",
       "junit": {
         "estado": "ausente",
@@ -1344,11 +1481,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/helpers/isURLSameOrigin.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-02-14T16:59:48+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-13T19:34:18+02:00"
       },
-      "id": "34",
+      "id": "36",
       "ident": "helpersIsURLSameOrigin",
       "junit": {
         "estado": "ausente",
@@ -1357,8 +1494,37 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
-          "tests/browser/isURLSameOrigin.browser.test.js"
+          "tests/browser/baseURLResolution.browser.test.js",
+          "tests/browser/isURLSameOrigin.browser.test.js",
+          "tests/unit/helpers/isURLSameOrigin.test.js"
         ],
+        "estado": "medido"
+      }
+    },
+    "helpersNormalizeURLForProtocolCheck": {
+      "arquivos": [
+        "lib/helpers/normalizeURLForProtocolCheck.js"
+      ],
+      "cobertura": {
+        "arquivos": [],
+        "estado": "ausente",
+        "relatorio": null
+      },
+      "codigo": "lib/helpers/normalizeURLForProtocolCheck.js",
+      "git": {
+        "commits_30_dias": 0,
+        "commits_90_dias": 0,
+        "ultima_mudanca": "2026-07-30T08:24:04+02:00"
+      },
+      "id": "37",
+      "ident": "helpersNormalizeURLForProtocolCheck",
+      "junit": {
+        "estado": "ausente",
+        "falhas": [],
+        "relatorio": null
+      },
+      "testes": {
+        "arquivos": [],
         "estado": "medido"
       }
     },
@@ -1377,7 +1543,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2022-06-18T11:19:27+02:00"
       },
-      "id": "63",
+      "id": "68",
       "ident": "helpersNull",
       "junit": {
         "estado": "ausente",
@@ -1401,10 +1567,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/parseHeaders.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-29T19:59:26+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-04T18:07:31+02:00"
       },
-      "id": "35",
+      "id": "38",
       "ident": "helpersParseHeaders",
       "junit": {
         "estado": "ausente",
@@ -1430,10 +1596,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/parseProtocol.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-04-25T18:27:58+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-10-06T11:02:12+02:00"
       },
-      "id": "36",
+      "id": "39",
       "ident": "helpersParseProtocol",
       "junit": {
         "estado": "ausente",
@@ -1459,10 +1625,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/progressEventReducer.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-01T20:04:49+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-08-13T20:05:22+02:00"
       },
-      "id": "48",
+      "id": "53",
       "ident": "helpersProgressEventReducer",
       "junit": {
         "estado": "ausente",
@@ -1491,7 +1657,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "42",
+      "id": "47",
       "ident": "helpersReadBlob",
       "junit": {
         "estado": "ausente",
@@ -1514,11 +1680,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/helpers/resolveConfig.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-15T19:59:35+02:00"
+        "commits_30_dias": 2,
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-13T20:06:56+02:00"
       },
-      "id": "18",
+      "id": "20",
       "ident": "helpersResolveConfig",
       "junit": {
         "estado": "ausente",
@@ -1527,6 +1693,7 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
+          "tests/browser/baseURLResolution.browser.test.js",
           "tests/unit/prototypePollution.test.js",
           "tests/unit/core/dispatchRequest.test.js",
           "tests/unit/helpers/resolveConfig.test.js"
@@ -1549,7 +1716,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-05-06T19:15:24+02:00"
       },
-      "id": "37",
+      "id": "40",
       "ident": "helpersSanitizeHeaderValue",
       "junit": {
         "estado": "ausente",
@@ -1573,10 +1740,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/shouldBypassProxy.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-13T17:24:17+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-09-27T13:08:53+02:00"
       },
-      "id": "26",
+      "id": "28",
       "ident": "helpersShouldBypassProxy",
       "junit": {
         "estado": "ausente",
@@ -1585,6 +1752,7 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
+          "tests/unit/adapters/routingConsistency.test.js",
           "tests/unit/helpers/shouldBypassProxy.test.js"
         ],
         "estado": "medido"
@@ -1605,7 +1773,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "49",
+      "id": "54",
       "ident": "helpersSpeedometer",
       "junit": {
         "estado": "ausente",
@@ -1632,7 +1800,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2025-12-30T13:16:52+02:00"
       },
-      "id": "64",
+      "id": "69",
       "ident": "helpersSpread",
       "junit": {
         "estado": "ausente",
@@ -1658,10 +1826,10 @@ window.LODEMAP_EVIDENCIAS = {
       "codigo": "lib/helpers/throttle.js",
       "git": {
         "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-02-14T16:59:48+02:00"
+        "commits_90_dias": 1,
+        "ultima_mudanca": "2026-08-13T20:05:22+02:00"
       },
-      "id": "50",
+      "id": "55",
       "ident": "helpersThrottle",
       "junit": {
         "estado": "ausente",
@@ -1669,7 +1837,9 @@ window.LODEMAP_EVIDENCIAS = {
         "relatorio": null
       },
       "testes": {
-        "arquivos": [],
+        "arquivos": [
+          "tests/unit/helpers/throttle.test.js"
+        ],
         "estado": "medido"
       }
     },
@@ -1686,9 +1856,9 @@ window.LODEMAP_EVIDENCIAS = {
       "git": {
         "commits_30_dias": 0,
         "commits_90_dias": 0,
-        "ultima_mudanca": "2026-06-25T20:59:20+02:00"
+        "ultima_mudanca": "2026-08-12T18:27:45+02:00"
       },
-      "id": "43",
+      "id": "48",
       "ident": "helpersToFormData",
       "junit": {
         "estado": "ausente",
@@ -1698,7 +1868,9 @@ window.LODEMAP_EVIDENCIAS = {
       "testes": {
         "arquivos": [
           "tests/browser/toFormData.browser.test.js",
-          "tests/unit/toFormData.test.js"
+          "tests/unit/toFormData.test.js",
+          "tests/unit/helpers/indexedFormFields.test.js",
+          "tests/unit/helpers/requestConsistency.test.js"
         ],
         "estado": "medido"
       }
@@ -1718,7 +1890,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "44",
+      "id": "49",
       "ident": "helpersToURLEncodedForm",
       "junit": {
         "estado": "ausente",
@@ -1745,7 +1917,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "51",
+      "id": "56",
       "ident": "helpersTrackStream",
       "junit": {
         "estado": "ausente",
@@ -1772,7 +1944,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-06-17T20:33:40+02:00"
       },
-      "id": "19",
+      "id": "21",
       "ident": "helpersValidator",
       "junit": {
         "estado": "ausente",
@@ -1801,7 +1973,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "46",
+      "id": "51",
       "ident": "helpersZlibHeaderTransformStream",
       "junit": {
         "estado": "ausente",
@@ -1851,11 +2023,11 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "codigo": "lib/utils.js",
       "git": {
-        "commits_30_dias": 0,
-        "commits_90_dias": 0,
-        "ultima_mudanca": "2026-07-01T20:47:21+02:00"
+        "commits_30_dias": 1,
+        "commits_90_dias": 2,
+        "ultima_mudanca": "2026-10-13T20:41:05+02:00"
       },
-      "id": "75",
+      "id": "80",
       "ident": "libUtils",
       "junit": {
         "estado": "ausente",
@@ -1868,6 +2040,8 @@ window.LODEMAP_EVIDENCIAS = {
           "tests/unit/prototypePollution.test.js",
           "tests/unit/utils.test.js",
           "tests/unit/adapters/fetch.test.js",
+          "tests/unit/helpers/indexedFormFields.test.js",
+          "tests/unit/helpers/requestConsistency.test.js",
           "tests/unit/utils/endsWith.test.js",
           "tests/unit/utils/extend.test.js",
           "tests/unit/utils/forEach.test.js",
@@ -1897,7 +2071,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "74",
+      "id": "79",
       "ident": "nodeIndex",
       "junit": {
         "estado": "ausente",
@@ -1924,7 +2098,7 @@ window.LODEMAP_EVIDENCIAS = {
         "commits_90_dias": 0,
         "ultima_mudanca": "2026-02-14T16:59:48+02:00"
       },
-      "id": "70",
+      "id": "75",
       "ident": "platformIndex",
       "junit": {
         "estado": "ausente",
@@ -1933,6 +2107,7 @@ window.LODEMAP_EVIDENCIAS = {
       },
       "testes": {
         "arquivos": [
+          "tests/setup/formBodyLengthCases.js",
           "tests/unit/platform.test.js",
           "tests/unit/regression.test.js"
         ],
@@ -1942,10 +2117,10 @@ window.LODEMAP_EVIDENCIAS = {
   },
   "referencia": {
     "arvore_de_trabalho": "nao_verificada",
-    "commit": "acd2966e3fa491977e78a36b04a99eab0119219a",
+    "commit": "3dbe82c1dfb22d6d45d954aba48664a7e2363277",
     "data": "2026-11-10",
     "mapa": "docs/architecture/structurizr",
-    "repositorio": "axios-pagina-v119"
+    "repositorio": "axios-pagina-v1211"
   },
   "versao": 1
 };

@@ -93,15 +93,15 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
           <text class="g-note" x="8" y="596">no fluxo, de cima para baixo.</text>
         </g>
       </svg>
-      <figcaption class="ffoot" id="hg-cap">8 componentes e 7 relações do mapa do axios em português, todos do fluxo “ciclo de vida da requisição (Node.js)”, que na demo tem 13 passos.</figcaption>
+      <figcaption class="ffoot" id="hg-cap">8 componentes e 7 relações do mapa do axios em português, todos do fluxo “ciclo de vida da requisição (Node.js)”, que na demo tem 14 passos.</figcaption>
     </figure>
   </div>
 </section>
 
 <div class="wrap">
   <div class="nums" role="list" aria-label="Números medidos, com origem na página atual do Lodemap">
-    <div class="num" role="listitem"><span class="v">67<small>/67</small></span><span class="k">módulos do axios no mapa</span><span class="s">gate estrutural · v1.19.0</span></div>
-    <div class="num" role="listitem"><span class="v">160<small>/160</small></span><span class="k">pares de código encontrados no modelo</span><span class="s">análise AST · v1.19.0</span></div>
+    <div class="num" role="listitem"><span class="v">72<small>/72</small></span><span class="k">módulos do axios no mapa</span><span class="s">gate estrutural · v1.21.1</span></div>
+    <div class="num" role="listitem"><span class="v">177<small>/177</small></span><span class="k">pares de código encontrados no modelo</span><span class="s">análise AST · v1.21.1</span></div>
     <div class="num" role="listitem"><span class="v">0</span><span class="k">chamadas de modelo no caso medido sem mudança estrutural</span><span class="s">só scripts</span></div>
     <div class="num" role="listitem"><span class="v">17<small> s</small></span><span class="k">para os scripts regenerarem tudo</span><span class="s">no axios</span></div>
     <div class="num" role="listitem"><span class="v">14</span><span class="k">critérios no gate de qualidade</span><span class="s">rubrica determinística · scripts</span></div>
@@ -131,10 +131,10 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
   <div class="wrap cols">
     <div class="leg"><b>Fig. <em>02</em></b><span class="t">Linha do tempo</span><p>Histórico calculado a partir das versões do mapa no git.</p></div>
     <div>
-      <span class="sel">3 releases auditadas · axios v1.17 a v1.19</span>
+      <span class="sel">5 releases auditadas · axios v1.17 a v1.21.1</span>
       <h2 id="h-02">Veja o que entrou, saiu e mudou em cada versão.</h2>
-      <p class="lede">A linha do tempo compara identificadores estáveis do mapa entre três releases auditadas. Selecione uma versão, toque a evolução e consulte o histórico de um componente.</p>
-      <figure class="frame body"><img src="../assets/lodemap/axios-tempo-pt.png" alt="Linha do tempo do mapa do axios com as versões 1.17, 1.18 e 1.19" style="display:block;width:100%;height:auto"><figcaption class="ffoot">Captura real da demo em português. O replay ampliado para a quarta e quinta releases permanece pendente.</figcaption></figure>
+      <p class="lede">A linha do tempo compara identificadores estáveis do mapa entre cinco releases auditadas. Selecione uma versão, toque a evolução e consulte o histórico de um componente.</p>
+      <figure class="frame body"><img src="../assets/lodemap/axios-tempo-pt.png" alt="Linha do tempo do mapa do axios com as versões 1.17, 1.18 e 1.19" style="display:block;width:100%;height:auto"><figcaption class="ffoot">Captura real da demo em português, feita antes de a demo incluir as releases v1.20.0 e v1.21.1.</figcaption></figure>
       <p><a class="btn pri" href="demo/explorador/index.html"><i aria-hidden="true">[</i> Explorar a linha do tempo <i aria-hidden="true">]</i></a></p>
     </div>
   </div>
@@ -188,12 +188,12 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
     <div class="leg"><b>Fig. <em>04</em></b><span class="t">A garantia</span><p>O teste de cobertura e o gate de qualidade existem para o mapa não ficar para trás. São a garantia, não a promessa principal.</p></div>
     <div>
       <h2 id="h-04">O teste falha quando o código cresce e o mapa não.</h2>
-      <p class="lede">No mapa auditado do axios v1.19.0, o gate confere estrutura e caminhos. A demo mostra referências estáticas de testes; sem relatório de execução, o resultado é desconhecido.</p>
+      <p class="lede">No mapa auditado do axios v1.21.1, o gate confere estrutura e caminhos. A demo mostra referências estáticas de testes; sem relatório de execução, o resultado é desconhecido.</p>
 
       <div class="cols2 body">
-        <figure class="term rv"><div class="fhead"><span>gate · axios v1.19.0</span><span>fonte AST</span></div><pre class="sum">67 de 67 módulos cobertos no modelo
-160 de 160 pares do código encontrados
-191 relações qualificadas
+        <figure class="term rv"><div class="fhead"><span>gate · axios v1.21.1</span><span>fonte AST</span></div><pre class="sum">72 de 72 módulos cobertos no modelo
+177 de 177 pares do código encontrados
+208 relações qualificadas
 94,6 pontos · piso 84,6</pre><figcaption class="ffoot">Medição estrutural local. Não substitui testes executados nem garante descrições verdadeiras.</figcaption></figure>
         <figure class="frame rv"><img src="../assets/lodemap/axios-saude-pt.png" alt="Saúde dos componentes no mapa do axios" style="display:block;width:100%;height:auto"><figcaption class="ffoot">Evidências estáticas na demo; ausência de relatório de testes e cobertura é desconhecida.</figcaption></figure>
       </div>
@@ -222,7 +222,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
           <tr><th scope="row">Para quem</th><td class="us" data-l="Lodemap">Pessoas e agentes que precisam entender a arquitetura do repositório</td><td data-l="CodeGraph">Agentes de código que consultam símbolos, chamadas e impacto</td><td data-l="Graphiti">Agentes que precisam de memória de longo prazo</td></tr>
           <tr><th scope="row">Responde</th><td class="us" data-l="Lodemap">Quem conversa com quem, por onde passa cada fluxo, o status declarado e o que mudou</td><td data-l="CodeGraph">Onde está um símbolo, quem o chama e o que uma edição afeta</td><td data-l="Graphiti">O que o agente sabe e desde quando cada fato vale</td></tr>
           <tr><th scope="row">Mantido por</th><td class="us" data-l="Lodemap">Scripts geram as páginas; testes apontam módulos fora do mapa; a modelagem depende das mudanças e decisões do projeto</td><td data-l="CodeGraph">Índice atualizado pelo observador de arquivos</td><td data-l="Graphiti">Episódios gravados pelo agente e extraídos por modelo</td></tr>
-          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; três releases auditadas na demo (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
+          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; cinco releases auditadas na demo (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
         </tbody>
       </table>
       <p class="fn">As colunas CodeGraph e Graphiti resumem a descrição que cada ferramenta publica em seu servidor MCP, lida em 10/11/2026; confira nos projetos antes de decidir. A coluna Lodemap vem da página atual.</p>
@@ -296,11 +296,11 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Economia de tokens para agentes: não demonstrada.</b><span>Num teste pré-registrado (Sonnet, 16 tarefas de navegação no chi e no axios, 3 rodadas cada), os tokens foram os mesmos com e sem o mapa: razão mediana 0,99. O acerto se manteve (recall 0,991 contra 0,977). Ele é antes de tudo um mapa para pessoas.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ganho de entendimento para pessoas: não medido ainda.</b><span>Ainda não há medição com leitores.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Telemetria em execução: fora do escopo.</b><span>O modo Saúde reúne evidências estáticas e relatórios disponíveis. Ele não observa o sistema em execução; a árvore de trabalho não é verificada.</span></div></li>
-        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Replay ampliado: pendente.</b><span>A demo reúne três releases auditadas; a quarta e a quinta ainda não foram incluídas.</span></div></li>
+        <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Evidências de teste são estáticas.</b><span>A demo reúne cinco releases auditadas, de v1.17.0 a v1.21.1, mas a aba Saúde mostra só referências estáticas de testes: os relatórios de cobertura e JUnit estão ausentes, então o resultado de execução é desconhecido.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>macOS sem execução real.</b><span>Scripts, testes, regeneração e gancho rodaram no Windows e no Linux (Ubuntu 24.04). As fases com modelo, só no Windows.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ainda há frases falsas.</b><span>Com a conferência, 5 de 213 descrições de módulo eram falsas segundo um juiz Sonnet no chi e no axios (antes dela, 15 de 108). A conferência custa cerca de 3,7 vezes os tokens.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Prova de relação só por imports.</b><span>Macros do Rust, reflection e injeção de dependência não são seguidos. Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Passos com modelo enviam à Anthropic o código que leem, pelo Claude Code.</span></div></li>
-        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Geração do mapa, explorador, leitor, gate e atualização incremental.</b><span>Medidos em dois repositórios públicos, axios e rich. Gate estrutural 94,6, piso 84,6 e 67 módulos cobertos na demo v1.19.0.</span></div></li>
+        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Geração do mapa, explorador, leitor, gate e atualização incremental.</b><span>Medidos em dois repositórios públicos, axios e rich. Gate estrutural 94,6, piso 84,6 e 72 módulos cobertos na demo v1.21.1.</span></div></li>
         <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Instalador reversível, permissão por escopo e gancho com hash aprovado.</b><span>Suíte do produto: 572 testes no Windows; 569 no Linux, com 3 pulados.</span></div></li>
         <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Teste pré-registrado publicado, com o resultado desfavorável.</b><span>Licença MIT, README com custo, limites e segurança, e terminal em inglês ou português.</span></div></li>
       </ul>
