@@ -52,6 +52,24 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
 
 <main id="conteudo" tabindex="-1">
 
+<!-- VÍDEO: destaque da página -->
+<section class="vhero" id="video" aria-labelledby="h-video">
+  <div class="wrap">
+    <p class="lab vh-k"><span>Lodemap</span><span>vídeo · 48 s · com som</span></p>
+    <h2 class="vh-t" id="h-video">O que acontece depois do <code>axios.get()</code>?</h2>
+    <figure class="shot vid">
+      <video class="v169" controls playsinline preload="metadata" width="1920" height="1080" poster="../assets/lodemap/video/lodemap-video-16x9.jpg" aria-label="Vídeo de lançamento do Lodemap, 16:9">
+        <source src="../assets/lodemap/video/lodemap-video-16x9.mp4" type="video/mp4">
+      </video>
+      <video class="v916" controls playsinline preload="metadata" width="1080" height="1920" poster="../assets/lodemap/video/lodemap-video-9x16.jpg" aria-label="Vídeo de lançamento do Lodemap, 9:16">
+        <source src="../assets/lodemap/video/lodemap-video-9x16.mp4" type="video/mp4">
+      </video>
+      <figcaption>Os 14 passos de uma requisição do axios, as cinco releases e o teste que falha quando o mapa fica para trás. Gravado do mapa real do axios v1.21.1 (77 nós e 194 ligações no grafo 3D). O dado de 58% é de Xia et al., IEEE TSE, 2018.</figcaption>
+    </figure>
+    <p class="vh-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#story-1">Como funciona ↓</a></p>
+  </div>
+</section>
+
 <!-- Abertura: o mapa real do axios (72 componentes, 188 relações) e três painéis -->
 <div class="story" id="story-1">
   <div class="stage">
@@ -62,7 +80,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
         <div class="wrap">
           <h1 id="h-hero">Veja como o seu sistema funciona. <span>E como ele vem mudando.</span></h1>
           <p class="p0-r">O Lodemap transforma o seu repositório num fluxograma vivo: quem conversa com quem, por onde passa cada fluxo e o que mudou em cada versão. Scripts geram as páginas, e testes apontam módulos do código que ficaram fora do mapa. Cada ponto acima é um componente real do axios.</p>
-          <div class="p0-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#video">▶ Vídeo · 48 s</a><a class="btn" data-scr href="#fig-07">Instalar</a></div>
+          <div class="p0-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#fig-07">Instalar</a></div>
         </div>
       </div>
       <div class="pn" data-i="-2" data-v="v1.21.1" data-c="72">
@@ -102,25 +120,6 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
   <div class="num" role="listitem"><span class="v">17<small> s</small></span><span class="k">para os scripts regenerarem tudo</span><span class="s">no axios</span></div>
   <div class="num" role="listitem"><span class="v">14</span><span class="k">critérios no gate de qualidade</span><span class="s">rubrica determinística · scripts</span></div>
 </div>
-
-<!-- VÍDEO -->
-<section class="fig" id="video" aria-labelledby="h-video">
-  <div class="wrap cols">
-    <div class="leg"><b>Vídeo</b><span class="t">48 s, com som</span><p>Os 14 passos de uma requisição do axios, as cinco releases e o teste que falha quando o mapa fica para trás.</p></div>
-    <div class="main">
-      <h2 id="h-video">O que acontece depois do <code>axios.get()</code>?</h2>
-      <figure class="shot vid">
-        <video class="v169" controls playsinline preload="none" width="1920" height="1080" poster="../assets/lodemap/video/lodemap-video-16x9.jpg" aria-label="Vídeo de lançamento do Lodemap, 16:9">
-          <source src="../assets/lodemap/video/lodemap-video-16x9.mp4" type="video/mp4">
-        </video>
-        <video class="v916" controls playsinline preload="none" width="1080" height="1920" poster="../assets/lodemap/video/lodemap-video-9x16.jpg" aria-label="Vídeo de lançamento do Lodemap, 9:16">
-          <source src="../assets/lodemap/video/lodemap-video-9x16.mp4" type="video/mp4">
-        </video>
-        <figcaption>Gravado a partir do mapa real do axios v1.21.1; o grafo 3D usa os 77 nós e 194 ligações do mapa. O dado de 58% é de Xia et al., IEEE TSE, 2018.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
 
 <!-- FIG. 01 -->
 <section class="fig" id="fig-01" aria-labelledby="h-01" style="padding-bottom:clamp(64px,9vw,128px)">
