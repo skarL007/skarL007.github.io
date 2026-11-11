@@ -112,7 +112,7 @@
         <li><a href="#p-sub"><span class="k">M-02</span><span class="n">Sublinhe</span><span class="s">private</span></a></li>
         <li><a href="#p-syn"><span class="k">M-03</span><span class="n">Lodeward</span><span class="s">private</span></a></li>
         <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">public</span></a></li>
-        <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">private</span></a></li>
+        <li><a href="#p-aulo"><span class="k">M-05</span><span class="n">Aulô</span><span class="s">private · in progress</span></a></li>
         <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">public</span></a></li>
         <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Farol Desk</span><span class="s">public</span></a></li>
       </ol>
@@ -128,7 +128,7 @@
       <div class="chain" role="group" aria-label="Chained processors"><span>tenant</span><i aria-hidden="true">→</i><span>cost</span><i aria-hidden="true">→</i><span>normalization</span></div>
       <p>Three chained processors. A span stays billed to the tenant it started in.</p>
       <p>Version 0.1.5 bills cache writes, flags an event left with no price as unpriced, alerts when a tenant reaches 80% and 100% of its budget (BudgetExporter), and adds tests against real instrumentation libraries. Version 0.1.6 keeps the budget in Redis: several processes add to one total, it survives restarts, and each alert fires once.</p>
-      <p>Checked against a real bill: on 6 real Axon Voice calls through OpenRouter (gpt-4o-mini, with caching), LumenAI's cost matched what OpenRouter charged on every call, US$ 0.00143115 in total, a difference of zero. <a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">See the table ↗</a></p>
+      <p>Checked against a real bill: on 6 real calls from a voice assistant of mine (the base of Aulô) through OpenRouter (gpt-4o-mini, with caching), LumenAI's cost matched what OpenRouter charged on every call, US$ 0.00143115 in total, a difference of zero. <a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">See the table ↗</a></p>
       <figure class="shot"><a href="https://lumen-ai-sdk-demo.vercel.app/" target="_blank" rel="noopener" aria-label="Open the LumenAI live demo"><video class="shot-video" muted loop playsinline preload="none" poster="../assets/shots/lumen-demo-poster.webp" width="1200" height="600" aria-hidden="true"><source src="../assets/shots/lumen-demo-loop.mp4" type="video/mp4"></video></a><figcaption><b>Live demo</b> · each span goes through the LumenAI chain and becomes cost per tenant</figcaption></figure>
       <figure class="evt"><figcaption>Real event from the demo</figcaption><code>tenant globex-legal · claude-sonnet-4-6 · 40,000→2,000 tokens · cache 30,000 · US$ 0.159</code></figure>
       <dl class="ev"><div><dt>tests</dt><dd>222</dd></div><div><dt>packages on PyPI</dt><dd>3</dd></div><div><dt>reproducible demo</dt><dd class="sm">3 tenants · US$ 0.19 total</dd></div></dl>
@@ -177,15 +177,16 @@
 
   <div class="stop r" data-stop>
     <div class="pair">
-      <article class="sheet rv" id="p-axon" data-build="4" data-mod="4" aria-labelledby="t-axon">
-        <header class="sh-head"><b>M-05</b><span>private</span><span>in development</span></header>
-        <h3 class="sh-title" id="t-axon">Axon Voice</h3>
-        <p class="sh-lede">A personal assistant bringing together voice, documents, memory and study.</p>
-        <p class="pipe">voice or text → document and memory retrieval → RRF fusion → local model → text and speech</p>
-        <p>The project explores answers with references and a study journey grounded in context. Privacy, memory quality and interface integration are still in development.</p>
-        <p class="sh-fact">Python · JavaScript · RAG · Neo4j · retrieval evaluation</p>
-        <figure class="shot"><a href="../assets/axon/holo-trilha.png" target="_blank" rel="noopener"><img src="../assets/axon/holo-trilha.png" width="1440" height="900" loading="lazy" decoding="async" alt="Prototype of the Axon study journey with example data"></a><figcaption><b>Holo prototype</b> · study journey with fictional data, in development</figcaption></figure>
-        <p><a class="lnk" href="../axon-voice/" lang="pt-BR">Case study (Portuguese) →</a></p><p class="priv">Private repository</p>
+      <article class="sheet rv" id="p-aulo" data-build="4" data-mod="4" aria-labelledby="t-aulo">
+        <header class="sh-head"><b>M-05</b><span>private</span><span>in progress</span><span class="sh-r">307 commits</span><!-- fontes (conferidas em 11/11/2026): 307 commits = gh api "repos/skarL007/axon_voice_NEW/commits?sha=feat/aulo-polimento-landing&per_page=1" (última página do cabeçalho Link); 3 professores e 5 páginas = app/lousa/static/lousa.html e a navegação do frontend na mesma branch; 26 verificações de contraste = tests/test_lousa_contraste.py (commit af39913, gate G7), 9 tokens x 2 temas + 8 outras, conferido ao rodar o arquivo --> </header>
+        <h3 class="sh-title" id="t-aulo">Aulô</h3>
+        <p class="sh-stack">Voice study · Python · JavaScript</p>
+        <p class="sh-lede">Study with someone who has read your material. For civil-service exams, university entrance and medicine (Brazil).</p>
+        <p>You upload your textbook, book or notes as a PDF or Word file. A virtual teacher (Caio, Lia or Íris, three ways of explaining) answers only from that material, shows the page behind each sentence and says so when the answer is not there. The interface is in Portuguese.</p>
+        <figure class="shot"><a href="aulo/"><img src="../assets/shots/aulo-hero-960.webp" srcset="../assets/shots/aulo-hero-960.webp 960w, ../assets/shots/aulo-hero-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 500px" width="960" height="600" loading="lazy" decoding="async" alt="Aulô start screen in the dark theme: the Portuguese headline “Estude com quem leu o seu material” (study with someone who has read your material), the Começar agora and Ouvir o Caio buttons and the teacher Caio inside a sphere, next to a demo card."></a><figcaption><b>Frontend capture</b> · start screen, dark theme, demo content</figcaption></figure>
+        <dl class="ev"><div><dt>teachers</dt><dd>3</dd></div><div><dt>frontend pages</dt><dd>5</dd></div><div><dt>AA contrast checks</dt><dd>26</dd></div></dl>
+        <p class="sh-fact">In progress. No launch yet, and no recall or latency figure published; the case study separates what is already proven from what is not.</p>
+        <p><a class="lnk" href="aulo/">Read the case study →</a></p><p class="priv">Private repository · in progress · I can show it in an interview</p>
       </article>
       <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
         <header class="sh-head"><b>M-06</b><span>public</span><span>v1.3.1</span><span class="sh-r">94 commits</span></header>
@@ -249,13 +250,14 @@
       <ol class="tl">
         <li class="origin"><span class="tm">origin</span><p><b>Medicine</b>, the field I come from.</p></li>
         <li><time datetime="2026-05-05">05 May 2026</time><p><b>lumen-ai-core</b> published on PyPI.</p></li>
-        <li><time datetime="2026-05-25">25 May 2026</time><p><b>Axon Voice</b> closed for local use.</p></li>
+        <li><time datetime="2026-05-25">25 May 2026</time><p><b>A voice assistant with memory</b> closed for local use; it is the base of Aulô.</p></li>
         <li><time datetime="2026-07-22">22 Jul 2026</time><p><b>VoiceLaunch 1.3</b>, first open-source release.</p></li>
-        <li><time datetime="2026-09-13">13 Sep 2026</time><p><b>SynapseEngine</b> starts.</p></li>
+        <li><time datetime="2026-09-13">13 Sep 2026</time><p><b>Lodeward</b> starts (the repository is still named SynapseEngine).</p></li>
         <li><time datetime="2026-10-05">05 Oct 2026</time><p><b>Sublinhe</b>, MVP closed.</p></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>LumenAI SDK</b>, deep review: billed OpenInference spans, a proper flush, a reproducible demo and a dashboard.</p></li>
-        <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>Axon Voice</b>, new version: answers with sources, a knowledge graph and an always-on-top orb.</p></li>
+        <li><time datetime="2026-10-27">27 Oct 2026</time><p><b>The voice assistant</b>, new version: answers with sources, a knowledge graph and an always-on-top orb.</p></li>
         <li><time datetime="2026-10-28">28 Oct 2026</time><p><b>Farol Desk</b> (then Nexo Assist), an IT service-desk agent, delivered as a technical challenge.</p></li>
+        <li><time datetime="2026-11-11">11 Nov 2026</time><p><b>Aulô</b>, in progress: landing page and frontend polished, in light and dark themes.</p></li>
         <li class="next"><span class="tm">next</span><p>A degree in technology and my first opportunity in the industry.</p></li>
       </ol>
     </div>

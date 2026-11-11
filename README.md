@@ -49,6 +49,12 @@ assets/nexo-numbers.js  the Farol Desk numbers that still change (tests, evals, 
 assets/video/       the Farol Desk demo video, recorded under the old name (a lighter encode of docs/demo/nexo-assist-demo.mp4 in that repo)
 404.html            not-found page
 lumen-demo/         LumenAI demo dashboard in replay mode (copied from lumen-ai-sdk)
+aulo/               Aulô case study, Portuguese (en/aulo/ is the English one); a project in progress with a private repository, it replaced the old Axon Voice page
+axon-voice/         the old address of the Axon Voice case study: a page that only redirects to aulo/
+assets/aulo.css     Aulô case-study styles, on top of site.css and case.css
+assets/aulo.js      Aulô case-study script: menu and current section
+assets/axon/        only the Geist fonts and their OFL license, still loaded by assets/synapse/synapse.css (the folder keeps its old name)
+assets/shots/aulo-*  Aulô screenshots (WebP, converted from the frontend captures in the private repository) and aulo-og.jpg, 1200x630
 ```
 
 `lumen-demo/` is `examples/local-observability-demo/static/` from
@@ -86,5 +92,5 @@ Then open <http://localhost:8000/>.
 - The numbers come from my GitHub profile and the repositories themselves: contributions, commits,
   pull requests, tests and release dates.
 - The contribution calendar is the real one, from 26 Oct 2025 to 27 Oct 2026.
-- Private projects are described, never linked.
+- Private projects are described, never linked. The Aulô page says "in progress" and "private repository" and lists what is not proven yet.
 - Screenshots are labelled with where they come from.

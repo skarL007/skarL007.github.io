@@ -1,4 +1,4 @@
-// Axon Voice case study: accessible responsive navigation, no media-player dependencies.
+// Aulô case study: accessible responsive navigation, no dependencies.
 const menu = document.querySelector('#menuBtn');
 const nav = document.querySelector('#nav');
 function closeMenu() {
@@ -28,6 +28,6 @@ if ('IntersectionObserver' in window && nav) {
         else link.removeAttribute('aria-current');
       });
     }
-  }, {rootMargin:'-20% 0px -60% 0px', threshold:0});
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
   sections.forEach(section => observer.observe(section));
 }

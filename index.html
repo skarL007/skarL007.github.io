@@ -140,7 +140,7 @@
         <li><a href="#p-sub"><span class="k">M-02</span><span class="n">Sublinhe</span><span class="s">privado</span></a></li>
         <li><a href="#p-syn"><span class="k">M-03</span><span class="n">Lodeward</span><span class="s">privado</span></a></li>
         <li><a href="#p-task"><span class="k">M-04</span><span class="n">Task Dashboard</span><span class="s">público</span></a></li>
-        <li><a href="#p-axon"><span class="k">M-05</span><span class="n">Axon Voice</span><span class="s">privado</span></a></li>
+        <li><a href="#p-aulo"><span class="k">M-05</span><span class="n">Aulô</span><span class="s">privado · em construção</span></a></li>
         <li><a href="#p-voice"><span class="k">M-06</span><span class="n">VoiceLaunch TTS</span><span class="s">público</span></a></li>
         <li><a href="#p-nexo"><span class="k">M-07</span><span class="n">Farol Desk</span><span class="s">público</span></a></li>
       </ol>
@@ -156,7 +156,7 @@
       <div class="chain" role="group" aria-label="Processadores encadeados"><span>tenant</span><i aria-hidden="true">→</i><span>custo</span><i aria-hidden="true">→</i><span>normalização</span></div>
       <p>Três processadores encadeados. Um span fica cobrado no tenant em que começou.</p>
       <p>A 0.1.5 cobra a escrita de cache, marca como unpriced o evento que ficou sem preço, avisa quando um tenant chega a 80% e a 100% do orçamento (BudgetExporter) e ganhou testes com bibliotecas de instrumentação reais. A 0.1.6 guarda o orçamento no Redis: vários processos somam no mesmo total, que sobrevive a reinícios, e cada alerta dispara uma vez só.</p>
-      <p>Conferido contra uma conta real: em 6 chamadas reais do Axon Voice pela OpenRouter (gpt-4o-mini, com cache), o custo do LumenAI foi igual ao cobrado pela OpenRouter em cada chamada, US$ 0,00143115 no total, diferença zero. <a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">Ver a tabela ↗</a></p>
+      <p>Conferido contra uma conta real: em 6 chamadas reais de um assistente de voz meu (a base do Aulô) pela OpenRouter (gpt-4o-mini, com cache), o custo do LumenAI foi igual ao cobrado pela OpenRouter em cada chamada, US$ 0,00143115 no total, diferença zero. <a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">Ver a tabela ↗</a></p>
       <figure class="shot"><a href="https://lumen-ai-sdk-demo.vercel.app/" target="_blank" rel="noopener" aria-label="Abrir a demo ao vivo do LumenAI"><video class="shot-video" muted loop playsinline preload="none" poster="assets/shots/lumen-demo-poster.webp" width="1200" height="600" aria-hidden="true"><source src="assets/shots/lumen-demo-loop.mp4" type="video/mp4"></video></a><figcaption><b>Demo ao vivo</b> · cada span passa pela cadeia do LumenAI e vira custo por tenant</figcaption></figure>
       <figure class="evt"><figcaption>Evento real da demo</figcaption><code>tenant globex-legal · claude-sonnet-4-6 · 40.000→2.000 tokens · cache 30.000 · US$ 0,159</code></figure>
       <dl class="ev"><div><dt>testes</dt><dd>222</dd></div><div><dt>pacotes no PyPI</dt><dd>3</dd></div><div><dt>demo reproduzível</dt><dd class="sm">3 tenants · US$ 0,19 no total</dd></div></dl>
@@ -181,7 +181,7 @@
   <div class="stop l" data-stop>
     <div class="pair">
       <article class="sheet rv" id="p-syn" data-build="2" data-mod="2" aria-labelledby="t-syn">
-        <header class="sh-head"><b>M-03</b><span>privado</span><span>Rust</span><span class="sh-r">988 commits</span><!-- 988 = git -C F:/dev/SynapseEngine rev-list --count origin/main (70e415e8, 2026-11-08); o repositório ainda tem o nome antigo, SynapseEngine --></header>
+        <header class="sh-head"><b>M-03</b><span>privado</span><span>Rust</span><span class="sh-r">988 commits</span><!-- 988 = git rev-list --count origin/main (70e415e8, 2026-11-08); o repositório ainda tem o nome antigo, SynapseEngine --></header>
         <h3 class="sh-title" id="t-syn">Lodeward</h3>
         <p class="sh-lede">Governança para agentes de código no Claude Code: servidor MCP e hooks em Rust.</p>
         <p>Inspeciona cada comando de shell antes de o agente rodar, deixa a lição do agente em quarentena até o dono aprovar e mostra só números que de fato mediu. Antes se chamava SynapseEngine.</p>
@@ -201,15 +201,16 @@
 
   <div class="stop r" data-stop>
     <div class="pair">
-      <article class="sheet rv" id="p-axon" data-build="4" data-mod="4" aria-labelledby="t-axon">
-        <header class="sh-head"><b>M-05</b><span>privado</span><span>em desenvolvimento</span></header>
-        <h3 class="sh-title" id="t-axon">Axon Voice</h3>
-        <p class="sh-lede">Assistente pessoal que reúne voz, documentos, memória e estudo.</p>
-        <p class="pipe">voz ou texto → recuperação de documentos e memória → fusão RRF → modelo local → resposta em texto e voz</p>
-        <p>O projeto explora respostas com referências e uma jornada de estudo apoiada em contexto. Privacidade, qualidade da memória e integração das interfaces seguem em desenvolvimento.</p>
-        <p class="sh-fact">Python · JavaScript · RAG · Neo4j · avaliação de recuperação</p>
-        <figure class="shot"><a href="assets/axon/holo-trilha.webp" target="_blank" rel="noopener"><img src="assets/axon/holo-trilha.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Protótipo da jornada de estudo do Axon com dados de exemplo"></a><figcaption><b>Protótipo Holo</b> · jornada de estudo com dados fictícios, em desenvolvimento</figcaption></figure>
-        <p><a class="lnk" href="axon-voice/">Ver o estudo de caso →</a></p><p class="priv">Repositório privado · arquitetura e limites no estudo de caso</p>
+      <article class="sheet rv" id="p-aulo" data-build="4" data-mod="4" aria-labelledby="t-aulo">
+        <header class="sh-head"><b>M-05</b><span>privado</span><span>em construção</span><span class="sh-r">307 commits</span><!-- fontes (conferidas em 11/11/2026): 307 commits = gh api "repos/skarL007/axon_voice_NEW/commits?sha=feat/aulo-polimento-landing&per_page=1" (última página do cabeçalho Link); 3 professores e 5 páginas = app/lousa/static/lousa.html e a navegação do frontend na mesma branch; 26 verificações de contraste = tests/test_lousa_contraste.py (commit af39913, gate G7), 9 tokens x 2 temas + 8 outras, conferido ao rodar o arquivo --> </header>
+        <h3 class="sh-title" id="t-aulo">Aulô</h3>
+        <p class="sh-stack">Estudo por voz · Python · JavaScript</p>
+        <p class="sh-lede">Estude com quem leu o seu material. Para concurso, vestibular e medicina.</p>
+        <p>Você envia a apostila, o livro ou as anotações em PDF ou Word. Um professor virtual (Caio, Lia ou Íris, três jeitos de explicar) responde só com esse material, mostra a página de cada frase e avisa quando a resposta não está lá.</p>
+        <figure class="shot"><a href="aulo/"><img src="assets/shots/aulo-hero-960.webp" srcset="assets/shots/aulo-hero-960.webp 960w, assets/shots/aulo-hero-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 500px" width="960" height="600" loading="lazy" decoding="async" alt="Início do Aulô no tema escuro: o título “Estude com quem leu o seu material”, os botões Começar agora e Ouvir o Caio e o professor Caio numa esfera, com um cartão de demonstração."></a><figcaption><b>Captura do frontend</b> · tela inicial, tema escuro, conteúdo de demonstração</figcaption></figure>
+        <dl class="ev"><div><dt>professores</dt><dd>3</dd></div><div><dt>páginas do frontend</dt><dd>5</dd></div><div><dt>verificações de contraste AA</dt><dd>26</dd></div></dl>
+        <p class="sh-fact">Em construção. Ainda sem lançamento e sem número de recall ou de latência publicado; o estudo de caso separa o que já está provado do que não está.</p>
+        <p><a class="lnk" href="aulo/">Ver o estudo de caso →</a></p><p class="priv">Repositório privado · em construção · mostro numa entrevista</p>
       </article>
       <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
         <header class="sh-head"><b>M-06</b><span>público</span><span>v1.3.1</span><span class="sh-r">94 commits</span></header>
@@ -273,13 +274,14 @@
       <ol class="tl">
         <li class="origin"><span class="tm">origem</span><p><b>Medicina</b>, a área de onde eu venho.</p></li>
         <li><time datetime="2026-05-05">05 mai 2026</time><p><b>lumen-ai-core</b> publicado no PyPI.</p></li>
-        <li><time datetime="2026-05-25">25 mai 2026</time><p><b>Axon Voice</b> fechado para uso local.</p></li>
+        <li><time datetime="2026-05-25">25 mai 2026</time><p><b>Assistente de voz com memória</b> fechado para uso local; é a base do Aulô.</p></li>
         <li><time datetime="2026-07-22">22 jul 2026</time><p><b>VoiceLaunch 1.3</b>, primeiro release open source.</p></li>
         <li><time datetime="2026-09-13">13 set 2026</time><p><b>Lodeward</b> começa (o repositório ainda se chama SynapseEngine).</p></li>
         <li><time datetime="2026-10-05">05 out 2026</time><p><b>Sublinhe</b>, MVP fechado.</p></li>
         <li><time datetime="2026-10-27">27 out 2026</time><p><b>LumenAI SDK</b>, revisão profunda: spans OpenInference cobrados, flush real, demo reproduzível e dashboard.</p></li>
-        <li><time datetime="2026-10-27">27 out 2026</time><p><b>Axon Voice</b>, nova versão: respostas com fontes, grafo de conhecimento e orbe sempre visível.</p></li>
+        <li><time datetime="2026-10-27">27 out 2026</time><p><b>Assistente de voz</b>, nova versão: respostas com fontes, grafo de conhecimento e orbe sempre visível.</p></li>
         <li><time datetime="2026-10-28">28 out 2026</time><p><b>Farol Desk</b> (então Nexo Assist), agente de service desk de TI, entregue como desafio técnico.</p></li>
+        <li><time datetime="2026-11-11">11 nov 2026</time><p><b>Aulô</b>, em construção: landing e frontend polidos, nos temas claro e escuro.</p></li>
         <li class="next"><span class="tm">próximo</span><p>Faculdade de tecnologia e a primeira oportunidade no mercado.</p></li>
       </ol>
     </div>

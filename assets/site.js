@@ -19,7 +19,7 @@ const TX = {
     lMods: '7 módulos · altura ∝ log(commits)',
     lZoneAct: 'A-04 · Atividade',
     lZoneTraj: 'A-05 · Da medicina para a IA',
-    miles: [[4, 5, '05 mai', 'lumen-ai-core no PyPI'], [4, 25, '25 mai', 'Axon Voice local'], [6, 22, '22 jul', 'VoiceLaunch 1.3'], [8, 13, '13 set', 'Lodeward começa'], [9, 5, '05 out', 'Sublinhe MVP'], [9, 27, '27 out', 'LumenAI revisão']],
+    miles: [[4, 5, '05 mai', 'lumen-ai-core no PyPI'], [4, 25, '25 mai', 'Voz local, base do Aulô'], [6, 22, '22 jul', 'VoiceLaunch 1.3'], [8, 13, '13 set', 'Lodeward começa'], [9, 5, '05 out', 'Sublinhe MVP'], [9, 27, '27 out', 'LumenAI revisão']],
     lOrigin: '<b>origem</b><i>medicina · fora de escala</i>',
     lNext: '<b>próximo</b><i>faculdade + 1ª oportunidade</i>',
     commitsLog: ' commits · altura ∝ log',
@@ -41,7 +41,7 @@ const TX = {
     lMods: '7 modules · height ∝ log(commits)',
     lZoneAct: 'A-04 · Activity',
     lZoneTraj: 'A-05 · From medicine to AI',
-    miles: [[4, 5, '05 May', 'lumen-ai-core on PyPI'], [4, 25, '25 May', 'Axon Voice, local'], [6, 22, '22 Jul', 'VoiceLaunch 1.3'], [8, 13, '13 Sep', 'Lodeward starts'], [9, 5, '05 Oct', 'Sublinhe MVP'], [9, 27, '27 Oct', 'LumenAI review']],
+    miles: [[4, 5, '05 May', 'lumen-ai-core on PyPI'], [4, 25, '25 May', 'Local voice, Aulô base'], [6, 22, '22 Jul', 'VoiceLaunch 1.3'], [8, 13, '13 Sep', 'Lodeward starts'], [9, 5, '05 Oct', 'Sublinhe MVP'], [9, 27, '27 Oct', 'LumenAI review']],
     lOrigin: '<b>origin</b><i>medicine · not to scale</i>',
     lNext: '<b>next</b><i>degree + first opportunity</i>',
     commitsLog: ' commits · height ∝ log',
@@ -524,7 +524,7 @@ const MODS = [
   { id: 'p-sub', code: 'M-02', name: 'Sublinhe', x: 3, z: -4, w: 20, d: 16, commits: 1140 },
   { id: 'p-syn', code: 'M-03', name: 'Lodeward', x: 29, z: -10, w: 12, d: 12, commits: 988 },
   { id: 'p-task', code: 'M-04', name: 'Task Dashboard', x: 27, z: 15, w: 12, d: 8, commits: 3 },
-  { id: 'p-axon', code: 'M-05', name: 'Axon Voice', x: -31, z: 18, w: 12, d: 12, commits: 257 },
+  { id: 'p-aulo', code: 'M-05', name: 'Aulô', x: -31, z: 18, w: 12, d: 12, commits: 307 }, // 307 = commits da branch feat/aulo-polimento-landing de skarL007/axon_voice_NEW: gh api "repos/skarL007/axon_voice_NEW/commits?sha=feat/aulo-polimento-landing&per_page=1" (última página do cabeçalho Link), 2026-11-11
   { id: 'p-voice', code: 'M-06', name: 'VoiceLaunch TTS', x: -9, z: 20, w: 12, d: 10, commits: 94 },
   { id: 'p-nexo', code: 'M-07', name: 'Farol Desk', x: 10, z: 17, w: 12, d: 10, commits: (window.NEXO_NUMBERS && window.NEXO_NUMBERS.commits) || 121 } // the count lives in assets/nexo-numbers.js
 ];

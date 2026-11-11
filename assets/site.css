@@ -364,14 +364,6 @@ main{position:relative;z-index:2}
 .ins-on .tblock{opacity:0}
 
 
-/* Axon Voice: diagram replaces low-resolution historical video frames. */
-#p-axon .axon-home-visual{background:#071426;border:1px solid var(--line-2)}
-#p-axon .axon-home-visual a{display:block;overflow:hidden}
-#p-axon .axon-home-visual img{display:block;width:100%;height:auto;aspect-ratio:7/4;object-fit:contain;background:#071426;transition:transform .3s ease}
-@media (hover:hover) and (prefers-reduced-motion:no-preference){#p-axon .axon-home-visual a:hover img{transform:scale(1.018)}}
-#p-axon .axon-home-visual figcaption{padding:12px 16px;color:var(--fg-2);font-size:12px;line-height:1.5;border-top:1px solid var(--line)}
-#p-axon .axon-home-visual figcaption b{color:var(--cyan)}
-
 /* ---------- proof strip: three checkable proofs right after the first screen ---------- */
 .proof{padding-block:0 12px}
 .proof-in{max-width:1180px}
@@ -413,3 +405,6 @@ main{position:relative;z-index:2}
 }
 .mode-2d .proof-grid{grid-template-columns:1fr}
 .mode-2d .proof-in{max-width:none}
+
+/* Aulô card: the mono labels stay at 12px or more on desktop too (the other cards keep the 10-11px of the blueprint look) */
+#p-aulo .sh-head,#p-aulo .sh-stack,#p-aulo .sh-fact,#p-aulo .priv,#p-aulo .ev dt,#p-aulo .shot figcaption{font-size:12px}

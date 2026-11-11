@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aulô · project in progress · Marcelo Machuca</title>
+<meta name="description" content="Aulô, a voice study platform for Brazilian civil-service exams, university entrance and medicine, in progress with a private repository: the virtual teacher answers only from your material and shows the page. What is already proven and what is not.">
+<meta name="theme-color" content="#050B16">
+<link rel="canonical" href="https://skarl007.github.io/en/aulo/">
+<link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/aulo/">
+<link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/aulo/">
+<link rel="alternate" hreflang="x-default" href="https://skarl007.github.io/aulo/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Marcelo Machuca">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:url" content="https://skarl007.github.io/en/aulo/">
+<meta property="og:title" content="Aulô · project in progress">
+<meta property="og:description" content="Study with someone who has read your material: a virtual teacher that answers only from the material you upload and shows the page. In progress, private repository.">
+<meta property="og:image" content="https://skarl007.github.io/assets/shots/aulo-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Aulô start screen in the dark theme: the Portuguese headline “Estude com quem leu o seu material” (study with someone who has read your material) and the teacher Caio inside a sphere, with demo content">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://skarl007.github.io/assets/shots/aulo-og.jpg">
+<meta name="twitter:image:alt" content="Aulô start screen in the dark theme: the Portuguese headline “Estude com quem leu o seu material” (study with someone who has read your material) and the teacher Caio inside a sphere, with demo content">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Martian+Mono:wdth,wght@87.5..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/case.css">
+<link rel="stylesheet" href="../../assets/aulo.css">
+</head>
+<body class="case aulo-case">
+<!--
+  Sources for this page, checked on 2026-11-11 in the private repository skarL007/axon_voice_NEW, branch feat/aulo-polimento-landing:
+  - product copy, three teachers, "only from your material", page behind each sentence, warning when it is not there: app/lousa/static/lousa.html and material.html;
+  - captures: docs/superpowers/assets/aulo-polimento/depois-*.png (1440 and 375 px, dark theme), all with demo content;
+  - 307 commits: gh api "repos/skarL007/axon_voice_NEW/commits?sha=feat/aulo-polimento-landing&per_page=1" (last page in the Link header);
+  - 306 commits ahead of main, 0 behind: gh api "repos/skarL007/axon_voice_NEW/compare/main...feat/aulo-polimento-landing";
+  - 26 AA contrast checks: tests/test_lousa_contraste.py (commit af39913, gate G7). I ran the file on 2026-11-11: 26 of 26, 0 failures;
+  - CI state at the branch's last commit (f95660d): gh api "repos/skarL007/axon_voice_NEW/commits/feat/aulo-polimento-landing/status" (lint, secrets-scan and pytest failing; launcher passing);
+  - speech-to-text through Groq and voice through Fish Audio: docs/HANDOFF-2026-11-11-lousa-iphone-mac.md; gate plan G0 to G9: docs/superpowers/plans/2026-11-11-aulo-finalizacao-gates.md;
+  - the base (Axon Voice): README.md on the branch.
+-->
+<a class="skip" href="#conteudo">Skip to content</a>
+<header class="hdr">
+  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>AI Solutions Developer</small></a>
+  <nav id="nav" class="nav" aria-label="Case study sections">
+    <a href="#produto"><i aria-hidden="true">01</i>Product</a>
+    <a href="#como"><i aria-hidden="true">02</i>How it works</a>
+    <a href="#professores"><i aria-hidden="true">03</i>Teachers</a>
+    <a href="#telas"><i aria-hidden="true">04</i>Screens</a>
+    <a href="#estado"><i aria-hidden="true">05</i>Status</a>
+  </nav>
+  <div class="hdr-tools">
+    <a class="tgl lang" href="../../aulo/" hreflang="pt-BR" lang="pt-BR" aria-label="Versão em português">PT</a>
+    <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main class="cs" id="conteudo" tabindex="-1">
+
+<section class="cs-hero" aria-labelledby="titulo">
+  <div>
+    <p class="cs-back"><a href="../#p-aulo">← Portfolio · M-05</a></p>
+    <ul class="au-badges" aria-label="Project status">
+      <li>In progress</li>
+      <li class="dash">Private repository</li>
+    </ul>
+    <h1 class="cs-title" id="titulo">Aulô</h1>
+    <p class="cs-role">Study with someone who has read your material.</p>
+    <p class="lede">A voice study platform for Brazilian civil-service exams, university entrance and medicine. You upload your textbook, book or notes as a PDF or Word file. The virtual teacher answers only from that material, shows the page behind each sentence and says so when the answer is not there. The product interface is in Portuguese.</p>
+  </div>
+  <div>
+    <dl class="cs-meta">
+      <div><dt>Status</dt><dd>In progress. Not publicly launched.</dd></div>
+      <div><dt>Code</dt><dd>Private repository. I can show it in an interview.</dd></div>
+      <div><dt>Base</dt><dd>Axon Voice, a voice assistant of mine that answers with citations and keeps a vector memory and a temporal graph.</dd></div>
+      <div><dt>My role</dt><dd>Product, architecture, acceptance criteria and proofs. Coding agents write the code.</dd></div>
+      <div><dt>Stack</dt><dd>Python on the server; JavaScript frontend with no build step.</dd></div>
+      <div><dt>Commits</dt><dd class="mono">307 on the frontend branch</dd></div>
+    </dl>
+    <p class="au-meta-src">Checked on 11 Nov 2026 on the feat/aulo-polimento-landing branch.</p>
+  </div>
+</section>
+
+<figure class="shot au-hero-shot">
+  <a href="../../assets/shots/aulo-hero-1440.webp" target="_blank" rel="noopener"><img src="../../assets/shots/aulo-hero-960.webp" srcset="../../assets/shots/aulo-hero-960.webp 960w, ../../assets/shots/aulo-hero-1440.webp 1440w" sizes="(max-width: 1200px) 100vw, 1100px" width="960" height="600" decoding="async" alt="Aulô start screen in the dark theme: the Portuguese headline “Estude com quem leu o seu material” (study with someone who has read your material), the Começar agora and Ouvir o Caio buttons, the teacher Caio inside a sphere and a demo card that reads “Eu ensino só com o que você me der” (I only teach from what you give me)."></a>
+  <figcaption><b>Frontend capture</b> · start screen, dark theme, 1440 px, demo content</figcaption>
+</figure>
+
+<section class="cs-sec" id="produto" aria-labelledby="h-produto">
+  <header>
+    <h2 class="cs-h2" id="h-produto" tabindex="-1">A teacher who only knows what you uploaded</h2>
+    <p class="cs-intro">People preparing for civil-service exams, university entrance or medicine study from their own textbooks, books and notes. The idea behind Aulô is to talk out loud with a virtual teacher who has read exactly that material and does not leave it.</p>
+  </header>
+  <div class="cs-two">
+    <div class="sheet">
+      <h3 class="cs-h3">Who it is for</h3>
+      <p>For people who study from their own material, as PDF or Word files, and want to ask questions out loud without getting an answer that has no source. The product's stated focus is civil-service exams, university entrance and medicine.</p>
+    </div>
+    <div class="sheet">
+      <h3 class="cs-h3">What the teacher does</h3>
+      <ul class="cs-list">
+        <li><b>Answers only from your material</b>, not from what it “knows” in general.</li>
+        <li><b>Shows the page</b> behind each sentence of the answer.</li>
+        <li><b>Says when the answer is not there</b>, instead of making it up.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cs-sec" id="como" aria-labelledby="h-como">
+  <header>
+    <h2 class="cs-h2" id="h-como" tabindex="-1">How it works</h2>
+    <p class="cs-intro">This is the product's design. What is already proven and what is not are in the Status section.</p>
+  </header>
+  <dl class="au-steps">
+    <div><dt><i>01</i>Upload the material</dt><dd>A PDF or Word file: the textbook, the book or the notes. On the Material screen you choose whether the teacher may answer with the file or whether it is only stored.</dd></div>
+    <div><dt><i>02</i>Aulô reads it</dt><dd>Large files take a few minutes, and the reading can be followed on the screen itself.</dd></div>
+    <div><dt><i>03</i>Ask out loud</dt><dd>The conversation works like a phone call: you speak, the teacher answers, and you interrupt by tapping the sphere.</dd></div>
+    <div><dt><i>04</i>See the page</dt><dd>Each answer carries the page of the material it came from. If it is not in the material, the teacher says it is not.</dd></div>
+  </dl>
+  <p class="au-pipe" role="group" aria-label="The path of a question"><span>your material</span><i aria-hidden="true">→</i><span>relevant passages</span><i aria-hidden="true">→</i><span>answer with the cited page</span><i aria-hidden="true">·</i><span class="dash">or: “not in the material”</span></p>
+  <p class="cs-note">On what leaves the computer, the Material screen says: with “Não, só guardar aqui” (no, just store it here), nothing leaves the computer and the teacher does not answer with the file; with “Sim, pode responder” (yes, it may answer), only the passages used in each answer go to the model, and the whole file stays on the computer. That is the behavior the screen describes; the project's security review has no published result yet (see Status).</p>
+</section>
+
+<section class="cs-sec" id="professores" aria-labelledby="h-prof">
+  <header>
+    <h2 class="cs-h2" id="h-prof" tabindex="-1">Three teachers, three ways of explaining</h2>
+    <p class="cs-intro">The question and the passage of the material are the same; the style of the answer changes. The examples below come from the landing page, with a demo passage about the Krebs cycle.</p>
+  </header>
+  <div class="au-teachers">
+    <div><h3>Caio</h3><p class="tag">straight to the point</p><p>Answers in a few lines and closes with the page number.</p></div>
+    <div><h3>Lia</h3><p class="tag">by comparison</p><p>Explains by analogy: in the example, the cycle becomes a roundabout inside the mitochondrion.</p></div>
+    <div><h3>Íris</h3><p class="tag">asks the question back</p><p>Before answering, asks something that leads the person to the path: in the example, where pyruvate goes after glycolysis.</p></div>
+  </div>
+  <figure class="shot au-teachers-shot">
+    <a href="../../assets/shots/aulo-professores-1440.webp" target="_blank" rel="noopener"><img src="../../assets/shots/aulo-professores-960.webp" srcset="../../assets/shots/aulo-professores-960.webp 960w, ../../assets/shots/aulo-professores-1440.webp 1440w" sizes="(max-width: 1200px) 100vw, 1100px" width="960" height="600" loading="lazy" decoding="async" alt="“Três professores” (three teachers) section of the Aulô landing page: the question “O que é o ciclo de Krebs?” (what is the Krebs cycle?) answered by Caio, Lia and Íris, each in their own style, with the cited-page tag (p. 112, p. 112 and p. 111 e 112)."></a>
+    <figcaption><b>Frontend capture</b> · the same question in the three styles; style examples with demo material</figcaption>
+  </figure>
+  <p class="cs-note">On the landing page, the demo uses the browser's voice; in the classroom, each teacher has a voice of their own.</p>
+</section>
+
+<section class="cs-sec" id="telas" aria-labelledby="h-telas">
+  <header>
+    <h2 class="cs-h2" id="h-telas" tabindex="-1">Screens</h2>
+    <p class="cs-intro">The frontend has five pages: start, teachers, material, my study and settings, in dark and light themes, on desktop and phone.</p>
+  </header>
+  <div class="au-shots">
+    <figure class="shot">
+      <a href="../../assets/shots/aulo-material-1440.webp" target="_blank" rel="noopener"><img src="../../assets/shots/aulo-material-960.webp" srcset="../../assets/shots/aulo-material-960.webp 960w, ../../assets/shots/aulo-material-1440.webp 1440w" sizes="(max-width: 860px) 100vw, 700px" width="960" height="600" loading="lazy" decoding="async" alt="Material page of Aulô: PDF or Word upload, with the choice between “Não, só guardar aqui” (no, just store it here) and “Sim, pode responder” (yes, it may answer), and the three steps Envie, O Aulô lê and Pergunte (upload, Aulô reads, ask)."></a>
+      <figcaption><b>Material</b> · uploading the PDF or Word file and choosing whether the teacher answers with it</figcaption>
+    </figure>
+    <figure class="shot au-phone">
+      <a href="../../assets/shots/aulo-celular-750.webp" target="_blank" rel="noopener"><img src="../../assets/shots/aulo-celular-480.webp" srcset="../../assets/shots/aulo-celular-480.webp 480w, ../../assets/shots/aulo-celular-750.webp 750w" sizes="(max-width: 860px) 300px, 340px" width="480" height="1040" loading="lazy" decoding="async" alt="Aulô start screen on a phone, 375 px wide: the teacher Caio, the headline, the Começar agora and Ouvir o Caio buttons and the speech caption."></a>
+      <figcaption><b>Phone</b> · start screen, 375 px</figcaption>
+    </figure>
+  </div>
+  <p class="cs-note">All captures come from the frontend in development, with demo content. None shows the material, conversation or data of a real person.</p>
+</section>
+
+<section class="cs-sec au-state" id="estado" aria-labelledby="h-estado">
+  <header>
+    <h2 class="cs-h2" id="h-estado" tabindex="-1">Project status</h2>
+    <p class="cs-intro">Aulô is in progress and the repository is private. Below, what I can prove today and what I cannot yet, as of 11 Nov 2026.</p>
+  </header>
+  <div class="cs-two">
+    <div class="sheet">
+      <h3 class="cs-h3">Already proven</h3>
+      <ul class="cs-list">
+        <li><b>A five-page frontend</b> captured at 1440 and 375 px, in light and dark themes.</li>
+        <li><b>26 automated contrast checks</b> (AA, text at 4.5:1 or more) of the color tokens in both themes. I ran the test file and all 26 pass.</li>
+        <li><b>The three teachers</b> exist in the frontend, each with their own style, with demo content.</li>
+      </ul>
+      <p class="cs-note">Sources: the captures and <code>tests/test_lousa_contraste.py</code> (gate G7), on the feat/aulo-polimento-landing branch.</p>
+    </div>
+    <div class="sheet">
+      <h3 class="cs-h3">Not yet proven</h3>
+      <ul class="cs-list">
+        <li><b>Recall of the search in the material:</b> the target has not been reached yet, and I do not publish a number.</li>
+        <li><b>Time to the first word:</b> it has a target and a planned measurement, with no published result.</li>
+        <li><b>Green CI:</b> on the branch's last commit, lint, secrets-scan and pytest were failing and the launcher passed. The causes are catalogued in the finalization plan.</li>
+        <li><b>Security review:</b> it is in the plan (gate G6), with no published result.</li>
+        <li><b>Integration:</b> the branch is 306 commits ahead of main and has not been merged.</li>
+        <li><b>Working without the cloud:</b> speech-to-text uses Groq and the teachers' voice uses Fish Audio.</li>
+        <li><b>Learning faster:</b> I do not claim that, and I have no usage results with students.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="cs-note">The finalization plan has gates G0 to G9, from green CI to the merge into main, including first token, recall, security review and visual validation.</p>
+</section>
+
+<div class="cs-end au-end">
+  <p>I can show the code, the tests and a demo in a conversation.</p>
+  <p class="sh-links"><a class="lnk" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Talk on LinkedIn ↗</a><a class="lnk" href="../#p-aulo">Back to the portfolio →</a></p>
+</div>
+
+</main>
+
+<footer class="foot">
+  <p class="foot-id">Marcelo Machuca · AI Solutions Developer · Brazil</p>
+  <p class="foot-src">Project in progress, private repository. Information checked on 11 Nov 2026. <a href="../../aulo/" hreflang="pt-BR" lang="pt-BR">Versão em português</a></p>
+</footer>
+
+<script src="../../assets/aulo.js" defer></script>
+<script data-goatcounter="https://skarl007.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* Aulô case study (aulo/, en/aulo/). Loaded after site.css and case.css; it reuses their tokens, header, sheets and lists
+   and only adds what this page needs: status badges, the pipeline row, the teachers, the screenshot grid and the two
+   "proven / not proven" columns. */
+
+/* the captures are 16:10 (the phone one is 480x1040): case.css forces 16:9 on .shot img, which would stretch them; the ratio is
+   stated here because "auto" would drop the one the width/height attributes give before a lazy image loads */
+.aulo-case .shot img{aspect-ratio:16/10;width:100%;height:auto}
+.aulo-case .au-phone img{aspect-ratio:480/1040}
+.case.aulo-case .shot a[href$=".webp"]{cursor:pointer}
+.aulo-case .cs-hero{align-items:start}
+/* nothing under 12px (site.css sets the nav index numbers to 9px above 760px) */
+.aulo-case .nav a i{font-size:12px}
+
+/* ---------- hero ---------- */
+.au-badges{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.au-badges li{padding:6px 10px;border:1px solid var(--accent);font:500 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg)}
+.au-badges li.dash{border:1px dashed var(--line-2);color:var(--fg-2)}
+.aulo-case .au-hero-shot{margin-top:40px}
+.au-meta-src{margin:12px 0 0;font:500 12px/1.5 var(--mono);letter-spacing:.03em;color:var(--mute)}
+
+/* ---------- how it works ---------- */
+.au-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:28px 0 0;background:var(--line);border:1px solid var(--line)}
+.au-steps>div{padding:18px 18px 20px;background:rgba(var(--ink2-rgb),.94)}
+.au-steps dt{margin:0 0 8px;font:650 17px/1.3 var(--display);color:var(--fg)}
+.au-steps dt i{display:block;margin-bottom:8px;font:500 12px/1 var(--mono);font-style:normal;letter-spacing:.08em;color:var(--cyan)}
+.au-steps dd{margin:0;font-size:15px;line-height:1.5;color:var(--fg-2)}
+.au-pipe{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:24px 0 0;font:500 13px/1.3 var(--mono)}
+.au-pipe span{padding:7px 11px;border:1px solid var(--line-2);color:var(--fg)}
+.au-pipe span.dash{border-style:dashed;color:var(--fg-2)}
+.au-pipe i{font-style:normal;color:var(--mute)}
+
+/* ---------- teachers ---------- */
+.au-teachers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin:24px 0 0;background:var(--line);border:1px solid var(--line)}
+.au-teachers>div{padding:18px 18px 20px;background:rgba(var(--ink2-rgb),.94)}
+.au-teachers h3{margin:0;font:760 28px/1.05 var(--display);font-stretch:82%;letter-spacing:-.02em;color:var(--fg)}
+.au-teachers .tag{margin:6px 0 0;font:500 12px/1.4 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--cyan)}
+.au-teachers p:not(.tag){margin:10px 0 0;font-size:15px;line-height:1.5;color:var(--fg-2)}
+.aulo-case .au-teachers-shot{margin-top:24px}
+
+/* ---------- screens ---------- */
+.au-shots{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,.8fr);gap:24px;align-items:start}
+.aulo-case .au-shots figure.shot{margin:0}
+.au-shots .au-phone{max-width:340px}
+
+/* ---------- state ---------- */
+.au-state .cs-list li{margin-top:12px}
+.au-state .cs-h3{margin-bottom:4px}
+.au-end{display:block}
+.au-end p{max-width:60ch;color:var(--fg-2)}
+.au-end .sh-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px}
+
+/* ---------- small screens ---------- */
+@media (max-width:1100px){
+  .au-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .au-teachers{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .au-shots{grid-template-columns:1fr}
+  .au-shots .au-phone{max-width:300px}
+}
+@media (max-width:760px){
+  .au-steps{grid-template-columns:1fr}
+  .aulo-case .au-hero-shot{margin-top:28px}
+  .au-pipe{font-size:12px}
+}

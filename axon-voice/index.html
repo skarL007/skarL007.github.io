@@ -3,100 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Axon Voice · IA, voz e memória · Marcelo Machuca</title>
-<meta name="description" content="Axon Voice é um assistente pessoal de voz e estudo. Conheça a arquitetura, os experimentos e os limites do projeto.">
-<meta name="theme-color" content="#04060b">
-<link rel="canonical" href="https://skarl007.github.io/axon-voice/">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Axon Voice · IA, voz e memória">
-<meta property="og:description" content="Um assistente pessoal para conversar, recuperar contexto e estudar. Arquitetura, experimentos e limites.">
-<meta property="og:url" content="https://skarl007.github.io/axon-voice/">
-<meta property="og:image" content="https://skarl007.github.io/assets/axon/holo-trilha.png">
-<meta property="og:image:alt" content="Protótipo da interface de estudo do Axon, com dados de exemplo">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/site.css">
-<link rel="stylesheet" href="../assets/case.css">
-<link rel="stylesheet" href="../assets/axon.css">
+<title>O Axon Voice agora é o Aulô · Marcelo Machuca</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://skarl007.github.io/aulo/">
+<meta http-equiv="refresh" content="0; url=../aulo/">
+<script>location.replace('../aulo/' + location.search + location.hash);</script>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f5f7;color:#1d1d1f;font:400 17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;text-align:center}main{padding:24px;max-width:34em}a{color:#0e6a78}p{margin:0 0 12px}small{color:#6e6e73}</style>
 </head>
-<body class="case axon-case">
-<a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<header class="hdr">
-  <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>M. Machuca<small>Desenvolvedor de Soluções em IA</small></a>
-  <nav class="nav" id="nav" aria-label="Seções do estudo de caso"><a href="#produto">Produto</a><a href="#arquitetura">Arquitetura</a><a href="#avaliacao">Avaliação</a><a href="#limites">Estado do projeto</a></nav>
-  <button id="menuBtn" class="menu-btn" type="button" aria-controls="nav" aria-expanded="false">Menu</button>
-</header>
-<main class="cs" id="conteudo" tabindex="-1">
-<section class="ax-hero" aria-labelledby="titulo">
-  <div class="ax-hero-copy">
-    <p class="ax-back"><a href="../#p-axon">← Voltar ao portfólio</a></p>
-    <p class="ax-kicker"><span class="ax-dot" aria-hidden="true"></span> PROJETO INDEPENDENTE · EM DESENVOLVIMENTO</p>
-    <h1 id="titulo">Axon <span>Voice.</span></h1>
-    <p class="ax-subtitle">Uma voz para pensar <em>com contexto.</em></p>
-    <p class="ax-lede">Um assistente pessoal para conversar, consultar documentos e apoiar o estudo. Voz, recuperação de informação e memória trabalham juntas em uma experiência pensada para o computador do usuário.</p>
-    <div class="ax-actions"><a class="ax-button ax-primary" href="#arquitetura">Explorar a arquitetura <span aria-hidden="true">↗</span></a><a class="ax-button" href="#produto">Ver o produto <span aria-hidden="true">↓</span></a></div>
-    <p class="ax-caption">Concepção e direção de produto por Marcelo Machuca · implementação com apoio de agentes de IA</p>
-  </div>
-  <aside class="ax-signal" aria-label="Visão geral do projeto">
-    <div class="ax-signal-head"><span>AXON / SISTEMA PESSOAL</span><span>01 — 04</span></div>
-    <div class="ax-orbit" aria-hidden="true"><div class="ax-orbit-ring ax-orbit-ring-2"></div><div class="ax-orb"></div><span class="ax-orbit-point"></span></div>
-    <div class="ax-signal-bottom"><span>VOZ + CONTEXTO</span><span>DESENHO CONCEITUAL</span></div>
-  </aside>
-</section>
-
-<div class="ax-strip" aria-label="Áreas do projeto"><span><b>01</b> Voz e conversa</span><span><b>02</b> Recuperação</span><span><b>03</b> Memória</span><span><b>04</b> Estudo</span></div>
-
-<section class="ax-section" id="produto" aria-labelledby="produto-titulo">
-  <div class="ax-section-head"><p class="ax-kicker">01 / EXPERIÊNCIA</p><div><h2 id="produto-titulo">Do diálogo ao estudo.</h2><p>A mesma base conecta conversa por voz, documentos e ferramentas de aprendizado. A interface Holo organiza esses caminhos sem esconder que algumas jornadas ainda estão em construção.</p></div></div>
-  <figure class="ax-screen ax-screen-main">
-    <img src="../assets/axon/holo-trilha.webp" width="1440" height="900" loading="lazy" alt="Protótipo de uma jornada de estudo com plano, aula, checagens e simulação">
-    <figcaption><span>ESTÚDIO / JORNADA DE ESTUDO</span><span>Protótipo Holo com dados de exemplo · não representa uma funcionalidade integralmente concluída.</span></figcaption>
-  </figure>
-  <div class="ax-product-grid">
-    <div class="ax-product-copy"><p class="ax-kicker">UMA INTERFACE, VÁRIOS CONTEXTOS</p><h3>Uma conversa que continua além do chat.</h3><p>O projeto reúne um Hub de voz, um Estúdio para trabalhar com documentos e uma jornada de estudo. O quadro e as aulas são frentes de desenvolvimento, não uma promessa de conclusão.</p><p>O sistema procura contexto em fontes distintas e pode mostrar referências. A pessoa continua responsável por conferir as respostas.</p></div>
-    <figure class="ax-screen"><img src="../assets/axon/holo-aula.webp" width="1072" height="641" loading="lazy" alt="Protótipo de aula com quadro, etapas e assistente em um orbe"><figcaption><span>QUADRO / AULA</span><span>Protótipo com conteúdo fictício.</span></figcaption></figure>
-  </div>
-</section>
-
-<section class="ax-section" id="arquitetura" aria-labelledby="arquitetura-titulo">
-  <div class="ax-section-head"><p class="ax-kicker">02 / ARQUITETURA</p><div><h2 id="arquitetura-titulo">O caminho de um pedido.</h2><p>O modelo C4 mantido no Structurizr descreve o turno em camadas: de regras e busca até a resposta em streaming. O diagrama abaixo é uma síntese para leitura.</p></div></div>
-  <ol class="ax-flow">
-    <li><span class="ax-flow-no">01</span><div><h3>Entrada</h3><p>Texto no Estúdio ou áudio no Hub. A transcrição pode usar Groq ou alternativas locais, conforme a configuração.</p></div><span class="ax-flow-tag">VOZ / TEXTO</span></li>
-    <li><span class="ax-flow-no">02</span><div><h3>Regras e recuperação</h3><p>O roteador considera acesso e privacidade. O mecanismo busca documentos, memória e grafo; RRF combina as listas de resultados.</p></div><span class="ax-flow-tag">RAG / RRF</span></li>
-    <li><span class="ax-flow-no">03</span><div><h3>Contexto e modelo</h3><p>O contexto selecionado compõe o pedido ao LLM. Na arquitetura documentada, a geração é local; o reranking local segue em evolução.</p></div><span class="ax-flow-tag">LLM LOCAL</span></li>
-    <li><span class="ax-flow-no">04</span><div><h3>Resposta e memória</h3><p>O texto retorna em streaming e pode ser sintetizado em voz. Memória pessoal e fatos relacionados têm papéis distintos e critérios próprios de escrita.</p></div><span class="ax-flow-tag">STREAM / TTS</span></li>
-  </ol>
-  <p class="ax-source">Fonte: modelo C4 e notas de arquitetura do projeto, gerados em 03 nov 2026. O uso de serviços externos depende das funções e configurações escolhidas.</p>
-</section>
-
-<section class="ax-section" id="avaliacao" aria-labelledby="avaliacao-titulo">
-  <div class="ax-section-head"><p class="ax-kicker">03 / AVALIAÇÃO</p><div><h2 id="avaliacao-titulo">Medir também é encontrar limites.</h2><p>Os números abaixo são de experimentos internos documentados, não métricas de usuários nem garantias de produção.</p></div></div>
-  <div class="ax-evidence">
-    <article><span class="ax-label">RECALL / LIVRO DE TESTE</span><strong>33<span> / 40</span></strong><h3>respostas corretas</h3><p>Modelo local de 4B, avaliação cega no chat; houve 1 resposta errada. A meta registrada era 37 corretas e nenhuma errada.</p></article>
-    <article><span class="ax-label">LATÊNCIA / MESMO EXPERIMENTO</span><strong>1,92<span> s</span></strong><h3>até o primeiro token, p50</h3><p>Medição no tratamento do teste de 40 perguntas. É latência de texto, não o tempo até a primeira fala.</p></article>
-    <article><span class="ax-label">MEMÓRIA / HOLDOUT</span><strong>64,8<span>%</span></strong><h3>memória geral</h3><p>Resultado documentado no holdout nº 5, abaixo da meta de 75%. A seleção e recuperação de memórias seguem em desenvolvimento.</p></article>
-  </div>
-  <p class="ax-source">Fonte: catálogo de métricas e mapa de status do Structurizr, 02–03 nov 2026. Experimentos em ambiente e ramos específicos; não equivalem a uma validação completa da versão atual. Evidências disponíveis para apresentação em entrevista.</p>
-</section>
-
-<section class="ax-section" id="decisoes" aria-labelledby="decisoes-titulo">
-  <div class="ax-section-head"><p class="ax-kicker">04 / DECISÕES</p><div><h2 id="decisoes-titulo">Projetar para confiança.</h2><p>Três escolhas orientam o trabalho técnico e mostram onde ainda é preciso validar mais.</p></div></div>
-  <div class="ax-decisions">
-    <article><span>01</span><div><h3>Contexto recuperado, não memória inventada</h3><p>Documentos e fatos têm origens diferentes. A busca combina sinais, e respostas devem permitir conferência quando há fontes disponíveis.</p></div></article>
-    <article><span>02</span><div><h3>Privacidade como fronteira</h3><p>O desenho prevê regras de acesso e saída de dados. A documentação registra correções e uma revisão de segurança ainda pendente; não trato o controle como garantia absoluta.</p></div></article>
-    <article><span>03</span><div><h3>Voz com controle do usuário</h3><p>A fala é uma forma de acesso ao assistente. Transcrição, síntese, latência e hardware variam conforme os provedores e a configuração.</p></div></article>
-  </div>
-</section>
-
-<section class="ax-section ax-status" id="limites" aria-labelledby="limites-titulo">
-  <div><p class="ax-kicker">05 / ESTADO DO PROJETO</p><h2 id="limites-titulo">Um projeto em evolução.</h2><p>O Axon é um projeto independente e privado, pensado inicialmente para uso pessoal. Não apresento clientes, adoção comercial ou disponibilidade pública como resultados.</p></div>
-  <div class="ax-status-list"><div><b>Implementado e em integração</b><p>Fluxos de conversa, recuperação, componentes de voz, memória e interfaces. O comportamento varia entre ramos e ambientes.</p></div><div><b>Em desenvolvimento</b><p>Holo, estudo, qualidade de memória, reranking e revisões de privacidade. A documentação distingue o que existe do que está planejado.</p></div><div><b>Como conhecer melhor</b><p>O repositório é privado. Posso apresentar arquitetura, evidências e trechos adequados em uma conversa.</p></div></div>
-</section>
-<div class="ax-end"><a class="ax-button ax-primary" href="../#p-axon">Voltar ao portfólio</a><a class="ax-button" href="https://www.linkedin.com/in/marcelo-machuca-ia/" target="_blank" rel="noopener">Conversar no LinkedIn ↗</a></div>
+<body>
+<main>
+<p>O Axon Voice saiu do portfólio. Em seu lugar está o Aulô, um projeto em construção que nasce da mesma base.</p>
+<p><a href="../aulo/">Ir para a página do Aulô →</a></p>
+<p><small>Esta página só redireciona.</small></p>
 </main>
-<footer class="foot"><p class="foot-id">Marcelo Machuca · Desenvolvedor de Soluções em IA · Brasil</p><p class="foot-src">Projeto independente · informações baseadas na documentação de arquitetura de 03 nov 2026.</p></footer>
-<script src="../assets/axon.js" defer></script>
-<script src="../assets/sfx.js" defer></script>
-<script data-goatcounter="https://skarl007.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
