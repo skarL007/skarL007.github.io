@@ -334,3 +334,11 @@ h1 .e2{display:block;color:var(--azul-t);margin-top:.14em}
 .media-pendente{padding:24px;min-height:160px;display:flex;flex-direction:column;justify-content:center;gap:12px}
 .media-pendente p{color:var(--mute);max-width:46ch}
 @media(max-width:480px){.stage-real{gap:8px;padding:16px}.stage-real p{font-size:12px}}
+
+/* família: Lodeward (ex-SynapseEngine) num card só; alvos de toque de 44 px */
+@media (min-width:860px){.fam.fam2{grid-template-columns:repeat(2,1fr)}}
+.fam h3 a{display:inline-flex;align-items:center;flex-wrap:wrap;min-height:44px}
+.fam h3 small{font:500 .8rem/1.2 var(--mono);margin-left:.5em;color:var(--mute)}
+.fam .fam-a{display:flex;flex-wrap:wrap;gap:0 20px;margin-top:6px;max-width:none}
+.fam-a a{display:inline-flex;align-items:center;min-height:44px;font:600 12px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink)}
+.foot-back{display:inline-flex;align-items:center;min-height:44px}

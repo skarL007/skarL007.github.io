@@ -93,6 +93,20 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
   </div>
 </section>
 
+<!-- Em 1 minuto: resumo com âncoras; só fatos que já estão nas seções abaixo -->
+<section class="min1" id="em-1-minuto" aria-labelledby="h-min1">
+  <div class="wrap">
+    <h2 class="lab" id="h-min1">Em 1 minuto</h2>
+    <dl class="m1">
+      <div><dt>O que é</dt><dd>Um mapa C4 do seu repositório, com fluxos animados, conferido por teste e mantido por scripts. Os testes apontam módulos fora do mapa.<span class="m1-l"><a href="#story-1">Ver o mapa</a><a href="#fig-03">As seis entregas</a></span></dd></div>
+      <div><dt>Como funciona</dt><dd>Scripts geram as páginas; a modelagem acompanha as mudanças. São três comandos, e o instalador mostra cada mudança antes de escrever.<span class="m1-l"><a href="#fig-06">Chamadas e tempo</a><a href="#fig-07">Instalar</a></span></dd></div>
+      <div><dt>O que foi medido</dt><dd>72 componentes e 188 relações no axios; gate estrutural 94,6. No teste pré-registrado, a economia de tokens para agentes <b>não foi demonstrada</b>: razão mediana 0,99, com e sem o mapa.<span class="m1-l"><a href="#fig-08">Limites, em diff</a></span></dd></div>
+      <div><dt>Ainda não medido</dt><dd>O ganho de entendimento para pessoas: ainda não há medição com leitores. O estudo está pré-registrado.<span class="m1-l"><a href="#fig-08">Ver o protocolo</a></span></dd></div>
+      <div><dt>Ir direto</dt><dd>Demo ao vivo, código aberto (MIT) e a release 0.1.0.<span class="m1-l"><a data-scr href="demo/explorador/">Demo</a><a data-scr href="https://github.com/skarL007/lodemap">Código</a><a data-scr href="https://github.com/skarL007/lodemap/releases/tag/v0.1.0">Release v0.1.0</a></span></dd></div>
+    </dl>
+  </div>
+</section>
+
 <!-- Abertura: o mapa real do axios (72 componentes, 188 relações) e três painéis -->
 <div class="story" id="story-1">
   <div class="stage">
@@ -254,19 +268,21 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
   <div class="wrap cols">
     <div class="leg"><b>Fig. <em>05</em></b><span class="t">Diferença</span><p>Para quem é cada ferramenta e que pergunta ela responde. O Lodemap lê o CodeGraph (<code>codegraph_ponte.py</code>).</p></div>
     <div class="main">
-      <h2 id="h-05">Não é índice de código nem memória de agente. É o mapa para pessoas.</h2>
-      <p class="lede">CodeGraph e Graphiti são boas ferramentas, e servem a outro trabalho. O Lodemap usa o primeiro como fonte opcional de relações, com 0 tokens.</p>
-      <table class="cmp body">
-        <caption>Lodemap, CodeGraph e Graphiti, por critério</caption>
-        <thead><tr><th scope="col"><span class="vh">Critério</span></th><th scope="col" class="us">Lodemap</th><th scope="col">CodeGraph</th><th scope="col">Graphiti</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Para quem</th><td class="us" data-l="Lodemap">Pessoas e agentes que precisam entender a arquitetura do repositório</td><td data-l="CodeGraph">Agentes de código que consultam símbolos, chamadas e impacto</td><td data-l="Graphiti">Agentes que precisam de memória de longo prazo</td></tr>
-          <tr><th scope="row">Responde</th><td class="us" data-l="Lodemap">Quem conversa com quem, por onde passa cada fluxo, o status declarado e o que mudou</td><td data-l="CodeGraph">Onde está um símbolo, quem o chama e o que uma edição afeta</td><td data-l="Graphiti">O que o agente sabe e desde quando cada fato vale</td></tr>
-          <tr><th scope="row">Mantido por</th><td class="us" data-l="Lodemap">Scripts geram as páginas; testes apontam módulos fora do mapa; a modelagem depende das mudanças e decisões do projeto</td><td data-l="CodeGraph">Índice atualizado pelo observador de arquivos</td><td data-l="Graphiti">Episódios gravados pelo agente e extraídos por modelo</td></tr>
-          <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; cinco releases auditadas na demo (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
-        </tbody>
-      </table>
-      <p class="fn">As colunas CodeGraph e Graphiti resumem a descrição que cada ferramenta publica em seu servidor MCP, lida em 10/11/2026; confira nos projetos antes de decidir. A coluna Lodemap vem da página do projeto.</p>
+      <details class="fold" open>
+        <summary><h2 id="h-05">Não é índice de código nem memória de agente. É o mapa para pessoas.</h2><span class="fold-i"><span class="fi-o">Abrir a seção</span><span class="fi-c">Fechar a seção</span></span></summary>
+        <p class="lede">CodeGraph e Graphiti são boas ferramentas, e servem a outro trabalho. O Lodemap usa o primeiro como fonte opcional de relações, com 0 tokens.</p>
+        <table class="cmp body">
+          <caption>Lodemap, CodeGraph e Graphiti, por critério</caption>
+          <thead><tr><th scope="col"><span class="vh">Critério</span></th><th scope="col" class="us">Lodemap</th><th scope="col">CodeGraph</th><th scope="col">Graphiti</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Para quem</th><td class="us" data-l="Lodemap">Pessoas e agentes que precisam entender a arquitetura do repositório</td><td data-l="CodeGraph">Agentes de código que consultam símbolos, chamadas e impacto</td><td data-l="Graphiti">Agentes que precisam de memória de longo prazo</td></tr>
+            <tr><th scope="row">Responde</th><td class="us" data-l="Lodemap">Quem conversa com quem, por onde passa cada fluxo, o status declarado e o que mudou</td><td data-l="CodeGraph">Onde está um símbolo, quem o chama e o que uma edição afeta</td><td data-l="Graphiti">O que o agente sabe e desde quando cada fato vale</td></tr>
+            <tr><th scope="row">Mantido por</th><td class="us" data-l="Lodemap">Scripts geram as páginas; testes apontam módulos fora do mapa; a modelagem depende das mudanças e decisões do projeto</td><td data-l="CodeGraph">Índice atualizado pelo observador de arquivos</td><td data-l="Graphiti">Episódios gravados pelo agente e extraídos por modelo</td></tr>
+            <tr><th scope="row">Mostra a evolução</th><td class="us" data-l="Lodemap">Compara versões do mapa no git; cinco releases auditadas na demo (FIG. 02)</td><td data-l="CodeGraph">Reflete o estado atual do código</td><td data-l="Graphiti">Guarda o histórico dos fatos (valid_at e invalid_at); não desenha a arquitetura</td></tr>
+          </tbody>
+        </table>
+        <p class="fn">As colunas CodeGraph e Graphiti resumem a descrição que cada ferramenta publica em seu servidor MCP, lida em 10/11/2026; confira nos projetos antes de decidir. A coluna Lodemap vem da página do projeto.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -276,20 +292,22 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
   <div class="wrap cols">
     <div class="leg"><b>Fig. <em>06</em></b><span class="t">Chamadas, tempo e tokens</span><p>Resposta a uma objeção: manter o mapa vivo precisa caber em poucas chamadas. Medido uma vez, em 09/11/2026.</p></div>
     <div class="main">
-      <h2 id="h-06">Scripts cuidam da geração. A modelagem acompanha as mudanças.</h2>
-      <p class="lede">As barras mostram chamadas registradas em rodadas históricas, não uma previsão para modelos novos.</p>
-      <ul class="bars body" aria-label="Chamadas de modelo por rodada medida no axios">
-        <li><span><b>Mapa completo do axios</b><span class="d">v1.20.0, 69 módulos. 4 fases em Sonnet 5.5 (50 chamadas, 8,9 min de modelo) e uma chamada de Haiku 5.5 (54.116 tokens, 66 s).</span></span><span class="vl">51<small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:100%"></i></span></li>
-        <li><span><b>Atualização, v1.20.0 → v1.21.1</b><span class="d">3 módulos novos, 16 descrições revisadas, 12 relações novas. Sonnet: 19 chamadas, 129 s. Haiku: 1 chamada, 26.029 tokens, 34 s.</span></span><span class="vl">20<small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:39%"></i></span></li>
-        <li><span><b>Commit sem mudança de estrutura</b><span class="d">Na execução medida, scripts regeneraram mapa, leitor e documentos em 17 s no axios.</span></span><span class="vl z"><span>0</span><small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:0%"></i></span></li>
-      </ul>
-      <p class="fn">51 = 50 de Sonnet + 1 de Haiku; 20 = 19 + 1. Somas feitas a partir dos números da página do projeto. Nenhuma chamada passou de 100 mil tokens de contexto (pico de 97 mil).</p>
-      <div class="tiles">
-        <div><b>15 de 16</b><span>descrições revisadas ficaram iguais</span><p>Palavra por palavra. Uma mudou: o módulo de cookies, que ganhou suporte à Cookie Store API naquela versão.</p></div>
-        <div><b>59%</b><span>menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 32 revisões: só reabre o módulo cuja superfície pública mudou.</p></div>
-        <div><b>64.670</b><span>tokens na rota enxuta, no rich</span><p>Contra 129.385 de um subagente com a mesma nota (96,9; intervalo de 95%: 92,7 a 98,7).</p></div>
-      </div>
-      <p class="ausente"><b>Ganho para pessoas: não medido ainda.</b> A economia de tokens para agentes <b>não</b> foi demonstrada (FIG. 08). Esta seção mostra só chamadas, tempo e tokens medidos.</p>
+      <details class="fold" open>
+        <summary><h2 id="h-06">Scripts cuidam da geração. A modelagem acompanha as mudanças.</h2><span class="fold-i"><span class="fi-o">Abrir a seção</span><span class="fi-c">Fechar a seção</span></span></summary>
+        <p class="lede">As barras mostram chamadas registradas em rodadas históricas, não uma previsão para modelos novos.</p>
+        <ul class="bars body" aria-label="Chamadas de modelo por rodada medida no axios">
+          <li><span><b>Mapa completo do axios</b><span class="d">v1.20.0, 69 módulos. 4 fases em Sonnet 5.5 (50 chamadas, 8,9 min de modelo) e uma chamada de Haiku 5.5 (54.116 tokens, 66 s).</span></span><span class="vl">51<small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:100%"></i></span></li>
+          <li><span><b>Atualização, v1.20.0 → v1.21.1</b><span class="d">3 módulos novos, 16 descrições revisadas, 12 relações novas. Sonnet: 19 chamadas, 129 s. Haiku: 1 chamada, 26.029 tokens, 34 s.</span></span><span class="vl">20<small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:39%"></i></span></li>
+          <li><span><b>Commit sem mudança de estrutura</b><span class="d">Na execução medida, scripts regeneraram mapa, leitor e documentos em 17 s no axios.</span></span><span class="vl z"><span>0</span><small>chamadas</small></span><span class="tr" aria-hidden="true"><i style="--w:0%"></i></span></li>
+        </ul>
+        <p class="fn">51 = 50 de Sonnet + 1 de Haiku; 20 = 19 + 1. Somas feitas a partir dos números da página do projeto. Nenhuma chamada passou de 100 mil tokens de contexto (pico de 97 mil).</p>
+        <div class="tiles">
+          <div><b>15 de 16</b><span>descrições revisadas ficaram iguais</span><p>Palavra por palavra. Uma mudou: o módulo de cookies, que ganhou suporte à Cookie Store API naquela versão.</p></div>
+          <div><b>59%</b><span>menos revisões de descrição, no rich</span><p>Em 5 pares de versões, 78 arquivos alterados pediram 32 revisões: só reabre o módulo cuja superfície pública mudou.</p></div>
+          <div><b>64.670</b><span>tokens na rota enxuta, no rich</span><p>Contra 129.385 de um subagente com a mesma nota (96,9; intervalo de 95%: 92,7 a 98,7).</p></div>
+        </div>
+        <p class="ausente"><b>Ganho para pessoas: não medido ainda.</b> A economia de tokens para agentes <b>não</b> foi demonstrada (FIG. 08). Esta seção mostra só chamadas, tempo e tokens medidos.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -351,10 +369,9 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
   <div class="wrap">
     <h2 class="vh" id="h-fam">Família de projetos</h2>
     <p class="lab" style="padding:0 0 14px">Família de projetos</p>
-    <div class="fam">
+    <div class="fam fam2">
       <article><h3>Lodemap</h3><p>O mapa e a documentação do projeto. Funciona sozinho, sem servidor. O CodeGraph é uma integração opcional. Esta página.</p></article>
-      <article><h3><a href="../../lodeward/">Lodeward</a></h3><p>Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições só com aprovação e números com origem.</p></article>
-      <article><h3><a href="../#p-syn">Synapse</a></h3><p>Memória de projeto para agentes, em Rust, com firewall antes da execução, agentes padrão e telemetria honesta. Em desenvolvimento.</p></article>
+      <article><h3><a href="../lodeward/">Lodeward <small>(ex-SynapseEngine)</small></a></h3><p>Servidor MCP e hooks em Rust para o Claude Code, antes chamado SynapseEngine: memória de projeto para agentes, firewall antes da execução, lições só com aprovação, agentes padrão e números com origem. Em desenvolvimento.</p><p class="fam-a"><a href="../lodeward/">Página do Lodeward</a><a href="../#p-syn">Ficha no portfólio</a></p></article>
     </div>
   </div>
 </section>
@@ -377,13 +394,25 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
 </main>
 
 <footer class="wrap">
-  <div class="legal"><span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span><span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../../">Voltar ao portfólio</a></span></div>
+  <div class="legal"><span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span><span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../">Voltar ao portfólio</a></span></div>
 </footer>
 <script>
 (function(){var f=document.querySelector('.vhero .vid');if(!f)return;var b=f.querySelector('.vplay');
 function vis(){var vs=f.querySelectorAll('video');for(var i=0;i<vs.length;i++)if(vs[i].offsetParent!==null)return vs[i];return vs[0]}
 b.addEventListener('click',function(){var v=vis();f.classList.add('tocando');var p=v.play();if(p&&p.catch)p.catch(function(){f.classList.remove('tocando')});v.focus({preventScroll:true})});
 [].forEach.call(f.querySelectorAll('video'),function(v){v.addEventListener('play',function(){f.classList.add('tocando')});v.addEventListener('ended',function(){f.classList.remove('tocando')})});
+})();
+</script>
+<script>
+/* FIG. 05 e 06: recolhidas por padrão; um link para a seção (menu, "Em 1 minuto", endereço com #) abre a seção antes de rolar. Sem JS, ficam abertas. */
+(function(){var F=[].slice.call(document.querySelectorAll("details.fold"));if(!F.length)return;
+F.forEach(function(d){d.open=false});
+function fold(t){return t&&(t.matches("details.fold")?t:t.querySelector("details.fold"))}
+function alvo(h){var id="";try{id=decodeURIComponent((h||"").replace(/^#/,""))}catch(e){}return id?document.getElementById(id):null}
+function abre(t){var d=fold(t);if(d&&!d.open){d.open=true;return true}return false}
+var t0=alvo(location.hash);if(abre(t0))addEventListener("load",function(){t0.scrollIntoView({behavior:"instant"})});
+addEventListener("hashchange",function(){var t=alvo(location.hash);if(abre(t))requestAnimationFrame(function(){t.scrollIntoView()})});
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(a)abre(alvo(a.getAttribute("href")))});
 })();
 </script>
 <script src="../assets/lodemap/lodemap-c-dados.js" defer></script>
