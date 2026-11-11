@@ -199,7 +199,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <div class="row"><div class="v">177<small>/177</small></div><div class="d"><b>Pares de código</b>encontrados no modelo, além de 208 relações qualificadas.</div></div>
         <div class="row"><div class="v"><em>94,6</em><small> piso 84,6</small></div><div class="d"><b>Gate de qualidade</b>Nota do mapa do axios e mínimo total comparável. 14 critérios, rubrica objetiva por script.</div></div>
         <div class="row"><div class="v">1<small> falha</small> → 4<small> ok</small></div><div class="d"><b>Teste de cobertura</b>Numa cópia isolada, com um módulo acrescentado de propósito: “1 failed, 3 passed”; sem ele, “4 passed”.</div></div>
-        <div class="row"><div class="v">568<small> + 4 pulados</small></div><div class="d"><b>Suíte do produto</b>Testes aprovados e pulados, no Windows e no Linux (Python 3.12, 10/11/2026).</div></div>
+        <div class="row"><div class="v">616<small> + 4 pulados</small></div><div class="d"><b>Suíte do produto</b>Testes aprovados no Windows. No Linux: 577 aprovados e 43 pulados, porque os testes de interface pulam lá. Commit bb347b5, 11/11/2026.</div></div>
       </div>
       <p class="fn">Medição estrutural local. Não substitui testes executados nem garante descrições verdadeiras.</p>
       <figure class="shot"><img src="../assets/lodemap/axios-saude-pt.png" alt="Saúde dos componentes no mapa do axios" width="1440" height="900" loading="lazy"><figcaption>Evidências estáticas na demo; ausência de relatório de testes e cobertura é desconhecida.</figcaption></figure>
@@ -299,7 +299,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Ainda há frases falsas.</b><span>Com a conferência, 5 de 213 descrições de módulo eram falsas segundo um juiz Sonnet no chi e no axios (antes dela, 15 de 108). A conferência usa cerca de 3,7 vezes os tokens.</span></div></li>
         <li class="menos"><span class="sg" aria-label="Não">−</span><div class="tx"><b>Prova de relação só por imports.</b><span>Macros do Rust, reflection e injeção de dependência não são seguidos. Java, Kotlin, C# e C/C++ ainda não têm medição em repositório real. Passos com modelo enviam à Anthropic o código que leem, pelo Claude Code.</span></div></li>
         <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Geração do mapa, explorador, leitor, gate e atualização incremental.</b><span>Medidos em dois repositórios públicos, axios e rich. Gate estrutural 94,6, piso 84,6 e 72 módulos cobertos na demo v1.21.1.</span></div></li>
-        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Instalador reversível, permissão por escopo e gancho com hash aprovado.</b><span>Suíte do produto: 568 testes aprovados e 4 pulados, no Windows e no Linux (Python 3.12, 10/11/2026).</span></div></li>
+        <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Instalador reversível, permissão por escopo e gancho com hash aprovado.</b><span>Suíte do produto: 616 testes aprovados no Windows (4 pulados) e 577 no Linux (43 pulados), commit bb347b5, 11/11/2026.</span></div></li>
         <li class="mais"><span class="sg" aria-label="Sim">+</span><div class="tx"><b>Teste pré-registrado publicado, com o resultado desfavorável.</b><span>Licença MIT, README com números medidos, limites e segurança, e terminal em inglês ou português.</span></div></li>
       </ul>
     </div>
