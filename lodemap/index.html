@@ -82,6 +82,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
         <video class="v916" controls playsinline preload="none" width="720" height="1280" poster="../assets/lodemap/video/lodemap-video-9x16-720.jpg" aria-label="Vídeo de lançamento do Lodemap, 9:16, sem narração">
           <source src="../assets/lodemap/video/lodemap-video-9x16-720.mp4" type="video/mp4">
         </video>
+        <button class="vplay" type="button" aria-label="Assistir ao vídeo (48 s, com som)"><span class="vplay-c" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span><span class="vplay-t">Assistir · 48 s</span></button>
       </div>
       <figcaption>
         <p>Os 14 passos de uma requisição do axios, as cinco releases e o teste que falha quando o mapa fica para trás. Gravado do mapa real do axios v1.21.1. O dado de 58% é de Xia et al., IEEE TSE, 2018.</p>
@@ -378,6 +379,13 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
 <footer class="wrap">
   <div class="legal"><span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span><span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../../">Voltar ao portfólio</a></span></div>
 </footer>
+<script>
+(function(){var f=document.querySelector('.vhero .vid');if(!f)return;var b=f.querySelector('.vplay');
+function vis(){var vs=f.querySelectorAll('video');for(var i=0;i<vs.length;i++)if(vs[i].offsetParent!==null)return vs[i];return vs[0]}
+b.addEventListener('click',function(){var v=vis();f.classList.add('tocando');var p=v.play();if(p&&p.catch)p.catch(function(){f.classList.remove('tocando')});v.focus({preventScroll:true})});
+[].forEach.call(f.querySelectorAll('video'),function(v){v.addEventListener('play',function(){f.classList.add('tocando')});v.addEventListener('ended',function(){f.classList.remove('tocando')})});
+})();
+</script>
 <script src="../assets/lodemap/lodemap-c-dados.js" defer></script>
 <script src="../assets/lodemap/lodemap-c-campo.js" defer></script>
 <script src="../assets/lodemap/lodemap-c.js" defer></script>
