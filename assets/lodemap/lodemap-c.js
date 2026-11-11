@@ -24,7 +24,7 @@
     this.build = function () {
       var ti = svg.querySelector("title");
       svg.innerHTML = ""; if (ti) svg.appendChild(ti);
-      port = innerWidth <= 900;
+      port = innerWidth <= 900; svg.classList.toggle("port", port);
       var P = pos(), W = size(), g = el("g", {}, svg), x, y;
       for (x = 100; x < W[0]; x += 100) for (y = 50; y < W[1]; y += 100) {
         el("line", { x1: x - 5, y1: y, x2: x + 5, y2: y, class: "cross" }, g);
@@ -57,7 +57,8 @@
       if (!port || v < 1) return full;
       var S = [], count = {};
       D.nodes.forEach(function (n, i) { if (n[2] === v) S.push(i); });
-      D.edges.forEach(function (e) { if (e[2] === v) { S.push(e[0]); S.push(e[1]); } });
+      var hasNew = S.length > 0;
+      D.edges.forEach(function (e) { if (!hasNew && e[2] === v) { S.push(e[0]); S.push(e[1]); } });
       if (!S.length) S = (D.changed[v] || []).slice();
       if (!S.length) return full;
       function bb(list) {
@@ -66,7 +67,8 @@
         return [x0, y0, x1 - x0, y1 - y0];
       }
       var b = bb(S);
-      if (b[2] > W[0] * 0.62 || b[3] > W[1] * 0.62) { // espalhado demais: foca na área com mais mudanças
+      // com componentes novos, o recorte sempre contém todos eles (zoom menor se estiverem longe); sem novos, foca na área com mais mudanças
+      if (!hasNew && (b[2] > W[0] * 0.62 || b[3] > W[1] * 0.62)) { // espalhado demais: foca na área com mais mudanças
         S.forEach(function (i) { var a = D.nodes[i][1]; count[a] = (count[a] || 0) + 1; });
         var top = 0, best = -1; for (var a in count) if (count[a] > best) { best = count[a]; top = +a; }
         var inA = []; D.nodes.forEach(function (n, i) { if (n[1] === top && n[2] <= v) inA.push(i); });
@@ -77,7 +79,7 @@
 
     /* ajusta ao formato do elemento, com margem */
     this.fit = function (b) {
-      var r = svg.getBoundingClientRect(), asp = (r.width || 375) / (r.height || 380), pad = 70;
+      var r = svg.getBoundingClientRect(), asp = (r.width || 375) / (r.height || 380), pad = 80;
       var w = Math.max(b[2] + pad * 2, 230), h = Math.max(b[3] + pad * 2, 200);
       if (w / h < asp) w = h * asp; else h = w / asp;
       var W = size(), cx = b[0] + b[2] / 2, cy = b[1] + b[3] / 2;
@@ -107,10 +109,13 @@
     };
 
     /* quebra o nome em linhas curtas (só no celular), para o rótulo caber ao lado do ponto */
-    function fill(t, name, x, y, maxc) {
+    function wrap(name, maxc) {
       var words = name.split(" "), lines = [], cur = "";
       words.forEach(function (w) { if (cur && (cur + " " + w).length > maxc) { lines.push(cur); cur = w; } else cur = cur ? cur + " " + w : w; });
-      lines.push(cur); t.textContent = "";
+      lines.push(cur); return lines;
+    }
+    function fill(t, lines, x, y) {
+      t.textContent = "";
       lines.forEach(function (l, k) { el("tspan", { x: x, dy: k ? "1.15em" : (0.35 - (lines.length - 1) * 0.575) + "em" }, t).textContent = l; });
       t.setAttribute("y", y);
     }
@@ -124,12 +129,18 @@
       });
       news.forEach(function (i) { show[i] = 1; });
       if (news.length && news.length + chg.length <= 5) chg.forEach(function (i) { show[i] = 1; });
+      // celular: afasta rótulos que se sobreporiam (pontos novos muito próximos)
+      var r = svg.getBoundingClientRect(), sc = Math.min((r.width || 375) / b[2], (r.height || 380) / b[3]) || 1, ys = {}, last = -1e9;
+      if (port) Object.keys(show).map(Number).sort(function (a, c) { return P[a][1] - P[c][1]; }).forEach(function (i) {
+        var h = wrap(D.nodes[i][0], 20).length * 1.15 * 12.5 / sc, y = Math.max(P[i][1], last + h / 2 + 1);
+        ys[i] = y; last = y + h / 2;
+      });
       nodes.forEach(function (n) {
         var i = n.i, t = labs[i];
         if (show[i]) {
           var end = P[i][0] - b[0] > b[2] * 0.5, x = P[i][0] + (end ? -1 : 1) * 12;
           t.setAttribute("text-anchor", end ? "end" : "start"); t.setAttribute("x", x);
-          if (port) fill(t, D.nodes[i][0], x, P[i][1], 20); else { t.textContent = D.nodes[i][0]; t.setAttribute("y", P[i][1] + 4); }
+          if (port) fill(t, wrap(D.nodes[i][0], 20), x, ys[i]); else { t.textContent = D.nodes[i][0]; t.setAttribute("y", P[i][1] + 4); }
         }
         t.setAttribute("opacity", show[i] ? 1 : 0);
         t.setAttribute("class", "nl" + (n.first === v && v >= 1 ? " nw" : ""));

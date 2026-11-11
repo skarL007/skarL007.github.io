@@ -291,3 +291,8 @@ html:not(.js) .stage{padding-top:var(--top)}
 /* escuro: o marca-texto vira bloco cheio com texto preto, para manter o contraste AA */
 :root[data-theme=dark] h1 span,:root[data-theme=dark] .i2h span{background:var(--hi);color:#000;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) h1 span,:root:not([data-theme=light]) .i2h span{background:var(--hi);color:#000;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}}
+/* celular: relações que não mudaram ficam finas e quase transparentes; só as novas da versão são realçadas */
+.map.port .e{stroke-opacity:.09;stroke-width:.6}
+.map.port .e.new{stroke-opacity:1;stroke-width:2}
+.map.port .e.flo{stroke-opacity:1;stroke-width:2}
+.map.port .e.dim{stroke-opacity:.03}
