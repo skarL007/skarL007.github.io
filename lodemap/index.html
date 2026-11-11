@@ -55,7 +55,8 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
 <!-- Abertura: o mapa real do axios (72 componentes, 188 relações) e três painéis -->
 <div class="story" id="story-1">
   <div class="stage">
-    <svg class="map" role="img" aria-labelledby="mapt1" preserveAspectRatio="xMidYMid meet"><title id="mapt1">Mapa do axios: 72 componentes reais em 8 áreas, ligados por 188 relações do código. Cada ponto é um componente.</title></svg>
+    <canvas class="map" aria-hidden="true"></canvas>
+    <p class="vh">Mapa do axios: 72 componentes reais em 8 áreas, ligados por 188 relações do código. Cada ponto é um componente. O campo ocupa a tela inteira, os pontos derivam devagar e pulsos de luz percorrem as relações do ciclo de vida da requisição; passe o cursor sobre um ponto para ver o nome e clique para abri-lo no explorador da demo.</p>
     <div class="band">
       <div class="pn on" data-i="-1" data-v="v1.21.1" data-c="72">
         <div class="wrap">
@@ -123,7 +124,8 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
 <section class="fig f2" id="fig-02" aria-labelledby="h-02" style="padding-top:0;scroll-margin-top:0">
   <div class="story" id="story-2">
     <div class="stage">
-      <svg class="map" role="img" aria-labelledby="mapt2" preserveAspectRatio="xMidYMid meet"><title id="mapt2">Mapa do axios por versão: os componentes novos aparecem preenchidos e com o nome; os alterados têm contorno grosso; as relações novas ficam em traço forte.</title></svg>
+      <canvas class="map" aria-hidden="true"></canvas>
+      <p class="vh">Mapa do axios por versão: os componentes novos aparecem preenchidos e com o nome; os alterados têm contorno grosso; as relações novas ficam em traço forte.</p>
       <div class="band">
         <div class="pn on" data-i="-1" data-v="v1.21.1" data-c="72">
           <div class="wrap">
@@ -337,6 +339,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
   <div class="legal"><span>Marcelo Machuca · Desenvolvedor de Soluções em IA</span><span>Concepção e direção de produto por Marcelo; implementação com apoio de agentes de IA. <a href="../../">Voltar ao portfólio</a></span></div>
 </footer>
 <script src="../assets/lodemap/lodemap-c-dados.js" defer></script>
+<script src="../assets/lodemap/lodemap-c-campo.js" defer></script>
 <script src="../assets/lodemap/lodemap-c.js" defer></script>
 </body>
 </html>
