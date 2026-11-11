@@ -17,12 +17,14 @@
 <meta property="og:url" content="https://skarl007.github.io/">
 <meta property="og:title" content="Marcelo Machuca · Desenvolvedor de Soluções em IA">
 <meta property="og:description" content="Desenho sistemas de IA e conduzo os agentes que escrevem o código. Meu trabalho é a arquitetura, os limites e as provas.">
-<meta property="og:image" content="https://skarl007.github.io/assets/og.png">
+<meta property="og:image" content="https://skarl007.github.io/assets/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Planta técnica em 3D com os sete módulos de projetos, entre eles o Nexo Assist, erguidos pelos agentes, ao lado do nome e do cargo">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Planta técnica em 3D com os sete módulos de projetos, entre eles o Lodeward, erguidos pelos agentes, ao lado do nome e do cargo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://skarl007.github.io/assets/og.png">
+<meta name="twitter:image" content="https://skarl007.github.io/assets/og.jpg">
+<meta name="twitter:image:alt" content="Planta técnica em 3D com os sete módulos de projetos erguidos pelos agentes, ao lado do nome e do cargo">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,6 +87,32 @@
   </div>
 </section>
 
+<section id="provas" class="chap proof" aria-labelledby="h-provas">
+  <div class="proof-in">
+    <h2 class="proof-h" id="h-provas">Três provas que dá para conferir</h2>
+    <ul class="proof-grid">
+      <li class="proof-card">
+        <p class="pc-k">M-01 · público · PyPI</p>
+        <h3 class="pc-t"><a href="#p-lumen">LumenAI SDK</a></h3>
+        <p class="pc-v"><b>Diferença zero</b> contra a fatura real da OpenRouter, em 6 chamadas reais.</p>
+        <p class="pc-l"><a class="lnk" href="https://github.com/skarL007/lumen-ai-sdk#checked-against-a-real-bill" target="_blank" rel="noopener">Ver a tabela ↗</a><a class="lnk" href="#p-lumen">Ver o projeto ↓</a></p>
+      </li>
+      <li class="proof-card">
+        <p class="pc-k">M-07 · público · desafio técnico</p>
+        <h3 class="pc-t"><a href="farol-desk/">Farol Desk</a></h3>
+        <p class="pc-v"><b data-n="unitTests">563</b> testes unitários, <b data-n="e2eTests">48</b> E2E e evals <b data-n="evals">35/36</b>.</p>
+        <p class="pc-l"><a class="lnk" href="farol-desk/">Ver o projeto →</a></p>
+      </li>
+      <li class="proof-card">
+        <p class="pc-k">Lodemap · código aberto · MIT</p>
+        <h3 class="pc-t"><a href="lodemap/">Lodemap</a></h3>
+        <p class="pc-v"><b>72 de 72</b> módulos do axios no mapa, conferidos por um teste estrutural.</p>
+        <p class="pc-l"><a class="lnk" href="lodemap/demo/">Abrir a demo →</a><a class="lnk" href="https://github.com/skarL007/lodemap" target="_blank" rel="noopener">Código ↗</a></p>
+      </li>
+    </ul>
+  </div>
+</section>
+
 <section id="metodo" class="chap" data-chap aria-labelledby="h-metodo">
   <div class="stop l" data-stop>
     <div class="sheet ghost rv">
@@ -121,7 +149,7 @@
 
   <div class="stop l" data-stop>
     <article class="sheet big rv" id="p-lumen" data-build="0" data-mod="0" aria-labelledby="t-lumen">
-      <header class="sh-head"><b>M-01</b><span>público</span><span>PyPI 0.1.6</span><span class="sh-r">59 commits</span></header>
+      <header class="sh-head"><b>M-01</b><span>público</span><span>PyPI 0.1.6</span><span class="sh-r">60 commits</span><!-- 60 = commits na branch padrão: gh api "repos/skarL007/lumen-ai-sdk/commits?per_page=1" (última página), conferido em 2026-11-11 --></header>
       <h3 class="sh-title" id="t-lumen">LumenAI SDK</h3>
       <p class="sh-stack">Python · OpenTelemetry</p>
       <p class="sh-lede">Transforma traces de GenAI em custo por cliente, em dólar, exportando só metadados, nunca prompts.</p>
@@ -153,7 +181,7 @@
   <div class="stop l" data-stop>
     <div class="pair">
       <article class="sheet rv" id="p-syn" data-build="2" data-mod="2" aria-labelledby="t-syn">
-        <header class="sh-head"><b>M-03</b><span>privado</span><span>Rust</span><span class="sh-r">988 commits</span></header>
+        <header class="sh-head"><b>M-03</b><span>privado</span><span>Rust</span><span class="sh-r">988 commits</span><!-- 988 = git -C F:/dev/SynapseEngine rev-list --count origin/main (70e415e8, 2026-11-08); o repositório ainda tem o nome antigo, SynapseEngine --></header>
         <h3 class="sh-title" id="t-syn">Lodeward</h3>
         <p class="sh-lede">Governança para agentes de código no Claude Code: servidor MCP e hooks em Rust.</p>
         <p>Inspeciona cada comando de shell antes de o agente rodar, deixa a lição do agente em quarentena até o dono aprovar e mostra só números que de fato mediu. Antes se chamava SynapseEngine.</p>
@@ -180,7 +208,7 @@
         <p class="pipe">voz ou texto → recuperação de documentos e memória → fusão RRF → modelo local → resposta em texto e voz</p>
         <p>O projeto explora respostas com referências e uma jornada de estudo apoiada em contexto. Privacidade, qualidade da memória e integração das interfaces seguem em desenvolvimento.</p>
         <p class="sh-fact">Python · JavaScript · RAG · Neo4j · avaliação de recuperação</p>
-        <figure class="shot"><a href="assets/axon/holo-trilha.png" target="_blank" rel="noopener"><img src="assets/axon/holo-trilha.png" width="1440" height="900" loading="lazy" decoding="async" alt="Protótipo da jornada de estudo do Axon com dados de exemplo"></a><figcaption><b>Protótipo Holo</b> · jornada de estudo com dados fictícios, em desenvolvimento</figcaption></figure>
+        <figure class="shot"><a href="assets/axon/holo-trilha.webp" target="_blank" rel="noopener"><img src="assets/axon/holo-trilha.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Protótipo da jornada de estudo do Axon com dados de exemplo"></a><figcaption><b>Protótipo Holo</b> · jornada de estudo com dados fictícios, em desenvolvimento</figcaption></figure>
         <p><a class="lnk" href="axon-voice/">Ver o estudo de caso →</a></p><p class="priv">Repositório privado · arquitetura e limites no estudo de caso</p>
       </article>
       <article class="sheet rv" id="p-voice" data-build="5" data-mod="5" aria-labelledby="t-voice">
@@ -247,7 +275,7 @@
         <li><time datetime="2026-05-05">05 mai 2026</time><p><b>lumen-ai-core</b> publicado no PyPI.</p></li>
         <li><time datetime="2026-05-25">25 mai 2026</time><p><b>Axon Voice</b> fechado para uso local.</p></li>
         <li><time datetime="2026-07-22">22 jul 2026</time><p><b>VoiceLaunch 1.3</b>, primeiro release open source.</p></li>
-        <li><time datetime="2026-09-13">13 set 2026</time><p><b>SynapseEngine</b> começa.</p></li>
+        <li><time datetime="2026-09-13">13 set 2026</time><p><b>Lodeward</b> começa (o repositório ainda se chama SynapseEngine).</p></li>
         <li><time datetime="2026-10-05">05 out 2026</time><p><b>Sublinhe</b>, MVP fechado.</p></li>
         <li><time datetime="2026-10-27">27 out 2026</time><p><b>LumenAI SDK</b>, revisão profunda: spans OpenInference cobrados, flush real, demo reproduzível e dashboard.</p></li>
         <li><time datetime="2026-10-27">27 out 2026</time><p><b>Axon Voice</b>, nova versão: respostas com fontes, grafo de conhecimento e orbe sempre visível.</p></li>

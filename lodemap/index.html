@@ -14,7 +14,19 @@
 <meta property="og:description" content="Mapa C4 versionado no seu repositório, com fluxos animados, conferido por teste e mantido por scripts.">
 <meta property="og:url" content="https://skarl007.github.io/lodemap/">
 <meta property="og:image" content="https://skarl007.github.io/assets/lodemap/lodemap-og-2026-11.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lodemap: mapa de arquitetura do axios com fluxos animados, versão por versão">
+<meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lodemap: veja como o seu sistema funciona e como ele vem mudando">
+<meta name="twitter:description" content="Mapa C4 versionado no seu repositório, com fluxos animados, conferido por teste e mantido por scripts.">
+<meta name="twitter:image" content="https://skarl007.github.io/assets/lodemap/lodemap-og-2026-11.jpg">
+<meta name="twitter:image:alt" content="Lodemap: mapa de arquitetura do axios com fluxos animados, versão por versão">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Lodemap","description":"Mapa C4 versionado no repositório, com fluxos animados, conferido por teste e mantido por scripts.","url":"https://skarl007.github.io/lodemap/","codeRepository":"https://github.com/skarL007/lodemap","license":"https://opensource.org/licenses/MIT","programmingLanguage":"Python","inLanguage":"pt-BR","author":{"@type":"Person","name":"Marcelo Machuca"}}
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,21 +64,30 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
 
 <main id="conteudo" tabindex="-1">
 
-<!-- VÍDEO: destaque da página -->
-<section class="vhero" id="video" aria-labelledby="h-video">
+<!-- TOPO: promessa (h1), frase de apoio, selo e vídeo juntos na primeira tela -->
+<section class="vhero" id="video" aria-labelledby="h-hero">
   <div class="wrap">
-    <p class="lab vh-k"><span>Lodemap</span><span>vídeo · 48 s · com som</span></p>
-    <h2 class="vh-t" id="h-video">O que acontece depois do <code>axios.get()</code>?</h2>
+    <div class="vh-head">
+      <h1 class="vh-t" id="h-hero">Veja como o seu sistema funciona. <span>E como ele vem mudando.</span></h1>
+      <p class="vh-s">Um mapa C4 no seu repositório, com fluxos animados e conferido por teste.</p>
+      <p class="vh-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#story-1">Como funciona ↓</a></p>
+    </div>
+    <p class="lab vh-k"><span>Lodemap</span><span>vídeo · 48 s</span></p>
     <figure class="shot vid">
-      <video class="v169" controls playsinline preload="none" width="1280" height="720" poster="../assets/lodemap/video/lodemap-video-16x9-720.jpg" aria-label="Vídeo de lançamento do Lodemap, 16:9">
-        <source src="../assets/lodemap/video/lodemap-video-16x9-720.mp4" type="video/mp4">
-      </video>
-      <video class="v916" controls playsinline preload="none" width="720" height="1280" poster="../assets/lodemap/video/lodemap-video-9x16-720.jpg" aria-label="Vídeo de lançamento do Lodemap, 9:16">
-        <source src="../assets/lodemap/video/lodemap-video-9x16-720.mp4" type="video/mp4">
-      </video>
-      <figcaption>Os 14 passos de uma requisição do axios, as cinco releases e o teste que falha quando o mapa fica para trás. Gravado do mapa real do axios v1.21.1 (77 nós e 194 ligações no grafo 3D). O dado de 58% é de Xia et al., IEEE TSE, 2018.</figcaption>
+      <div class="vp">
+        <video class="v169" controls playsinline preload="none" width="1280" height="720" poster="../assets/lodemap/video/lodemap-video-16x9-720.jpg" aria-label="Vídeo de lançamento do Lodemap, 16:9, sem narração">
+          <source src="../assets/lodemap/video/lodemap-video-16x9-720.mp4" type="video/mp4">
+        </video>
+        <video class="v916" controls playsinline preload="none" width="720" height="1280" poster="../assets/lodemap/video/lodemap-video-9x16-720.jpg" aria-label="Vídeo de lançamento do Lodemap, 9:16, sem narração">
+          <source src="../assets/lodemap/video/lodemap-video-9x16-720.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption>
+        <p>Os 14 passos de uma requisição do axios, as cinco releases e o teste que falha quando o mapa fica para trás. Gravado do mapa real do axios v1.21.1. O dado de 58% é de Xia et al., IEEE TSE, 2018.</p>
+        <p class="sn">Sem narração; todo o texto está na tela.</p>
+        <p class="nn"><b>Por que os totais diferem?</b> No modelo do axios há 72 componentes e 188 relações entre eles (177 confirmadas por análise estática e 11 só no modelo). O grafo 3D do vídeo inclui também elementos externos ao código (o modelo tem 5 sistemas externos: 72 + 5 = 77), por isso mostra 77 nós e 194 ligações: são outra contagem, não a do modelo.</p>
+      </figcaption>
     </figure>
-    <p class="vh-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#story-1">Como funciona ↓</a></p>
   </div>
 </section>
 
@@ -78,7 +99,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
     <div class="band">
       <div class="pn on" data-i="-1" data-v="v1.21.1" data-c="72">
         <div class="wrap">
-          <h1 id="h-hero">Veja como o seu sistema funciona. <span>E como ele vem mudando.</span></h1>
+          <h2 class="p0-h" id="h-story">Mapa vivo do axios: <span>72 componentes, 188 relações.</span></h2>
           <p class="p0-r">O Lodemap transforma o seu repositório num fluxograma vivo: quem conversa com quem, por onde passa cada fluxo e o que mudou em cada versão. Scripts geram as páginas, e testes apontam módulos do código que ficaram fora do mapa. Cada ponto acima é um componente real do axios.</p>
           <div class="p0-b"><a class="btn pri" data-scr href="demo/explorador/">Ver o mapa do axios →</a><a class="btn" data-scr href="#fig-07">Instalar</a></div>
         </div>
@@ -163,7 +184,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
     <div class="runway" aria-hidden="true"><div class="run"></div><div class="run"></div><div class="run"></div><div class="run"></div><div class="run"></div><div class="run"></div></div>
   </div>
   <div class="wrap after2">
-    <figure class="shot"><img src="../assets/lodemap/axios-tempo-pt.png" alt="Linha do tempo do mapa do axios com as versões 1.17.0, 1.18.0, 1.19.0, 1.20.0 e 1.21.1" width="1440" height="900" loading="lazy"><figcaption>Captura real da demo em português, com as cinco releases auditadas.</figcaption></figure>
+    <figure class="shot"><img src="../assets/lodemap/axios-tempo-pt.webp" alt="Linha do tempo do mapa do axios com as versões 1.17.0, 1.18.0, 1.19.0, 1.20.0 e 1.21.1" width="1440" height="900" loading="lazy"><figcaption>Captura real da demo em português, com as cinco releases auditadas.</figcaption></figure>
     <p><a class="btn pri" data-scr href="demo/explorador/">Explorar a linha do tempo →</a></p>
   </div>
 </section>
@@ -178,7 +199,7 @@ rot();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"ligh
       <div class="body">
         <div class="dl">
           <div><span class="ix">3.1</span><h3>Fluxos e componentes</h3><p>Navegue por visões, percorra fluxos e inspecione as relações e os caminhos de código de cada componente.</p><span class="path">explorador/index.html</span></div>
-          <figure class="shot"><img src="../assets/lodemap/axios-fluxo-pt.png" alt="Fluxo de requisição no explorador do axios" width="1440" height="900" loading="lazy"><figcaption>Fluxo real no explorador em português.</figcaption></figure>
+          <figure class="shot"><img src="../assets/lodemap/axios-fluxo-pt.webp" alt="Fluxo de requisição no explorador do axios" width="1440" height="900" loading="lazy"><figcaption>Fluxo real no explorador em português.</figcaption></figure>
         </div>
         <div class="dlp">
           <div class="dl"><div><span class="ix">3.2</span><h3>Saúde com evidências</h3><p>Referências estáticas de testes, cobertura, histórico git e relatórios JUnit quando disponíveis. Ausência de dados é mostrada como desconhecida; referência a teste não comprova execução.</p><span class="path">explorador · saúde</span></div></div>
@@ -220,7 +241,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
         <div class="row"><div class="v">616<small> + 4 pulados</small></div><div class="d"><b>Suíte do produto</b>Testes aprovados no Windows. No Linux: 577 aprovados e 43 pulados, porque os testes de interface pulam lá. Commit bb347b5, 11/11/2026.</div></div>
       </div>
       <p class="fn">Medição estrutural local. Não substitui testes executados nem garante descrições verdadeiras.</p>
-      <figure class="shot"><img src="../assets/lodemap/axios-saude-pt.png" alt="Saúde dos componentes no mapa do axios" width="1440" height="900" loading="lazy"><figcaption>Evidências estáticas na demo; ausência de relatório de testes e cobertura é desconhecida.</figcaption></figure>
+      <figure class="shot"><img src="../assets/lodemap/axios-saude-pt.webp" alt="Saúde dos componentes no mapa do axios" width="1440" height="900" loading="lazy"><figcaption>Evidências estáticas na demo; ausência de relatório de testes e cobertura é desconhecida.</figcaption></figure>
       <p class="fn">A linha de base pública é o exemplo do axios: <code>references/baseline-qualidade.json</code> e <code>references/gate-qualidade.md</code>. O gate mede propriedades estruturais; não garante que descrições sejam verdadeiras.</p>
     </div>
   </div>
@@ -280,7 +301,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
       <div class="steps2 body">
         <figure class="term">
           <div class="fhead"><span>Instalar a skill e os seis agentes</span><span>terminal</span></div>
-<pre tabindex="0" aria-label="Comandos de instalação"><span class="c"># v0.1.0, publicada em 10/11/2026 · licença MIT</span>
+<pre tabindex="0" aria-label="Comandos de instalação"><span class="c"># versão 0.1.0 no repositório · licença MIT</span>
 <span class="p"></span>git clone https://github.com/skarL007/lodemap &amp;&amp; cd lodemap
 <span class="p"></span>python -m lodemap instalar --perfil padrao            <span class="c"># simulação: só mostra</span>
 <span class="p"></span>python -m lodemap instalar --perfil padrao --aplicar  <span class="c"># aplica, com backup e manifesto</span></pre>
@@ -339,7 +360,7 @@ roteador -> fila <span class="s">"Publica a tarefa"</span></pre>
 <section class="end" aria-labelledby="h-end">
   <div class="wrap">
     <h2 id="h-end">Quer o mapa <span>do seu repositório?</span></h2>
-    <p>A v0.1.0 foi publicada em 10/11/2026 e o código está aberto. Abra a demo ao vivo ou fale comigo para testar no seu código.</p>
+    <p>A versão 0.1.0 está no repositório e o código é aberto (MIT). Abra a demo ao vivo ou fale comigo para testar no seu código.</p>
     <div class="btns">
       <a class="btn pri" data-scr href="../../#contato">Falar com Marcelo</a>
       <a class="btn" data-scr href="demo/explorador/">Ver o mapa do axios</a>

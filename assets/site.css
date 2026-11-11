@@ -343,9 +343,9 @@ main{position:relative;z-index:2}
 @media (min-width:901px) and (max-width:1100px){.hdr{gap:16px}.nav{gap:0}.nav a{padding:8px 7px}.hdr-tools .t-long{display:none}.hdr-tools .t-short{display:inline}}
 @media (max-width:360px){.hdr{gap:8px}.hdr-tools{gap:4px}.tgl,.menu-btn{padding:0 8px}.brand{font-size:14px;gap:8px}}
 /* header with three toggles (EN · som · 2D) + Menu: on phones every toggle is a compact 40px key */
-.hdr-tools .sfx-btn{width:40px}
+.hdr-tools .sfx-btn{width:44px}
 @media (max-width:480px){
-  .hdr-tools .tgl,.hdr-tools .menu-btn{min-width:40px;padding:0 6px;justify-content:center}
+  .hdr-tools .tgl,.hdr-tools .menu-btn{min-width:44px;padding:0 6px;justify-content:center}
   .hdr-tools .tgl-box{display:none}
   .hdr-tools .tgl[aria-pressed="true"]:not(.sfx-btn){background:var(--fg);border-color:var(--fg);color:var(--ink)}
   .hdr{gap:8px}.hdr-tools{gap:4px}
@@ -371,3 +371,45 @@ main{position:relative;z-index:2}
 @media (hover:hover) and (prefers-reduced-motion:no-preference){#p-axon .axon-home-visual a:hover img{transform:scale(1.018)}}
 #p-axon .axon-home-visual figcaption{padding:12px 16px;color:var(--fg-2);font-size:12px;line-height:1.5;border-top:1px solid var(--line)}
 #p-axon .axon-home-visual figcaption b{color:var(--cyan)}
+
+/* ---------- proof strip: three checkable proofs right after the first screen ---------- */
+.proof{padding-block:0 12px}
+.proof-in{max-width:1180px}
+.proof-h{margin:0 0 14px;font:780 clamp(24px,2.1vw,32px)/1.05 var(--display);font-stretch:80%;letter-spacing:-.02em;text-shadow:0 0 18px var(--ink),0 0 6px var(--ink)}
+.proof-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.proof-card{position:relative;display:flex;flex-direction:column;padding:18px 20px 14px;background:var(--sheet);border:1px solid var(--line-2)}
+.proof-card::before{content:"";position:absolute;left:-1px;top:-1px;width:14px;height:14px;border-left:1px solid var(--fg);border-top:1px solid var(--fg);pointer-events:none}
+.proof-card p{margin:0}
+.proof-card .pc-k{font:500 12px/1.4 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.proof-card .pc-t{margin:6px 0 0;font:780 28px/1 var(--display);font-stretch:80%;letter-spacing:-.02em}
+.proof-card .pc-t a{text-decoration:none}
+.proof-card .pc-t a:hover{color:var(--cyan)}
+.proof-card .pc-v{margin-top:10px;font-size:16px;line-height:1.45;color:var(--fg-2)}
+.proof-card .pc-v b{font-weight:700;color:var(--fg)}
+.proof-card .pc-l{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:auto;padding-top:12px}
+@media (max-width:900px){.proof-grid{grid-template-columns:1fr}}
+
+/* ---------- shorter run from the first screen to the projects (3D keeps one camera stop per element) ---------- */
+@media (min-width:761px){
+  :root:not(.mode-2d) #metodo>.stop:first-child{min-height:44vh;padding-block:40px 16px}
+  :root:not(.mode-2d) .steps .stop{min-height:34vh;padding-block:36px}
+  :root:not(.mode-2d) #projetos>.stop:first-child{min-height:72vh;padding-block:64px}
+}
+@media (max-width:760px){
+  :root:not(.mode-2d) #metodo>.stop:first-child{min-height:0;padding-block:28px 8px}
+  :root:not(.mode-2d) .steps .stop{min-height:0;padding-block:8px}
+  :root:not(.mode-2d) #projetos>.stop:first-child{min-height:0;padding-block:28px 12px}
+  :root:not(.mode-2d) .proof{padding-block:0 8px}
+  .proof-card{padding:16px 16px 6px}
+  .proof-card .pc-t{font-size:26px}
+
+  /* phones: no text under 12px */
+  #intro p,.intro-skip,.tgl,.menu-btn,.brand small,.nav a i,.callout,.meta,.legend,.step .step-foot,.idx .k,.idx .s,.sh-head,.sheet .sh-stack,.evt figcaption,.ev dt,.sheet .priv,.sheet .sh-fact,.stats dt,.sheet .kp-cap,.tl time,.tl .tm,.stamp,.foot,.shot figcaption,.tblock,.ruler li,.cx-lab,.ins-bar{font-size:12px}
+  .lbl,.lbl-mod>span,.lbl-t>span,.lbl-t b,.sheet .pipe{font-size:12px}
+}
+@media (pointer:coarse),(max-width:900px){
+  .lnk{min-width:44px}
+  .proof-card .pc-t a{display:inline-flex;align-items:center;min-height:44px}
+}
+.mode-2d .proof-grid{grid-template-columns:1fr}
+.mode-2d .proof-in{max-width:none}

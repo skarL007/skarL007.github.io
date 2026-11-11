@@ -8,4 +8,4 @@ A página pública do Axon Voice usa diagramas vetoriais escaláveis em vez de c
 
 O projeto Axon-Voice é privado. A página descreve componentes documentados na branch principal Noctra consultada em 03/11/2026; recursos ainda não integrados e metas de avaliação não são apresentados como resultados alcançados.
 
-As imagens `holo-trilha.png` e `holo-aula.png` vêm do protótipo de launcher do projeto e usam dados fictícios; não são capturas do produto concluído. As fontes Geist e Geist Mono vêm dos arquivos locais do Axon e são distribuídas sob a licença OFL incluída neste diretório.
+As imagens `holo-trilha.webp` e `holo-aula.webp` (o PNG de `holo-trilha` ficou só para a imagem de prévia social da página do Axon Voice) vêm do protótipo de launcher do projeto e usam dados fictícios; não são capturas do produto concluído. As fontes Geist e Geist Mono vêm dos arquivos locais do Axon e são distribuídas sob a licença OFL incluída neste diretório.

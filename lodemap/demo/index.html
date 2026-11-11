@@ -9,84 +9,84 @@
 <meta property="og:title" content="Demo Lodemap: arquitetura do axios">
 <meta property="og:description" content="Cinco releases reais do axios, de v1.17.0 a v1.21.1, num mapa navegável.">
 <meta property="og:image" content="https://skarl007.github.io/assets/lodemap/lodemap-og-2026-11.jpg">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
 <script>
 (function () {
   try {
-    var t = localStorage.getItem("sds-tema");
+    var t = localStorage.getItem("synapse-tema") || localStorage.getItem("sds-tema");
     if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
   } catch (e) { /* sem localStorage */ }
 })();
 </script>
 <style>
 :root {
-  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
-  --bg: #000000;
-  --bg-grouped: #0b0b0d;
-  --surface: #1c1c1e;
-  --separator: rgba(84, 84, 88, 0.6);
-  --label: #f5f5f7;
-  --label-2: rgba(235, 235, 245, 0.62);
-  --brand: #0a84ff;
-  --brand-hover: #409cff;
-  --brand-tint: rgba(10, 132, 255, 0.16);
-  --ok: #30d158;
-  color-scheme: dark;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-disp: "Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
+  --bg: #f3f3ef;
+  --surface: #f3f3ef;
+  --ink: #0b0b0b;
+  --mute: #4d4d47;
+  --line: rgba(11, 11, 11, 0.9);
+  --line-soft: rgba(11, 11, 11, 0.14);
+  --hi: #d4ff2e;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #ffffff; --bg-grouped: #f5f5f7; --surface: #ffffff;
-    --separator: rgba(60, 60, 67, 0.18); --label: #1d1d1f; --label-2: rgba(60, 60, 67, 0.72);
-    --brand: #0066cc; --brand-hover: #0071e3; --brand-tint: rgba(0, 102, 204, 0.1); --ok: #248a3d;
-    color-scheme: light;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0c0c; --surface: #0c0c0c; --ink: #f3f3ef; --mute: #abaaa3;
+    --line: rgba(243, 243, 239, 0.9); --line-soft: rgba(243, 243, 239, 0.14);
+    color-scheme: dark;
   }
 }
-:root[data-theme="light"] {
-  --bg: #ffffff; --bg-grouped: #f5f5f7; --surface: #ffffff;
-  --separator: rgba(60, 60, 67, 0.18); --label: #1d1d1f; --label-2: rgba(60, 60, 67, 0.72);
-  --brand: #0066cc; --brand-hover: #0071e3; --brand-tint: rgba(0, 102, 204, 0.1); --ok: #248a3d;
-  color-scheme: light;
+:root[data-theme="dark"] {
+  --bg: #0c0c0c; --surface: #0c0c0c; --ink: #f3f3ef; --mute: #abaaa3;
+  --line: rgba(243, 243, 239, 0.9); --line-soft: rgba(243, 243, 239, 0.14);
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  background: var(--bg-grouped);
-  color: var(--label);
-  font: 400 15px/1.55 var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.55 var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 5px var(--hi); }
 main { max-width: 1040px; margin: 0 auto; padding: 56px 24px 72px; }
 .topo { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 48px; }
-.marca { font-weight: 600; letter-spacing: -0.015em; color: var(--label); text-decoration: none; }
-.marca span { color: var(--brand); }
-.voltar { color: var(--label-2); text-decoration: none; font-size: 13px; }
-.voltar:hover { color: var(--label); }
-.rotulo { font: 500 12px/1 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--label-2); margin: 0 0 14px; }
-h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 16px; max-width: 18ch; }
-.lead { color: var(--label-2); font-size: 17px; max-width: 58ch; margin: 0 0 40px; }
+.marca { font: 700 24px/1 var(--font-disp); font-variation-settings: "wdth" 85; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 9px; min-height: 44px; }
+.marca i { width: 10px; height: 10px; background: var(--hi); border: 1.5px solid var(--ink); border-radius: 50%; }
+.voltar { display: inline-flex; align-items: center; min-height: 44px; color: var(--mute); text-decoration: none; font-size: 14px; }
+.voltar:hover { color: var(--ink); text-decoration: underline; }
+.rotulo { font: 500 12px/1.4 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); margin: 0 0 14px; }
+h1 { font: 600 clamp(34px, 5.4vw, 64px)/1 var(--font-disp); font-variation-settings: "wdth" 84; letter-spacing: -0.03em; margin: 0 0 16px; max-width: 18ch; text-wrap: balance; }
+.lead { color: var(--mute); font-size: 17px; max-width: 58ch; margin: 0 0 40px; }
 .versoes { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 40px; padding: 0; list-style: none; }
-.versoes li { font: 500 12px/1 var(--font-mono); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--separator); color: var(--label-2); }
-.versoes li:last-child { border-color: transparent; background: var(--brand-tint); color: var(--brand); }
+.versoes li { font: 500 12px/1 var(--font-sans); letter-spacing: 0.08em; padding: 8px 11px; border: 1.5px solid var(--line); color: var(--ink); }
+.versoes li:last-child { background: var(--hi); border-color: var(--hi); color: #000; font-weight: 600; }
 .cartoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .cartao {
-  display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--separator);
-  border-radius: 14px; overflow: hidden; color: inherit; text-decoration: none;
-  transition: border-color .15s ease, transform .15s ease;
+  display: flex; flex-direction: column; background: var(--surface); border: 1.5px solid var(--line);
+  color: inherit; text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.cartao:hover { border-color: var(--brand); transform: translateY(-2px); }
-.cartao:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-.cartao img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; border-bottom: 1px solid var(--separator); background: var(--bg); }
+.cartao:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--hi); }
+.cartao img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; border-bottom: 1.5px solid var(--line); background: var(--bg); }
 .cartao div { padding: 20px 22px 22px; }
-.cartao h2 { font-size: 20px; letter-spacing: -0.015em; margin: 0 0 6px; font-weight: 600; }
-.cartao p { margin: 0 0 14px; color: var(--label-2); }
-.cartao .ir { color: var(--brand); font-weight: 500; }
-.nota { margin: 32px 0 0; font-size: 13px; color: var(--label-2); max-width: 70ch; }
-.nota a { color: var(--brand); }
+.cartao h2 { font: 600 26px/1.05 var(--font-disp); font-variation-settings: "wdth" 85; letter-spacing: -0.02em; margin: 0 0 8px; }
+.cartao p { margin: 0 0 14px; color: var(--mute); }
+.cartao .ir { display: inline-block; font: 600 12px/1 var(--font-sans); letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 8px 5px; background: var(--hi); color: #000; }
+.nota { margin: 32px 0 0; font-size: 14px; color: var(--mute); max-width: 70ch; }
+.nota a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 720px) {
   main { padding: 32px 16px 56px; }
   .topo { margin-bottom: 32px; }
   .cartoes { grid-template-columns: 1fr; }
-  .lead { font-size: 15px; }
+  .lead { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .cartao { transition: none; } .cartao:hover { transform: none; } }
 </style>
@@ -94,7 +94,7 @@ h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -0.03
 <body>
 <main>
   <header class="topo">
-    <a class="marca" href="../">Lode<span>map</span></a>
+    <a class="marca" href="../"><i aria-hidden="true"></i>Lodemap</a>
     <a class="voltar" href="../">← Sobre o Lodemap</a>
   </header>
 
@@ -108,7 +108,7 @@ h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -0.03
 
   <section class="cartoes">
     <a class="cartao" href="explorador/index.html">
-      <img src="../../assets/lodemap/axios-fluxo-pt.png" alt="Explorador mostrando o fluxo de uma requisição no axios" width="1440" height="900" loading="eager">
+      <img src="../../assets/lodemap/axios-fluxo-pt.webp" alt="Explorador mostrando o fluxo de uma requisição no axios" width="1440" height="900" loading="eager">
       <div>
         <h2>Explorador</h2>
         <p>Mapa navegável: visões, fluxos passo a passo, saúde dos componentes e a linha do tempo entre versões.</p>
@@ -116,7 +116,7 @@ h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -0.03
       </div>
     </a>
     <a class="cartao" href="leitor/index.html">
-      <img src="../../assets/lodemap/axios-leitor-pt.png" alt="Leitor com a documentação gerada do axios" width="1440" height="900" loading="lazy">
+      <img src="../../assets/lodemap/axios-leitor-pt.webp" alt="Leitor com a documentação gerada do axios" width="1440" height="900" loading="lazy">
       <div>
         <h2>Leitor</h2>
         <p>Documentação gerada do mesmo modelo: componentes, decisões e o que mudou em cada versão, para ler em sequência.</p>

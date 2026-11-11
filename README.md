@@ -27,7 +27,7 @@ plain HTML:
 
 **Stack:** [three.js](https://threejs.org/) 0.169 (EffectComposer, UnrealBloomPass, custom shaders,
 InstancedMesh), [GSAP](https://gsap.com/) 3.12 with ScrollTrigger, and [Lenis](https://lenis.darkroom.engineering/) 1.1.
-All of them load from public CDNs, with pinned versions. There is no build step and no tracking.
+All of them load from public CDNs, with pinned versions. There is no build step. Visits are counted with [GoatCounter](https://www.goatcounter.com/) (`gc.zgo.at/count.js`, loaded on every page): it sets no cookies and keeps no personal profile of a visitor. There is no other analytics script.
 
 ## Layout
 
@@ -37,7 +37,7 @@ en/index.html       English page
 assets/site.css     shared styles
 assets/site.js      shared script; every string it writes is in the TX table at the top
 assets/shots/       project screenshots (replace a file to update it; keep the name)
-assets/og.png       social preview image
+assets/og.jpg       social preview image, 1200x630 (assets/og.png is the old one, kept only while en/index.html still points to it)
 nexo-assist/        Nexo Assist case study, Portuguese (en/nexo-assist/ is the English one)
 assets/case.css     case-study styles, on top of site.css
 assets/case.js      case-study script: the 3D architecture and its 2D plan; strings in the TX table at the top
