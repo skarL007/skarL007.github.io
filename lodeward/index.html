@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lodeward: governança para agentes de código no Claude Code</title>
 <meta name="description" content="Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições só com aprovação e números com origem. Com o que não deu certo à mostra.">
-<meta name="theme-color" content="#f2efe6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0f0f0d" media="(prefers-color-scheme: dark)">
+
+
 <link rel="canonical" href="https://skarl007.github.io/lodeward/">
 <link rel="alternate" hreflang="pt-BR" href="https://skarl007.github.io/lodeward/">
 <link rel="alternate" hreflang="en" href="https://skarl007.github.io/en/lodeward/">
@@ -19,332 +19,33 @@
 <meta property="og:image" content="https://skarl007.github.io/assets/lodeward/og-pt.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Lodeward em letras brancas sobre azul, com a frase: O agente trabalha. A regra continua sendo sua.">
+<meta property="og:image:alt" content="Lodeward: O agente avança. Você decide. Quatro portões tridimensionais ao redor de um núcleo azul.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="../assets/lodeward/lodeward.css?v=20261109e">
-<script>
-(function(){var r=document.documentElement,K="synapse-tema",q=null,s=null;
-try{q=new URLSearchParams(location.search).get("tema")}catch(e){}
-try{s=localStorage.getItem(K)}catch(e){}
-var t=q==="claro"?"light":q==="escuro"?"dark":s;
-if(t==="light"||t==="dark")r.setAttribute("data-theme",t);r.classList.add("js");
-document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("tema");if(!b)return;
-function atual(){return r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
-function rotulo(){var a=atual();b.textContent=a==="light"?b.dataset.escuro:b.dataset.claro;b.setAttribute("aria-label",b.dataset.rotulo+" "+b.textContent)}
-rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"light";r.setAttribute("data-theme",n);try{localStorage.setItem(K,n)}catch(e){}rotulo()})})})();
-</script>
+<link rel="stylesheet" href="../assets/lodeward/experience.css?v=20261113">
+<script type="module" src="../assets/lodeward/experience.js?v=20261113"></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Lodeward","url":"https://skarl007.github.io/lodeward/","inLanguage":"pt-BR","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, Linux","description":"Servidor MCP e hooks em Rust para o Claude Code: freio antes da execução, lições em quarentena até a aprovação, contexto arquivado antes da compactação e números com origem. Em validação.","author":{"@type":"Person","name":"Marcelo Machuca","url":"https://skarl007.github.io/"}}
 </script>
+<meta name="theme-color" content="#efeee9">
 </head>
 <body>
-<a class="pular" href="#conteudo">Pular para o conteúdo</a>
-
-<header class="barra">
-  <div class="caixa">
-    <a class="marca" href="../#p-syn" aria-label="Lodeward: voltar ao portfólio de Marcelo Machuca">Lodeward</a>
-    <a class="voltar" href="../" aria-label="Voltar ao portfólio de Marcelo Machuca">← Portfólio</a>
-    <nav class="arquivos" aria-label="Seções">
-      <a href="#faz">o-que-faz.md</a>
-      <a href="#agentes">agentes.html</a>
-      <a href="#medicoes">medicoes.log</a>
-      <a href="#limites">limites.diff</a>
-      <a href="#estado">estado.md</a>
-    </nav>
-    <a class="chave" href="../en/lodeward/" hreflang="en" lang="en" aria-label="English (EN)">EN</a>
-    <button class="chave" id="tema" type="button" data-claro="claro" data-escuro="escuro" data-rotulo="Mudar o tema para" aria-label="Alternar tema">tema</button>
-  </div>
-</header>
-
-<main id="conteudo" tabindex="-1">
-
-<section class="cobalto heroi" aria-labelledby="h-heroi">
-  <div class="caixa">
-    <svg class="nome" viewBox="0 0 1000 152" role="img" aria-label="Lodeward" preserveAspectRatio="xMidYMid meet">
-      <text x="0" y="146" font-size="200" textLength="1000" lengthAdjust="spacingAndGlyphs">LODEWARD</text>
-    </svg>
-    <p class="corte mono"><span>Governança para agentes de código · Claude Code · em validação</span><span aria-hidden="true">✂ destaque aqui</span></p>
-    <div class="heroi-corpo">
-      <h1 id="h-heroi">O agente trabalha. A regra continua sendo <em>sua.</em></h1>
-      <div>
-        <p class="lide">Lodeward é um servidor MCP com hooks, escrito em Rust. Ele segura o comando destrutivo antes de rodar, deixa em quarentena a lição que o agente aprendeu até você aprovar, arquiva o contexto antes da compactação e mostra cada número com a origem. Quando não há medição, aparece um traço.</p>
-        <p class="aviso">O repositório ainda é privado. Esta página mostra medições históricas e a validação local de 10/11/2026, inclusive os limites de cada prova.</p>
-      </div>
-    </div>
-    <ul class="canhotos" role="list">
-      <li class="canhoto"><b>4.213</b><span>execuções de teste aprovadas</span><small>G0 local · 10/11/2026 · 0 falhas, 26 ignoradas; inclui a suíte CLI repetida nos dois binários</small></li>
-      <li class="canhoto"><b>20 de 20</b><span>verificações históricas do ciclo de lições</span><small>protocolo anterior; a demonstração atual está na ficha F.02</small></li>
-      <li class="canhoto"><b>13 de 13</b><span>comandos destrutivos bloqueados em replay</span><small>com 0 de 24 falsos positivos</small></li>
-    </ul>
-  </div>
-</section>
-
-<section class="secao" aria-labelledby="h-problema">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.01</b>O problema</p>
-    <div>
-      <h2 id="h-problema">Agente de código decide rápido. Difícil é <em>conferir</em> o que ele decidiu.</h2>
-      <ol class="queixas" role="list">
-        <li>Ele roda um comando de shell antes de alguém ler.</li>
-        <li>Ele guarda uma lição que ninguém revisou e passa a segui-la.</li>
-        <li>A conversa é compactada e some o contexto que explicava a decisão.</li>
-        <li>O painel mostra um número e ninguém sabe de onde ele veio.</li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section class="secao" id="faz" aria-labelledby="h-faz">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.02</b>O que faz</p>
-    <div>
-      <h2 id="h-faz">Cinco coisas. Cada uma com a <em>prova</em> e com o limite.</h2>
-
-      <article class="ficha sobe" aria-labelledby="f1">
-        <div class="ficha-canhoto">
-          <div><span class="mono num">F.01</span><h3 id="f1">Freio antes da execução</h3></div>
-          <p class="destaque">13 de 13<small>bloqueados em replay</small></p>
-        </div>
-        <dl>
-          <div><dt>O que faz</dt><dd>Inspeciona o comando antes de o agente rodar. Desfaz a ofuscação léxica (aspas, $IFS, base64, hexadecimal), separa os comandos e compara com uma política de padrões destrutivos. O catastrófico é bloqueado e volta como erro para o agente. O destrutivo com escopo pede a sua confirmação.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>Num replay, 13 de 13 comandos destrutivos foram bloqueados, com 0 de 24 falsos positivos. Existe também um corpus congelado de 570 comandos (510 destrutivos e 60 quase destrutivos); a matriz de confusão desse corpus não está publicada.</dd></div>
-          <div class="limite"><dt>Limite</dt><dd>É análise léxica, não um parser de shell. A rodada ao vivo de segurança foi abortada nas duas tentativas registradas, por falha de isolamento. Bloquear comando destrutivo não é exclusivo daqui: <a href="https://github.com/Dicklesworthstone/destructive_command_guard" rel="noopener">Destructive Command Guard</a> e <a href="https://github.com/kenryu42/claude-code-safety-net" rel="noopener">Claude Code Safety Net</a> fazem o mesmo trabalho.</dd></div>
-        </dl>
-      </article>
-
-      <article class="ficha sobe" aria-labelledby="f2">
-        <div class="ficha-canhoto">
-          <div><span class="mono num">F.02</span><h3 id="f2">Lição só vale depois que você aprova</h3></div>
-          <p class="destaque">20 de 20<small>verificações históricas do ciclo de lições</small></p>
-        </div>
-        <dl>
-          <div><dt>O que faz</dt><dd>O que o agente propõe como lição entra em quarentena. Lição pendente não aparece na recuperação; aprovar a torna disponível. No fluxo separado de propostas que alteram arquivos, aprovar e aplicar são passos distintos, e o rollback restaura os bytes e o SHA-256 anteriores.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>Em 10/11/2026, no release local aec177d0, duas lições artificiais ficaram invisíveis enquanto pendentes. A CLI aprovou uma e rejeitou outra; um novo processo MCP recuperou só a aprovada no projeto alpha, e nenhuma no beta. A busca de observações também respeitou o projeto nos casos Alpha/Beta testados.<span class="nota">Histórico separado: 20 verificações de lições e 17 de propostas passaram numa versão anterior; não foram repetidas nesta demonstração. Em 12 pares com modelo e isolamento parcial, houve 12 abstenções antes e 12 aplicações exatas de regras aprovadas depois.</span></dd></div>
-          <div class="limite"><dt>Limite</dt><dd>A demonstração atual usa dados artificiais, sem chamada a LLM nem credencial real. Não prova melhora do agente, segurança ao vivo ou isolamento universal. Aplicação e rollback de proposta não foram revalidados.<span class="nota">No histórico do revisor automático, nenhuma das 48 propostas foi aplicada, e 340 de 377 execuções pararam no teto diário.</span></dd></div>
-        </dl>
-      </article>
-
-      <article class="ficha sobe" aria-labelledby="f3">
-        <div class="ficha-canhoto">
-          <div><span class="mono num">F.03</span><h3 id="f3">Contexto arquivado antes da compactação</h3></div>
-          <p class="destaque"><span aria-hidden="true">—</span><small>economia ainda não medida</small></p>
-        </div>
-        <dl>
-          <div><dt>O que faz</dt><dd>Um hook grava o contexto no momento em que a conversa vai ser compactada, para consulta depois.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>Os testes de ataque ao arquivo fazem parte da suíte. Dois ataques conhecidos seguem abertos e estão marcados como ignorados.</dd></div>
-          <div class="limite"><dt>Limite</dt><dd>A comparação de economia com e sem o arquivo ainda não rodou. É o que falta medir antes de abrir o código.</dd></div>
-        </dl>
-      </article>
-
-      <article class="ficha sobe" aria-labelledby="f4">
-        <div class="ficha-canhoto">
-          <div><span class="mono num">F.04</span><h3 id="f4">Número com origem, lacuna à vista</h3></div>
-          <p class="destaque">0<small>ocorrências em 291 arquivos do motor, em 09/11/2026</small></p>
-        </div>
-        <dl>
-          <div><dt>O que faz</dt><dd>Cada número que o servidor, a linha de comando ou a página mostram vem de uma medição, de uma estimativa rotulada como estimativa ou de uma sonda com horário. Sem medição, aparece um traço. Evento perdido aparece como lacuna.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>Um verificador procura no código de produção os números inventados já conhecidos e reprova se achar. Em 09/11/2026: 0 ocorrências em 291 arquivos do motor.</dd></div>
-          <div class="limite"><dt>Limite</dt><dd>Toda contagem de tokens aqui é estimativa (bytes ÷ 4), não contagem de tokenizador, e nunca vira custo.</dd></div>
-        </dl>
-      </article>
-
-      <article class="ficha sobe" aria-labelledby="f5">
-        <div class="ficha-canhoto">
-          <div><span class="mono num">F.05</span><h3 id="f5">Página Agentes</h3></div>
-          <p class="mono"><a href="#agentes">ver as telas ↓</a></p>
-        </div>
-        <dl>
-          <div><dt>O que faz</dt><dd>O workflow dos agentes como grafo, a matriz de quem pode o quê (modelo, esforço, janela, permissão, ferramentas) e um editor para criar, conectar, editar, remover e desfazer.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>As capturas abaixo são da página rodando, feitas em novembro de 2026.</dd></div>
-          <div class="limite"><dt>Limite</dt><dd>Roda localmente e ainda está em um repositório separado.</dd></div>
-        </dl>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa" id="agentes" aria-labelledby="h-agentes">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.03</b>Página Agentes</p>
-    <div>
-      <h2 id="h-agentes">Quem faz o quê, <em>e com que permissão.</em></h2>
-      <div class="telas">
-        <figure>
-          <a href="../assets/shots/lodeward/workflow-1440-dark.webp">
-            <picture>
-              <source media="(max-width:560px)" srcset="../assets/shots/lodeward/workflow-375-dark.webp" width="375" height="800">
-              <img src="../assets/shots/lodeward/workflow-1440-dark.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Página Agentes no tema escuro: o workflow em quatro faixas, entrada e contexto, execução, prova e revisão, memória e observabilidade, com cada passo como um cartão ligado por linhas e um ponto colorido de estado. No topo, a busca, os botões Novo e Desfazer e as abas Workflow e Matriz.">
-            </picture>
-          </a>
-          <figcaption>Workflow: entrada e contexto, execução, prova e revisão, memória e observabilidade.</figcaption>
-        </figure>
-        <figure>
-          <a href="../assets/shots/lodeward/matriz-1440-dark.webp"><img src="../assets/shots/lodeward/matriz-1440-dark.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Aba Matriz: tabela com uma linha por agente (sessão principal, explorador, arquiteto, implementador, testador, revisores) e colunas de modelo, esforço, janela, turnos, permissão, ferramentas, servidores MCP, skills e tamanho estimado do prompt. Valores herdados aparecem em itálico."></a>
-          <figcaption>Matriz: a configuração efetiva de cada agente. O tamanho do prompt é estimado por bytes ÷ 4.</figcaption>
-        </figure>
-        <figure>
-          <a href="../assets/shots/lodeward/ficha-implementador-1440.webp"><img src="../assets/shots/lodeward/ficha-implementador-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Ficha do agente Implementador aberta num painel à direita do workflow, na aba Resumo: descrição, modelo, esforço, janela, tamanho estimado do prompt, estado, decisão de origem, hipótese e as relações de entrada e saída no workflow. Os botões Editar e Fechar a ficha ficam no alto."></a>
-          <figcaption>Ficha de um agente, aberta em leitura.</figcaption>
-        </figure>
-        <figure>
-          <a href="../assets/shots/lodeward/relacoes-edicao-1440.webp"><img src="../assets/shots/lodeward/relacoes-edicao-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Painel de edição do agente Implementador, na aba Relações: três blocos, Recebe de, Entrega para e Retorna a, cada um com os passos ligados, um campo de busca e o botão Adicionar. Embaixo, Remover, Voltar à leitura e Salvar. No grafo, as ligações do passo aparecem destacadas."></a>
-          <figcaption>Edição das relações entre passos do workflow.</figcaption>
-        </figure>
-        <figure>
-          <a href="../assets/shots/lodeward/editando-resumo-1440.webp"><img src="../assets/shots/lodeward/editando-resumo-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Edição do resumo do agente Implementador: campos de rótulo, fase e grupo, estado, sobre a janela e hipótese, e a lista de skills do workflow. Embaixo, o aviso de que tudo está salvo e os botões Remover, Voltar à leitura e Salvar."></a>
-          <figcaption>Edição do resumo de um agente.</figcaption>
-        </figure>
-        <figure>
-          <a href="../assets/shots/lodeward/execucao-1440.webp"><img src="../assets/shots/lodeward/execucao-1440.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Aba Execução da ficha do Implementador: contagem de execuções, data da última, duração mediana, chamadas de ferramenta, execuções que terminaram em erro e compactações, com a nota de que são contagens e tempos, nunca custo."></a>
-          <figcaption>Aba de execução.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao cobalto" id="medicoes" aria-labelledby="h-medicoes">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.04</b>Medições</p>
-    <div>
-      <h2 id="h-medicoes">Só aparece aqui o que foi medido. <em>Inclusive o que deu errado.</em></h2>
-      <div class="cupom">
-        <p class="cupom-topo"><span>Lodeward · medições</span><span>8 perguntas · até 09/11/2026</span></p>
-
-        <div class="item">
-          <h3>Usa menos contexto por tarefa?</h3>
-          <p class="valor">0,8605<small>razão · IC 95% de 0,6978 a 0,8722 · 200 pares</small></p>
-          <p class="leitura">Sim, naquele protocolo, em 21/10/2026. Duas famílias de tarefa ficaram acima de 1. Não foi repetido no código atual.</p>
-          <span class="selo ok">Demonstrado</span>
-        </div>
-        <div class="item">
-          <h3>Injeta menos no prompt?</h3>
-          <p class="valor">372,9 → 43,6<small>tokens estimados por mensagem · 1.157 mensagens reais</small></p>
-          <p class="leitura">Sim, em replay. Mede só o hook do próprio projeto. A medição em uso real não está registrada em arquivo.</p>
-          <span class="selo replay">Em replay</span>
-        </div>
-        <div class="item">
-          <h3>Bloqueia o comando destrutivo?</h3>
-          <p class="valor">13 de 13<small>bloqueados · 0 de 24 falsos positivos</small></p>
-          <p class="leitura">Sim, em replay. A rodada ao vivo foi abortada duas vezes.</p>
-          <span class="selo replay">Em replay</span>
-        </div>
-        <div class="item">
-          <h3>A lição aprovada é aplicada?</h3>
-          <p class="valor">12 de 12<small>depois · 12 abstenções antes</small></p>
-          <p class="leitura">Sim, em 12 pares. Mostra uso da regra, não melhora geral.</p>
-          <span class="selo ok">Demonstrado</span>
-        </div>
-        <div class="item">
-          <h3>Inicia rápido?</h3>
-          <p class="valor">10,494 ms<small>mediana em 20 processos, no binário instalado</small></p>
-          <p class="leitura">Dentro do limite de 2 s. Acima da meta antiga de 10 ms.</p>
-          <span class="selo parcial">Parcial</span>
-        </div>
-        <div class="item">
-          <h3>Recupera melhor que o BM25?</h3>
-          <p class="valor">457 contra 456<small>em 470 consultas</small></p>
-          <p class="leitura">Empate.</p>
-          <span class="selo empate">Empate</span>
-        </div>
-        <div class="item">
-          <h3>Economiza em sessão longa?</h3>
-          <p class="valor">1,2133<small>razão · IC 95% de 1,1039 a 1,3397 · 45 pares</small></p>
-          <p class="leitura">Não. Gastou cerca de 21% a mais. A qualidade não caiu.</p>
-          <span class="selo nao">Não demonstrado</span>
-        </div>
-        <div class="item">
-          <h3>Responde tão bem só com os 5 melhores trechos?</h3>
-          <p class="valor">30 de 40<small>contra 40 de 40 com o contexto completo</small></p>
-          <p class="leitura">Não. Dez abstenções incorretas; nenhuma resposta inventada nesta amostra.</p>
-          <span class="selo nao">Não demonstrado</span>
-        </div>
-
-        <div class="total" role="group" aria-label="Contagem dos selos">
-          <div><span>Demonstrado</span><b>2</b></div>
-          <div><span>Em replay</span><b>2</b></div>
-          <div><span>Parcial</span><b>1</b></div>
-          <div><span>Empate</span><b>1</b></div>
-          <div><span>Não demonstrado</span><b>2</b></div>
-        </div>
-        <p class="rodape-cupom">Cada intervalo pertence ao protocolo da sua linha. As linhas não se somam numa porcentagem geral de economia. Tokens estimados são bytes ÷ 4, não contagem de tokenizador. As duas linhas que dependem de resposta de modelo (lição aprovada e 5 melhores trechos) rodaram num ambiente de teste com isolamento parcial.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao" id="limites" aria-labelledby="h-limites">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.05</b>Limites</p>
-    <div>
-      <h2 id="h-limites">O que o Lodeward <em>não é.</em></h2>
-      <ul class="diff" role="list">
-        <li class="menos">Não é sandbox. O freio é um portão de permissão: comando que a análise léxica não reconhece passa.</li>
-        <li class="menos">Não demonstrou recuperação melhor que o BM25 nem economia em sessão longa.</li>
-        <li class="menos">A contenção em Linux (seccomp e cpuset) tem testes automatizados e três riscos residuais aceitos. Não há medição publicada.</li>
-        <li class="menos">Ninguém de fora testou: o repositório ainda é privado.</li>
-        <li class="menos">Não mostra dinheiro. Nenhuma tela converte tokens em custo, de propósito.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="secao" id="estado" aria-labelledby="h-estado">
-  <div class="caixa grade">
-    <p class="rotulo mono"><b>S.06</b>Estado</p>
-    <div>
-      <h2 id="h-estado">O que está pronto e o que <em>falta.</em></h2>
-      <ol class="regua" role="list" aria-label="Régua de avaliação do projeto, de N0 a N5. Nível atual: N1, protótipo.">
-        <li><b>N0</b><span>Conceito</span></li>
-        <li class="aqui" aria-current="true"><b>N1</b>Protótipo</li>
-        <li><b>N2</b><span>Promissor</span></li>
-        <li><b>N3</b><span>Promissor validado</span></li>
-        <li><b>N4</b><span>Uso próprio diário</span></li>
-        <li><b>N5</b><span>Uso público</span></li>
-      </ol>
-      <p class="frase">Na avaliação de 09/11/2026, pela régua escrita antes de medir, o projeto ficou em N1: protótipo. Dos oito critérios, só a instalação limpa e reprodutível passou inteira. A validação local de 10/11 não repete a régua completa nem muda esse nível.</p>
-
-      <p class="mono diff-titulo">Pronto</p>
-      <ul class="diff" role="list">
-        <li class="mais">G0 local em aec177d0, 10/11/2026: 4.213 execuções de teste aprovadas, 0 falhas e 26 ignoradas. A mesma suíte CLI de 368 testes roda para lodeward e synapse; o total inclui essa repetição e não mede testes distintos ou cobertura nova. Formatação e clippy também passaram.</li>
-        <li class="mais">Build release local e os dois executáveis conferidos: lodeward e o alias synapse respondem “lodeward 0.3.0+aec177d0”. Três inicializações, medidas desde antes do spawn, ficaram abaixo de 2 s; o servidor se apresentou como lodeward.</li>
-        <li class="mais">tools/list preservado nos oito cenários comparados com a captura real da base 70e415e8, feita na rodada anterior e reutilizada com hashes conferidos. A base não foi executada de novo. O JSON completo coincidiu após ordenar as chaves dos objetos, preservando a ordem dos arrays, as descrições e os schemas.</li>
-        <li class="mais">Demonstração isolada de quarentena, aprovação, rejeição e recuperação em outro processo, com dados artificiais. Os filtros de projeto passaram nos casos testados.</li>
-        <li class="mais">Ciclos separados: lições com quarentena e aprovação; propostas com aprovação, aplicação e rollback. O fluxo de propostas não foi revalidado nesta rodada.</li>
-        <li class="mais">Instalação limpa e diagnóstico em JSON válido comprovados na avaliação histórica de 09/11.</li>
-        <li class="mais">Revisão independente por agente aprovou o rename local em aec177d0. A avaliação completa do produto permanece separada.</li>
-        <li class="mais">Página Agentes com editor.</li>
-      </ul>
-
-      <p class="mono diff-titulo">Falta para abrir o código</p>
-      <ul class="diff" role="list">
-        <li class="menos">Fechar a régua: testes da interface, prova de segurança com credencial real e revisão adversarial.</li>
-        <li class="menos">A comparação A/B da compactação.</li>
-        <li class="menos">Uma rodada ao vivo de segurança que chegue ao fim.</li>
-        <li class="menos">Repositório público novo, já com o nome Lodeward.</li>
-      </ul>
-      <p class="nome-antigo">O projeto se chamava SynapseEngine. A validação local em aec177d0, registrada em 10/11/2026, conferiu lodeward e o alias synapse. O repositório é privado; esta prova não representa release pública nem prontidão do produto.</p>
-      <p class="nome-antigo"><a href="../docs/lodeward-atualizacao-2026-11-10.md">Fontes, hashes e alcance das provas desta atualização.</a></p>
-    </div>
-  </div>
-</section>
-
-<section class="cobalto fim" aria-labelledby="h-fim">
-  <div class="caixa">
-    <h2 id="h-fim">Quer saber quando o código abrir?</h2>
-    <a class="acao" href="https://www.linkedin.com/in/marcelo-machuca-ia/" rel="noopener">Acompanhar no LinkedIn</a>
-    <p class="irma"><span class="mono">Da mesma família</span><br><a href="../lodemap/">Lodemap</a>: o mapa de arquitetura do repositório, conferido por teste.</p>
-  </div>
-</section>
-
-</main>
-
-<footer class="pe">
-  <div class="caixa"><span>Lodeward · página de projeto · 10/11/2026</span><a href="../#p-syn">← portfólio de Marcelo Machuca</a></div>
-</footer>
-</body>
-</html>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="wrap"><header class="top"><a class="brand" href="../">lodeward<span> /</span></a><nav aria-label="Navegação"><a href="#workflow">Workflow</a><a href="#medicoes">Evidências</a><a href="#estado">Estado</a></nav><a class="lang" href="../en/lodeward/" lang="en" hreflang="en" aria-label="Read in English">EN</a></header></div>
+<main id="conteudo">
+<section class="hero wrap" aria-labelledby="hero-title"><div class="hero-copy"><p class="eyebrow">Governança para agentes de código</p><h1 id="hero-title">O agente avança.<br><span>Você decide.</span></h1><p class="intro">Uma camada entre a intenção e a execução. Comandos verificados. Lições revisadas. Memória com origem.</p><a class="link-button" href="#workflow">Explorar o workflow <b aria-hidden="true">↗</b></a></div><div class="scene" role="group" aria-label="Ilustração: quatro portões em torno de um núcleo de memória. As etapas estão descritas no workflow abaixo."><div class="fallback" aria-hidden="true"><i></i><i></i><i></i></div><div class="scene-label mono"><span>01—04 / camadas de decisão<br>Ilustração conceitual</span><button class="motion" type="button" aria-pressed="false">Pausar movimento</button></div></div><div class="hero-bottom mono"><span>Rust / MCP / Hooks</span><span>N1 · em validação<br>Repositório privado</span></div></section>
+<section class="statement wrap"><p class="eyebrow">01 / O propósito</p><div><h2>Autonomia precisa<br>de <span>critérios visíveis.</span></h2><p>Lodeward conecta memória persistente e regras de execução ao cliente de IA. O servidor MCP atende consultas; os hooks atuam nos momentos do workflow. Uma lição aprendida só vira orientação depois da sua aprovação.</p></div></section>
+<section class="workflow" id="workflow"><div class="wrap"><div class="section-top"><div><p class="eyebrow">02 / Workflow</p><h2>Cada etapa tem<br>um responsável.</h2></div><p class="mono">Selecione uma etapa.<br>A decisão é legível, mesmo sem 3D.</p></div><div class="steps" role="group" aria-label="Etapas do workflow"><button class="step" type="button" aria-pressed="true" aria-controls="panel-0"><span class="num">01 /</span><strong>Verificar</strong><small>Antes do comando</small></button><button class="step" type="button" aria-pressed="false" aria-controls="panel-1"><span class="num">02 /</span><strong>Quarentena</strong><small>Antes de virar regra</small></button><button class="step" type="button" aria-pressed="false" aria-controls="panel-2"><span class="num">03 /</span><strong>Aprovar</strong><small>Decisão humana</small></button><button class="step" type="button" aria-pressed="false" aria-controls="panel-3"><span class="num">04 /</span><strong>Recuperar</strong><small>Na próxima sessão</small></button></div><div id="panel-0" data-panel ><div class="workflow-detail"><div><h3>O comando passa por um portão.</h3><p>O hook verifica padrões de comandos antes da execução. A política pode permitir, pedir confirmação ou bloquear. O detector é léxico: não reconhece todo ataque e não substitui uma sandbox.</p></div><div class="trace">01  comando recebido
+02  política consultada
+03  permitir / confirmar / bloquear</div></div></div><div id="panel-1" data-panel hidden><div class="workflow-detail"><div><h3>Aprender não significa autorizar.</h3><p>Uma lição registrada entra em quarentena. Ela não deve orientar o agente enquanto aguarda revisão. As observações do grafo e as lições aprovadas têm caminhos distintos.</p></div><div class="trace">01  lição registrada
+02  estado: pendente
+03  uso como regra: não autorizado</div></div></div><div id="panel-2" data-panel hidden><div class="workflow-detail"><div><h3>A regra continua sendo sua.</h3><p>Você revisa a lição e escolhe aprovar ou rejeitar. Propostas de alteração têm outro ciclo: aprovação, aplicação e possibilidade de rollback. Nenhuma aprovação humana é simulada nesta página.</p></div><div class="trace">01  revisão pelo responsável
+02  aprovar ou rejeitar
+03  decisão registrada</div></div></div><div id="panel-3" data-panel hidden><div class="workflow-detail"><div><h3>Contexto que atravessa sessões.</h3><p>O cliente MCP consulta o grafo e as lições aprovadas. Hooks entregam contexto selecionado; o arquivo de compactação preserva material para consulta. Recuperar melhor e gastar menos continuam sendo hipóteses a medir.</p></div><div class="trace">01  consulta do cliente MCP
+02  memória selecionada
+03  contexto com origem</div></div></div><p class="notice">Demonstração explicativa. Não executa comandos, não acessa sua memória e não aprova lições. A integração real depende dos hooks instalados no cliente.</p><noscript><p>JavaScript desativado: todas as etapas abaixo permanecem disponíveis.</p><style>[data-panel][hidden]{display:block}</style></noscript></div></section>
+<section class="evidence wrap" id="medicoes"><div class="section-top"><div><p class="eyebrow">03 / Evidências</p><h2>Prova antes<br>da promessa.</h2></div><p class="mono">Registro histórico<br>09–10 novembro 2026<br>Escopo explícito em cada resultado</p></div><div class="evidence-list"><article class="evidence-row"><span class="value">4.213</span><h3>Execuções aprovadas</h3><p>Rodada local de 10/11/2026, commit aec177d0. Zero falhas, 26 ignoradas. Inclui repetição da suíte CLI nos dois executáveis; não é contagem de testes distintos.</p></article><article class="evidence-row"><span class="value">8 / 8</span><h3>Catálogos compatíveis</h3><p>tools/list coincidiu com a captura da base 70e415e8 em oito cenários. Schemas, descrições e ordem dos arrays preservados. A base não foi executada novamente naquela rodada.</p></article><article class="evidence-row"><span class="value">6</span><h3>Casos do ciclo de lições</h3><p>Quarentena, aprovação, rejeição, reinício e filtros de projeto em demonstração isolada com dados artificiais. Não comprova isolamento universal nem ganho de qualidade.</p></article><article class="evidence-row"><span class="value">N1</span><h3>Protótipo, pela régua</h3><p>Avaliação de 09/11/2026. A instalação reprodutível passou; a régua completa V1–V8 ainda tem lacunas. A validação do rename não promove o produto a N3.</p></article></div><p class="source">Esses números pertencem ao commit e ao protocolo indicados. Não representam validação da versão mais recente. <a href="../docs/lodeward-atualizacao-2026-11-10.md">Consultar fontes e hashes ↗</a></p></section>
+<section class="limits wrap" id="estado"><div><p class="eyebrow">04 / Estado do projeto</p><h2>Os limites também<br>fazem parte.</h2><p>O motor funciona e o ciclo de lições foi demonstrado. Ainda não há prova de superioridade geral de recuperação, economia em sessões longas ou prontidão pública.</p></div><ul><li><span>01</span>Segurança ao vivo e testes completos da interface.</li><li><span>02</span>Comparação A/B da compactação e avaliação de sessões longas.</li><li><span>03</span>Revisão adversarial e auditoria de todas as alegações.</li><li><span>04</span>Quatorze dias de uso real antes de declarar prontidão diária.</li></ul></section>
+<section class="archive wrap" aria-label="Notas e referências"><details><summary>O que as medições anteriores não demonstraram</summary><p>Recuperação: 457 contra 456 em 470 consultas, interpretado como empate com BM25. Sessões longas: razão 1,2133 (IC 95% 1,1039–1,3397), cerca de 21% a mais de consumo em 45 pares. Contexto reduzido: 30 de 40 respostas contra 40 de 40 com contexto completo. Os testes com modelo tiveram isolamento parcial. São resultados históricos, não repetidos nesta página.</p></details><details><summary>Lodeward e o nome anterior</summary><p>Lodeward é a evolução do projeto SynapseEngine. A compatibilidade mantém o alias synapse e os contratos MCP existentes. A nova identidade não significa que todas as lacunas técnicas foram resolvidas.</p></details><details><summary>Direção visual e referências</summary><p>Objeto central e narrativa por etapas: <a href="https://www.awwwards.com/igloo-inc-case-study.html">Igloo Inc / abeto — Awwwards</a>. Relação entre tipografia, movimento e espaço: <a href="https://lusion.co/about/">Lusion</a>. Cena original feita em Three.js; sem reutilização dos modelos ou da identidade desses estúdios.</p></details></section>
+</main><footer class="outro"><div class="wrap"><div class="outro-top"><h2>A inteligência evolui.<br>O critério permanece.</h2><a class="link-button" href="../">Voltar ao portfólio <b aria-hidden="true">↗</b></a></div><div class="wordmark" aria-hidden="true">LODEWARD</div><div class="foot"><span>Marcelo Machuca / 2026<br>Projeto em validação · código privado</span><a href="../lodemap/">Conheça também o Lodemap ↗</a></div></div></footer>
+</body></html>
