@@ -72,12 +72,12 @@ rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"l
       <h1 id="h-heroi">O agente trabalha. A regra continua sendo <em>sua.</em></h1>
       <div>
         <p class="lide">Lodeward é um servidor MCP com hooks, escrito em Rust. Ele segura o comando destrutivo antes de rodar, deixa em quarentena a lição que o agente aprendeu até você aprovar, arquiva o contexto antes da compactação e mostra cada número com a origem. Quando não há medição, aparece um traço.</p>
-        <p class="aviso">O repositório ainda é privado. Esta página mostra o que foi medido até 09/11/2026, inclusive o que não deu certo.</p>
+        <p class="aviso">O repositório ainda é privado. Esta página mostra medições históricas e a validação local de 10/11/2026, inclusive os limites de cada prova.</p>
       </div>
     </div>
     <ul class="canhotos" role="list">
-      <li class="canhoto"><b>3.814</b><span>testes, 0 falhas</span><small>suíte completa em 08/11/2026</small></li>
-      <li class="canhoto"><b>20 de 20</b><span>verificações do ciclo de lições</span><small>quarentena, aprovação, rejeição e recarga</small></li>
+      <li class="canhoto"><b>4.213</b><span>execuções de teste aprovadas</span><small>G0 local · 10/11/2026 · 0 falhas, 26 ignoradas; inclui a suíte CLI repetida nos dois binários</small></li>
+      <li class="canhoto"><b>20 de 20</b><span>verificações históricas do ciclo de lições</span><small>protocolo anterior; a demonstração atual está na ficha F.02</small></li>
       <li class="canhoto"><b>13 de 13</b><span>comandos destrutivos bloqueados em replay</span><small>com 0 de 24 falsos positivos</small></li>
     </ul>
   </div>
@@ -119,12 +119,12 @@ rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"l
       <article class="ficha sobe" aria-labelledby="f2">
         <div class="ficha-canhoto">
           <div><span class="mono num">F.02</span><h3 id="f2">Lição só vale depois que você aprova</h3></div>
-          <p class="destaque">20 de 20<small>verificações do ciclo de lições</small></p>
+          <p class="destaque">20 de 20<small>verificações históricas do ciclo de lições</small></p>
         </div>
         <dl>
-          <div><dt>O que faz</dt><dd>O que o agente propõe como lição entra em quarentena. Lição pendente não aparece na leitura. Aprovar não aplica: aplicar é outro passo, e desfazer restaura os bytes e o SHA-256 de antes.</dd></div>
-          <div class="prova"><dt>Prova</dt><dd>20 verificações do ciclo de lições e 17 do ciclo de propostas passaram no binário instalado, uma versão anterior à atual; ainda não foram repetidas no código de hoje. Em 12 pares de teste, o modelo foi de 12 abstenções para 12 aplicações exatas de regras aprovadas, num ambiente de teste com isolamento parcial.</dd></div>
-          <div class="limite"><dt>Limite</dt><dd>Das 48 propostas geradas pelo revisor automático, nenhuma foi aplicada, e 340 de 377 execuções pararam no teto diário. O mecanismo funciona. Que ele melhore o agente, não foi demonstrado.<span class="nota">Não encontramos outra ferramenta com este fluxo de aprovação de lições.</span></dd></div>
+          <div><dt>O que faz</dt><dd>O que o agente propõe como lição entra em quarentena. Lição pendente não aparece na recuperação; aprovar a torna disponível. No fluxo separado de propostas que alteram arquivos, aprovar e aplicar são passos distintos, e o rollback restaura os bytes e o SHA-256 anteriores.</dd></div>
+          <div class="prova"><dt>Prova</dt><dd>Em 10/11/2026, no release local aec177d0, duas lições artificiais ficaram invisíveis enquanto pendentes. A CLI aprovou uma e rejeitou outra; um novo processo MCP recuperou só a aprovada no projeto alpha, e nenhuma no beta. A busca de observações também respeitou o projeto nos casos Alpha/Beta testados.<span class="nota">Histórico separado: 20 verificações de lições e 17 de propostas passaram numa versão anterior; não foram repetidas nesta demonstração. Em 12 pares com modelo e isolamento parcial, houve 12 abstenções antes e 12 aplicações exatas de regras aprovadas depois.</span></dd></div>
+          <div class="limite"><dt>Limite</dt><dd>A demonstração atual usa dados artificiais, sem chamada a LLM nem credencial real. Não prova melhora do agente, segurança ao vivo ou isolamento universal. Aplicação e rollback de proposta não foram revalidados.<span class="nota">No histórico do revisor automático, nenhuma das 48 propostas foi aplicada, e 340 de 377 execuções pararam no teto diário.</span></dd></div>
         </dl>
       </article>
 
@@ -306,13 +306,17 @@ rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"l
         <li><b>N4</b><span>Uso próprio diário</span></li>
         <li><b>N5</b><span>Uso público</span></li>
       </ol>
-      <p class="frase">Pela régua de avaliação que o próprio projeto escreveu antes de medir, o nível formal hoje é o de protótipo. Dos oito critérios, só a instalação limpa e reprodutível passou inteira.</p>
+      <p class="frase">Na avaliação de 09/11/2026, pela régua escrita antes de medir, o projeto ficou em N1: protótipo. Dos oito critérios, só a instalação limpa e reprodutível passou inteira. A validação local de 10/11 não repete a régua completa nem muda esse nível.</p>
 
       <p class="mono diff-titulo">Pronto</p>
       <ul class="diff" role="list">
-        <li class="mais">Suíte Rust verde em 08/11/2026: 3.814 testes, 0 falhas. Depois dela só mudou um script de medição.</li>
-        <li class="mais">Instalação limpa a partir do código, com diagnóstico em JSON válido.</li>
-        <li class="mais">Ciclo de lições e de propostas, com quarentena, aprovação e desfazer.</li>
+        <li class="mais">G0 local em aec177d0, 10/11/2026: 4.213 execuções de teste aprovadas, 0 falhas e 26 ignoradas. A mesma suíte CLI de 368 testes roda para lodeward e synapse; o total inclui essa repetição e não mede testes distintos ou cobertura nova. Formatação e clippy também passaram.</li>
+        <li class="mais">Build release local e os dois executáveis conferidos: lodeward e o alias synapse respondem “lodeward 0.3.0+aec177d0”. Três inicializações, medidas desde antes do spawn, ficaram abaixo de 2 s; o servidor se apresentou como lodeward.</li>
+        <li class="mais">tools/list preservado nos oito cenários comparados com a captura real da base 70e415e8, feita na rodada anterior e reutilizada com hashes conferidos. A base não foi executada de novo. O JSON completo coincidiu após ordenar as chaves dos objetos, preservando a ordem dos arrays, as descrições e os schemas.</li>
+        <li class="mais">Demonstração isolada de quarentena, aprovação, rejeição e recuperação em outro processo, com dados artificiais. Os filtros de projeto passaram nos casos testados.</li>
+        <li class="mais">Ciclos separados: lições com quarentena e aprovação; propostas com aprovação, aplicação e rollback. O fluxo de propostas não foi revalidado nesta rodada.</li>
+        <li class="mais">Instalação limpa e diagnóstico em JSON válido comprovados na avaliação histórica de 09/11.</li>
+        <li class="mais">Revisão independente por agente aprovou o rename local em aec177d0. A avaliação completa do produto permanece separada.</li>
         <li class="mais">Página Agentes com editor.</li>
       </ul>
 
@@ -323,7 +327,8 @@ rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"l
         <li class="menos">Uma rodada ao vivo de segurança que chegue ao fim.</li>
         <li class="menos">Repositório público novo, já com o nome Lodeward.</li>
       </ul>
-      <p class="nome-antigo">O projeto se chamava SynapseEngine. O código ainda usa esse nome.</p>
+      <p class="nome-antigo">O projeto se chamava SynapseEngine. A validação local em aec177d0, registrada em 10/11/2026, conferiu lodeward e o alias synapse. O repositório é privado; esta prova não representa release pública nem prontidão do produto.</p>
+      <p class="nome-antigo"><a href="../docs/lodeward-atualizacao-2026-11-10.md">Fontes, hashes e alcance das provas desta atualização.</a></p>
     </div>
   </div>
 </section>
@@ -339,7 +344,7 @@ rotulo();b.addEventListener("click",function(){var n=atual()==="light"?"dark":"l
 </main>
 
 <footer class="pe">
-  <div class="caixa"><span>Lodeward · página de projeto · 09/11/2026</span><a href="../#p-syn">← portfólio de Marcelo Machuca</a></div>
+  <div class="caixa"><span>Lodeward · página de projeto · 10/11/2026</span><a href="../#p-syn">← portfólio de Marcelo Machuca</a></div>
 </footer>
 </body>
 </html>
